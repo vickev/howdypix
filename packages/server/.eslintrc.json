@@ -1,0 +1,4 @@
+{
+  "extends": ["node", "prettier"],
+  "parser": "@typescript-eslint/parser"
+}

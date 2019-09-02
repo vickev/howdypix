@@ -8,9 +8,15 @@
   "private": true,
   "scripts": {
     "dev": "yarn build --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint src/**/*.{ts,tsx}"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "^6.3.0",
+    "eslint-config-node": "^4.0.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-import": "^2.18.2",
     "typescript": "^3.6.2"
   }
 }
