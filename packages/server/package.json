@@ -5,5 +5,12 @@
   "main": "index.js",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "dev": "yarn build --watch",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^3.6.2"
+  }
 }
