@@ -4,5 +4,8 @@
   "globals": {
     "test": "readonly",
     "expect": "readonly"
+  },
+  "rules": {
+    "import/no-nodejs-modules": [0]
   }
 }
