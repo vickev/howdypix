@@ -19,6 +19,7 @@
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-typescript": "^7.3.3",
+    "@howdypix/graphql-schema": "^0.1.0",
     "@types/jest": "^24.0.18",
     "@typescript-eslint/parser": "^2.0.0",
     "babel-jest": "^24.9.0",
@@ -31,6 +32,7 @@
     "typescript": "^3.6.2"
   },
   "dependencies": {
+    "apollo-server": "^2.9.3",
     "globby": "^10.0.1",
     "graphql": "^14.5.5",
     "nexus": "^0.11.7"

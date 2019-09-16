@@ -1,15 +1,20 @@
 import { join } from "path";
-import globby from "globby";
+import * as types from "./schema";
 import { makeSchema } from "nexus";
+import { ApolloServer } from "apollo-server";
 
-globby(join(__dirname, "schemas", "*.js")).then(files => {
-  const types = files.map(file => require(file));
+const destDir = join(__dirname, "..", "..", "graphql-schema");
 
-  const schema = makeSchema({
-    types,
-    outputs: {
-      schema: join(__dirname, "..", "schema.graphql"),
-      typegen: join(__dirname, "..", "schema.d.ts")
-    }
-  });
+const schema = makeSchema({
+  types,
+  outputs: {
+    schema: join(destDir, "schema.graphql"),
+    typegen: join(destDir, "schema.d.ts")
+  }
+});
+
+const server = new ApolloServer({ schema });
+
+server.listen({ port: 4001 }).then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
 });
