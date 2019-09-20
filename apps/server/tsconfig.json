@@ -1,0 +1,5 @@
+{
+  "extends": "./node_modules/@howdypix/typescript-config/tsconfig.json",
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.test.ts"]
+}
