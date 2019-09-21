@@ -13,17 +13,12 @@ export function isValidOrigin(allowOrigins: Origins, host: string) {
   return allowOrigins.map(origin => origin === host).filter(f => f).length > 0;
 }
 
-export function onConnection(ws: connection) {
-  console.log("connected");
-
-  ws.on("message", (message: IMessage) => {
-    console.log("received: %s", message);
-    ws.send(`Hello, you sent -> ${message}`);
-  });
+export function onConnection(connection: connection) {
+  console.log(`${connection.remoteAddress} connected.`);
 }
 
 export function onClose() {
-  console.log("closed");
+  console.log("Connection closed.");
 }
 
 export function onRequest(
