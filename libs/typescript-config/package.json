@@ -2,6 +2,6 @@
   "name": "@howdypix/typescript-config",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "tsconfig.json",
+  "main": "base.json",
   "dependencies": {}
 }

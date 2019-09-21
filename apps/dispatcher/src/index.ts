@@ -2,46 +2,45 @@ import express from "express";
 import http from "http";
 import WebSocket from "ws";
 import config from "config";
+import { connect } from "@howdypix/utils";
 
-const app = express();
-const wsPort: number = config.get("wsPort");
-const serverUrl: string = config.get("serverUrl");
+async function main() {
+  const app = express();
+  const wsPort: number = config.get("wsPort");
+  const serverUrl: string = config.get("serverUrl");
 
-//==================================================
-// Start the WS server
-//==================================================
-//initialize a simple http server
-const wsServer = http.createServer(app);
+  //==================================================
+  // Start the WS server
+  //==================================================
+  const wsServer = http.createServer(app);
+  const wss = new WebSocket.Server({ server: wsServer });
 
-//initialize the WebSocket server instance
-const wss = new WebSocket.Server({ server: wsServer });
+  wss.on("connection", (ws: WebSocket) => {
+    ws.on("message", (message: string) => {
+      console.log("received: %s", message);
+      ws.send(`Hello, you sent -> ${message}`);
+    });
 
-wss.on("connection", (ws: WebSocket) => {
-  //connection is up, let's add a simple simple event
-  ws.on("message", (message: string) => {
-    //log the received message and send it back to the client
-    console.log("received: %s", message);
-    ws.send(`Hello, you sent -> ${message}`);
+    ws.send("Hi there, I am a WebSocket server");
   });
 
-  //send immediatly a feedback to the incoming connection
-  ws.send("Hi there, I am a WebSocket server");
-});
+  //start our server
+  wsServer.listen(wsPort, () => {
+    console.log(`🚀  Websocket started on port ${wsPort} :)`);
+  });
 
-//start our server
-wsServer.listen(wsPort, () => {
-  console.log(`🚀  Websocket started on port ${wsPort} :)`);
-});
+  //==================================================
+  // Connect to the WS server to receive messages
+  //==================================================
+  const ws = await connect({ url: serverUrl, retrySeconds: 10 });
 
-//==================================================
-// Connect to the WS server to receive messages
-//==================================================
-const ws = new WebSocket(serverUrl);
+  ws.on("open", function open() {
+    ws.send("something");
+  });
 
-ws.on("open", function open() {
-  ws.send("something");
-});
+  ws.on("message", function incoming(data) {
+    console.log(data);
+  });
+}
 
-ws.on("message", function incoming(data) {
-  console.log(data);
-});
+main();

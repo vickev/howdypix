@@ -1,0 +1,32 @@
+{
+  "name": "@howdypix/utils",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "dev": "yarn build --watch",
+    "build": "tsc",
+    "lint": "eslint lib/**/*.{ts,tsx}",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@howdypix/babel-preset": "^0.1.0",
+    "@howdypix/eslint-config": "^0.1.0",
+    "@howdypix/graphql-schema": "^0.1.0",
+    "@howdypix/jest-config": "^0.1.0",
+    "@howdypix/typescript-config": "^0.1.0",
+    "@types/lodash": "^4.14.138",
+    "@types/ws": "^6.0.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "ws": "^7.1.2"
+  }
+}

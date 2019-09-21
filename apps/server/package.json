@@ -6,11 +6,6 @@
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": true,
-  "workspaces": {
-    "nohoist": [
-      "@howdypix/typescript-config"
-    ]
-  },
   "scripts": {
     "start": "node build/index",
     "dev": "yarn build --watch & nodemon build/index",
