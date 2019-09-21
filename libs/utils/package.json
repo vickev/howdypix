@@ -8,7 +8,7 @@
     "dist/*"
   ],
   "scripts": {
-    "dev": "yarn build --watch",
+    "dev": "tsc --watch",
     "build": "rm -rf build && tsc",
     "lint": "eslint lib/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit",
