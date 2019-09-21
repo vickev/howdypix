@@ -1,6 +1,7 @@
 module.exports = {
   extends: ["node", "prettier"],
   parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
   globals: {
     test: "readonly",
     expect: "readonly"
@@ -13,8 +14,16 @@ module.exports = {
     }
   },
   rules: {
-    "import/no-nodejs-modules": [0],
-    "import/no-namespace": [0],
-    "import/prefer-default-export": [0]
+    "import/no-nodejs-modules": "off",
+    "import/no-namespace": "off",
+    "import/prefer-default-export": "off",
+    // Already supported by TypeScript
+    "no-undef": "off",
+    "no-unused-expressions": "off",
+    "no-unused-vars": "off",
+    "no-useless-constructor": "off",
+    "no-shadow": "off",
+    "no-use-before-define": "off",
+    "sort-class-members/sort-class-members": "off"
   }
 };

@@ -1,0 +1,9 @@
+{
+  "serverWs": {
+    "port": 8998,
+    "allowOrigins": ["localhost"]
+  },
+  "serverApollo": {
+    "port": 4005
+  }
+}
