@@ -1,5 +1,5 @@
 {
-  "name": "@howdypix/server",
+  "name": "@howdypix/app-server",
   "version": "0.1.0",
   "description": "Server for the Photo Gallery",
   "main": "index.js",

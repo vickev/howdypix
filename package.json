@@ -18,9 +18,12 @@
     "prettier": "prettier --write packages/**/*.{js,jsx,ts,tsx,json}",
     "lint": "lerna run lint && lerna run typecheck",
     "test": "lerna run test --stream --parallel",
-    "dev": "yarn build && lerna run dev --stream --parallel",
-    "build": "lerna run build --stream",
-    "build:libs": "yarn build --no-private"
+    "dev": "yarn build:libs && lerna run dev --stream --parallel",
+    "dev:apps": "yarn build:libs && lerna run dev --stream --parallel --scope '@howdypix/app-*'",
+    "dev:libs": "yarn build:libs && lerna run dev --stream --parallel --ignore '@howdypix/app-*'",
+    "build": "yarn build:libs && yarn build:apps",
+    "build:apps": "lerna run build --stream --parallel --scope '@howdypix/app-*'",
+    "build:libs": "lerna run build --stream --ignore '@howdypix/app-*'"
   },
   "devDependencies": {
     "husky": "^3.0.5",
