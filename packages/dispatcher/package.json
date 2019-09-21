@@ -7,10 +7,34 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "echo TDB;",
-    "build": "echo TDB;",
-    "lint": "echo TDB;",
-    "typecheck": "echo TDB;",
-    "test": "echo TDB;"
+    "start": "node build/index",
+    "dev": "yarn build --watch & nodemon build/index",
+    "build": "babel src --out-dir build --extensions '.ts' --verbose",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.1.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@howdypix/graphql-schema": "^0.1.0",
+    "@types/express": "^4.17.1",
+    "@types/jest": "^24.0.18",
+    "@types/ws": "^6.0.3",
+    "@typescript-eslint/parser": "^2.0.0",
+    "babel-jest": "^24.9.0",
+    "eslint": " ^6.3.0",
+    "eslint-config-node": "^4.0.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.2",
+    "typescript": "^3.6.2"
   }
 }

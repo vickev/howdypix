@@ -1,31 +1,8 @@
-import { join } from "path";
-import * as types from "./schema";
-import { makeSchema } from "nexus";
-import { ApolloServer } from "apollo-server";
 import express from "express";
 import http from "http";
 import WebSocket from "ws";
 
-const destDir = join(__dirname, "..", "..", "graphql-schema");
-
 const app = express();
-
-const schema = makeSchema({
-  types,
-  outputs: {
-    schema: join(destDir, "schema.graphql"),
-    typegen: join(destDir, "schema.d.ts")
-  }
-});
-
-//==================================================
-// Start the Apollo Server
-//==================================================
-const apolloServer = new ApolloServer({ schema });
-
-apolloServer.listen({ port: 4001 }).then(({ url }) => {
-  console.log(`🚀  Apollo Server ready at ${url}`);
-});
 
 //==================================================
 // Start the WS server
@@ -49,6 +26,19 @@ wss.on("connection", (ws: WebSocket) => {
 });
 
 //start our server
-wsServer.listen(8999, () => {
-  console.log(`🚀  Websocket started on port 8999 :)`);
+wsServer.listen(8998, () => {
+  console.log(`🚀  Websocket started on port 8998 :)`);
+});
+
+//==================================================
+// Connect to the WS server to receive messages
+//==================================================
+const ws = new WebSocket("ws://localhost:8999");
+
+ws.on("open", function open() {
+  ws.send("something");
+});
+
+ws.on("message", function incoming(data) {
+  console.log(data);
 });
