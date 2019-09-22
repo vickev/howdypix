@@ -10,7 +10,7 @@ export type ExifData = {
   createDate?: string;
 };
 
-type ProcessData = {
+export type ProcessData = {
   exif: ExifData;
   thumbnails: string[];
 };

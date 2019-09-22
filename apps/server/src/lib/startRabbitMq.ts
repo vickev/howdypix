@@ -1,24 +1,23 @@
 import { Events } from "./eventEmitter";
 import { connect as connectRabbitMq } from "amqplib";
-import { MessageProcess, QueueName } from "@howdypix/shared-types";
-import { sendToQueue } from "@howdypix/utils";
-
-const queueName = "toProcess";
+import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
+import { assertQueue, consume, sendToQueue } from "@howdypix/utils";
 
 export async function startRabbitMq(event: Events, url: string) {
   const pathInQueue: string[] = [];
   const connection = await connectRabbitMq(url);
   const channel = await connection.createChannel();
 
-  await channel.assertQueue(queueName);
+  await assertQueue(channel, QueueName.TO_PROCESS);
+  await assertQueue(channel, QueueName.PROCESSED);
 
   // Retrieve the pictures that are already in the queue.
-  channel.consume(
-    queueName,
+  consume<MessageProcess>(
+    channel,
+    QueueName.TO_PROCESS,
     msg => {
       if (msg) {
-        const data: MessageProcess = JSON.parse(msg.content.toString());
-        pathInQueue.push(data.path);
+        pathInQueue.push(msg.data.path);
       }
     },
     { consumerTag: "server" }
@@ -33,6 +32,12 @@ export async function startRabbitMq(event: Events, url: string) {
         root,
         path
       });
+    }
+  });
+
+  await consume<ProcessData>(channel, QueueName.PROCESSED, async msg => {
+    if (msg) {
+      console.log(msg.data);
     }
   });
 

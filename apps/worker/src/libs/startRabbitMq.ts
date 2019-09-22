@@ -1,6 +1,6 @@
 import { connect as connectRabbitMq } from "amqplib";
 import { process } from "./process";
-import { MessageProcess, QueueName } from "@howdypix/shared-types";
+import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
 import { assertQueue, consume, sendToQueue } from "@howdypix/utils";
 
 export async function startRabbitMq(url: string) {
@@ -14,7 +14,7 @@ export async function startRabbitMq(url: string) {
     if (msg) {
       const data = await process(msg.data.root, msg.data.path);
       channel.ack(msg);
-      await sendToQueue(channel, QueueName.PROCESSED, data);
+      await sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
     }
   });
 

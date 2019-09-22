@@ -12,6 +12,10 @@ export function howdypixPathJoin(root: string, path: string = "") {
   return join(root, ".howdypix", path);
 }
 
+export function isHowdypixPath(path: string = ""): boolean {
+  return path.match(/\.howdypix/) !== null;
+}
+
 export async function assertQueue(channel: Channel, name: QueueName) {
   return channel.assertQueue(name);
 }
@@ -23,7 +27,8 @@ export interface ParsedConsumeMessage<T> extends ConsumeMessage {
 export async function consume<T>(
   channel: Channel,
   name: QueueName,
-  onMessage?: (msg: ParsedConsumeMessage<T> | null) => any
+  onMessage?: (msg: ParsedConsumeMessage<T> | null) => any,
+  options?: Options.Consume
 ) {
   return channel.consume(name, msg => {
     if (msg) {
