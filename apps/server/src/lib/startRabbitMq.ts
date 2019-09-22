@@ -1,5 +1,6 @@
 import { Events } from "./eventEmitter";
 import { connect as connectRabbitMq } from "amqplib";
+import { MessageProcess } from "@howdypix/shared-types";
 
 const queueName = "toProcess";
 
@@ -15,7 +16,8 @@ export async function startRabbitMq(event: Events, url: string) {
     queueName,
     msg => {
       if (msg) {
-        pathInQueue.push(msg.content.toString());
+        const data: MessageProcess = JSON.parse(msg.content.toString());
+        pathInQueue.push(data.path);
       }
     },
     { consumerTag: "server" }
@@ -24,9 +26,13 @@ export async function startRabbitMq(event: Events, url: string) {
   await channel.cancel("server");
   await channel.recover();
 
-  event.on("newFile", path => {
+  event.on("newFile", ({ path, root }) => {
     if (pathInQueue.filter(p => p === path).length === 0) {
-      channel.sendToQueue(queueName, Buffer.from(path));
+      const data: MessageProcess = {
+        root,
+        path
+      };
+      channel.sendToQueue(queueName, Buffer.from(JSON.stringify(data)));
     }
   });
 

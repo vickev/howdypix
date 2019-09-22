@@ -1,4 +1,6 @@
 import { connect as connectRabbitMq } from "amqplib";
+import { process } from "./process";
+import { MessageProcess } from "@howdypix/shared-types";
 
 const queueName = "toProcess";
 
@@ -8,9 +10,10 @@ export async function startRabbitMq(url: string) {
 
   await channel.assertQueue(queueName);
 
-  await channel.consume(queueName, msg => {
+  await channel.consume(queueName, async msg => {
     if (msg) {
-      console.log(msg.content.toString());
+      const data: MessageProcess = JSON.parse(msg.content.toString());
+      console.log(await process(data.root, data.path));
       channel.ack(msg);
     }
   });

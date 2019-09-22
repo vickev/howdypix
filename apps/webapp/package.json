@@ -1,5 +1,5 @@
 {
-  "name": "@howdypix/app-interface",
+  "name": "@howdypix/app-webapp",
   "version": "0.1.0",
   "description": "Dispatch work to the workers to parse the pictures.",
   "main": "index.js",

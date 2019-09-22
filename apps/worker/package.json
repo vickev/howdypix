@@ -15,9 +15,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@howdypix/shared-types": "^0.1.0",
+    "@types/sharp": "^0.22.2",
     "amqplib": "^0.5.5",
     "config": "^3.2.2",
-    "lodash": "^4.17.15"
+    "exif": "^0.6.0",
+    "lodash": "^4.17.15",
+    "mkdirp": "^0.5.1",
+    "sharp": "^0.23.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -28,8 +33,11 @@
     "@howdypix/typescript-config": "^0.1.0",
     "@types/amqplib": "^0.5.13",
     "@types/config": "^0.0.34",
+    "@types/exif": "^0.6.0",
     "@types/jest": "^24.0.18",
     "@types/lodash": "^4.14.138",
+    "@types/mkdirp": "^0.5.2",
+    "@types/sharp": "^0.22.2",
     "eslint": " ^6.3.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.2",

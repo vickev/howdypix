@@ -5,11 +5,11 @@ import { resolve, join } from "path";
 import EventEmitter from "events";
 import { Events } from "./eventEmitter";
 
-export function loadFile(event: Events, path: string) {
-  event.emit("newFile", path);
+export function loadFile(event: Events, path: string, root: string) {
+  event.emit("newFile", { path, root });
 }
 
-export function loadFolder(event: Events, path: string) {
+export function loadFolder(event: Events, path: string, root: string) {
   console.log(`Parsing ${path}.`);
   const files = fs.readdirSync(path);
 
@@ -18,13 +18,16 @@ export function loadFolder(event: Events, path: string) {
     const stat = fs.statSync(absolutePath);
 
     if (stat.isDirectory()) {
-      loadFolder(event, absolutePath);
+      loadFolder(event, absolutePath, root);
     } else if (stat.isFile()) {
-      loadFile(event, absolutePath);
+      loadFile(event, absolutePath, root);
     }
   });
 }
 
 export function startFileScan(event: Events, folders: string[]) {
-  forEach(folders, folder => loadFolder(event, resolve(process.cwd(), folder)));
+  forEach(folders, folder => {
+    const root = resolve(process.cwd(), folder);
+    loadFolder(event, root, root);
+  });
 }
