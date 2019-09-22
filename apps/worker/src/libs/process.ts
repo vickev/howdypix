@@ -1,9 +1,9 @@
-import config from "config";
 import sharp from "sharp";
 import mkdirp from "mkdirp";
 import { join, parse, relative } from "path";
 import { ExifImage } from "exif";
-import { ExifData } from "@howdypix/shared-types";
+import { ExifData, ProcessData } from "@howdypix/shared-types";
+import { howdypixPathJoin } from "@howdypix/utils";
 
 export async function fetchExif(path: string): Promise<ExifData> {
   return new Promise(resolve => {
@@ -25,10 +25,8 @@ export async function createThumbnails(
   root: string,
   path: string
 ): Promise<string[]> {
-  const distThumbnails: string = config.get("distThumbnails");
   const relativePath = relative(root, path);
-  const thumbnailPath = join(distThumbnails, relativePath);
-  const { dir, name } = parse(thumbnailPath);
+  const { dir, name } = parse(howdypixPathJoin(root, relativePath));
 
   mkdirp.sync(dir);
 
@@ -42,11 +40,6 @@ export async function createThumbnails(
     })
   );
 }
-
-type ProcessData = {
-  exif: ExifData;
-  thumbnails: string[];
-};
 
 export async function process(
   root: string,

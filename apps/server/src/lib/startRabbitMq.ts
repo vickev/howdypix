@@ -1,6 +1,7 @@
 import { Events } from "./eventEmitter";
 import { connect as connectRabbitMq } from "amqplib";
-import { MessageProcess } from "@howdypix/shared-types";
+import { MessageProcess, QueueName } from "@howdypix/shared-types";
+import { sendToQueue } from "@howdypix/utils";
 
 const queueName = "toProcess";
 
@@ -28,11 +29,10 @@ export async function startRabbitMq(event: Events, url: string) {
 
   event.on("newFile", ({ path, root }) => {
     if (pathInQueue.filter(p => p === path).length === 0) {
-      const data: MessageProcess = {
+      sendToQueue<MessageProcess>(channel, QueueName.TO_PROCESS, {
         root,
         path
-      };
-      channel.sendToQueue(queueName, Buffer.from(JSON.stringify(data)));
+      });
     }
   });
 

@@ -5,4 +5,4 @@ build
 dist
 yarn-error.log
 lerna-debug.log
-thumbnails
+.howdypix

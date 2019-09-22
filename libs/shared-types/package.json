@@ -2,7 +2,8 @@
   "name": "@howdypix/shared-types",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "./index.d.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "lint": "eslint *.{ts,tsx}",
     "typecheck": "tsc --noEmit"
