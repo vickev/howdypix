@@ -1,0 +1,4 @@
+{
+  "serverUrl": "ws://localhost:8998",
+  "wsPort": 8999
+}

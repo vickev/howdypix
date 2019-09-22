@@ -1,0 +1,15 @@
+{
+  "name": "@howdypix/eslint-config",
+  "version": "0.1.0",
+  "license": "MIT",
+  "dependencies": {
+    "@typescript-eslint/parser": "^2.3.0",
+    "eslint-config-import": "^0.13.0",
+    "eslint-config-node": "^4.0.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0"
+  }
+}

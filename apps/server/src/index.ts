@@ -6,7 +6,7 @@ import express from "express";
 import http from "http";
 import WebSocket from "ws";
 
-const destDir = join(__dirname, "..", "..", "graphql-schema");
+const destDir = join(__dirname, "..", "..", "..", "libs", "graphql-schema");
 
 const app = express();
 
