@@ -22,8 +22,8 @@
     "@howdypix/graphql-schema": "^0.1.0",
     "@howdypix/jest-config": "^0.1.0",
     "@howdypix/typescript-config": "^0.1.0",
+    "@types/amqplib": "^0.5.13",
     "@types/jest": "^24.0.18",
-    "@types/websocket": "^0.0.40",
     "@types/yaml": "^1.0.2",
     "eslint": " ^6.3.0",
     "jest": "^24.9.0",
@@ -31,7 +31,7 @@
     "typescript": "^3.6.2"
   },
   "dependencies": {
-    "@howdypix/websocket": "^0.1.0",
+    "amqplib": "^0.5.5",
     "apollo-server": "^2.9.3",
     "chokidar": "^3.1.1",
     "config": "^3.2.2",
@@ -40,7 +40,6 @@
     "graphql": "^14.5.5",
     "nexus": "^0.11.7",
     "strict-event-emitter-types": "^2.0.0",
-    "websocket": "^1.0.30",
     "yaml": "^1.6.0"
   }
 }

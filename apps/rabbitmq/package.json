@@ -1,0 +1,11 @@
+{
+  "name": "@howdypix/app-rabbitmq",
+  "version": "0.1.0",
+  "description": "Run the rabbitmq process",
+  "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "cd scripts && ./dev.sh"
+  }
+}
