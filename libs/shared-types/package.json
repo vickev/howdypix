@@ -2,9 +2,11 @@
   "name": "@howdypix/shared-types",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "./index.js",
-  "types": "./index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "scripts": {
+    "dev": "tsc --watch",
+    "build": "rm -rf build && tsc",
     "lint": "eslint *.{ts,tsx}",
     "typecheck": "tsc --noEmit"
   },
