@@ -11,6 +11,7 @@ export type State = {
 export type Options = {
   url: string;
   retrySeconds: number;
+  onConnect?: (connection: connection) => void;
 };
 
 export function onError(
@@ -64,9 +65,13 @@ export async function connect(
 
     ws.on("connectFailed", err => onError(err, options, outputs));
 
-    ws.on("connect", connection =>
-      onConnect(ws, resolve, connection, options, outputs)
-    );
+    ws.on("connect", connection => {
+      onConnect(ws, resolve, connection, options, outputs);
+
+      if (options.onConnect) {
+        options.onConnect(connection);
+      }
+    });
 
     ws.connect(url);
   });

@@ -1,9 +1,11 @@
 import config from "config";
 import { client, server } from "@howdypix/websocket";
+import { connection } from "websocket";
 
 async function main() {
   const wsPort: number = config.get("wsPort");
   const serverUrl: string = config.get("serverUrl");
+  const retrySeconds: number = config.get("retrySeconds");
 
   //==================================================
   // Start the WS server
@@ -22,7 +24,18 @@ async function main() {
   //==================================================
   // Connect to the WS server to receive messages
   //==================================================
-  await client.connect({ url: serverUrl, retrySeconds: 10 });
+  const ws = await client.connect({
+    url: serverUrl,
+    retrySeconds,
+    onConnect: connection => {
+      connection.on("frame", frame => {
+        console.log(frame);
+      });
+      connection.on("message", data => {
+        console.log(data);
+      });
+    }
+  });
   /*
   ws.on("open", function open() {
     ws.send("something");
