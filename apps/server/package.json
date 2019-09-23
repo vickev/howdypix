@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "start": "node build/index",
-    "dev": "yarn build --watch & nodemon build/index",
+    "dev": "yarn build && yarn watch",
+    "watch": "yarn build --skip-initial-build --watch & nodemon build/index",
     "build": "babel src --out-dir build --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit",
@@ -17,6 +18,8 @@
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
     "@howdypix/babel-preset": "^0.1.0",
     "@howdypix/eslint-config": "^0.1.0",
     "@howdypix/graphql-schema": "^0.1.0",
@@ -43,7 +46,10 @@
     "graphql": "^14.5.5",
     "lodash": "^4.17.15",
     "nexus": "^0.11.7",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^4.1.0",
     "strict-event-emitter-types": "^2.0.0",
+    "typeorm": "^0.2.19",
     "yaml": "^1.6.0"
   }
 }
