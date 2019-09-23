@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import config from "config";
 import { startApollo } from "./lib/startApollo";
 import { loadUserConfig } from "./lib/loadUserConfig";
@@ -5,6 +6,7 @@ import { startFileScan } from "./lib/startFileScan";
 import EventEmitter from "events";
 import { Events } from "./lib/eventEmitter";
 import { startRabbitMq } from "./lib/startRabbitMq";
+import { startCacheDB } from "./lib/startCacheDB";
 
 async function main() {
   const event: Events = new EventEmitter();
@@ -14,6 +16,7 @@ async function main() {
   console.log(userConfig);
 
   await startApollo(config.get("serverApollo.port"));
+  await startCacheDB(event);
   await startRabbitMq(event, config.get("rabbitMq.url"));
   await startFileScan(event, userConfig.photoDirs);
 }
