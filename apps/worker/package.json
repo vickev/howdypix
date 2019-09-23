@@ -1,16 +1,47 @@
 {
-  "name": "@howdypix/worker",
+  "name": "@howdypix/app-worker",
   "version": "0.1.0",
-  "description": "Dispatch work to the workers to parse the pictures.",
-  "main": "index.js",
+  "description": "Parse the pictures.",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "echo TDB;",
-    "build": "echo TDB;",
-    "lint": "echo TDB;",
-    "typecheck": "echo TDB;",
-    "test": "echo TDB;"
+    "start": "node build/index",
+    "dev": "yarn build && yarn watch",
+    "watch": "yarn build --skip-initial-build --watch & nodemon build/index",
+    "build": "babel src --out-dir build --extensions '.ts' --verbose",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@howdypix/shared-types": "^0.1.0",
+    "@howdypix/utils": "^0.1.0",
+    "@types/sharp": "^0.22.2",
+    "amqplib": "^0.5.5",
+    "config": "^3.2.2",
+    "exif": "^0.6.0",
+    "lodash": "^4.17.15",
+    "mkdirp": "^0.5.1",
+    "sharp": "^0.23.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@howdypix/babel-preset": "^0.1.0",
+    "@howdypix/eslint-config": "^0.1.0",
+    "@howdypix/jest-config": "^0.1.0",
+    "@howdypix/typescript-config": "^0.1.0",
+    "@types/amqplib": "^0.5.13",
+    "@types/config": "^0.0.34",
+    "@types/exif": "^0.6.0",
+    "@types/jest": "^24.0.18",
+    "@types/lodash": "^4.14.138",
+    "@types/mkdirp": "^0.5.2",
+    "@types/sharp": "^0.22.2",
+    "eslint": " ^6.3.0",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.2",
+    "typescript": "^3.6.2"
   }
 }

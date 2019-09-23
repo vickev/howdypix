@@ -1,54 +1,24 @@
-import { join } from "path";
-import * as types from "./schema";
-import { makeSchema } from "nexus";
-import { ApolloServer } from "apollo-server";
-import express from "express";
-import http from "http";
-import WebSocket from "ws";
+import "reflect-metadata";
+import config from "config";
+import { startApollo } from "./lib/startApollo";
+import { loadUserConfig } from "./lib/loadUserConfig";
+import { startFileScan } from "./lib/startFileScan";
+import EventEmitter from "events";
+import { Events } from "./lib/eventEmitter";
+import { startRabbitMq } from "./lib/startRabbitMq";
+import { startCacheDB } from "./lib/startCacheDB";
 
-const destDir = join(__dirname, "..", "..", "..", "libs", "graphql-schema");
+async function main() {
+  const event: Events = new EventEmitter();
 
-const app = express();
+  const userConfig = loadUserConfig();
+  console.log("User Configuration loaded:");
+  console.log(userConfig);
 
-const schema = makeSchema({
-  types,
-  outputs: {
-    schema: join(destDir, "schema.graphql"),
-    typegen: join(destDir, "schema.d.ts")
-  }
-});
+  await startApollo(config.get("serverApollo.port"));
+  await startCacheDB(event);
+  await startRabbitMq(event, config.get("rabbitMq.url"));
+  await startFileScan(event, userConfig.photoDirs);
+}
 
-//==================================================
-// Start the Apollo Server
-//==================================================
-const apolloServer = new ApolloServer({ schema });
-
-apolloServer.listen({ port: 4001 }).then(({ url }) => {
-  console.log(`🚀  Apollo Server ready at ${url}`);
-});
-
-//==================================================
-// Start the WS server
-//==================================================
-//initialize a simple http server
-const wsServer = http.createServer(app);
-
-//initialize the WebSocket server instance
-const wss = new WebSocket.Server({ server: wsServer });
-
-wss.on("connection", (ws: WebSocket) => {
-  //connection is up, let's add a simple simple event
-  ws.on("message", (message: string) => {
-    //log the received message and send it back to the client
-    console.log("received: %s", message);
-    ws.send(`Hello, you sent -> ${message}`);
-  });
-
-  //send immediatly a feedback to the incoming connection
-  ws.send("Hi there, I am a WebSocket server");
-});
-
-//start our server
-wsServer.listen(8999, () => {
-  console.log(`🚀  Websocket started on port 8999 :)`);
-});
+main();

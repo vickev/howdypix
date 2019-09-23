@@ -1,0 +1,8 @@
+{
+  "rabbitMq": {
+    "url": "amqp://localhost"
+  },
+  "serverApollo": {
+    "port": 4005
+  }
+}
