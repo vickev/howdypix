@@ -6,12 +6,11 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.3.0",
     "@typescript-eslint/parser": "^2.3.0",
-    "eslint-config-import": "^0.13.0",
-    "eslint-config-node": "^4.0.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-import": "^2.18.2"
   },
   "devDependencies": {
-    "eslint": "^6.4.0"
+    "eslint": "^6.4.0",
+    "typescript": "^3.6.3"
   }
 }

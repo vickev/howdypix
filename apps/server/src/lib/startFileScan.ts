@@ -4,9 +4,10 @@ import fs from "fs";
 import { resolve, join } from "path";
 import EventEmitter from "events";
 import { Events } from "./eventEmitter";
-import { isHowdypixPath } from "@howdypix/utils";
+import { appDebug, isHowdypixPath } from "@howdypix/utils";
 
 export function loadFile(event: Events, path: string, root: string) {
+  appDebug("found")(path);
   event.emit("newFile", { path, root });
 }
 

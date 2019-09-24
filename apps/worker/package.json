@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "node build/index",
-    "dev": "yarn build && wait-on http://localhost:15672 && yarn watch",
+    "dev": "yarn build && wait-on http://localhost:15672 && DEBUG=app:* yarn watch",
     "watch": "yarn build --skip-initial-build --watch & nodemon build/index",
     "build": "babel src --out-dir build --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.{ts,tsx}",
