@@ -1,6 +1,7 @@
 {
   "name": "@howdypix/utils",
   "version": "0.1.0",
+  "description": "A set of reusable functions for HowdyPix.",
   "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

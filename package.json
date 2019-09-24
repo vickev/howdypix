@@ -6,7 +6,8 @@
   "workspaces": {
     "packages": [
       "apps/*",
-      "libs/*"
+      "libs/*",
+      "services/*"
     ]
   },
   "repository": "git@github.com:vickev/howdypix.git",
@@ -20,13 +21,16 @@
     "test": "lerna run test --stream --parallel",
     "watch": "lerna run dev --stream --parallel",
     "watch:apps": "lerna run dev --stream --parallel --scope '@howdypix/app-*'",
-    "watch:libs": "lerna run dev --stream --parallel --ignore '@howdypix/app-*'",
+    "watch:services": "lerna run dev --stream --parallel --scope '@howdypix/service-*'",
+    "watch:libs": "lerna run dev --stream --parallel --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'",
     "dev": "yarn build:libs && yarn watch",
     "dev:apps": "yarn build:libs && yarn watch:apps",
+    "dev:services": "yarn build:services && yarn watch:services",
     "dev:libs": "yarn build:libs && yarn watch:libs",
     "build": "yarn build:libs && yarn build:apps",
     "build:apps": "lerna run build --stream --parallel --scope '@howdypix/app-*'",
-    "build:libs": "lerna run build --stream --ignore '@howdypix/app-*'"
+    "build:services": "lerna run build --stream --parallel --scope '@howdypix/service-*'",
+    "build:libs": "lerna run build --stream --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'"
   },
   "devDependencies": {
     "husky": "^3.0.5",

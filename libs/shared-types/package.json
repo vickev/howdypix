@@ -1,6 +1,7 @@
 {
   "name": "@howdypix/shared-types",
   "version": "0.1.0",
+  "description": "Shared types across the HowdyPix applications.",
   "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

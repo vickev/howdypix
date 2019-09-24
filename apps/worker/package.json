@@ -1,13 +1,13 @@
 {
   "name": "@howdypix/app-worker",
   "version": "0.1.0",
-  "description": "Parse the pictures.",
+  "description": "Process the pictures to extract information and create thumbnails.",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": true,
   "scripts": {
     "start": "node build/index",
-    "dev": "yarn build && yarn watch",
+    "dev": "yarn build && wait-on http://localhost:15672 && yarn watch",
     "watch": "yarn build --skip-initial-build --watch & nodemon build/index",
     "build": "babel src --out-dir build --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -23,7 +23,8 @@
     "exif": "^0.6.0",
     "lodash": "^4.17.15",
     "mkdirp": "^0.5.1",
-    "sharp": "^0.23.0"
+    "sharp": "^0.23.0",
+    "wait-on": "^3.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
