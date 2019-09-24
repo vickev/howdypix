@@ -1,5 +1,8 @@
 module.exports = {
-  extends: ["node", "prettier"],
+  env: {
+    node: 1
+  },
+  extends: ["prettier"],
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
   globals: {
@@ -11,6 +14,13 @@ module.exports = {
       node: {
         extensions: [".js", ".jsx", ".ts", ".tsx"]
       }
+    }
+  },
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: "module",
+    ecmaFeatures: {
+      modules: true
     }
   },
   rules: {

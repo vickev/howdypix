@@ -16,6 +16,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "prettier": "prettier --write packages/**/*.{js,jsx,ts,tsx,json}",
+    "clean": "lerna clean -y && rm -rf node_modules",
     "lint": "lerna run lint && lerna run typecheck",
     "test": "lerna run test --stream --parallel",
     "watch": "lerna run dev --stream --parallel",
