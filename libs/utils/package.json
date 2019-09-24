@@ -20,10 +20,14 @@
     "@howdypix/babel-preset": "^0.1.0",
     "@howdypix/eslint-config": "^0.1.0",
     "@howdypix/jest-config": "^0.1.0",
+    "@howdypix/shared-types": "^0.1.0",
     "@howdypix/typescript-config": "^0.1.0",
+    "@types/debug": "^4.1.5",
     "@types/lodash": "^4.14.138"
   },
   "dependencies": {
+    "amqplib": "^0.5.5",
+    "debug": "^4.1.1",
     "lodash": "^4.17.15"
   }
 }

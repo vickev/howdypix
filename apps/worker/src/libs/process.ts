@@ -3,7 +3,7 @@ import mkdirp from "mkdirp";
 import { join, parse, relative } from "path";
 import { ExifImage } from "exif";
 import { ExifData, ProcessData } from "@howdypix/shared-types";
-import { howdypixPathJoin } from "@howdypix/utils";
+import { appDebug, howdypixPathJoin } from "@howdypix/utils";
 
 export async function fetchExif(path: string): Promise<ExifData> {
   return new Promise(resolve => {
@@ -48,8 +48,12 @@ export async function process(
   const exif = await fetchExif(path);
   const thumbnails = await createThumbnails(root, path);
 
-  return {
+  const data = {
     exif,
     thumbnails
   };
+
+  appDebug("processed")(`${path}: ${JSON.stringify(data)}`);
+
+  return data;
 }

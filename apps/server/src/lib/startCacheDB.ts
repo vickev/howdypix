@@ -4,6 +4,7 @@ import { createConnection } from "typeorm";
 import { Photo } from "../entity/Photo";
 import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
+import { appDebug } from "@howdypix/utils";
 
 export async function startCacheDB(event: Events) {
   const connection = await createConnection(
@@ -19,6 +20,6 @@ export async function startCacheDB(event: Events) {
     const photoRepository = connection.getRepository(Photo);
 
     await photoRepository.save(photo);
-    console.log(`${file.thumbnails[0]} saved.`);
+    appDebug("db")(`Saved ${photo.file}.`);
   });
 }

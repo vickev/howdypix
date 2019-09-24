@@ -1,28 +1,29 @@
 import { Events } from "./eventEmitter";
 import { Channel, connect as connectRabbitMq } from "amqplib";
 import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
-import { assertQueue, consume, sendToQueue } from "@howdypix/utils";
+import { assertQueue, consume, sendToQueue, appDebug } from "@howdypix/utils";
 
 export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
-  return new Promise(resolve => {
-    const pathsInQueue: string[] = [];
+  const pathsInQueue: string[] = [];
 
-    consume<MessageProcess>(
-      channel,
-      QueueName.TO_PROCESS,
-      msg => {
-        if (msg) {
-          pathsInQueue.push(msg.data.path);
-        }
-      },
-      { consumerTag: "server" }
-    );
+  await consume<MessageProcess>(
+    channel,
+    QueueName.TO_PROCESS,
+    msg => {
+      if (msg) {
+        pathsInQueue.push(msg.data.path);
+      }
+    },
+    { consumerTag: "server" }
+  );
 
-    channel.cancel("server");
-    channel.recover();
+  await channel.cancel("server");
+  await channel.recover();
 
-    resolve(pathsInQueue);
-  });
+  appDebug("rabbit")(`Paths already in queue: ${pathsInQueue.length}.`);
+  appDebug("rabbit")(pathsInQueue);
+
+  return pathsInQueue;
 }
 
 export async function bindAppEvents(event: Events, channel: Channel) {
@@ -31,6 +32,7 @@ export async function bindAppEvents(event: Events, channel: Channel) {
   // When there is a new file, send it to the queue
   event.on("newFile", ({ path, root }) => {
     if (pathsInQueue.filter(p => p === path).length === 0) {
+      appDebug("sendToQueue")(path);
       sendToQueue<MessageProcess>(channel, QueueName.TO_PROCESS, {
         root,
         path
@@ -43,6 +45,7 @@ export async function bindChannelEvents(event: Events, channel: Channel) {
   await consume<ProcessData>(channel, QueueName.PROCESSED, msg => {
     if (msg) {
       event.emit("processedFile", msg.data);
+      channel.ack(msg);
     }
   });
 }
