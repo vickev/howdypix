@@ -1,5 +1,6 @@
 {
   "name": "@howdypix/eslint-config",
+  "description": "Common eslint configuration for HowdyPix applications",
   "version": "0.1.0",
   "license": "MIT",
   "dependencies": {

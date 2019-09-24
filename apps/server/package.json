@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "node build/index",
-    "dev": "yarn build && DEBUG=app:*,-lib:* yarn watch",
+    "dev": "yarn build && wait-on http://localhost:15672 && DEBUG=app:*,-lib:* yarn watch",
     "watch": "yarn build --skip-initial-build --watch & nodemon build/index",
     "build": "babel src --out-dir build --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -50,6 +50,7 @@
     "sqlite3": "^4.1.0",
     "strict-event-emitter-types": "^2.0.0",
     "typeorm": "^0.2.19",
+    "wait-on": "^3.3.0",
     "yaml": "^1.6.0"
   }
 }

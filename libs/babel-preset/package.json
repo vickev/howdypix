@@ -1,5 +1,6 @@
 {
   "name": "@howdypix/babel-preset",
+  "description": "Preset for babel and howdypix.",
   "version": "0.1.0",
   "license": "MIT",
   "devDependencies": {
