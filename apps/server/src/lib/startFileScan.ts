@@ -6,34 +6,28 @@ import EventEmitter from "events";
 import { Events } from "./eventEmitter";
 import { appDebug, isHowdypixPath } from "@howdypix/utils";
 
-export function loadFile(event: Events, path: string, root: string) {
+export function loadFile(
+  event: Events,
+  watcher: chokidar.FSWatcher,
+  path: string,
+  root: string
+) {
   appDebug("found")(path);
+  //watcher.add(path);
   event.emit("newFile", { path, root });
 }
 
-export function loadFolder(event: Events, path: string, root: string) {
-  if (isHowdypixPath(path)) {
-    return;
-  }
-
-  console.log(`Parsing ${path}.`);
-  const files = fs.readdirSync(path);
-
-  forEach(files, file => {
-    const absolutePath = join(path, file);
-    const stat = fs.statSync(absolutePath);
-
-    if (stat.isDirectory()) {
-      loadFolder(event, absolutePath, root);
-    } else if (stat.isFile()) {
-      loadFile(event, absolutePath, root);
-    }
-  });
-}
-
 export function startFileScan(event: Events, folders: string[]) {
-  forEach(folders, folder => {
-    const root = resolve(process.cwd(), folder);
-    loadFolder(event, root, root);
-  });
+  // Initiate the watcher
+  const watcher = chokidar.watch(folders, { ignored: /.howdypix/ });
+
+  watcher
+    .on("add", path => {
+      // TODO to remove
+      const root = resolve(process.cwd(), folders[0]);
+      appDebug("watcher")(`File ${path} has been added`);
+      loadFile(event, watcher, path, root);
+    })
+    .on("change", path => appDebug("watcher")(`File ${path} has been changed`))
+    .on("unlink", path => appDebug("watcher")(`File ${path} has been removed`));
 }
