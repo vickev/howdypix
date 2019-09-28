@@ -5,7 +5,7 @@ import { Photo } from "../entity/Photo";
 import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import { appDebug, generateThumbnailPaths } from "@howdypix/utils";
-import { statSync, existsSync } from "fs";
+import { statSync, existsSync, unlinkSync } from "fs";
 import { join } from "path";
 import { UserConfigState } from "../state";
 
@@ -66,8 +66,18 @@ export async function startCacheDB(
     appDebug("db")(`Saved ${photo.path}.`);
   });
 
-  event.on("removeFile", async ({ root, path }) => {
-    // TODO Remove the entry in the database
+  event.on("removeFile", async ({ root, path, sourceId }) => {
+    const photoRepository = connection.getRepository(Photo);
+
+    // Remove from database
+    await photoRepository.delete({ root, path, sourceId });
+
+    // Remove thumbnails
+    generateThumbnailPaths(userConfig.thumbnailsDir, sourceId, path).forEach(
+      tn => {
+        unlinkSync(tn.path);
+      }
+    );
   });
 
   return connection;
