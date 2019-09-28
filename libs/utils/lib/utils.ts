@@ -9,8 +9,12 @@ export async function wait(seconds: number) {
   });
 }
 
-export function howdypixPathJoin(root: string, path: string = "") {
-  return join(root, ".howdypix", path);
+export function howdypixPathJoin(
+  root: string,
+  sourceId: string,
+  path: string = ""
+) {
+  return join(root, ".howdypix", sourceId, path);
 }
 
 export function isHowdypixPath(path: string = ""): boolean {

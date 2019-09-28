@@ -1,13 +1,15 @@
 import fs from "fs";
-import path from "path";
+import { join } from "path";
 import { parse } from "yaml";
 import { state } from "../state";
 
 export function loadUserConfig() {
-  const content = fs.readFileSync(
-    path.join(__dirname, "..", "..", "config.yaml")
-  );
+  const content = fs.readFileSync(join(__dirname, "..", "..", "config.yaml"));
 
   state.userConfig = parse(content.toString());
+  state.userConfig.thumbnailsDir = join(
+    process.cwd(),
+    state.userConfig.thumbnailsDir
+  );
   return state.userConfig;
 }
