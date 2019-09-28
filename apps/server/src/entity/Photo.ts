@@ -1,13 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  PrimaryColumn,
-  ManyToOne,
-  OneToMany
-} from "typeorm";
-import { Thumbnail } from "./Thumbnail";
-import { createThumbnails } from "@howdypix/app-worker/src/libs/process";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Photo {
@@ -49,7 +40,4 @@ export class Photo {
 
   @Column("text")
   sourceId: string;
-
-  // @OneToMany(type => Thumbnail, tn => tn.photo)
-  // thumbnails: Thumbnail[];
 }
