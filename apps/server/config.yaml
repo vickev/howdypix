@@ -1,2 +1,4 @@
+thumbnailsDir: ./photos
 photoDirs:
-  - ./photos
+  main: ./photos/main
+  second: ./photos/landscapes

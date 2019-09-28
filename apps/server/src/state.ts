@@ -3,7 +3,8 @@ export type DispatcherState = {
 };
 
 export type UserConfigState = {
-  photoDirs: string[];
+  photoDirs: { [sourceId: string]: string };
+  thumbnailsDir: string;
 };
 
 export type FileQueueState = string[];
@@ -19,7 +20,8 @@ export const state: State = {
     connected: false
   },
   userConfig: {
-    photoDirs: []
+    photoDirs: {},
+    thumbnailsDir: ""
   },
   fileQueue: []
 };

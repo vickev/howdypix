@@ -2,6 +2,7 @@ import { Events } from "./eventEmitter";
 import { Channel, connect as connectRabbitMq } from "amqplib";
 import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
 import { assertQueue, consume, sendToQueue, appDebug } from "@howdypix/utils";
+import { UserConfigState } from "../state";
 
 export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   const pathsInQueue: string[] = [];
@@ -26,16 +27,22 @@ export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   return pathsInQueue;
 }
 
-export async function bindAppEvents(event: Events, channel: Channel) {
+export async function bindAppEvents(
+  event: Events,
+  thumbnailsDir: string,
+  channel: Channel
+) {
   const pathsInQueue = await fetchPathsInQueue(channel);
 
   // When there is a new file, send it to the queue
-  event.on("newFile", ({ path, root }) => {
+  event.on("processFile", ({ path, root, sourceId }) => {
     if (pathsInQueue.filter(p => p === path).length === 0) {
       appDebug("sendToQueue")(path);
       sendToQueue<MessageProcess>(channel, QueueName.TO_PROCESS, {
+        thumbnailsDir,
         root,
-        path
+        path,
+        sourceId
       });
     }
   });
@@ -50,14 +57,18 @@ export async function bindChannelEvents(event: Events, channel: Channel) {
   });
 }
 
-export async function startRabbitMq(event: Events, url: string) {
+export async function startRabbitMq(
+  event: Events,
+  userConfig: UserConfigState,
+  url: string
+) {
   const connection = await connectRabbitMq(url);
   const channel = await connection.createChannel();
 
   await assertQueue(channel, QueueName.TO_PROCESS);
   await assertQueue(channel, QueueName.PROCESSED);
 
-  await bindAppEvents(event, channel);
+  await bindAppEvents(event, userConfig.thumbnailsDir, channel);
   await bindChannelEvents(event, channel);
 
   return channel;

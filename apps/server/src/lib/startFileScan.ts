@@ -1,39 +1,47 @@
 import chokidar from "chokidar";
-import { forEach } from "lodash";
-import fs from "fs";
-import { resolve, join } from "path";
-import EventEmitter from "events";
+import { resolve, relative } from "path";
 import { Events } from "./eventEmitter";
-import { appDebug, isHowdypixPath } from "@howdypix/utils";
+import { appDebug } from "@howdypix/utils";
+import { arg } from "nexus";
+import { UserConfigState } from "../state";
 
-export function loadFile(event: Events, path: string, root: string) {
-  appDebug("found")(path);
-  event.emit("newFile", { path, root });
+export function onAdd(
+  event: Events,
+  path: string,
+  root: string,
+  sourceId: string
+) {
+  const absoluteRoot = resolve(process.cwd(), root);
+  const relativePath = relative(root, path);
+  appDebug("watcher")(`File ${path} has been added`);
+  event.emit("newFile", { path: relativePath, root: absoluteRoot, sourceId });
 }
 
-export function loadFolder(event: Events, path: string, root: string) {
-  if (isHowdypixPath(path)) {
-    return;
+export function onRemove(
+  event: Events,
+  path: string,
+  root: string,
+  sourceId: string
+) {
+  const absoluteRoot = resolve(process.cwd(), root);
+  const relativePath = relative(root, path);
+  appDebug("watcher")(`File ${path} has been removed`);
+  event.emit("removeFile", {
+    path: relativePath,
+    root: absoluteRoot,
+    sourceId
+  });
+}
+
+export function startFileScan(event: Events, userConfig: UserConfigState) {
+  for (const sourceId in userConfig.photoDirs) {
+    const folder = userConfig.photoDirs[sourceId];
+
+    // Initiate the watcher
+    const watcher = chokidar.watch(folder, { ignored: /.howdypix/ });
+
+    watcher
+      .on("add", path => onAdd(event, path, folder, sourceId))
+      .on("unlink", path => onRemove(event, path, folder, sourceId));
   }
-
-  console.log(`Parsing ${path}.`);
-  const files = fs.readdirSync(path);
-
-  forEach(files, file => {
-    const absolutePath = join(path, file);
-    const stat = fs.statSync(absolutePath);
-
-    if (stat.isDirectory()) {
-      loadFolder(event, absolutePath, root);
-    } else if (stat.isFile()) {
-      loadFile(event, absolutePath, root);
-    }
-  });
-}
-
-export function startFileScan(event: Events, folders: string[]) {
-  forEach(folders, folder => {
-    const root = resolve(process.cwd(), folder);
-    loadFolder(event, root, root);
-  });
 }
