@@ -1,5 +1,5 @@
 import { Channel, ConsumeMessage, Options } from "amqplib";
-import { join } from "path";
+import { join, parse } from "path";
 import { MessageProcess, QueueName } from "@howdypix/shared-types";
 import debug from "debug";
 
@@ -15,6 +15,24 @@ export function howdypixPathJoin(
   path: string = ""
 ) {
   return join(root, ".howdypix", sourceId, path);
+}
+
+export function generateThumbnailPaths(
+  thumbnailsDir: string,
+  sourceId: string,
+  path: string = ""
+): Array<{
+  width: number | null;
+  height: number | null;
+  path: string;
+}> {
+  const { dir, name } = parse(howdypixPathJoin(thumbnailsDir, sourceId, path));
+
+  return [200, 600].map(size => ({
+    width: size,
+    height: null,
+    path: join(dir, `${name}x${size}.jpg`)
+  }));
 }
 
 export function isHowdypixPath(path: string = ""): boolean {

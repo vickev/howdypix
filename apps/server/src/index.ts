@@ -15,7 +15,7 @@ async function main() {
   console.log("User Configuration loaded:");
   console.log(userConfig);
 
-  await startCacheDB(event);
+  await startCacheDB(event, userConfig);
   await startApollo(config.get("serverApollo.port"));
   await startRabbitMq(event, userConfig, config.get("rabbitMq.url"));
   await startFileScan(event, userConfig);

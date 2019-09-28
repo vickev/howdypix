@@ -4,11 +4,15 @@ import { Connection, createConnection } from "typeorm";
 import { Photo } from "../entity/Photo";
 import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
-import { appDebug } from "@howdypix/utils";
-import { statSync } from "fs";
+import { appDebug, generateThumbnailPaths } from "@howdypix/utils";
+import { statSync, existsSync } from "fs";
 import { join } from "path";
+import { UserConfigState } from "../state";
 
-export async function startCacheDB(event: Events): Promise<Connection> {
+export async function startCacheDB(
+  event: Events,
+  userConfig: UserConfigState
+): Promise<Connection> {
   const connection = await createConnection(
     ormConfig as SqliteConnectionOptions
   );
@@ -23,10 +27,19 @@ export async function startCacheDB(event: Events): Promise<Connection> {
 
     // Check the updated_date
     if (photo && photo[0] && photo[0].mtime === stat.mtimeMs) {
-      return;
-    }
+      const thumbnailsExist: boolean = generateThumbnailPaths(
+        userConfig.thumbnailsDir,
+        sourceId,
+        path
+      ).reduce(
+        (accumulator: boolean, tn) => accumulator && existsSync(tn.path),
+        true
+      );
 
-    // TODO Check the thumbnails
+      if (thumbnailsExist) {
+        return;
+      }
+    }
 
     // Act
     event.emit("processFile", { path, root, sourceId });

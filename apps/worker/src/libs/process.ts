@@ -4,7 +4,11 @@ import { join, parse, relative } from "path";
 import { statSync } from "fs";
 import { ExifImage } from "exif";
 import { ExifData, ProcessData, StatData } from "@howdypix/shared-types";
-import { appDebug, howdypixPathJoin } from "@howdypix/utils";
+import {
+  appDebug,
+  howdypixPathJoin,
+  generateThumbnailPaths
+} from "@howdypix/utils";
 
 export async function fetchExif(root: string, path: string): Promise<ExifData> {
   return new Promise(resolve => {
@@ -47,12 +51,11 @@ export async function createThumbnails(
   mkdirp.sync(dir);
 
   return Promise.all(
-    [200, 600].map(async size => {
-      const fileName = join(dir, `${name}x${size}.jpg`);
+    generateThumbnailPaths(thumbnailsDir, sourceId, path).map(async data => {
       await sharp(join(root, path))
-        .resize(size)
-        .toFile(fileName);
-      return fileName;
+        .resize(data.width)
+        .toFile(data.path);
+      return data.path;
     })
   );
 }
