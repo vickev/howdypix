@@ -15,13 +15,18 @@ export async function startRabbitMq(url: string) {
       appDebug("toProcess")(msg.data.path);
       channel.ack(msg);
 
-      const data = await process(
-        msg.data.thumbnailsDir,
-        msg.data.root,
-        msg.data.path,
-        msg.data.sourceId
-      );
-      await sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
+      try {
+        const data = await process(
+          msg.data.thumbnailsDir,
+          msg.data.root,
+          msg.data.path,
+          msg.data.sourceId
+        );
+
+        await sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
+      } catch (e) {
+        console.error(e);
+      }
     }
   });
 

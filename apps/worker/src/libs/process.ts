@@ -11,7 +11,7 @@ import {
 } from "@howdypix/utils";
 
 export async function fetchExif(root: string, path: string): Promise<ExifData> {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     // eslint-disable-next-line no-new
     new ExifImage(join(root, path), (error, data) => {
       if (!error) {
@@ -23,6 +23,8 @@ export async function fetchExif(root: string, path: string): Promise<ExifData> {
           make: data.image.Make,
           model: data.image.Model
         });
+      } else {
+        reject(error);
       }
     });
   });
@@ -66,8 +68,29 @@ export async function process(
   path: string,
   sourceId: string
 ): Promise<ProcessData> {
-  const stat = await fetchStat(root, path);
-  const exif = await fetchExif(root, path);
+  let stat: StatData;
+  let exif: ExifData;
+
+  try {
+    stat = await fetchStat(root, path);
+  } catch (e) {
+    appDebug(e);
+    stat = {
+      birthtime: 0,
+      ctime: 0,
+      inode: 0,
+      mtime: 0,
+      size: 0
+    };
+  }
+
+  try {
+    exif = await fetchExif(root, path);
+  } catch (e) {
+    appDebug(e);
+    exif = {};
+  }
+
   const thumbnails = await createThumbnails(
     thumbnailsDir,
     root,
