@@ -21,7 +21,13 @@ export async function saveAlbumFromPath(
     const { dir, name } = parse(path);
 
     if (isDirectory) {
-      const parent = await saveAlbumFromPath(event, connection, dir, true);
+      const parent = await saveAlbumFromPath(
+        event,
+        connection,
+        dir,
+        sourceId,
+        true
+      );
       const albumRepository = connection.getRepository(Album);
       let album = await albumRepository.findOne({
         where: { name, path }
