@@ -6,8 +6,48 @@ import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import { appDebug, generateThumbnailPaths } from "@howdypix/utils";
 import { statSync, existsSync, unlinkSync } from "fs";
-import { join } from "path";
+import { join, parse } from "path";
 import { UserConfigState } from "../state";
+import { Album } from "../entity/Album";
+
+export async function saveAlbumFromPath(
+  event: Events,
+  connection: Connection,
+  path: string,
+  sourceId: string,
+  isDirectory: boolean = false
+): Promise<Album | null> {
+  if (path) {
+    const { dir, name } = parse(path);
+
+    if (isDirectory) {
+      const parent = await saveAlbumFromPath(event, connection, dir, true);
+      const albumRepository = connection.getRepository(Album);
+      let album = await albumRepository.findOne({
+        where: { name, path }
+      });
+
+      if (album) {
+        return album;
+      }
+
+      album = new Album();
+      album.sourceId = sourceId;
+      album.path = path;
+      if (parent) {
+        album.parent = parent;
+      }
+
+      appDebug("db")(`Saved album: ${name} (parent: ${parent}).`);
+
+      return await albumRepository.save(album);
+    } else {
+      return await saveAlbumFromPath(event, connection, dir, sourceId, true);
+    }
+  }
+
+  return null;
+}
 
 export async function onNewFile(
   { path, root, sourceId }: EventTypes["newFile"],
@@ -63,8 +103,16 @@ export async function onRemoveFile(
 
 export async function onProcessedFile(
   file: EventTypes["processedFile"],
+  event: Events,
   connection: Connection
 ) {
+  const album = await saveAlbumFromPath(
+    event,
+    connection,
+    file.path,
+    file.sourceId
+  );
+
   const photo = new Photo();
   photo.make = file.exif.make || "";
   photo.model = file.exif.model || "";
@@ -78,6 +126,10 @@ export async function onProcessedFile(
   photo.path = file.path;
   photo.root = file.root;
   photo.sourceId = file.sourceId;
+
+  if (album) {
+    photo.album = album;
+  }
 
   const photoRepository = connection.getRepository(Photo);
 
@@ -105,7 +157,7 @@ export async function startCacheDB(
 
   event.on(
     "processedFile",
-    async file => await onProcessedFile(file, connection)
+    async file => await onProcessedFile(file, event, connection)
   );
 
   return connection;
