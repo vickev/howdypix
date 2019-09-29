@@ -8,3 +8,5 @@ lerna-debug.log
 .howdypix
 *.sqlite
 .DS_Store
+.next
+pnpm-debug.log

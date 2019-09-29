@@ -1,0 +1,22 @@
+dependencies:
+  typescript: registry.npmjs.org/typescript/3.6.3
+devDependencies:
+  '@howdypix/eslint-config': 'link:../eslint-config'
+  '@howdypix/typescript-config': 'link:../typescript-config'
+lockfileVersion: 5.1
+packages:
+  registry.npmjs.org/typescript/3.6.3:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    name: typescript
+    resolution:
+      integrity: sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
+      registry: 'https://registry.npmjs.org/'
+      tarball: 'https://registry.npmjs.org/typescript/-/typescript-3.6.3.tgz'
+    version: 3.6.3
+specifiers:
+  '@howdypix/eslint-config': ^0.1.0
+  '@howdypix/typescript-config': ^0.1.0
+  typescript: ^3.6.3

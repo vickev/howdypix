@@ -7,10 +7,38 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "echo TDB;",
-    "build": "echo TDB;",
-    "lint": "echo TDB;",
-    "typecheck": "echo TDB;",
-    "test": "echo TDB;"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.1",
+    "@apollo/react-ssr": "^3.1.1",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link": "^1.2.13",
+    "apollo-link-error": "^1.1.12",
+    "apollo-link-http": "^1.5.16",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.0.7",
+    "react": "^16.10.1",
+    "react-apollo": "^3.1.1",
+    "react-client": "^1.0.1",
+    "react-dom": "^16.10.1",
+    "typescript": "^3.6.3"
+  },
+  "devDependencies": {
+    "@howdypix/babel-preset": "^0.1.0",
+    "@howdypix/eslint-config": "^0.1.0",
+    "@howdypix/jest-config": "^0.1.0",
+    "@howdypix/shared-types": "^0.1.0",
+    "@howdypix/typescript-config": "^0.1.0",
+    "@types/node": "^12.7.8",
+    "@types/react": "^16.9.3"
   }
 }

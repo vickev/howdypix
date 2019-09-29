@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.6.0",
     "babel-jest": "^24.9.0"
   }
