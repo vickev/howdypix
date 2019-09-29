@@ -12,11 +12,20 @@ export interface NexusGenInputs {}
 export interface NexusGenEnums {}
 
 export interface NexusGenRootTypes {
-  Hello: {
+  Album: {
     // root type
     id: string; // ID!
-    toto?: string | null; // String
-    type?: string | null; // String
+    name: string; // String!
+  };
+  GetPhotos: {
+    // root type
+    albums: NexusGenRootTypes["Album"][]; // [Album!]!
+    photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
+  };
+  Photo: {
+    // root type
+    id: string; // ID!
+    thumbnails: Array<string | null>; // [String]!
   };
   Query: {};
   String: string;
@@ -29,25 +38,41 @@ export interface NexusGenRootTypes {
 export interface NexusGenAllTypes extends NexusGenRootTypes {}
 
 export interface NexusGenFieldTypes {
-  Hello: {
+  Album: {
     // field return type
     id: string; // ID!
-    toto: string | null; // String
-    type: string | null; // String
+    name: string; // String!
+  };
+  GetPhotos: {
+    // field return type
+    albums: NexusGenRootTypes["Album"][]; // [Album!]!
+    photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
+  };
+  Photo: {
+    // field return type
+    id: string; // ID!
+    thumbnails: Array<string | null>; // [String]!
   };
   Query: {
     // field return type
-    bar: number; // Int!
+    getAlbum: NexusGenRootTypes["GetPhotos"]; // GetPhotos!
   };
 }
 
-export interface NexusGenArgTypes {}
+export interface NexusGenArgTypes {
+  Query: {
+    getAlbum: {
+      // args
+      parent?: number | null; // Int
+    };
+  };
+}
 
 export interface NexusGenAbstractResolveReturnTypes {}
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Hello" | "Query";
+export type NexusGenObjectNames = "Album" | "GetPhotos" | "Photo" | "Query";
 
 export type NexusGenInputNames = never;
 

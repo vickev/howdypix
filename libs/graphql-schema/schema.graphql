@@ -2,12 +2,21 @@
 ### Do not make changes to this file directly
 
 
-type Hello {
+type Album {
   id: ID!
-  toto: String
-  type: String
+  name: String!
+}
+
+type GetPhotos {
+  albums: [Album!]!
+  photos: [Photo]!
+}
+
+type Photo {
+  id: ID!
+  thumbnails: [String]!
 }
 
 type Query {
-  bar: Int!
+  getAlbum(parent: Int): GetPhotos!
 }
