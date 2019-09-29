@@ -7,16 +7,19 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "yarn gql:codegen -w & next",
     "build": "next build",
     "start": "next start",
     "lint": "eslint src/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "gql:codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.1",
     "@apollo/react-ssr": "^3.1.1",
+    "@howdypix/graphql-schema": "^0.1.0",
+    "@lightspeed/apollo-generate-types": "^0.3.0",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
     "apollo-link": "^1.2.13",
@@ -33,12 +36,17 @@
     "typescript": "^3.6.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.7.0",
+    "@graphql-codegen/typescript": "1.7.0",
     "@howdypix/babel-preset": "^0.1.0",
     "@howdypix/eslint-config": "^0.1.0",
     "@howdypix/jest-config": "^0.1.0",
     "@howdypix/shared-types": "^0.1.0",
     "@howdypix/typescript-config": "^0.1.0",
     "@types/node": "^12.7.8",
-    "@types/react": "^16.9.3"
+    "@types/react": "^16.9.3",
+    "@graphql-codegen/typescript-operations": "1.7.0",
+    "@graphql-codegen/typescript-react-apollo": "1.7.0",
+    "@graphql-codegen/introspection": "1.7.0"
   }
 }
