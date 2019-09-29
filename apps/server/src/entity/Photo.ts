@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Album } from "./Album";
 
 @Entity()
 export class Photo {
@@ -40,4 +41,7 @@ export class Photo {
 
   @Column("text")
   sourceId: string;
+
+  @ManyToOne(type => Album, album => album.photos)
+  album: Album;
 }
