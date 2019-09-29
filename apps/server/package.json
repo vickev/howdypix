@@ -6,6 +6,7 @@
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": true,
+  "typings": "",
   "scripts": {
     "start": "node build/index",
     "dev": "yarn build && wait-on http://localhost:15672 && DEBUG=app:*,-lib:* yarn watch",
