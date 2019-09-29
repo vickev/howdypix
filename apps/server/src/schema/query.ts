@@ -6,7 +6,7 @@ import { Album as EntityAlbum } from "../entity/Album";
 import { createConnection } from "typeorm";
 import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
-import { generateThumbnailPaths } from "@howdypix/utils";
+import { appDebug, generateThumbnailPaths } from "@howdypix/utils";
 import { state } from "../state";
 
 export const GetPhotos = objectType({
@@ -23,11 +23,15 @@ export const Query = queryField("getAlbum", {
     parent: intArg()
   },
   resolve: async (root, args) => {
+    const debug = appDebug("gql");
+
     // Open the connection
     const connection = await createConnection({
       ...(ormConfig as SqliteConnectionOptions),
       name: "tmp"
     });
+
+    debug(`Fetching album ${args.parent}.`);
 
     const albumRepository = connection.getRepository(EntityAlbum);
     const photoRepository = connection.getRepository(EntityPhoto);
@@ -49,6 +53,8 @@ export const Query = queryField("getAlbum", {
 
     // Close the connection
     await connection.close();
+
+    debug(`${photos.length} photos; ${albums.length} sub-albums.`);
 
     return {
       photos: photos.map(photo => ({
