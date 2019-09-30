@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { styled, withTheme } from "@material-ui/core/styles";
+import { useTranslation } from "react-i18next";
+import { styled } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -32,18 +33,22 @@ const GET_GREETING = gql`
 `;
 
 function Hello() {
+  const { t, i18n } = useTranslation();
   const { loading, error, data } = useQuery<
     GetAlbumQuery,
     GetAlbumQueryVariables
   >(GET_GREETING);
-  if (loading) return <p>Loading ...</p>;
+
+  if (loading) return <p>Loading...</p>;
   console.log(data);
+
   return (
     <Container maxWidth={"md"}>
       <Box p={5}>
         <CustomPaper>
           <Typography variant="h4" component="h1" gutterBottom>
             Hello {data && data.getAlbum.albums[0].name}!
+            <p>{t("my translated text")}</p>
           </Typography>
         </CustomPaper>
       </Box>

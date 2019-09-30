@@ -1,12 +1,13 @@
 import React from "react";
 import App from "next/app";
 import Head from "next/head";
+import { appWithTranslation } from "../server/i18n";
 
-import { ThemeProvider, StylesProvider, jssPreset } from "@material-ui/styles";
+import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 
-export default class MyApp extends App {
+class MyApp extends App {
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
@@ -32,3 +33,5 @@ export default class MyApp extends App {
     );
   }
 }
+
+export default appWithTranslation(MyApp);
