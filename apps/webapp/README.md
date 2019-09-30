@@ -1,8 +1,3 @@
-# @howdypix/app-worker
+# @howdypix/app-webapp
 
-This process is responsible to:
-
-- Wait for photos to process (exif, thumbnails)
-- Send the result of the process to RabbitMQ
-
-It is possible to start multiple workers that will process simultaneously the photos.
+Display the interface of the application that interact with the GraphQL server to retrieve the information.
