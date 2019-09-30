@@ -1,16 +1,20 @@
+const loadPresets = require("./src/loadPresets");
+
+let presets = loadPresets(["env", "typescript", "react"]);
+
 module.exports = function() {
   return {
     presets: [
       [
-        "@babel/preset-env",
+        presets.env,
         {
           targets: {
             node: "current"
           }
         }
       ],
-      "@babel/preset-react",
-      "@babel/preset-typescript"
+      presets.react,
+      presets.typescript
     ]
   };
 };

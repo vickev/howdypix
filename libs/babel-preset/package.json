@@ -3,6 +3,7 @@
   "description": "Preset for babel and howdypix.",
   "version": "0.1.0",
   "license": "MIT",
+  "main": "node.js",
   "devDependencies": {
     "@babel/core": "^7.0.0"
   },
