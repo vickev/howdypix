@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "yarn gql:codegen -w & node server/index.js",
+    "dev": "concurrently 'yarn gql:codegen -w' 'node server/index.js' --kill-others --kill-others-on-fail --raw",
     "build": "next build",
     "start": "next start",
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -26,6 +26,7 @@
     "apollo-link": "^1.2.13",
     "apollo-link-error": "^1.1.12",
     "apollo-link-http": "^1.5.16",
+    "concurrently": "^4.1.2",
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
@@ -54,6 +55,7 @@
     "@howdypix/typescript-config": "^0.1.0",
     "@types/express": "^4.17.1",
     "@types/node": "^12.7.8",
-    "@types/react": "^16.9.3"
+    "@types/react": "^16.9.3",
+    "concurrently": "^4.1.2"
   }
 }
