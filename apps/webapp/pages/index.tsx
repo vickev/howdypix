@@ -33,7 +33,7 @@ const GET_GREETING = gql`
 `;
 
 function Hello() {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("common");
   const { loading, error, data } = useQuery<
     GetAlbumQuery,
     GetAlbumQueryVariables
