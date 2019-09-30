@@ -6,6 +6,9 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import fetch from "isomorphic-unfetch";
+import getConfig from "next/config";
+
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
 let apolloClient: ApolloClient<any>;
 
@@ -145,7 +148,11 @@ function createApolloClient(initialState = {}): ApolloClient<any> {
   return new ApolloClient({
     ssrMode: typeof window === "undefined", // Disables forceFetch on the server (so queries are only run once)
     link: new HttpLink({
-      uri: "http://localhost:4005/graphql", // Server URL (must be absolute)
+      uri: `${
+        typeof window !== "undefined"
+          ? publicRuntimeConfig.baseUrl
+          : `http://localhost:${serverRuntimeConfig.port}`
+      }/graphql`, // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
       fetch
     }),

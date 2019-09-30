@@ -30,6 +30,7 @@
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
+    "http-proxy-middleware": "^0.20.0",
     "i18next": "^17.0.16",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.0.7",
