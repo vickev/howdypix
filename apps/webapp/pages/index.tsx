@@ -3,6 +3,8 @@ import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
 import { styled } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
@@ -47,9 +49,21 @@ function Hello() {
       <Box p={5}>
         <CustomPaper>
           <Typography variant="h4" component="h1" gutterBottom>
-            Hello {data && data.getAlbum.albums[0].name}!
-            <p>{t("my translated text")}</p>
+            Album
           </Typography>
+          <GridList cellHeight={160} cols={3}>
+            {data &&
+              data.getAlbum.photos.map(
+                photo =>
+                  photo &&
+                  photo.thumbnails &&
+                  photo.thumbnails[1] && (
+                    <GridListTile cols={1}>
+                      <img src={photo.thumbnails[1]} />
+                    </GridListTile>
+                  )
+              )}
+          </GridList>
         </CustomPaper>
       </Box>
     </Container>

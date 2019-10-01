@@ -1,13 +1,11 @@
-import { objectType, idArg, intArg, stringArg, core, queryField } from "nexus";
-import { Photo } from "./photo";
-import { Album } from "./album";
+import { intArg, objectType, queryField } from "nexus";
 import { Photo as EntityPhoto } from "../entity/Photo";
 import { Album as EntityAlbum } from "../entity/Album";
 import { createConnection } from "typeorm";
 import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
-import { appDebug, generateThumbnailPaths } from "@howdypix/utils";
-import { state } from "../state";
+import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
+import config from "config";
 
 export const GetPhotos = objectType({
   name: "GetPhotos",
@@ -59,11 +57,11 @@ export const Query = queryField("getAlbum", {
     return {
       photos: photos.map(photo => ({
         id: photo.id.toString(),
-        thumbnails: generateThumbnailPaths(
-          state.userConfig.thumbnailsDir,
+        thumbnails: generateThumbnailUrls(
+          config.get("serverHttp.baseUrl"),
           photo.sourceId,
           photo.path
-        ).map(tn => tn.path)
+        ).map(tn => tn.url)
       })),
       albums: albums.map(album => ({
         id: album.id.toString(),

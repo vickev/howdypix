@@ -11,5 +11,6 @@ export function loadUserConfig() {
     process.cwd(),
     state.userConfig.thumbnailsDir
   );
+
   return state.userConfig;
 }

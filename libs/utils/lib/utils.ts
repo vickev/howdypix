@@ -35,6 +35,24 @@ export function generateThumbnailPaths(
   }));
 }
 
+export function generateThumbnailUrls(
+  baseUrl: string,
+  sourceId: string,
+  path: string = ""
+): Array<{
+  width: number | null;
+  height: number | null;
+  url: string;
+}> {
+  const { name } = parse(path);
+
+  return [200, 600].map(size => ({
+    width: size,
+    height: null,
+    url: baseUrl + "/static/" + join(sourceId, `${name}x${size}.jpg`)
+  }));
+}
+
 export function isHowdypixPath(path: string = ""): boolean {
   return path.match(/\.howdypix/) !== null;
 }
