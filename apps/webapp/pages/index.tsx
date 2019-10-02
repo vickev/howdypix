@@ -22,14 +22,11 @@ const CustomPaper = styled(Paper)(props => ({
 
 const GET_GREETING = gql`
   query GetAlbum {
-    getAlbum(parent: 0) {
+    getAlbum(source: "main") {
       photos {
         thumbnails
       }
-      albums {
-        id
-        name
-      }
+      albums
     }
   }
 `;

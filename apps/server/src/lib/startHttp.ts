@@ -1,19 +1,13 @@
 import express from "express";
 import { state } from "../state";
-import { howdypixPathJoin } from "@howdypix/utils";
+import { hparse, path2hfile, thumbnailPath } from "@howdypix/utils";
 
 export function startHttp(port: number) {
   const app = express();
 
-  app.get("/static/:sourceId/*", (req, res) => {
-    console.log(req.params.sourceId);
-
+  app.get("/static/*", (req, res) => {
     res.sendFile(
-      howdypixPathJoin(
-        state.userConfig.thumbnailsDir,
-        req.params.sourceId,
-        req.params[0]
-      )
+      thumbnailPath(state.userConfig.thumbnailsDir, hparse(req.params[0]))
     );
   });
 

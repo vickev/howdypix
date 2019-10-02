@@ -1,11 +1,11 @@
-import { intArg, objectType, queryField } from "nexus";
+import { intArg, objectType, queryField, stringArg } from "nexus";
 import { Photo as EntityPhoto } from "../entity/Photo";
-import { Album as EntityAlbum } from "../entity/Album";
-import { createConnection } from "typeorm";
+import { createConnection, Like } from "typeorm";
 import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import config from "config";
+import { parse } from "path";
 
 export const GetPhotos = objectType({
   name: "GetPhotos",
@@ -18,7 +18,8 @@ export const GetPhotos = objectType({
 export const Query = queryField("getAlbum", {
   type: "GetPhotos",
   args: {
-    parent: intArg()
+    album: stringArg(),
+    source: stringArg()
   },
   resolve: async (root, args) => {
     const debug = appDebug("gql");
@@ -26,28 +27,30 @@ export const Query = queryField("getAlbum", {
     // Open the connection
     const connection = await createConnection({
       ...(ormConfig as SqliteConnectionOptions),
-      name: "tmp"
+      name: "tmp2"
     });
 
-    debug(`Fetching album ${args.parent}.`);
+    debug(`Fetching album ${args.album}.`);
 
-    const albumRepository = connection.getRepository(EntityAlbum);
     const photoRepository = connection.getRepository(EntityPhoto);
 
     const photos = await photoRepository.find(
-      args.parent
+      args.album
         ? {
-            where: { album: { id: args.parent } }
+            where: { dir: args.album, source: args.source }
           }
-        : { where: { album: null } }
+        : { where: { dir: "", source: args.source } }
     );
-    const albums = await albumRepository.find(
-      args.parent
-        ? {
-            where: { parent: { id: args.parent } }
-          }
-        : { where: { parent: null } }
-    );
+
+    const albums: { dir: string; source: string }[] = await photoRepository
+      .createQueryBuilder("photo")
+      .select("DISTINCT dir, source")
+      .where(
+        args.album
+          ? { parentDir: args.album, source: args.source }
+          : { parentDir: "", source: args.source }
+      )
+      .getRawMany();
 
     // Close the connection
     await connection.close();
@@ -59,14 +62,12 @@ export const Query = queryField("getAlbum", {
         id: photo.id.toString(),
         thumbnails: generateThumbnailUrls(
           config.get("serverHttp.baseUrl"),
-          photo.sourceId,
-          photo.path
+          photo
         ).map(tn => tn.url)
       })),
-      albums: albums.map(album => ({
-        id: album.id.toString(),
-        name: album.path
-      }))
+      albums: albums
+        .map(album => ({ ...album, name: parse(album.dir).base }))
+        .filter(a => a.dir)
     };
   }
 });

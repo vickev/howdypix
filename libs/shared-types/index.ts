@@ -1,8 +1,10 @@
+export type HowdyFile = { source: string; dir: string; file: string };
+export type HFile = HowdyFile;
+
 export type MessageProcess = {
   thumbnailsDir: string;
   root: string;
-  path: string;
-  sourceId: string;
+  hfile: HFile;
 };
 
 export type StatData = {
@@ -24,9 +26,8 @@ export type ProcessData = {
   exif: ExifData;
   stat: StatData;
   root: string;
-  path: string;
-  sourceId: string;
   thumbnails: string[];
+  hfile: HFile;
 };
 
 export enum QueueName {

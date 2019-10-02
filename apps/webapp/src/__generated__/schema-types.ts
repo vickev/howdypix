@@ -14,7 +14,7 @@ export interface Album {
 }
 
 export interface GetPhotos {
-  albums: Array<Album>;
+  albums: Array<Scalars["String"]>;
   photos: Array<Maybe<Photo>>;
 }
 
@@ -28,13 +28,13 @@ export interface Query {
 }
 
 export interface QueryGetAlbumArgs {
-  parent?: Maybe<Scalars["Int"]>;
+  album?: Maybe<Scalars["String"]>;
+  source?: Maybe<Scalars["String"]>;
 }
 export type GetAlbumQueryVariables = {};
 
 export type GetAlbumQuery = {
-  getAlbum: {
+  getAlbum: Pick<GetPhotos, "albums"> & {
     photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
-    albums: Array<Pick<Album, "id" | "name">>;
   };
 };
