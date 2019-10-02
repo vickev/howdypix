@@ -9,6 +9,7 @@ type Album {
 }
 
 type GetPhotos {
+  album: Album
   albums: [Album!]!
   photos: [Photo]!
 }
