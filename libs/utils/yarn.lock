@@ -297,6 +297,11 @@ bitsyntax@~0.1.0:
     debug "~2.6.9"
     safe-buffer "~5.1.2"
 
+bluebird@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.0.5.tgz#2ff9d07c9b3edb29d6d280fe07528365e7ecd392"
+  integrity sha1-L/nQfJs+2ynW0oD+B1KDZefs05I=
+
 bluebird@^3.5.2:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
@@ -565,6 +570,13 @@ extglob@^2.0.4:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
+
+filepath@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/filepath/-/filepath-1.1.0.tgz#d7bdc94896d9752fa8fa237e275e9e98e63098ed"
+  integrity sha1-173JSJbZdS+o+iN+J16emOYwmO0=
+  dependencies:
+    bluebird "3.0.5"
 
 fill-range@^4.0.0:
   version "4.0.0"

@@ -1,7 +1,18 @@
 import { Events } from "./eventEmitter";
 import { Channel, connect as connectRabbitMq } from "amqplib";
-import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
-import { assertQueue, consume, sendToQueue, appDebug } from "@howdypix/utils";
+import {
+  HFile,
+  MessageProcess,
+  ProcessData,
+  QueueName
+} from "@howdypix/shared-types";
+import {
+  assertQueue,
+  consume,
+  sendToQueue,
+  appDebug,
+  hjoin
+} from "@howdypix/utils";
 import { UserConfigState } from "../state";
 
 export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
@@ -12,7 +23,7 @@ export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
     QueueName.TO_PROCESS,
     msg => {
       if (msg) {
-        pathsInQueue.push(msg.data.path);
+        pathsInQueue.push(hjoin(msg.data.hfile));
       }
     },
     { consumerTag: "server" }
@@ -35,14 +46,14 @@ export async function bindAppEvents(
   const pathsInQueue = await fetchPathsInQueue(channel);
 
   // When there is a new file, send it to the queue
-  event.on("processFile", ({ path, root, sourceId }) => {
-    if (pathsInQueue.filter(p => p === path).length === 0) {
-      appDebug("sendToQueue")(path);
+  event.on("processFile", ({ root, hfile }) => {
+    const hpath = hjoin(hfile);
+    if (pathsInQueue.filter(p => p === hpath).length === 0) {
+      appDebug("sendToQueue")(hpath);
       sendToQueue<MessageProcess>(channel, QueueName.TO_PROCESS, {
         thumbnailsDir,
         root,
-        path,
-        sourceId
+        hfile
       });
     }
   });

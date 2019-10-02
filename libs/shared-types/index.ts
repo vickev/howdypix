@@ -1,8 +1,12 @@
+export type HFile = { source: string; dir: string; file: string };
+export interface HPath extends String {}
+export interface HPathDir extends HPath {}
+export interface HPathFile extends HPath {}
+
 export type MessageProcess = {
   thumbnailsDir: string;
   root: string;
-  path: string;
-  sourceId: string;
+  hfile: HFile;
 };
 
 export type StatData = {
@@ -24,9 +28,8 @@ export type ProcessData = {
   exif: ExifData;
   stat: StatData;
   root: string;
-  path: string;
-  sourceId: string;
   thumbnails: string[];
+  hfile: HFile;
 };
 
 export enum QueueName {

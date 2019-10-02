@@ -14,8 +14,9 @@ export interface NexusGenEnums {}
 export interface NexusGenRootTypes {
   Album: {
     // root type
-    id: string; // ID!
+    dir: string; // String!
     name: string; // String!
+    source: string; // String!
   };
   GetPhotos: {
     // root type
@@ -40,8 +41,9 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {}
 export interface NexusGenFieldTypes {
   Album: {
     // field return type
-    id: string; // ID!
+    dir: string; // String!
     name: string; // String!
+    source: string; // String!
   };
   GetPhotos: {
     // field return type
@@ -63,7 +65,8 @@ export interface NexusGenArgTypes {
   Query: {
     getAlbum: {
       // args
-      parent?: number | null; // Int
+      album?: string | null; // String
+      source?: string | null; // String
     };
   };
 }

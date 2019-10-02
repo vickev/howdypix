@@ -1,47 +1,50 @@
 import chokidar from "chokidar";
-import { resolve, relative } from "path";
+import { relative, resolve } from "path";
 import { Events } from "./eventEmitter";
-import { appDebug } from "@howdypix/utils";
-import { arg } from "nexus";
+import { appDebug, path2hfile } from "@howdypix/utils";
 import { UserConfigState } from "../state";
 
 export function onAdd(
   event: Events,
   path: string,
   root: string,
-  sourceId: string
+  source: string
 ) {
   const absoluteRoot = resolve(process.cwd(), root);
   const relativePath = relative(root, path);
   appDebug("watcher")(`File ${path} has been added`);
-  event.emit("newFile", { path: relativePath, root: absoluteRoot, sourceId });
+
+  event.emit("newFile", {
+    hfile: path2hfile(source, relativePath),
+    root: absoluteRoot
+  });
 }
 
 export function onRemove(
   event: Events,
   path: string,
   root: string,
-  sourceId: string
+  source: string
 ) {
   const absoluteRoot = resolve(process.cwd(), root);
   const relativePath = relative(root, path);
   appDebug("watcher")(`File ${path} has been removed`);
+
   event.emit("removeFile", {
-    path: relativePath,
     root: absoluteRoot,
-    sourceId
+    hfile: path2hfile(source, relativePath)
   });
 }
 
 export function startFileScan(event: Events, userConfig: UserConfigState) {
   for (const sourceId in userConfig.photoDirs) {
-    const folder = userConfig.photoDirs[sourceId];
+    const root = userConfig.photoDirs[sourceId];
 
     // Initiate the watcher
-    const watcher = chokidar.watch(folder, { ignored: /.howdypix/ });
+    const watcher = chokidar.watch(root, { ignored: /.howdypix/ });
 
     watcher
-      .on("add", path => onAdd(event, path, folder, sourceId))
-      .on("unlink", path => onRemove(event, path, folder, sourceId));
+      .on("add", path => onAdd(event, path, root, sourceId))
+      .on("unlink", path => onRemove(event, path, root, sourceId));
   }
 }
