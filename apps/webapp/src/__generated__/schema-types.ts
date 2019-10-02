@@ -9,12 +9,14 @@ export interface Scalars {
 }
 
 export interface Album {
-  id: Scalars["ID"];
+  dir: Scalars["String"];
   name: Scalars["String"];
+  source: Scalars["String"];
 }
 
 export interface GetPhotos {
-  albums: Array<Scalars["String"]>;
+  album?: Maybe<Album>;
+  albums: Array<Album>;
   photos: Array<Maybe<Photo>>;
 }
 
@@ -34,7 +36,9 @@ export interface QueryGetAlbumArgs {
 export type GetAlbumQueryVariables = {};
 
 export type GetAlbumQuery = {
-  getAlbum: Pick<GetPhotos, "albums"> & {
+  getAlbum: {
+    album: Maybe<Pick<Album, "name">>;
     photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
+    albums: Array<Pick<Album, "name">>;
   };
 };

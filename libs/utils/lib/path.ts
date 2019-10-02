@@ -21,6 +21,7 @@ export function hjoin(howdyfile: HFile) {
 }
 
 export function hparse(hpath: HPath): HFile {
+  console.log(hpath);
   const [source, relativePath] = hpath.split(":");
 
   if (!source || !relativePath) {
@@ -45,8 +46,8 @@ export function hfile2path({ dir, file }: HFile): HPath {
 
 export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
   const { source, dir, file } = howdyfile.hasOwnProperty("dir")
-    ? hparse(howdyfile as HPath)
-    : (howdyfile as HFile);
+    ? (howdyfile as HFile)
+    : hparse(howdyfile as HPath);
 
   return path.join(root, ".howdypix", source, dir, file);
 }

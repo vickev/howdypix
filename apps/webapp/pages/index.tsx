@@ -23,10 +23,15 @@ const CustomPaper = styled(Paper)(props => ({
 const GET_GREETING = gql`
   query GetAlbum {
     getAlbum(source: "main") {
+      album {
+        name
+      }
       photos {
         thumbnails
       }
-      albums
+      albums {
+        name
+      }
     }
   }
 `;
@@ -46,7 +51,7 @@ function Hello() {
       <Box p={5}>
         <CustomPaper>
           <Typography variant="h4" component="h1" gutterBottom>
-            Album
+            Album {data && data.getAlbum.album && data.getAlbum.album.name}
           </Typography>
           <GridList cellHeight={160} cols={3}>
             {data &&

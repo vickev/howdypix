@@ -20,6 +20,7 @@ export interface NexusGenRootTypes {
   };
   GetPhotos: {
     // root type
+    album?: NexusGenRootTypes["Album"] | null; // Album
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
   };
@@ -47,6 +48,7 @@ export interface NexusGenFieldTypes {
   };
   GetPhotos: {
     // field return type
+    album: NexusGenRootTypes["Album"] | null; // Album
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
   };

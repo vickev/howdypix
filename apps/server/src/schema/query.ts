@@ -12,6 +12,7 @@ export const GetPhotos = objectType({
   definition(t) {
     t.field("photos", { type: "Photo", list: [false] });
     t.field("albums", { type: "Album", list: [true] });
+    t.field("album", { type: "Album", nullable: true });
   }
 });
 
@@ -23,6 +24,15 @@ export const Query = queryField("getAlbum", {
   },
   resolve: async (root, args) => {
     const debug = appDebug("gql");
+
+    const album =
+      (args.album &&
+        args.source && {
+          name: parse(args.album).base,
+          dir: args.album,
+          source: args.source
+        }) ||
+      null;
 
     // Open the connection
     const connection = await createConnection({
@@ -67,7 +77,8 @@ export const Query = queryField("getAlbum", {
       })),
       albums: albums
         .map(album => ({ ...album, name: parse(album.dir).base }))
-        .filter(a => a.dir)
+        .filter(a => a.dir),
+      album
     };
   }
 });

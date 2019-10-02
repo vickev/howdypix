@@ -60,6 +60,14 @@
         "description": null,
         "fields": [
           {
+            "name": "album",
+            "description": null,
+            "args": [],
+            "type": { "kind": "OBJECT", "name": "Album", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "albums",
             "description": null,
             "args": [],
