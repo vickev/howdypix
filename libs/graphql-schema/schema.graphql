@@ -3,8 +3,9 @@
 
 
 type Album {
-  id: ID!
+  dir: String!
   name: String!
+  source: String!
 }
 
 type GetPhotos {
@@ -18,5 +19,5 @@ type Photo {
 }
 
 type Query {
-  getAlbum(parent: Int): GetPhotos!
+  getAlbum(album: String, source: String): GetPhotos!
 }

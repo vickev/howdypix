@@ -3,12 +3,13 @@ import mkdirp from "mkdirp";
 import { join, parse, relative } from "path";
 import { statSync } from "fs";
 import { ExifImage } from "exif";
-import { ExifData, ProcessData, StatData } from "@howdypix/shared-types";
+import { ExifData, HFile, ProcessData, StatData } from "@howdypix/shared-types";
 import {
   appDebug,
-  howdypixPathJoin,
-  generateThumbnailPaths
+  generateThumbnailPaths,
+  thumbnailPath
 } from "@howdypix/utils";
+import { hfile2path } from "@howdypix/utils";
 
 export async function fetchExif(root: string, path: string): Promise<ExifData> {
   return new Promise((resolve, reject) => {
@@ -45,16 +46,15 @@ export async function fetchStat(root: string, path: string): Promise<StatData> {
 export async function createThumbnails(
   thumbnailsDir: string,
   root: string,
-  path: string,
-  sourceId: string
+  hfile: HFile
 ): Promise<string[]> {
-  const { dir, name } = parse(howdypixPathJoin(thumbnailsDir, sourceId, path));
+  const { dir, name } = parse(thumbnailPath(thumbnailsDir, hfile));
 
   mkdirp.sync(dir);
 
   return Promise.all(
-    generateThumbnailPaths(thumbnailsDir, sourceId, path).map(async data => {
-      await sharp(join(root, path))
+    generateThumbnailPaths(thumbnailsDir, hfile).map(async data => {
+      await sharp(join(root, hfile2path(hfile).toString()))
         .resize(data.width)
         .toFile(data.path);
       return data.path;
@@ -65,9 +65,9 @@ export async function createThumbnails(
 export async function process(
   thumbnailsDir: string,
   root: string,
-  path: string,
-  sourceId: string
+  hfile: HFile
 ): Promise<ProcessData> {
+  const path = hfile2path(hfile).toString();
   let stat: StatData;
   let exif: ExifData;
 
@@ -91,19 +91,13 @@ export async function process(
     exif = {};
   }
 
-  const thumbnails = await createThumbnails(
-    thumbnailsDir,
-    root,
-    path,
-    sourceId
-  );
+  const thumbnails = await createThumbnails(thumbnailsDir, root, hfile);
 
   const data = {
     exif,
     stat,
     thumbnails,
-    sourceId,
-    path,
+    hfile,
     root
   };
 

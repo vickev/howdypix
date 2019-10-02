@@ -1,0 +1,16 @@
+{
+  "extends": "@howdypix/typescript-config/base",
+  "exclude": ["node_modules", "**/*.test.ts"],
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "esModuleInterop": true
+  }
+}

@@ -3,19 +3,13 @@
   "version": "0.1.0",
   "description": "Open-Source Photo Gallery.",
   "main": "index.js",
-  "workspaces": {
-    "packages": [
-      "apps/*",
-      "libs/*",
-      "services/*"
-    ]
-  },
   "repository": "git@github.com:vickev/howdypix.git",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "postinstall": "lerna bootstrap",
+    "postinstall": "lerna bootstrap && yarn link-packages-because-of-lerna",
+    "link-packages-because-of-lerna": "rm node_modules/@typescript-eslint node_modules/typescript ; ln -s ../libs/eslint-config/node_modules/@typescript-eslint/ node_modules/ && ln -s ../libs/eslint-config/node_modules/typescript node_modules/",
     "prettier": "prettier --write packages/**/*.{js,jsx,ts,tsx,json}",
     "clean": "lerna clean -y && rm -rf node_modules",
     "lint": "lerna run lint && lerna run typecheck",

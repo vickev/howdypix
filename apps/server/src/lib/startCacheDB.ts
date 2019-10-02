@@ -8,60 +8,15 @@ import { appDebug, generateThumbnailPaths } from "@howdypix/utils";
 import { statSync, existsSync, unlinkSync } from "fs";
 import { join, parse } from "path";
 import { UserConfigState } from "../state";
-import { Album } from "../entity/Album";
-
-export async function saveAlbumFromPath(
-  event: Events,
-  connection: Connection,
-  path: string,
-  sourceId: string,
-  isDirectory: boolean = false
-): Promise<Album | null> {
-  if (path) {
-    const { dir, name } = parse(path);
-
-    if (isDirectory) {
-      const parent = await saveAlbumFromPath(
-        event,
-        connection,
-        dir,
-        sourceId,
-        true
-      );
-      const albumRepository = connection.getRepository(Album);
-      let album = await albumRepository.findOne({
-        where: { name, path }
-      });
-
-      if (album) {
-        return album;
-      }
-
-      album = new Album();
-      album.sourceId = sourceId;
-      album.path = path;
-      if (parent) {
-        album.parent = parent;
-      }
-
-      appDebug("db")(`Saved album: ${name} (parent: ${parent}).`);
-
-      return await albumRepository.save(album);
-    } else {
-      return await saveAlbumFromPath(event, connection, dir, sourceId, true);
-    }
-  }
-
-  return null;
-}
+import { hjoin } from "@howdypix/utils";
 
 export async function onNewFile(
-  { path, root, sourceId }: EventTypes["newFile"],
+  { root, hfile }: EventTypes["newFile"],
   event: Events,
   connection: Connection,
   userConfig: UserConfigState
 ) {
-  const absolutePath = join(root, path);
+  const absolutePath = join(root, hfile.dir, hfile.file);
   const stat = statSync(absolutePath);
 
   // Check if it exists in the database
@@ -72,8 +27,7 @@ export async function onNewFile(
   if (photo && photo[0] && photo[0].mtime === stat.mtimeMs) {
     const thumbnailsExist: boolean = generateThumbnailPaths(
       userConfig.thumbnailsDir,
-      sourceId,
-      path
+      hfile
     ).reduce(
       (accumulator: boolean, tn) => accumulator && existsSync(tn.path),
       true
@@ -85,11 +39,11 @@ export async function onNewFile(
   }
 
   // Act
-  event.emit("processFile", { path, root, sourceId });
+  event.emit("processFile", { root, hfile });
 }
 
 export async function onRemoveFile(
-  { path, root, sourceId }: EventTypes["newFile"],
+  { root, hfile }: EventTypes["newFile"],
   event: Events,
   connection: Connection,
   userConfig: UserConfigState
@@ -97,14 +51,12 @@ export async function onRemoveFile(
   const photoRepository = connection.getRepository(Photo);
 
   // Remove from database
-  await photoRepository.delete({ root, path, sourceId });
+  await photoRepository.delete(hfile);
 
   // Remove thumbnails
-  generateThumbnailPaths(userConfig.thumbnailsDir, sourceId, path).forEach(
-    tn => {
-      unlinkSync(tn.path);
-    }
-  );
+  generateThumbnailPaths(userConfig.thumbnailsDir, hfile).forEach(tn => {
+    unlinkSync(tn.path);
+  });
 }
 
 export async function onProcessedFile(
@@ -112,13 +64,6 @@ export async function onProcessedFile(
   event: Events,
   connection: Connection
 ) {
-  const album = await saveAlbumFromPath(
-    event,
-    connection,
-    file.path,
-    file.sourceId
-  );
-
   const photo = new Photo();
   photo.make = file.exif.make || "";
   photo.model = file.exif.model || "";
@@ -129,18 +74,15 @@ export async function onProcessedFile(
   photo.ctime = file.stat.ctime;
   photo.birthtime = file.stat.birthtime;
   photo.size = file.stat.size;
-  photo.path = file.path;
-  photo.root = file.root;
-  photo.sourceId = file.sourceId;
-
-  if (album) {
-    photo.album = album;
-  }
+  photo.source = file.hfile.source;
+  photo.parentDir = parse(file.hfile.dir).dir;
+  photo.dir = file.hfile.dir;
+  photo.file = file.hfile.file;
 
   const photoRepository = connection.getRepository(Photo);
 
   await photoRepository.save(photo);
-  appDebug("db")(`Saved ${photo.path}.`);
+  appDebug("db")(`Saved ${hjoin(file.hfile)}.`);
 }
 
 export async function startCacheDB(

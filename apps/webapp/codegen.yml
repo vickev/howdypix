@@ -1,0 +1,13 @@
+overwrite: true
+schema: "./node_modules/@howdypix/graphql-schema/schema.json"
+documents: ./pages/**/*.tsx
+generates:
+  src/__generated__/schema-types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+    config:
+      #avoidOptionals: true
+      declarationKind: "interface"
+      skipTypename: true
+      #enumsAsTypes: true
