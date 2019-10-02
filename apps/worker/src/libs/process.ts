@@ -54,7 +54,7 @@ export async function createThumbnails(
 
   return Promise.all(
     generateThumbnailPaths(thumbnailsDir, hfile).map(async data => {
-      await sharp(join(root, hfile2path(hfile)))
+      await sharp(join(root, hfile2path(hfile).toString()))
         .resize(data.width)
         .toFile(data.path);
       return data.path;
@@ -67,7 +67,7 @@ export async function process(
   root: string,
   hfile: HFile
 ): Promise<ProcessData> {
-  const path = hfile2path(hfile);
+  const path = hfile2path(hfile).toString();
   let stat: StatData;
   let exif: ExifData;
 

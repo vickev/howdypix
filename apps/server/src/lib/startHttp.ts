@@ -1,14 +1,14 @@
 import express from "express";
 import { state } from "../state";
-import { hparse, path2hfile, thumbnailPath } from "@howdypix/utils";
+import { hparse, thumbnailPath } from "@howdypix/utils";
+import { HPathDir } from "@howdypix/shared-types";
 
 export function startHttp(port: number) {
   const app = express();
 
   app.get("/static/*", (req, res) => {
-    res.sendFile(
-      thumbnailPath(state.userConfig.thumbnailsDir, hparse(req.params[0]))
-    );
+    const hpath: HPathDir = req.params[0];
+    res.sendFile(thumbnailPath(state.userConfig.thumbnailsDir, hparse(hpath)));
   });
 
   app.listen({ port }, () => {

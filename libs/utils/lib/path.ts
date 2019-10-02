@@ -1,5 +1,5 @@
 import path from "path";
-import { HFile } from "@howdypix/shared-types";
+import { HFile, HPath } from "@howdypix/shared-types";
 
 /**
  * In Howdypix, we identify the files as such:
@@ -20,7 +20,7 @@ export function hjoin(howdyfile: HFile) {
   return `@${howdyfile.source}:` + path.join(howdyfile.dir, howdyfile.file);
 }
 
-export function hparse(hpath: string): HFile {
+export function hparse(hpath: HPath): HFile {
   const [source, relativePath] = hpath.split(":");
 
   if (!source || !relativePath) {
@@ -39,13 +39,14 @@ export function path2hfile(source: string, relativePath: string): HFile {
   return { source: source, dir, file: base };
 }
 
-export function hfile2path({ dir, file }: HFile): string {
+export function hfile2path({ dir, file }: HFile): HPath {
   return path.join(dir, file);
 }
 
-export function thumbnailPath(root: string, howdyfile: HFile | string) {
-  const { source, dir, file } =
-    typeof howdyfile === "string" ? hparse(howdyfile) : howdyfile;
+export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
+  const { source, dir, file } = howdyfile.hasOwnProperty("dir")
+    ? hparse(howdyfile as HPath)
+    : (howdyfile as HFile);
 
   return path.join(root, ".howdypix", source, dir, file);
 }
