@@ -14,7 +14,7 @@
     "build": "babel src --out-dir build --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@howdypix/shared-types": "^0.1.0",
