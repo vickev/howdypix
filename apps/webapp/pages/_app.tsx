@@ -24,6 +24,15 @@ class MyApp extends App {
         <Head>
           <title>My page</title>
         </Head>
+        <style jsx global>
+          {`
+            html,
+            body,
+            #__next {
+              height: 100%;
+            }
+          `}
+        </style>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
