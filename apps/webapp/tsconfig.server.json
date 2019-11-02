@@ -1,0 +1,5 @@
+{
+  "extends": "@howdypix/typescript-config/base",
+  "include": ["server/**/*.ts"],
+  "compilerOptions": {}
+}

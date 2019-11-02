@@ -1,7 +1,7 @@
 import React from "react";
 import App from "next/app";
 import Head from "next/head";
-import { appWithTranslation } from "../server/i18n";
+import nextI18next from "../server/i18n";
 
 import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -34,4 +34,4 @@ class MyApp extends App {
   }
 }
 
-export default appWithTranslation(MyApp);
+export default nextI18next.appWithTranslation(MyApp);

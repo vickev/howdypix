@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "concurrently 'yarn gql:codegen -w' 'node server/index.js' --kill-others --kill-others-on-fail --raw",
+    "dev": "concurrently 'yarn gql:codegen -w' 'nodemon server/index.ts' --kill-others --kill-others-on-fail --raw",
     "build": "next build",
     "start": "next start",
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -58,11 +58,14 @@
     "@howdypix/typescript-config": "^0.1.0",
     "@testing-library/cypress": "^5.0.2",
     "@types/express": "^4.17.1",
+    "@types/http-proxy-middleware": "^0.19.3",
     "@types/node": "^12.7.8",
     "@types/react": "^16.9.3",
     "@types/testing-library__cypress": "^5.0.1",
     "concurrently": "^4.1.2",
     "cypress": "^3.6.0",
-    "cypress-graphql-mock": "^0.5.0-alpha.4"
+    "cypress-graphql-mock": "^0.5.0-alpha.4",
+    "nodemon": "^1.19.4",
+    "ts-node": "^8.4.1"
   }
 }

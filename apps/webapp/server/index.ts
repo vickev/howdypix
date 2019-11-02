@@ -1,10 +1,12 @@
-const express = require("express");
-const nextI18NextMiddleware = require("next-i18next/middleware").default;
-const nextI18next = require("./i18n");
-const next = require("next");
-const proxy = require("http-proxy-middleware");
-const { serverRuntimeConfig } = require("../next.config");
+import express from "express";
+import nextI18NextMiddleware from "next-i18next/middleware";
+import nextI18next from "./i18n";
+import next from "next";
+import proxy from "http-proxy-middleware";
+// @ts-ignore
+import nextConfig from "../next.config";
 
+const { serverRuntimeConfig } = nextConfig;
 const port = serverRuntimeConfig.port;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -22,7 +24,7 @@ app.prepare().then(() => {
 
   server.get("*", (req, res) => handle(req, res));
 
-  server.listen(port, err => {
+  server.listen(port, (err: any) => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${port}`);
   });
