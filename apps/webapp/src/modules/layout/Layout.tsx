@@ -10,19 +10,6 @@ interface LayoutProps {
   children: React.ReactElement;
 }
 
-const Container2 = styled("div")(props => ({
-  height: "100%",
-  width: "100%",
-  maxWidth: props.theme.breakpoints.values.md,
-  backgroundColor: props.theme.palette.common.white,
-  marginLeft: "auto",
-  marginRight: "auto"
-}));
-
-const Container3 = styled(Container)(props => ({
-  minHeight: "100vh"
-}));
-
 const Layout: React.FC<LayoutProps> = ({
   leftComponent,
   rightComponent,

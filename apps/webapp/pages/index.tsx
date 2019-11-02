@@ -23,34 +23,6 @@ const imageSize = 200;
 const gutter = 4;
 
 //========================================
-// Custom components
-//========================================
-const CustomPaper = styled(Paper)(props => ({
-  padding: props.theme.spacing(4),
-  textAlign: "center"
-}));
-
-const CustomGridList = styled(GridList)(({ theme }) => ({
-  [theme.breakpoints.up("xs")]: {
-    width: imageSize
-  },
-  [theme.breakpoints.up("sm")]: {
-    width: imageSize * 2
-  },
-  [theme.breakpoints.up("md")]: {
-    width: imageSize * 3
-  },
-  [theme.breakpoints.up("lg")]: {
-    width: imageSize * 4
-  },
-  [theme.breakpoints.up("xl")]: {
-    width: imageSize * 5
-  },
-  marginRight: "auto !important",
-  marginLeft: "auto !important"
-}));
-
-//========================================
 // GraphQL queries
 //========================================
 const GET_GREETING = gql`
