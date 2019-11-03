@@ -20,7 +20,7 @@ app.prepare().then(() => {
   const server = express();
 
   server.use(nextI18NextMiddleware(nextI18next));
-  console.log(process.env.NODE_ENV);
+
   if (process.env.NODE_ENV === "test") {
     server.get("/", checkFixturesMiddleware);
     server.use("/graphql", checkFixturesMiddleware, mockedGraphQLMiddleware);
