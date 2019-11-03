@@ -22,6 +22,7 @@ app.prepare().then(() => {
   server.use(nextI18NextMiddleware(nextI18next));
 
   if (process.env.NODE_ENV === "test") {
+    console.log("GraphQL will be mocked 🎊");
     server.get("/", checkFixturesMiddleware);
     server.use("/graphql", checkFixturesMiddleware, mockedGraphQLMiddleware);
   } else {
