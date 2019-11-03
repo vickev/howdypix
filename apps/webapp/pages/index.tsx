@@ -44,7 +44,6 @@ function Hello() {
   >(GET_GREETING);
 
   if (loading) return <p>Loading...</p>;
-  console.log(data);
 
   return (
     <Container maxWidth={"md"}>

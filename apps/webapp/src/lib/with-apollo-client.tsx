@@ -7,6 +7,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
+import { useRouter } from "next/router";
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
@@ -35,7 +36,11 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
     apolloState,
     ...pageProps
   }) => {
-    const client = apolloClient || initApolloClient(apolloState);
+    const router = useRouter();
+    const fixtureSet = router.query["fixture-set"];
+
+    const client =
+      apolloClient || initApolloClient({ ...apolloState, fixtureSet });
     return (
       <ApolloProvider client={client}>
         <PageComponent {...pageProps} />
@@ -57,11 +62,14 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
 
   if (ssr || PageComponent.getInitialProps) {
     WithApollo.getInitialProps = async ctx => {
+      const fixtureSet =
+        // @ts-ignore
+        ctx.req && ctx.req.query && ctx.req.query["fixture-set"];
       const { AppTree } = ctx;
 
       // Initialize ApolloClient, add it to the ctx object so
       // we can use it in `PageComponent.getInitialProp`.
-      const apolloClient = initApolloClient();
+      const apolloClient = initApolloClient({ fixtureSet });
 
       // Run wrapped getInitialProps methods
       let pageProps = {};
@@ -124,7 +132,9 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
  * Creates or reuses apollo client in the browser.
  * @param  {Object} initialState
  */
-function initApolloClient(initialState = {}): ApolloClient<any> {
+function initApolloClient(
+  initialState = { fixtureSet: null }
+): ApolloClient<any> {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (typeof window === "undefined") {
@@ -143,7 +153,15 @@ function initApolloClient(initialState = {}): ApolloClient<any> {
  * Creates and configures the ApolloClient
  * @param  {Object} [initialState={}]
  */
-function createApolloClient(initialState = {}): ApolloClient<any> {
+function createApolloClient(
+  initialState: { fixtureSet: string | null } = { fixtureSet: null }
+): ApolloClient<any> {
+  const headers: { [key: string]: string | null } = {};
+
+  if (initialState.fixtureSet) {
+    headers["Fixture-set"] = initialState.fixtureSet;
+  }
+
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   return new ApolloClient({
     ssrMode: typeof window === "undefined", // Disables forceFetch on the server (so queries are only run once)
@@ -154,8 +172,9 @@ function createApolloClient(initialState = {}): ApolloClient<any> {
           : `http://localhost:${serverRuntimeConfig.port}`
       }/graphql`, // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+      headers,
       fetch
     }),
-    cache: new InMemoryCache().restore(initialState)
+    cache: new InMemoryCache().restore(initialState as any)
   });
 }
