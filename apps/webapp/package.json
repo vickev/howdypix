@@ -11,7 +11,7 @@
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "NODE_ENV=production node dist/index.js",
     "lint": "eslint src/**/*.{ts,tsx}",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --project cypress/tsconfig.json --noEmit",
     "test:e2e": "cypress run",
     "test:e2e:local": "cypress open",
     "test": "jest --passWithNoTests",
