@@ -1,8 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
-import { styled, useTheme } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import { useTheme } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
@@ -41,7 +40,7 @@ const GET_GREETING = gql`
   }
 `;
 
-function Hello() {
+function Homepage() {
   const { t, i18n } = useTranslation("common");
   const theme = useTheme();
   const { loading, error, data } = useQuery<
@@ -71,8 +70,9 @@ function Hello() {
                     <GridListTile
                       style={{ height: imageSize, width: imageSize }}
                       cols={1}
+                      key={photo.thumbnails[1]}
                     >
-                      <img src={photo.thumbnails[1]} />
+                      <img src={photo.thumbnails[1]} alt="image" />
                     </GridListTile>
                   )
               )}
@@ -83,4 +83,8 @@ function Hello() {
   );
 }
 
-export default withApollo(Hello);
+Homepage.getInitialProps = async () => ({
+  namespacesRequired: ["common"]
+});
+
+export default withApollo(Homepage);

@@ -24,6 +24,10 @@ app.prepare().then(() => {
   if (process.env.NODE_ENV === "test") {
     console.log("GraphQL will be mocked 🎊");
     server.get("/", checkFixturesMiddleware);
+    server.use(
+      "/static-tests",
+      express.static(__dirname + "/mock/fixtures/static")
+    );
     server.use("/graphql", checkFixturesMiddleware, mockedGraphQLMiddleware);
   } else {
     server.use(

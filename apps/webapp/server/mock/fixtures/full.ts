@@ -12,9 +12,9 @@ const getAlbum: GetAlbum = params => {
       {
         id: "id1",
         thumbnails: [
-          "http://localhost:3004/static/@main:00100dPORTRAIT_00100_BURST20171224092200820_COVER (1)x600.jpg",
-          "http://localhost:3004/static/@main:00100dPORTRAIT_00100_BURST20171224092200820_COVER (1)x600.jpg",
-          "http://localhost:3004/static/@main:00100dPORTRAIT_00100_BURST20171224092200820_COVER (1)x600.jpg"
+          "http://localhost:3000/static-tests/albert.jpg",
+          "http://localhost:3000/static-tests/albert.jpg",
+          "http://localhost:3000/static-tests/albert.jpg"
         ]
       }
     ]

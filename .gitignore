@@ -9,4 +9,5 @@ lerna-debug.log
 *.sqlite
 .DS_Store
 .next
+videos
 pnpm-debug.log

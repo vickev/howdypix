@@ -2,12 +2,7 @@
   "extends": "@howdypix/typescript-config/base",
   "compilerOptions": {
     "baseUrl": "../node_modules",
-    "types": [
-      "cypress",
-      "node",
-      "@types/testing-library__cypress",
-      "cypress-graphql-mock"
-    ]
+    "types": ["cypress", "node", "@types/testing-library__cypress"]
   },
   "include": ["**/*.ts"]
 }

@@ -9,7 +9,7 @@ const Page: NextPage<ErrorProps> = props => {
 };
 
 Page.getInitialProps = async (ctx: NextPageContext) => {
-  return Error.getInitialProps(ctx);
+  return { ...Error.getInitialProps(ctx), namespacesRequired: ["common"] };
 };
 
 export default Page;
