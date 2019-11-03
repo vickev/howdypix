@@ -8,8 +8,8 @@
   "private": true,
   "scripts": {
     "dev": "concurrently 'yarn gql:codegen -w' 'nodemon server/index.ts' --kill-others --kill-others-on-fail --raw",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "start": "NODE_ENV=production node dist/index.js",
     "lint": "eslint src/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit",
     "test:e2e": "cypress run",

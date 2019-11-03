@@ -1,5 +1,13 @@
 {
   "extends": "@howdypix/typescript-config/base",
+  "exclude": ["node_modules", "**/*.test.ts"],
   "include": ["server/**/*.ts"],
-  "compilerOptions": {}
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "module": "commonjs",
+    "outDir": "dist",
+    "target": "es2017",
+    "isolatedModules": false,
+    "noEmit": false
+  }
 }
