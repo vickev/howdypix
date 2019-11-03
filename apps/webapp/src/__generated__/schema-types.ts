@@ -33,6 +33,7 @@ export interface QueryGetAlbumArgs {
   album?: Maybe<Scalars["String"]>;
   source?: Maybe<Scalars["String"]>;
 }
+
 export type GetAlbumQueryVariables = {};
 
 export type GetAlbumQuery = {
