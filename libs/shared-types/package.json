@@ -8,7 +8,6 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "rm -rf build && tsc",
-    "lint": "eslint *.{ts,tsx}",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

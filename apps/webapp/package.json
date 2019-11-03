@@ -68,8 +68,9 @@
     "concurrently": "^4.1.2",
     "cypress": "^3.6.0",
     "cypress-graphql-mock": "^0.5.0-alpha.4",
+    "eslint": "^6.6.0",
+    "jest": "^24.9.0",
     "nodemon": "^1.19.4",
-    "ts-node": "^8.4.1",
-    "jest": "^24.9.0"
+    "ts-node": "^8.4.1"
   }
 }
