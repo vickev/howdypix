@@ -1,13 +1,12 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
-import { styled, makeStyles } from "@material-ui/core/styles";
-
+import { styled, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import FolderIcon from "@material-ui/icons/Folder";
@@ -17,21 +16,17 @@ import {
   GetAlbumQuery,
   GetAlbumQueryVariables
 } from "../src/__generated__/schema-types";
+import Layout from "../src/modules/layout/Layout";
+import { Divider } from "@material-ui/core";
 
-const CustomPaper = styled(Paper)(props => ({
-  padding: props.theme.spacing(3, 2),
-  textAlign: "left"
-}));
-
-const useStyles = makeStyles(theme => ({
-  margin: {
-    margin: theme.spacing(1)
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1)
-  }
-}));
-
+//========================================
+// Constants
+//========================================
+const imageSize = 200;
+const gutter = 3;
+//========================================
+// GraphQL queries
+//========================================
 const GET_GREETING = gql`
   query GetAlbum {
     getAlbum(source: "main") {
@@ -48,40 +43,60 @@ const GET_GREETING = gql`
   }
 `;
 
-function Hello() {
+function Hello(props: any) {
   const { t, i18n } = useTranslation("common");
+  const theme = useTheme();
   const { loading, error, data } = useQuery<
     GetAlbumQuery,
     GetAlbumQueryVariables
   >(GET_GREETING);
-  const classes = useStyles();
+
+  const getGridListCols = () => {
+    if (isWidthUp("lg", props.width)) {
+      return 4;
+    }
+    if (isWidthUp("md", props.width)) {
+      return 3;
+    }
+    if (isWidthUp("sm", props.width)) {
+      return 2;
+    }
+    return 1;
+  };
 
   if (loading) return <p>Loading...</p>;
   console.log(data);
 
   return (
-    <Container maxWidth={"md"}>
-      <Box p={5}>
-        <CustomPaper>
-          <Typography variant="h4" component="h1" align="center">
+    <Layout>
+      <Box bgcolor={"white"} padding={gutter}>
+        <Box paddingBottom={gutter}>
+          <Typography variant="h3" component="h1">
             Album {data && data.getAlbum.album && data.getAlbum.album.name}
           </Typography>
+        </Box>
+        <Box paddingBottom={gutter}>
           {data &&
             data.getAlbum.albums.map(
               album =>
                 album &&
                 album.name && (
-                  <Button
-                    size="medium"
-                    variant="outlined"
-                    className={classes.margin}
-                  >
-                    <FolderIcon className={classes.extendedIcon} />
-                    {album.name}
-                  </Button>
+                  <Box paddingRight={gutter} component="span">
+                    <Button size="medium" variant="outlined">
+                      <FolderIcon style={{ marginRight: theme.spacing(1) }} />
+                      {album.name}
+                    </Button>
+                  </Box>
                 )
             )}
-          <GridList cellHeight={160} cols={3}>
+        </Box>
+        <Divider variant="fullWidth" />
+        <Box paddingTop={gutter}>
+          <GridList
+            spacing={theme.spacing(gutter)}
+            cellHeight={imageSize}
+            cols={getGridListCols()}
+          >
             {data &&
               data.getAlbum.photos.map(
                 photo =>
@@ -94,10 +109,10 @@ function Hello() {
                   )
               )}
           </GridList>
-        </CustomPaper>
+        </Box>
       </Box>
-    </Container>
+    </Layout>
   );
 }
 
-export default withApollo(Hello);
+export default withWidth()(withApollo(Hello));
