@@ -2,8 +2,10 @@
 
 context("Index page", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit("http://localhost:3000/?fixture-set=full");
   });
 
-  it("cy.window() - get the global window object", () => {});
+  it("should display the pictures.", () => {
+    cy.findAllByAltText("image").should("exist");
+  });
 });

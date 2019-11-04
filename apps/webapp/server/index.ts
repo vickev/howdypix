@@ -21,9 +21,13 @@ app.prepare().then(() => {
 
   server.use(nextI18NextMiddleware(nextI18next));
 
-  if (process.env.NODE_ENV === "test") {
+  if (process.env.NODE_ENV === "test" || process.env.MOCK_GRAPHQL) {
     console.log("GraphQL will be mocked 🎊");
     server.get("/", checkFixturesMiddleware);
+    server.use(
+      "/static-tests",
+      express.static(__dirname + "/mock/fixtures/static")
+    );
     server.use("/graphql", checkFixturesMiddleware, mockedGraphQLMiddleware);
   } else {
     server.use(
@@ -37,8 +41,7 @@ app.prepare().then(() => {
 
   server.get("*", (req, res) => handle(req, res));
 
-  server.listen(port, (err: any) => {
-    if (err) throw err;
+  server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
   });
 });

@@ -172,7 +172,7 @@ function createApolloClient(
           : `http://localhost:${serverRuntimeConfig.port}`
       }/graphql`, // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
-      headers: { "Fixture-set": "full" },
+      headers,
       fetch
     }),
     cache: new InMemoryCache().restore(initialState as any)
