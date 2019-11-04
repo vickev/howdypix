@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "concurrently 'yarn gql:codegen -w' 'nodemon server/index.ts' --kill-others --kill-others-on-fail --raw",
+    "dev": "concurrently 'yarn gql:codegen -w' 'NODE_ENV=developpement nodemon server/index.ts' --kill-others --kill-others-on-fail --raw",
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "NODE_ENV=production node dist/index.js",
     "start:test": "NODE_ENV=production MOCK_GRAPHQL=true node dist/index.js",
