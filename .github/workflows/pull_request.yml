@@ -14,5 +14,9 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Build
         run: yarn build
+      - name: Lint
+        run: yarn lint
+      - name: Tests
+        run: yarn test
       - name: e2e
         run: yarn test:e2e

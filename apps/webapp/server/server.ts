@@ -46,7 +46,7 @@ export function startServer(options: Options) {
 
     server.get("*", (req, res) => handle(req, res));
 
-    server.listen(port, () => {
+    const p = server.listen(port, () => {
       options.startCallback && options.startCallback();
       console.log(`> Ready on http://localhost:${port}`);
     });
