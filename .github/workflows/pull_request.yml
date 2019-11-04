@@ -12,8 +12,6 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Install
         run: yarn install --frozen-lockfile
-      - name: Lint
-        run: yarn lint
       - name: Tests
         run: yarn test
       - name: Build
