@@ -15,14 +15,20 @@
 // eslint-disable-next-line no-unused-vars
 
 const fs = require("fs");
+const { spawn } = require("child_process");
 
 module.exports = (on, config) => {
   on("task", {
-    getSchema() {
-      return fs.readFileSync(
-        require.resolve("@howdypix/graphql-schema/schema.graphql"),
-        "utf8"
-      );
+    async startServer() {
+      return new Promise(resolve => {
+        const yarn = spawn(
+          "/home/anomen/.nvm/versions/node/v12.13.0/bin/yarn start"
+        );
+
+        yarn.stdout.on("data", stdout => {
+          resolve(stdout.toString());
+        });
+      });
     }
   });
 };
