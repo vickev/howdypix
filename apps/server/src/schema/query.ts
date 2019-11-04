@@ -4,7 +4,7 @@ import { createConnection, Like } from "typeorm";
 import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
-import config from "config";
+import config from "../config";
 import { parse } from "path";
 
 export const GetPhotos = objectType({
@@ -70,10 +70,9 @@ export const Query = queryField("getAlbum", {
     return {
       photos: photos.map(photo => ({
         id: photo.id.toString(),
-        thumbnails: generateThumbnailUrls(
-          config.get("serverHttp.baseUrl"),
-          photo
-        ).map(tn => tn.url)
+        thumbnails: generateThumbnailUrls(config.serverHttp.baseUrl, photo).map(
+          tn => tn.url
+        )
       })),
       albums: albums
         .map(album => ({ ...album, name: parse(album.dir).base }))

@@ -14,15 +14,4 @@
 // Cypress requires those options to be defined else it crashes, even if unused
 // eslint-disable-next-line no-unused-vars
 
-const fs = require("fs");
-
-module.exports = (on, config) => {
-  on("task", {
-    getSchema() {
-      return fs.readFileSync(
-        require.resolve("@howdypix/graphql-schema/schema.graphql"),
-        "utf8"
-      );
-    }
-  });
-};
+module.exports = (on, config) => {};

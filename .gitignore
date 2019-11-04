@@ -10,4 +10,4 @@ lerna-debug.log
 .DS_Store
 .next
 videos
-pnpm-debug.log
+.env

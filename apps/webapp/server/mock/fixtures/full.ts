@@ -1,4 +1,8 @@
 import { NexusGenTypes } from "@howdypix/graphql-schema/schema";
+// @ts-ignore
+import nextConfig from "../../../next.config";
+
+const { serverRuntimeConfig } = nextConfig;
 
 type GetAlbum = (
   params: NexusGenTypes["argTypes"]["Query"]["getAlbum"]
@@ -12,9 +16,9 @@ const getAlbum: GetAlbum = params => {
       {
         id: "id1",
         thumbnails: [
-          "http://localhost:3000/static-tests/albert.jpg",
-          "http://localhost:3000/static-tests/albert.jpg",
-          "http://localhost:3000/static-tests/albert.jpg"
+          `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+          `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+          `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
         ]
       }
     ]
