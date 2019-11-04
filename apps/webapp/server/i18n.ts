@@ -3,7 +3,7 @@
   to manage end-to-end test suites.
 */
 
-const NextI18Next = require("next-i18next").default;
+import NextI18Next from "next-i18next";
 
 const localeSubpathVariations = {
   none: {},
@@ -16,7 +16,7 @@ const localeSubpathVariations = {
   }
 };
 
-module.exports = new NextI18Next({
+export default new NextI18Next({
   defaultLanguage: "en",
   otherLanguages: ["fr"],
   localeSubpaths: localeSubpathVariations["none"],
