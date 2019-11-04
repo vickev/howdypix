@@ -14,21 +14,4 @@
 // Cypress requires those options to be defined else it crashes, even if unused
 // eslint-disable-next-line no-unused-vars
 
-const fs = require("fs");
-const { spawn } = require("child_process");
-
-module.exports = (on, config) => {
-  on("task", {
-    async startServer() {
-      return new Promise(resolve => {
-        const yarn = spawn(
-          "/home/anomen/.nvm/versions/node/v12.13.0/bin/yarn start"
-        );
-
-        yarn.stdout.on("data", stdout => {
-          resolve(stdout.toString());
-        });
-      });
-    }
-  });
-};
+module.exports = (on, config) => {};
