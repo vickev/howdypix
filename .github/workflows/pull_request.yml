@@ -11,7 +11,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install
       - name: Lint
         run: yarn lint
       - name: Tests
