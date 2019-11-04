@@ -10,9 +10,10 @@
     "dev": "concurrently 'yarn gql:codegen -w' 'nodemon server/index.ts' --kill-others --kill-others-on-fail --raw",
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "NODE_ENV=production node dist/index.js",
+    "start:test": "NODE_ENV=production MOCK_GRAPHQL=true node dist/index.js",
     "lint": "eslint src/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit && tsc --project cypress/tsconfig.json --noEmit",
-    "test:e2e": "cypress run",
+    "test:e2e": "concurrently 'yarn start:test' 'wait-on tcp:3000 && cypress run' --kill-others --kill-others-on-fail --raw --success first",
     "test:e2e:local": "cypress open",
     "test": "jest --passWithNoTests",
     "gql:codegen": "graphql-codegen --config codegen.yml"
@@ -72,6 +73,7 @@
     "eslint": "^6.6.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
-    "ts-node": "^8.4.1"
+    "ts-node": "^8.4.1",
+    "wait-on": "^3.3.0"
   }
 }
