@@ -1,3 +1,5 @@
-# @howdypix/service-rabbitmq
+# @howdypix/service-mailhog
 
-Runs the RabbitMQ process, that is mandatory to communicate between the server and the workers.
+Runs the a SMTP server to develop more easily with emails.
+
+Check the documentation here: https://github.com/mailhog/MailHog

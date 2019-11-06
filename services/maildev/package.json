@@ -1,5 +1,5 @@
 {
-  "name": "@howdypix/service-maildev",
+  "name": "@howdypix/service-mailhog",
   "version": "0.1.0",
   "description": "Run a SMTP server with a UI interface.",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
