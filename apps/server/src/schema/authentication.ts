@@ -1,5 +1,4 @@
 import { enumType, mutationField, objectType, stringArg } from "nexus";
-import { MessageId } from "@howdypix/shared-types";
 import { createTransport } from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
 import { state } from "../state";
