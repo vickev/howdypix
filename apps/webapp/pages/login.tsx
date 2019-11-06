@@ -73,7 +73,7 @@ function Login() {
     >
       <CustomPaper>
         <Typography variant="h4" component="h3" align="center">
-          {/* TODO translation */} Authentication
+          {t("auth.title")}
         </Typography>
         <Box my={4} textAlign="center">
           <Divider variant="fullWidth" />
@@ -88,7 +88,7 @@ function Login() {
         >
           <Box display="flex" flexDirection="column">
             <CustomTextField
-              label="Email address"
+              label={t("auth.email")}
               InputLabelProps={{
                 shrink: true
               }}
@@ -106,7 +106,7 @@ function Login() {
                 type="submit"
                 disabled={loading}
               >
-                Next
+                {t("auth.next")}
               </NextButton>
             </Box>
             {errorMessageId && (

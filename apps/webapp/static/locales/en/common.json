@@ -1,4 +1,9 @@
 {
   "AUTH_EMAIL_ERR_NOT_EXIST": "Please enter an authorized email address.",
-  "AUTH_EMAIL_ERR": "An error occurred while sending the magic link."
+  "AUTH_EMAIL_ERR": "An error occurred while sending the magic link.",
+  "auth": {
+    "title": "Authentication",
+    "next": "Next",
+    "email": "Email address"
+  }
 }
