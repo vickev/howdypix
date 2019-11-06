@@ -1,0 +1,11 @@
+{
+  "name": "@howdypix/service-maildev",
+  "version": "0.1.0",
+  "description": "Run a SMTP server with a UI interface.",
+  "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "cd scripts && ./dev.sh"
+  }
+}

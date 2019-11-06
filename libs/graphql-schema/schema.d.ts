@@ -24,12 +24,17 @@ export interface NexusGenRootTypes {
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
   };
+  Mutation: {};
   Photo: {
     // root type
     id: string; // ID!
     thumbnails: Array<string | null>; // [String]!
   };
   Query: {};
+  SendEmailType: {
+    // root type
+    messageId: string; // String!
+  };
   String: string;
   Int: number;
   Float: number;
@@ -52,6 +57,10 @@ export interface NexusGenFieldTypes {
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
   };
+  Mutation: {
+    // field return type
+    sendEmail: NexusGenRootTypes["SendEmailType"]; // SendEmailType!
+  };
   Photo: {
     // field return type
     id: string; // ID!
@@ -61,9 +70,19 @@ export interface NexusGenFieldTypes {
     // field return type
     getAlbum: NexusGenRootTypes["GetPhotos"]; // GetPhotos!
   };
+  SendEmailType: {
+    // field return type
+    messageId: string; // String!
+  };
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    sendEmail: {
+      // args
+      email?: string | null; // String
+    };
+  };
   Query: {
     getAlbum: {
       // args
@@ -77,7 +96,13 @@ export interface NexusGenAbstractResolveReturnTypes {}
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Album" | "GetPhotos" | "Photo" | "Query";
+export type NexusGenObjectNames =
+  | "Album"
+  | "GetPhotos"
+  | "Mutation"
+  | "Photo"
+  | "Query"
+  | "SendEmailType";
 
 export type NexusGenInputNames = never;
 

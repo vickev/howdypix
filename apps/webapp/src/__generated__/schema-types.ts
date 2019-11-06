@@ -20,6 +20,14 @@ export interface GetPhotos {
   photos: Array<Maybe<Photo>>;
 }
 
+export interface Mutation {
+  sendEmail: SendEmailType;
+}
+
+export interface MutationSendEmailArgs {
+  email?: Maybe<Scalars["String"]>;
+}
+
 export interface Photo {
   id: Scalars["ID"];
   thumbnails: Array<Maybe<Scalars["String"]>>;
@@ -34,6 +42,10 @@ export interface QueryGetAlbumArgs {
   source?: Maybe<Scalars["String"]>;
 }
 
+export interface SendEmailType {
+  messageId: Scalars["String"];
+}
+
 export type GetAlbumQueryVariables = {};
 
 export type GetAlbumQuery = {
@@ -43,3 +55,9 @@ export type GetAlbumQuery = {
     albums: Array<Pick<Album, "name">>;
   };
 };
+
+export type SendEmailMutationVariables = {
+  email: Scalars["String"];
+};
+
+export type SendEmailMutation = { sendEmail: Pick<SendEmailType, "messageId"> };

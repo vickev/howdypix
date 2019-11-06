@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@material-ui/core/styles";
@@ -21,22 +21,17 @@ import { Divider, styled } from "@material-ui/core";
 //========================================
 // GraphQL queries
 //========================================
-const GET_GREETING = gql`
-  query GetAlbum {
-    getAlbum(source: "main") {
-      album {
-        name
-      }
-      photos {
-        thumbnails
-      }
-      albums {
-        name
-      }
+const SEND_EMAIL = gql`
+  mutation SendEmail($email: String!) {
+    sendEmail(email: $email) {
+      messageId
     }
   }
 `;
 
+//========================================
+// Styled components
+//========================================
 const CustomPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5, 6)
 }));
@@ -49,9 +44,16 @@ const NextButton = styled(Button)(({ theme }) => ({
   width: "100%"
 }));
 
+//========================================
+// Main Component
+//========================================
 function Login() {
   const { t, i18n } = useTranslation("common");
   const theme = useTheme();
+
+  let input: HTMLInputElement;
+
+  const [sendEmail, { data }] = useMutation(SEND_EMAIL);
 
   return (
     <Box
@@ -67,7 +69,13 @@ function Login() {
         <Box my={4} textAlign="center">
           <Divider variant="fullWidth" />
         </Box>
-        <form>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            sendEmail({ variables: { email: input.value } });
+            input.value = "";
+          }}
+        >
           <Box display="flex" flexDirection="column">
             <Box textAlign="center">
               <CustomTextField
@@ -77,10 +85,13 @@ function Login() {
                 }}
                 variant="outlined"
                 margin="dense"
+                inputRef={node => {
+                  input = node;
+                }}
               />
             </Box>
             <Box mt={2}>
-              <NextButton variant="contained" color="primary">
+              <NextButton variant="contained" color="primary" type="submit">
                 Next
               </NextButton>
             </Box>

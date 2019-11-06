@@ -36,3 +36,8 @@ export enum QueueName {
   TO_PROCESS = "toProcess",
   PROCESSED = "processed"
 }
+
+export enum MessageId {
+  AUTH_EMAIL_OK = "AUTH_EMAIL_OK",
+  AUTH_EMAIL_ERR = "AUTH_EMAIL_ERR"
+}

@@ -14,6 +14,10 @@ type GetPhotos {
   photos: [Photo]!
 }
 
+type Mutation {
+  sendEmail(email: String): SendEmailType!
+}
+
 type Photo {
   id: ID!
   thumbnails: [String]!
@@ -21,4 +25,8 @@ type Photo {
 
 type Query {
   getAlbum(album: String, source: String): GetPhotos!
+}
+
+type SendEmailType {
+  messageId: String!
 }
