@@ -9,7 +9,12 @@ declare global {
 
 export interface NexusGenInputs {}
 
-export interface NexusGenEnums {}
+export interface NexusGenEnums {
+  SendEmailMessage:
+    | "AUTH_EMAIL_ERR"
+    | "AUTH_EMAIL_ERR_NOT_EXIST"
+    | "AUTH_EMAIL_OK";
+}
 
 export interface NexusGenRootTypes {
   Album: {
@@ -33,7 +38,7 @@ export interface NexusGenRootTypes {
   Query: {};
   SendEmailType: {
     // root type
-    messageId: string; // String!
+    messageId: NexusGenEnums["SendEmailMessage"]; // SendEmailMessage!
   };
   String: string;
   Int: number;
@@ -42,7 +47,9 @@ export interface NexusGenRootTypes {
   ID: string;
 }
 
-export interface NexusGenAllTypes extends NexusGenRootTypes {}
+export interface NexusGenAllTypes extends NexusGenRootTypes {
+  SendEmailMessage: NexusGenEnums["SendEmailMessage"];
+}
 
 export interface NexusGenFieldTypes {
   Album: {
@@ -72,7 +79,7 @@ export interface NexusGenFieldTypes {
   };
   SendEmailType: {
     // field return type
-    messageId: string; // String!
+    messageId: NexusGenEnums["SendEmailMessage"]; // SendEmailMessage!
   };
 }
 
@@ -106,7 +113,7 @@ export type NexusGenObjectNames =
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = "SendEmailMessage";
 
 export type NexusGenInterfaceNames = never;
 

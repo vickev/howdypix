@@ -1,4 +1,4 @@
-import { mutationField, objectType, stringArg } from "nexus";
+import { enumType, mutationField, objectType, stringArg } from "nexus";
 import { MessageId } from "@howdypix/shared-types";
 import { createTransport } from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
@@ -7,10 +7,17 @@ import { find } from "lodash";
 import { NexusGenFieldTypes } from "@howdypix/graphql-schema/schema";
 import { magickLink } from "../email";
 
+export const SendEmailMessage = enumType({
+  name: "SendEmailMessage",
+  members: ["AUTH_EMAIL_OK", "AUTH_EMAIL_ERR_NOT_EXIST", "AUTH_EMAIL_ERR"],
+  description:
+    "The type of message that the user can get when requesting a magic link."
+});
+
 export const SendEmailType = objectType({
   name: "SendEmailType",
   definition(t) {
-    t.field("messageId", { type: "String" });
+    t.field("messageId", { type: "SendEmailMessage" });
   }
 });
 
@@ -41,20 +48,19 @@ export const sendEmail = mutationField("sendEmail", {
           },
           (error, info) => {
             if (error) {
-              console.log(error);
               resolve({
-                messageId: MessageId.AUTH_EMAIL_ERR
+                messageId: "AUTH_EMAIL_ERR"
               });
             } else {
               resolve({
-                messageId: MessageId.AUTH_EMAIL_OK
+                messageId: "AUTH_EMAIL_OK"
               });
             }
           }
         );
       } else {
         resolve({
-          messageId: MessageId.AUTH_EMAIL_ERR
+          messageId: "AUTH_EMAIL_ERR_NOT_EXIST"
         });
       }
     })

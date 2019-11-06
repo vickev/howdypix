@@ -2,8 +2,6 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@material-ui/core/styles";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -12,10 +10,9 @@ import TextField from "@material-ui/core/TextField";
 
 import { withApollo } from "../src/lib/with-apollo-client";
 import {
-  GetAlbumQuery,
-  GetAlbumQueryVariables
+  SendEmailMutation,
+  SendEmailMutationVariables
 } from "../src/__generated__/schema-types";
-import Layout from "../src/modules/layout/Layout";
 import { Divider, styled } from "@material-ui/core";
 
 //========================================
@@ -53,7 +50,19 @@ function Login() {
 
   let input: HTMLInputElement;
 
-  const [sendEmail, { data }] = useMutation(SEND_EMAIL);
+  // @TODO Rename sendEmail to something more meaningful
+  const [sendEmail, { data, loading, error }] = useMutation<
+    SendEmailMutation,
+    SendEmailMutationVariables
+  >(SEND_EMAIL);
+
+  const messageId = data && data.sendEmail && data.sendEmail.messageId;
+
+  // TODO Debug a better message when there is a AUTH_EMAIL_ERR
+  const errorMessageId =
+    messageId === "AUTH_EMAIL_ERR" || messageId === "AUTH_EMAIL_ERR_NOT_EXIST"
+      ? messageId
+      : null;
 
   return (
     <Box
@@ -64,7 +73,7 @@ function Login() {
     >
       <CustomPaper>
         <Typography variant="h4" component="h3" align="center">
-          Authentication
+          {/* TODO translation */} Authentication
         </Typography>
         <Box my={4} textAlign="center">
           <Divider variant="fullWidth" />
@@ -73,28 +82,38 @@ function Login() {
           onSubmit={e => {
             e.preventDefault();
             sendEmail({ variables: { email: input.value } });
+            // TODO redirect to the next form
             input.value = "";
           }}
         >
           <Box display="flex" flexDirection="column">
-            <Box textAlign="center">
-              <CustomTextField
-                label="Email address"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                variant="outlined"
-                margin="dense"
-                inputRef={node => {
-                  input = node;
-                }}
-              />
-            </Box>
-            <Box mt={2}>
-              <NextButton variant="contained" color="primary" type="submit">
+            <CustomTextField
+              label="Email address"
+              InputLabelProps={{
+                shrink: true
+              }}
+              variant="outlined"
+              margin="dense"
+              inputRef={node => {
+                input = node;
+              }}
+              disabled={loading}
+            />
+            <Box my={2}>
+              <NextButton
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={loading}
+              >
                 Next
               </NextButton>
             </Box>
+            {errorMessageId && (
+              <Typography align="center" color={"error"}>
+                {t(errorMessageId)}
+              </Typography>
+            )}
           </Box>
         </form>
       </CustomPaper>

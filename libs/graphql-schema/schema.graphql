@@ -27,6 +27,15 @@ type Query {
   getAlbum(album: String, source: String): GetPhotos!
 }
 
+"""
+The type of message that the user can get when requesting a magic link.
+"""
+enum SendEmailMessage {
+  AUTH_EMAIL_ERR
+  AUTH_EMAIL_ERR_NOT_EXIST
+  AUTH_EMAIL_OK
+}
+
 type SendEmailType {
-  messageId: String!
+  messageId: SendEmailMessage!
 }

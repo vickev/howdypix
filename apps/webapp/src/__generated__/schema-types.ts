@@ -42,8 +42,15 @@ export interface QueryGetAlbumArgs {
   source?: Maybe<Scalars["String"]>;
 }
 
+/** The type of message that the user can get when requesting a magic link. */
+export enum SendEmailMessage {
+  AuthEmailErr = "AUTH_EMAIL_ERR",
+  AuthEmailErrNotExist = "AUTH_EMAIL_ERR_NOT_EXIST",
+  AuthEmailOk = "AUTH_EMAIL_OK"
+}
+
 export interface SendEmailType {
-  messageId: Scalars["String"];
+  messageId: SendEmailMessage;
 }
 
 export type GetAlbumQueryVariables = {};
