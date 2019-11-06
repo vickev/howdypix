@@ -1,7 +1,7 @@
 import mjml2html from "mjml";
 import { routes } from "@howdypix/utils";
 
-export const magickLink = ({
+export const magicLink = ({
   name = "Foo Bar",
   code = "1234"
 }: {

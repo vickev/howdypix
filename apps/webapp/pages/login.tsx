@@ -88,7 +88,6 @@ function Login() {
             e.preventDefault();
             authEmail({ variables: { email: input.value } });
             // TODO redirect to the next form
-            input.value = "";
           }}
         >
           <Box display="flex" flexDirection="column">

@@ -1,9 +1,12 @@
-import { enumType, mutationField, objectType, stringArg } from "nexus";
+import { arg, enumType, mutationField, objectType, stringArg } from "nexus";
 import { createTransport } from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
 import { state } from "../state";
 import { NexusGenFieldTypes } from "@howdypix/graphql-schema/schema";
-import { magickLink } from "../email";
+import { magicLink } from "../email";
+import { appDebug } from "@howdypix/utils";
+
+const debug = appDebug("gql:auth");
 
 export const AuthEmailMessage = enumType({
   name: "AuthEmailMessage",
@@ -29,6 +32,12 @@ export const authEmail = mutationField("authEmail", {
     new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(resolve => {
       const user = state.userConfig.users.find(u => u.email == args.email);
 
+      debug(
+        `Authentication requested: ${args.email} - user found: ${(user &&
+          user.name) ||
+          "none"}`
+      );
+
       if (user) {
         const transporter = createTransport(
           smtpTransport({
@@ -38,19 +47,27 @@ export const authEmail = mutationField("authEmail", {
           })
         );
 
+        const mailOptions = {
+          from: `${state.userConfig.emailSender.name}<${state.userConfig.emailSender.email}>`,
+          to: `${user.name}<${user.email}>`
+        };
+
+        debug("Send email", mailOptions);
+
         transporter.sendMail(
           {
-            from: `${state.userConfig.emailSender.name}<${state.userConfig.emailSender.email}>`,
-            to: `${user.name}<${user.email}>`,
-            html: magickLink({ code: "123", name: user.name })
+            ...mailOptions,
+            html: magicLink({ code: "123", name: user.name })
           },
           (error, info) => {
             if (error) {
+              debug("Error sending the email", error.message);
               resolve({
                 messageId: "AUTH_EMAIL_ERR",
                 messageData: error.message
               });
             } else {
+              debug(`Email sent successfully to ${user.email}.`);
               resolve({
                 messageId: "AUTH_EMAIL_OK"
               });

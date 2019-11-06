@@ -1,1 +1,1 @@
-export * from "./magickLink";
+export * from "./magicLink";
