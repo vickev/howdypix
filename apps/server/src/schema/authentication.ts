@@ -2,33 +2,32 @@ import { enumType, mutationField, objectType, stringArg } from "nexus";
 import { createTransport } from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
 import { state } from "../state";
-import { find } from "lodash";
 import { NexusGenFieldTypes } from "@howdypix/graphql-schema/schema";
 import { magickLink } from "../email";
 
-export const SendEmailMessage = enumType({
-  name: "SendEmailMessage",
+export const AuthEmailMessage = enumType({
+  name: "AuthEmailMessage",
   members: ["AUTH_EMAIL_OK", "AUTH_EMAIL_ERR_NOT_EXIST", "AUTH_EMAIL_ERR"],
   description:
     "The type of message that the user can get when requesting a magic link."
 });
 
-export const SendEmailType = objectType({
-  name: "SendEmailType",
+export const AuthEmailType = objectType({
+  name: "AuthEmailType",
   definition(t) {
-    t.field("messageId", { type: "SendEmailMessage" });
+    t.field("messageId", { type: "AuthEmailMessage" });
+    t.field("messageData", { type: "String", nullable: true });
   }
 });
 
-export const sendEmail = mutationField("sendEmail", {
-  type: "SendEmailType",
+export const authEmail = mutationField("authEmail", {
+  type: "AuthEmailType",
   args: {
     email: stringArg()
   },
   resolve: async (root, args) =>
-    new Promise<NexusGenFieldTypes["Mutation"]["sendEmail"]>(resolve => {
-      const user = find(state.userConfig.users, u => u.email == args.email);
-      console.log(user);
+    new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(resolve => {
+      const user = state.userConfig.users.find(u => u.email == args.email);
 
       if (user) {
         const transporter = createTransport(
@@ -48,7 +47,8 @@ export const sendEmail = mutationField("sendEmail", {
           (error, info) => {
             if (error) {
               resolve({
-                messageId: "AUTH_EMAIL_ERR"
+                messageId: "AUTH_EMAIL_ERR",
+                messageData: error.message
               });
             } else {
               resolve({

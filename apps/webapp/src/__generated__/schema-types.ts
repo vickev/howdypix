@@ -14,6 +14,18 @@ export interface Album {
   source: Scalars["String"];
 }
 
+/** The type of message that the user can get when requesting a magic link. */
+export enum AuthEmailMessage {
+  AuthEmailErr = "AUTH_EMAIL_ERR",
+  AuthEmailErrNotExist = "AUTH_EMAIL_ERR_NOT_EXIST",
+  AuthEmailOk = "AUTH_EMAIL_OK"
+}
+
+export interface AuthEmailType {
+  messageData?: Maybe<Scalars["String"]>;
+  messageId: AuthEmailMessage;
+}
+
 export interface GetPhotos {
   album?: Maybe<Album>;
   albums: Array<Album>;
@@ -21,10 +33,10 @@ export interface GetPhotos {
 }
 
 export interface Mutation {
-  sendEmail: SendEmailType;
+  authEmail: AuthEmailType;
 }
 
-export interface MutationSendEmailArgs {
+export interface MutationAuthEmailArgs {
   email?: Maybe<Scalars["String"]>;
 }
 
@@ -42,17 +54,6 @@ export interface QueryGetAlbumArgs {
   source?: Maybe<Scalars["String"]>;
 }
 
-/** The type of message that the user can get when requesting a magic link. */
-export enum SendEmailMessage {
-  AuthEmailErr = "AUTH_EMAIL_ERR",
-  AuthEmailErrNotExist = "AUTH_EMAIL_ERR_NOT_EXIST",
-  AuthEmailOk = "AUTH_EMAIL_OK"
-}
-
-export interface SendEmailType {
-  messageId: SendEmailMessage;
-}
-
 export type GetAlbumQueryVariables = {};
 
 export type GetAlbumQuery = {
@@ -63,8 +64,10 @@ export type GetAlbumQuery = {
   };
 };
 
-export type SendEmailMutationVariables = {
+export type AuthEmailMutationVariables = {
   email: Scalars["String"];
 };
 
-export type SendEmailMutation = { sendEmail: Pick<SendEmailType, "messageId"> };
+export type AuthEmailMutation = {
+  authEmail: Pick<AuthEmailType, "messageId" | "messageData">;
+};

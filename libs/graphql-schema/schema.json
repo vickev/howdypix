@@ -215,7 +215,7 @@
         "description": null,
         "fields": [
           {
-            "name": "sendEmail",
+            "name": "authEmail",
             "description": null,
             "args": [
               {
@@ -230,7 +230,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "SendEmailType",
+                "name": "AuthEmailType",
                 "ofType": null
               }
             },
@@ -245,9 +245,17 @@
       },
       {
         "kind": "OBJECT",
-        "name": "SendEmailType",
+        "name": "AuthEmailType",
         "description": null,
         "fields": [
+          {
+            "name": "messageData",
+            "description": null,
+            "args": [],
+            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "messageId",
             "description": null,
@@ -257,7 +265,7 @@
               "name": null,
               "ofType": {
                 "kind": "ENUM",
-                "name": "SendEmailMessage",
+                "name": "AuthEmailMessage",
                 "ofType": null
               }
             },
@@ -272,7 +280,7 @@
       },
       {
         "kind": "ENUM",
-        "name": "SendEmailMessage",
+        "name": "AuthEmailMessage",
         "description": "The type of message that the user can get when requesting a magic link.",
         "fields": null,
         "inputFields": null,

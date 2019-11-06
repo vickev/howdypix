@@ -10,7 +10,7 @@ declare global {
 export interface NexusGenInputs {}
 
 export interface NexusGenEnums {
-  SendEmailMessage:
+  AuthEmailMessage:
     | "AUTH_EMAIL_ERR"
     | "AUTH_EMAIL_ERR_NOT_EXIST"
     | "AUTH_EMAIL_OK";
@@ -22,6 +22,11 @@ export interface NexusGenRootTypes {
     dir: string; // String!
     name: string; // String!
     source: string; // String!
+  };
+  AuthEmailType: {
+    // root type
+    messageData?: string | null; // String
+    messageId: NexusGenEnums["AuthEmailMessage"]; // AuthEmailMessage!
   };
   GetPhotos: {
     // root type
@@ -36,10 +41,6 @@ export interface NexusGenRootTypes {
     thumbnails: Array<string | null>; // [String]!
   };
   Query: {};
-  SendEmailType: {
-    // root type
-    messageId: NexusGenEnums["SendEmailMessage"]; // SendEmailMessage!
-  };
   String: string;
   Int: number;
   Float: number;
@@ -48,7 +49,7 @@ export interface NexusGenRootTypes {
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
-  SendEmailMessage: NexusGenEnums["SendEmailMessage"];
+  AuthEmailMessage: NexusGenEnums["AuthEmailMessage"];
 }
 
 export interface NexusGenFieldTypes {
@@ -58,6 +59,11 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     source: string; // String!
   };
+  AuthEmailType: {
+    // field return type
+    messageData: string | null; // String
+    messageId: NexusGenEnums["AuthEmailMessage"]; // AuthEmailMessage!
+  };
   GetPhotos: {
     // field return type
     album: NexusGenRootTypes["Album"] | null; // Album
@@ -66,7 +72,7 @@ export interface NexusGenFieldTypes {
   };
   Mutation: {
     // field return type
-    sendEmail: NexusGenRootTypes["SendEmailType"]; // SendEmailType!
+    authEmail: NexusGenRootTypes["AuthEmailType"]; // AuthEmailType!
   };
   Photo: {
     // field return type
@@ -77,15 +83,11 @@ export interface NexusGenFieldTypes {
     // field return type
     getAlbum: NexusGenRootTypes["GetPhotos"]; // GetPhotos!
   };
-  SendEmailType: {
-    // field return type
-    messageId: NexusGenEnums["SendEmailMessage"]; // SendEmailMessage!
-  };
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    sendEmail: {
+    authEmail: {
       // args
       email?: string | null; // String
     };
@@ -105,15 +107,15 @@ export interface NexusGenInheritedFields {}
 
 export type NexusGenObjectNames =
   | "Album"
+  | "AuthEmailType"
   | "GetPhotos"
   | "Mutation"
   | "Photo"
-  | "Query"
-  | "SendEmailType";
+  | "Query";
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = "SendEmailMessage";
+export type NexusGenEnumNames = "AuthEmailMessage";
 
 export type NexusGenInterfaceNames = never;
 

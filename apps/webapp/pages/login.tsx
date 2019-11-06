@@ -10,18 +10,19 @@ import TextField from "@material-ui/core/TextField";
 
 import { withApollo } from "../src/lib/with-apollo-client";
 import {
-  SendEmailMutation,
-  SendEmailMutationVariables
+  AuthEmailMutation,
+  AuthEmailMutationVariables
 } from "../src/__generated__/schema-types";
 import { Divider, styled } from "@material-ui/core";
 
 //========================================
 // GraphQL queries
 //========================================
-const SEND_EMAIL = gql`
-  mutation SendEmail($email: String!) {
-    sendEmail(email: $email) {
+const AUTH_EMAIL = gql`
+  mutation AuthEmail($email: String!) {
+    authEmail(email: $email) {
       messageId
+      messageData
     }
   }
 `;
@@ -34,7 +35,8 @@ const CustomPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
-  width: 300
+  width: "100%",
+  minWidth: 300
 }));
 
 const NextButton = styled(Button)(({ theme }) => ({
@@ -50,19 +52,22 @@ function Login() {
 
   let input: HTMLInputElement;
 
-  // @TODO Rename sendEmail to something more meaningful
-  const [sendEmail, { data, loading, error }] = useMutation<
-    SendEmailMutation,
-    SendEmailMutationVariables
-  >(SEND_EMAIL);
+  const [authEmail, { data, loading, error }] = useMutation<
+    AuthEmailMutation,
+    AuthEmailMutationVariables
+  >(AUTH_EMAIL);
 
-  const messageId = data && data.sendEmail && data.sendEmail.messageId;
+  const messageId = data && data.authEmail && data.authEmail.messageId;
+  const messageData = data && data.authEmail && data.authEmail.messageData;
 
-  // TODO Debug a better message when there is a AUTH_EMAIL_ERR
   const errorMessageId =
     messageId === "AUTH_EMAIL_ERR" || messageId === "AUTH_EMAIL_ERR_NOT_EXIST"
       ? messageId
       : null;
+
+  if (messageData) {
+    console.log(messageData);
+  }
 
   return (
     <Box
@@ -81,7 +86,7 @@ function Login() {
         <form
           onSubmit={e => {
             e.preventDefault();
-            sendEmail({ variables: { email: input.value } });
+            authEmail({ variables: { email: input.value } });
             // TODO redirect to the next form
             input.value = "";
           }}

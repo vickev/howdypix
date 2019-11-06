@@ -8,6 +8,20 @@ type Album {
   source: String!
 }
 
+"""
+The type of message that the user can get when requesting a magic link.
+"""
+enum AuthEmailMessage {
+  AUTH_EMAIL_ERR
+  AUTH_EMAIL_ERR_NOT_EXIST
+  AUTH_EMAIL_OK
+}
+
+type AuthEmailType {
+  messageData: String
+  messageId: AuthEmailMessage!
+}
+
 type GetPhotos {
   album: Album
   albums: [Album!]!
@@ -15,7 +29,7 @@ type GetPhotos {
 }
 
 type Mutation {
-  sendEmail(email: String): SendEmailType!
+  authEmail(email: String): AuthEmailType!
 }
 
 type Photo {
@@ -25,17 +39,4 @@ type Photo {
 
 type Query {
   getAlbum(album: String, source: String): GetPhotos!
-}
-
-"""
-The type of message that the user can get when requesting a magic link.
-"""
-enum SendEmailMessage {
-  AUTH_EMAIL_ERR
-  AUTH_EMAIL_ERR_NOT_EXIST
-  AUTH_EMAIL_OK
-}
-
-type SendEmailType {
-  messageId: SendEmailMessage!
 }
