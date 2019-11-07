@@ -1,4 +1,4 @@
-import * as full from "./full";
-import * as empty from "./empty";
+import full from "./full";
+import empty from "./empty";
 
-export { full, empty };
+export default { full, empty };

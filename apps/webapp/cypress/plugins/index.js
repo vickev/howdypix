@@ -14,4 +14,9 @@
 // Cypress requires those options to be defined else it crashes, even if unused
 // eslint-disable-next-line no-unused-vars
 
-module.exports = (on, config) => {};
+require("dotenv").config();
+
+module.exports = (on, config) => {
+  config.baseUrl = process.env.BASE_URL;
+  return config;
+};

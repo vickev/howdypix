@@ -84,6 +84,7 @@ function Login() {
           <Divider variant="fullWidth" />
         </Box>
         <form
+          data-testid="login_form"
           onSubmit={e => {
             e.preventDefault();
             authEmail({ variables: { email: input.value } });
@@ -92,6 +93,7 @@ function Login() {
         >
           <Box display="flex" flexDirection="column">
             <CustomTextField
+              data-testid="login_email"
               label={t("auth.email")}
               InputLabelProps={{
                 shrink: true
