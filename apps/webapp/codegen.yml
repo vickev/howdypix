@@ -1,6 +1,8 @@
 overwrite: true
 schema: "./node_modules/@howdypix/graphql-schema/schema.json"
-documents: ./src/**/*.tsx
+documents:
+  - ./src/**/*.tsx
+  - ./pages/**/*.tsx
 generates:
   src/__generated__/schema-types.ts:
     plugins:

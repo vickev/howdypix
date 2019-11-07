@@ -54,6 +54,16 @@ export interface QueryGetAlbumArgs {
   source?: Maybe<Scalars["String"]>;
 }
 
+export type GetAlbumQueryVariables = {};
+
+export type GetAlbumQuery = {
+  getAlbum: {
+    album: Maybe<Pick<Album, "name">>;
+    photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
+    albums: Array<Pick<Album, "name">>;
+  };
+};
+
 export type AuthEmailMutationVariables = {
   email: Scalars["String"];
 };

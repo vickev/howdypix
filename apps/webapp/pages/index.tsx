@@ -12,7 +12,7 @@ import {
   GetAlbumQuery,
   GetAlbumQueryVariables
 } from "../src/__generated__/schema-types";
-import Layout from "../src/modules/layout/Layout";
+import { Layout } from "../src/module/layout/Layout";
 import { Divider } from "@material-ui/core";
 
 //========================================

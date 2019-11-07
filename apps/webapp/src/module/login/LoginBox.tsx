@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@material-ui/core/styles";
