@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-context("Login page", () => {
+context("LoginBox page", () => {
   beforeEach(() => {
     cy.visit("/login?fixture-set=full");
   });
@@ -8,7 +8,6 @@ context("Login page", () => {
   it("should display an error if the email is not valid.", () => {
     cy.findByTestId("login_email").type("not_existing_email{enter}");
     cy.findByTestId("login_form").should("contain", "an authorized email");
-    //cy.findByText("an authorized email").should("exist");
 
     cy.findByTestId("login_email")
       .get("input")
