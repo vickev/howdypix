@@ -14,7 +14,6 @@ context("LoginBox page", () => {
       .clear()
       .type("error@vickev.com{enter}");
     cy.findByTestId("login_form").should("contain", "error occurred");
-    cy;
   });
 
   it("should be successful if there is the right email.", () => {

@@ -13,3 +13,8 @@ export type Mutation = {
     params: NexusGenTypes["argTypes"]["Mutation"]["authEmail"]
   ) => NexusGenTypes["fieldTypes"]["Mutation"]["authEmail"];
 };
+
+export type FixtureSet = {
+  mutation: Mutation;
+  query: Query;
+};

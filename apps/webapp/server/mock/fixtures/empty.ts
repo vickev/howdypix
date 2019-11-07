@@ -1,6 +1,6 @@
 // @ts-ignore
 import nextConfig from "../../../next.config";
-import { Mutation, Query } from "../types";
+import { FixtureSet, Mutation, Query } from "../types";
 import { authEmail } from "../shared";
 
 const { serverRuntimeConfig } = nextConfig;
@@ -17,4 +17,4 @@ const mutation: Mutation = {
   authEmail
 };
 
-export default { query, mutation };
+export default { query, mutation } as FixtureSet;
