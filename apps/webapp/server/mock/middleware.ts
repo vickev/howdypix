@@ -3,8 +3,7 @@ import fs from "fs";
 import graphqlHTTP from "express-graphql";
 import { makeExecutableSchema, addMockFunctionsToSchema } from "graphql-tools";
 import { appDebug } from "@howdypix/utils";
-
-import * as fixtureData from "./fixtures";
+import fixtureData from "./fixtures";
 
 const schema = makeExecutableSchema({
   typeDefs: fs.readFileSync(
@@ -15,12 +14,11 @@ const schema = makeExecutableSchema({
 
 const loadFixtures = (
   req: express.Request
-): { name: string; fixtures?: any } => {
+): { name: string; fixtures?: { query: any; mutation: any } } => {
   const fixtureSet = req.header("Fixture-set") || req.query["fixture-set"];
-  const fixtures: { [key: string]: any } = fixtureData;
 
-  if (fixtureSet && fixtures[fixtureSet]) {
-    return { name: fixtureSet, fixtures: fixtures[fixtureSet] };
+  if (fixtureSet && fixtureData[fixtureSet]) {
+    return { name: fixtureSet, fixtures: fixtureData[fixtureSet] };
   }
 
   return { name: fixtureSet };
@@ -48,7 +46,8 @@ const mockedGraphQLMiddleware = async (
   addMockFunctionsToSchema({
     schema,
     mocks: {
-      Query: () => fixtures
+      Query: () => fixtures && fixtures.query,
+      Mutation: () => fixtures && fixtures.mutation
     }
   });
 

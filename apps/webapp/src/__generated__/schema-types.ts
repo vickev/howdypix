@@ -14,10 +14,30 @@ export interface Album {
   source: Scalars["String"];
 }
 
+/** The type of message that the user can get when requesting a magic link. */
+export enum AuthEmailMessage {
+  AuthEmailErr = "AUTH_EMAIL_ERR",
+  AuthEmailErrNotExist = "AUTH_EMAIL_ERR_NOT_EXIST",
+  AuthEmailOk = "AUTH_EMAIL_OK"
+}
+
+export interface AuthEmailType {
+  messageData?: Maybe<Scalars["String"]>;
+  messageId: AuthEmailMessage;
+}
+
 export interface GetPhotos {
   album?: Maybe<Album>;
   albums: Array<Album>;
   photos: Array<Maybe<Photo>>;
+}
+
+export interface Mutation {
+  authEmail: AuthEmailType;
+}
+
+export interface MutationAuthEmailArgs {
+  email?: Maybe<Scalars["String"]>;
 }
 
 export interface Photo {
@@ -42,4 +62,12 @@ export type GetAlbumQuery = {
     photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
     albums: Array<Pick<Album, "name">>;
   };
+};
+
+export type AuthEmailMutationVariables = {
+  email: Scalars["String"];
+};
+
+export type AuthEmailMutation = {
+  authEmail: Pick<AuthEmailType, "messageId" | "messageData">;
 };

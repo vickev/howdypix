@@ -1,3 +1,11 @@
+emailSender:
+  email: sender@vickev.com
+  name: Howdypix
+users:
+  - email: dev@vickev.com
+    name: Developer Foobar
+  - email: albert@vickev.com
+    name: Albert Foobar
 thumbnailsDir: ./photos
 photoDirs:
   main: ./photos/main

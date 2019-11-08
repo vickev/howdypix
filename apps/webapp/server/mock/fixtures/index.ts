@@ -1,4 +1,7 @@
-import * as full from "./full";
-import * as empty from "./empty";
+import full from "./full";
+import empty from "./empty";
+import { FixtureSet } from "../types";
 
-export { full, empty };
+type FixtureSets = { [key: string]: FixtureSet };
+
+export default { full, empty } as FixtureSets;

@@ -9,7 +9,12 @@ declare global {
 
 export interface NexusGenInputs {}
 
-export interface NexusGenEnums {}
+export interface NexusGenEnums {
+  AuthEmailMessage:
+    | "AUTH_EMAIL_ERR"
+    | "AUTH_EMAIL_ERR_NOT_EXIST"
+    | "AUTH_EMAIL_OK";
+}
 
 export interface NexusGenRootTypes {
   Album: {
@@ -18,12 +23,18 @@ export interface NexusGenRootTypes {
     name: string; // String!
     source: string; // String!
   };
+  AuthEmailType: {
+    // root type
+    messageData?: string | null; // String
+    messageId: NexusGenEnums["AuthEmailMessage"]; // AuthEmailMessage!
+  };
   GetPhotos: {
     // root type
     album?: NexusGenRootTypes["Album"] | null; // Album
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
   };
+  Mutation: {};
   Photo: {
     // root type
     id: string; // ID!
@@ -37,7 +48,9 @@ export interface NexusGenRootTypes {
   ID: string;
 }
 
-export interface NexusGenAllTypes extends NexusGenRootTypes {}
+export interface NexusGenAllTypes extends NexusGenRootTypes {
+  AuthEmailMessage: NexusGenEnums["AuthEmailMessage"];
+}
 
 export interface NexusGenFieldTypes {
   Album: {
@@ -46,11 +59,20 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     source: string; // String!
   };
+  AuthEmailType: {
+    // field return type
+    messageData: string | null; // String
+    messageId: NexusGenEnums["AuthEmailMessage"]; // AuthEmailMessage!
+  };
   GetPhotos: {
     // field return type
     album: NexusGenRootTypes["Album"] | null; // Album
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
+  };
+  Mutation: {
+    // field return type
+    authEmail: NexusGenRootTypes["AuthEmailType"]; // AuthEmailType!
   };
   Photo: {
     // field return type
@@ -64,6 +86,12 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    authEmail: {
+      // args
+      email?: string | null; // String
+    };
+  };
   Query: {
     getAlbum: {
       // args
@@ -77,11 +105,17 @@ export interface NexusGenAbstractResolveReturnTypes {}
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Album" | "GetPhotos" | "Photo" | "Query";
+export type NexusGenObjectNames =
+  | "Album"
+  | "AuthEmailType"
+  | "GetPhotos"
+  | "Mutation"
+  | "Photo"
+  | "Query";
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = "AuthEmailMessage";
 
 export type NexusGenInterfaceNames = never;
 
