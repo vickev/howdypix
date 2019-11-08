@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import config from "config";
+import config from "./config";
 import { startHttp } from "./lib/startHttp";
 import { startApollo } from "./lib/startApollo";
 import { loadUserConfig } from "./lib/loadUserConfig";
@@ -17,9 +17,9 @@ async function main() {
   console.log(userConfig);
 
   await startCacheDB(event, userConfig);
-  await startHttp(config.get("serverHttp.port"));
-  await startApollo(config.get("serverApollo.port"));
-  await startRabbitMq(event, userConfig, config.get("rabbitMq.url"));
+  await startHttp(config.serverHttp.port);
+  await startApollo(config.serverApollo.port);
+  await startRabbitMq(event, userConfig, config.rabbitMq.url);
   await startFileScan(event, userConfig);
 }
 

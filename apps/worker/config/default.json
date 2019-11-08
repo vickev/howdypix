@@ -1,6 +1,0 @@
-{
-  "rabbitMq": {
-    "url": "amqp://localhost"
-  },
-  "distThumbnails": "./thumbnails"
-}

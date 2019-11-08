@@ -1,8 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
-import { styled, useTheme } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import { useTheme } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
@@ -43,7 +42,7 @@ const GET_GREETING = gql`
   }
 `;
 
-function Hello(props: any) {
+function Homepage(props: any) {
   const { t, i18n } = useTranslation("common");
   const theme = useTheme();
   const { loading, error, data } = useQuery<
@@ -65,7 +64,6 @@ function Hello(props: any) {
   };
 
   if (loading) return <p>Loading...</p>;
-  console.log(data);
 
   return (
     <Layout>
@@ -103,8 +101,8 @@ function Hello(props: any) {
                   photo &&
                   photo.thumbnails &&
                   photo.thumbnails[1] && (
-                    <GridListTile cols={1}>
-                      <img src={photo.thumbnails[1]} />
+                    <GridListTile cols={1} key={photo.thumbnails[1]}>
+                      <img src={photo.thumbnails[1]} alt="image" />
                     </GridListTile>
                   )
               )}
@@ -115,4 +113,8 @@ function Hello(props: any) {
   );
 }
 
-export default withWidth()(withApollo(Hello));
+Homepage.getInitialProps = async () => ({
+  namespacesRequired: ["common"]
+});
+
+export default withWidth()(withApollo(Homepage));

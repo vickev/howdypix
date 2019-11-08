@@ -1,6 +1,6 @@
 # Contributing
 
-By contributing to Flame, you agree to abide by the [code of conduct](/.github/CODE_OF_CONDUCT.md).
+By contributing to HowdyPix, you agree to abide by the [code of conduct](/.github/CODE_OF_CONDUCT.md).
 
 ## Development
 
