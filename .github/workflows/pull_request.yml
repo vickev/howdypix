@@ -40,6 +40,8 @@ jobs:
             ${{ runner.os }}-yarn-worker-
       - name: Install
         run: yarn install --frozen-lockfile
+      - name: Remove Cypress
+        run: rm -rf apps/webapp/node_modules/cypress
       - name: Build
         run: yarn build
       - name: Lint
