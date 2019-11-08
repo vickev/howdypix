@@ -20,21 +20,21 @@ jobs:
       - name: Cache yarn server
         uses: actions/cache@preview
         with:
-          path: ${{ format('{0}{1}', github.workspace, '/apps/server/node_modules') }}${{ github.workspace }}/apps/server/node_modules
+          path: ${{ format('{0}{1}', github.workspace, '/apps/server/node_modules') }}
           key: ${{ runner.os }}-yarn-server-${{ hashFiles(format('{0}{1}', github.workspace, '/apps/server/yarn.lock')) }}
           restore-keys: |
             ${{ runner.os }}-yarn-server-
       - name: Cache yarn webapp
         uses: actions/cache@preview
         with:
-          path: ${{ format('{0}{1}', github.workspace, '/apps/webapp/node_modules') }}${{ github.workspace }}/apps/webapp/node_modules
+          path: ${{ format('{0}{1}', github.workspace, '/apps/webapp/node_modules') }}
           key: ${{ runner.os }}-yarn-webapp-${{ hashFiles(format('{0}{1}', github.workspace, '/apps/webapp/yarn.lock')) }}
           restore-keys: |
             ${{ runner.os }}-yarn-webapp-
       - name: Cache yarn worker
         uses: actions/cache@preview
         with:
-          path: ${{ format('{0}{1}', github.workspace, '/apps/worker/node_modules') }}${{ github.workspace }}/apps/worker/node_modules
+          path: ${{ format('{0}{1}', github.workspace, '/apps/worker/node_modules') }}
           key: ${{ runner.os }}-yarn-worker-${{ hashFiles(format('{0}{1}', github.workspace, '/apps/worker/yarn.lock')) }}
           restore-keys: |
             ${{ runner.os }}-yarn-worker-
