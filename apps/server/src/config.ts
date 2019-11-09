@@ -11,6 +11,10 @@ const config = {
   },
   serverApollo: {
     port: parseInt(process.env.APOLLO_PORT as string) ?? 4005
+  },
+  auth: {
+    secret: "secret_string",
+    expiry: "2h"
   }
 };
 

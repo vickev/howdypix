@@ -1,6 +1,6 @@
 import express from "express";
 import { state } from "../state";
-import { hparse, thumbnailPath } from "@howdypix/utils";
+import { hparse, routes, thumbnailPath } from "@howdypix/utils";
 import { HPathDir } from "@howdypix/shared-types";
 import * as emails from "../email";
 

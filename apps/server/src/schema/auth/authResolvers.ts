@@ -5,6 +5,7 @@ import smtpTransport from "nodemailer-smtp-transport";
 import { magicLink } from "../../email";
 import { appDebug } from "@howdypix/utils";
 import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema";
+import { generateCode, isEmailValid } from "../../middleware/auth";
 
 const debug = appDebug("gql:auth");
 
@@ -12,13 +13,12 @@ export const authEmailResolver = (
   authorizedUsers: UserConfigState["users"],
   sender: UserConfigState["emailSender"]
 ) => async (root: {}, args: NexusGenArgTypes["Mutation"]["authEmail"]) =>
-  new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(resolve => {
-    const user = authorizedUsers.find(u => u.email == args.email);
+  new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(async resolve => {
+    const email = args.email ?? "NONE";
+    const user = isEmailValid(authorizedUsers, email);
 
     debug(
-      `Authentication requested: ${args.email} - user found: ${(user &&
-        user.name) ||
-        "none"}`
+      `Authentication requested: ${email} - user found: ${user?.name ?? "none"}`
     );
 
     if (user) {
@@ -40,7 +40,10 @@ export const authEmailResolver = (
       transporter.sendMail(
         {
           ...mailOptions,
-          html: magicLink({ code: "123", name: user.name })
+          html: magicLink({
+            code: await generateCode(user.email),
+            name: user.name
+          })
         },
         (error, info) => {
           if (error) {

@@ -18,7 +18,7 @@ async function main() {
 
   await startCacheDB(event, userConfig);
   await startHttp(config.serverHttp.port);
-  await startApollo(config.serverApollo.port);
+  await startApollo(userConfig, config.serverApollo.port);
   await startRabbitMq(event, userConfig, config.rabbitMq.url);
   await startFileScan(event, userConfig);
 }
