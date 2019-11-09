@@ -57,8 +57,8 @@ function _LoginBox() {
     AuthEmailMutationVariables
   >(AUTH_EMAIL);
 
-  const messageId = data && data.authEmail && data.authEmail.messageId;
-  const messageData = data && data.authEmail && data.authEmail.messageData;
+  const messageId = data?.authEmail?.messageId;
+  const messageData = data?.authEmail?.messageData;
   const errorMessageId =
     messageId === "AUTH_EMAIL_ERR" || messageId === "AUTH_EMAIL_ERR_NOT_EXIST"
       ? messageId

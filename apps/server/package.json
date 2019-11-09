@@ -39,10 +39,10 @@
     "yaml": "^1.6.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.0",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@babel/plugin-proposal-decorators": "^7.7.0",
     "@howdypix/babel-preset": "^0.1.0",
     "@howdypix/eslint-config": "^0.1.0",
     "@howdypix/graphql-schema": "^0.1.0",
@@ -58,6 +58,6 @@
     "eslint": " ^6.3.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.2",
-    "typescript": "^3.6.2"
+    "typescript": "^3.7.2"
   }
 }

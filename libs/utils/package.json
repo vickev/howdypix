@@ -16,8 +16,8 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.0",
     "@howdypix/babel-preset": "^0.1.0",
     "@howdypix/eslint-config": "^0.1.0",
     "@howdypix/jest-config": "^0.1.0",
@@ -34,7 +34,7 @@
     "amqplib": "^0.5.5",
     "debug": "^4.1.1",
     "lodash": "^4.17.15",
-    "typescript": "^3.6.3",
+    "typescript": "^3.7.2",
     "ws": "^7.1.2"
   }
 }
