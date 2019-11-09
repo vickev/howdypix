@@ -14,4 +14,11 @@
 // Cypress requires those options to be defined else it crashes, even if unused
 // eslint-disable-next-line no-unused-vars
 
-module.exports = (on, config) => {};
+const nextConfig = require("../../next.config");
+
+const { serverRuntimeConfig } = nextConfig;
+
+module.exports = (on, config) => {
+  config.baseUrl = serverRuntimeConfig.baseUrl;
+  return config;
+};

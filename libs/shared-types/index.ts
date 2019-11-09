@@ -1,4 +1,4 @@
-export type HFile = { source: string; dir: string; file: string };
+export type HFile = { source: string; dir?: string; file?: string };
 export interface HPath extends String {}
 export interface HPathDir extends HPath {}
 export interface HPathFile extends HPath {}

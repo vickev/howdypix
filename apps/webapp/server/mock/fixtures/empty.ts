@@ -1,15 +1,20 @@
-import { NexusGenTypes } from "@howdypix/graphql-schema/schema";
+// @ts-ignore
+import nextConfig from "../../../next.config";
+import { FixtureSet, Mutation, Query } from "../types";
+import { authEmail } from "../shared";
 
-type GetAlbum = (
-  params: NexusGenTypes["argTypes"]["Query"]["getAlbum"]
-) => NexusGenTypes["fieldTypes"]["Query"]["getAlbum"];
+const { serverRuntimeConfig } = nextConfig;
 
-const getAlbum: GetAlbum = params => {
-  return {
+const query: Query = {
+  getAlbum: params => ({
     album: { name: "Empty", dir: "test", source: "test" },
     albums: [{ name: params.album || "test", dir: "", source: "" }],
     photos: []
-  };
+  })
 };
 
-export { getAlbum };
+const mutation: Mutation = {
+  authEmail
+};
+
+export default { query, mutation } as FixtureSet;

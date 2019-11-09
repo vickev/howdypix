@@ -2,9 +2,16 @@ export type DispatcherState = {
   connected: boolean;
 };
 
+export type User = {
+  email: string;
+  name: string;
+};
+
 export type UserConfigState = {
   photoDirs: { [sourceId: string]: string };
   thumbnailsDir: string;
+  users: User[];
+  emailSender: User;
 };
 
 export type FileQueueState = string[];
@@ -21,7 +28,12 @@ export const state: State = {
   },
   userConfig: {
     photoDirs: {},
-    thumbnailsDir: ""
+    thumbnailsDir: "",
+    users: [],
+    emailSender: {
+      email: "",
+      name: ""
+    }
   },
   fileQueue: []
 };

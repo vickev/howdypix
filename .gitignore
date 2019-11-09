@@ -10,4 +10,5 @@ lerna-debug.log
 .DS_Store
 .next
 videos
+screenshots
 .env

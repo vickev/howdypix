@@ -1,34 +1,38 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme, Theme } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import FolderIcon from "@material-ui/icons/Folder";
+import { hjoin } from "@howdypix/utils";
 
 import { withApollo } from "../src/lib/with-apollo-client";
 import {
   GetAlbumQuery,
   GetAlbumQueryVariables
 } from "../src/__generated__/schema-types";
-import Layout from "../src/modules/layout/Layout";
+import { Layout } from "../src/module/layout/Layout";
 import { Divider } from "@material-ui/core";
 
 //========================================
 // Constants
 //========================================
-const imageSize = 200;
 const gutter = 3;
+// TODO: create graphql query..
+const rootDir = ["main", "second"];
+
 //========================================
 // GraphQL queries
 //========================================
 const GET_GREETING = gql`
   query GetAlbum {
-    getAlbum(source: "main") {
+    getAlbum(source: "") {
       album {
         name
       }
@@ -37,6 +41,8 @@ const GET_GREETING = gql`
       }
       albums {
         name
+        source
+        dir
       }
     }
   }
@@ -50,19 +56,6 @@ function Homepage(props: any) {
     GetAlbumQueryVariables
   >(GET_GREETING);
 
-  const getGridListCols = () => {
-    if (isWidthUp("lg", props.width)) {
-      return 4;
-    }
-    if (isWidthUp("md", props.width)) {
-      return 3;
-    }
-    if (isWidthUp("sm", props.width)) {
-      return 2;
-    }
-    return 1;
-  };
-
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -74,39 +67,18 @@ function Homepage(props: any) {
           </Typography>
         </Box>
         <Box paddingBottom={gutter}>
-          {data &&
-            data.getAlbum.albums.map(
-              album =>
-                album &&
-                album.name && (
-                  <Box paddingRight={gutter} component="span">
-                    <Button size="medium" variant="outlined">
-                      <FolderIcon style={{ marginRight: theme.spacing(1) }} />
-                      {album.name}
-                    </Button>
-                  </Box>
-                )
-            )}
-        </Box>
-        <Divider variant="fullWidth" />
-        <Box paddingTop={gutter}>
-          <GridList
-            spacing={theme.spacing(gutter)}
-            cellHeight={imageSize}
-            cols={getGridListCols()}
-          >
-            {data &&
-              data.getAlbum.photos.map(
-                photo =>
-                  photo &&
-                  photo.thumbnails &&
-                  photo.thumbnails[1] && (
-                    <GridListTile cols={1} key={photo.thumbnails[1]}>
-                      <img src={photo.thumbnails[1]} alt="image" />
-                    </GridListTile>
-                  )
-              )}
-          </GridList>
+          {rootDir.map(dir => (
+            <Box paddingRight={gutter} component="span">
+              <Button
+                size="medium"
+                variant="outlined"
+                href={`/album/${hjoin({ source: dir })}`}
+              >
+                <FolderIcon style={{ marginRight: theme.spacing(1) }} />
+                {dir}
+              </Button>
+            </Box>
+          ))}
         </Box>
       </Box>
     </Layout>
@@ -117,4 +89,4 @@ Homepage.getInitialProps = async () => ({
   namespacesRequired: ["common"]
 });
 
-export default withWidth()(withApollo(Homepage));
+export default withApollo(Homepage);

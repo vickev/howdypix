@@ -16,12 +16,13 @@ import { HFile, HPath } from "@howdypix/shared-types";
  *
  */
 
-export function hjoin(howdyfile: HFile) {
-  return `@${howdyfile.source}:` + path.join(howdyfile.dir, howdyfile.file);
+export function hjoin(howdyfile: HFile): HPath {
+  return (
+    `@${howdyfile.source}:` + path.join(howdyfile.dir, howdyfile.file || "")
+  );
 }
 
 export function hparse(hpath: HPath): HFile {
-  console.log(hpath);
   const [source, relativePath] = hpath.split(":");
 
   if (!source || !relativePath) {
@@ -30,9 +31,18 @@ export function hparse(hpath: HPath): HFile {
     );
   }
 
-  const { dir, base } = path.parse(relativePath);
+  const [file, ...dir] = relativePath.split("/").reverse();
+  const ret: HFile = { source: source.replace("@", ""), dir: "" };
 
-  return { source: source.replace("@", ""), dir, file: base };
+  if (/^[^.]+$/.test(file)) {
+    // It's a directory
+    ret.dir = file;
+  } else {
+    ret.dir = path.join(...dir);
+    ret.file = file;
+  }
+
+  return ret;
 }
 
 export function path2hfile(source: string, relativePath: string): HFile {
@@ -41,7 +51,7 @@ export function path2hfile(source: string, relativePath: string): HFile {
 }
 
 export function hfile2path({ dir, file }: HFile): HPath {
-  return path.join(dir, file);
+  return (file && path.join(dir, file)) || dir;
 }
 
 export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
@@ -49,5 +59,5 @@ export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
     ? (howdyfile as HFile)
     : hparse(howdyfile as HPath);
 
-  return path.join(root, ".howdypix", source, dir, file);
+  return path.join(root, ".howdypix", source, dir, file ? file : "");
 }
