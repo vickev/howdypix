@@ -63,7 +63,7 @@ function Homepage(props: any) {
       <Box bgcolor={"white"} padding={gutter}>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1">
-            Album {data && data.getAlbum.album && data.getAlbum.album.name}
+            Root
           </Typography>
         </Box>
         <Box paddingBottom={gutter}>

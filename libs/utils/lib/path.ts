@@ -18,7 +18,8 @@ import { HFile, HPath } from "@howdypix/shared-types";
 
 export function hjoin(howdyfile: HFile): HPath {
   return (
-    `@${howdyfile.source}:` + path.join(howdyfile.dir, howdyfile.file || "")
+    `@${howdyfile.source}:` +
+    path.join(howdyfile.dir ?? "", howdyfile.file ?? "")
   );
 }
 
@@ -51,7 +52,7 @@ export function path2hfile(source: string, relativePath: string): HFile {
 }
 
 export function hfile2path({ dir, file }: HFile): HPath {
-  return (file && path.join(dir, file)) || dir;
+  return (file && path.join(dir ?? "", file)) ?? dir ?? "";
 }
 
 export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
@@ -59,5 +60,5 @@ export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
     ? (howdyfile as HFile)
     : hparse(howdyfile as HPath);
 
-  return path.join(root, ".howdypix", source, dir, file ? file : "");
+  return path.join(root, ".howdypix", source, dir ?? "", file ? file : "");
 }
