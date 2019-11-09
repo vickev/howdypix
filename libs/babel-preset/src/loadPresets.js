@@ -1,22 +1,23 @@
 const packageName = require("../package").name;
 
-module.exports = function loadPresets(presets) {
+const load = (type, names) => {
   const ret = {};
 
-  presets.forEach(presetName => {
-    ret[presetName];
+  names.forEach(name => {
+    ret[name];
 
     try {
-      ret[presetName] = require.resolve("@babel/preset-" + presetName);
+      ret[name] = require.resolve(`@babel/${type}-${name}`);
     } catch (e) {
       // Because we use Lerna, the package might be in this location in development...
-      ret[presetName] =
-        "./node_modules/" +
-        packageName +
-        "/node_modules/@babel/preset-" +
-        presetName;
+      ret[
+        name
+      ] = `./node_modules/${packageName}/node_modules/@babel/${type}-${name}`;
     }
   });
 
   return ret;
 };
+
+module.exports.loadPresets = presets => load("preset", presets);
+module.exports.loadPlugins = plugins => load("plugin", plugins);
