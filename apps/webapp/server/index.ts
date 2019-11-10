@@ -2,6 +2,7 @@ import express from "express";
 import nextI18NextMiddleware from "next-i18next/middleware";
 import nextI18next from "./i18n";
 import next from "next";
+import cookieParser from "cookie-parser";
 import proxy from "http-proxy-middleware";
 import {
   mockedGraphQLMiddleware,
@@ -9,6 +10,8 @@ import {
 } from "./mock/middleware";
 // @ts-ignore
 import nextConfig from "../next.config";
+import { routes } from "@howdypix/utils";
+import { validateCode } from "./auth";
 
 const { serverRuntimeConfig } = nextConfig;
 const port = serverRuntimeConfig.port;
@@ -20,6 +23,7 @@ app.prepare().then(() => {
   const server = express();
 
   server.use(nextI18NextMiddleware(nextI18next));
+  server.use(cookieParser());
 
   if (process.env.NODE_ENV === "test" || process.env.MOCK_GRAPHQL) {
     console.log("GraphQL will be mocked 🎊");
@@ -38,6 +42,9 @@ app.prepare().then(() => {
       })
     );
   }
+
+  // Authentication routes
+  server.get(routes.magickLinkValidation.route, validateCode);
 
   server.get("*", (req, res) => handle(req, res));
 

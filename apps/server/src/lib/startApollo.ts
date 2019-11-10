@@ -1,9 +1,13 @@
-import { ApolloServer } from "apollo-server";
 import { makeSchema } from "nexus";
 import * as types from "../schema";
 import { join } from "path";
 import { transform } from "lodash";
-import { State, UserConfigState } from "../state";
+import { State, User, UserConfigState } from "../state";
+import { Express } from "express";
+import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
+import passport from "passport";
+import config from "../config";
+const { ApolloServer } = require("apollo-server-express");
 
 type Types = {
   [key: string]: (userConfig: UserConfigState) => any;
@@ -19,7 +23,11 @@ const destDir = join(
   "graphql-schema"
 );
 
-export function startApollo(userConfig: UserConfigState, port: number) {
+export function startApollo(
+  app: Express,
+  userConfig: UserConfigState,
+  port: number
+) {
   const schema = makeSchema({
     types: transform(
       types as Types,
@@ -34,9 +42,13 @@ export function startApollo(userConfig: UserConfigState, port: number) {
     }
   });
 
-  const apolloServer = new ApolloServer({ schema });
-
-  apolloServer.listen({ port }).then(({ url }) => {
-    console.log(`🚀  Apollo Server ready at ${url}`);
+  const apolloServer = new ApolloServer({
+    schema,
+    context: () => ({
+      // TODO it's here we need to implement the authorization thing
+      isAuthorized: () => true
+    })
   });
+
+  apolloServer.applyMiddleware({ app, path: "/graphql" });
 }

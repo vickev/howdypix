@@ -1,11 +1,17 @@
-import express from "express";
+import express, { Express } from "express";
 import { state } from "../state";
 import { hparse, routes, thumbnailPath } from "@howdypix/utils";
 import { HPathDir } from "@howdypix/shared-types";
 import * as emails from "../email";
+import {
+  generateTokens,
+  isCodeValid,
+  removeCode,
+  storeRefreshToken
+} from "../middleware/auth";
 
-export function startHttp(port: number) {
-  const app = express();
+export function startHttp(app: Express, port: number) {
+  app.use(express.json());
 
   app.get("/static/*", (req, res) => {
     const hpath: HPathDir = req.params[0];
@@ -38,7 +44,26 @@ export function startHttp(port: number) {
     }
   });
 
-  app.listen({ port }, () => {
-    console.log(`Http server stated on port ${port}.`);
+  // Authentication routes
+  app.post(routes.codeValidation.route, async (req, res) => {
+    const params = routes.codeValidation.checkParams(req.body);
+    const user = await isCodeValid(params.code);
+
+    // The code is valid
+    if (user) {
+      // Remove the code
+      removeCode(user.email);
+
+      // Generate a new token
+      const tokens = await generateTokens(user);
+
+      // Store the refreshToken
+      storeRefreshToken(tokens);
+
+      // Return them
+      res.json(tokens);
+    } else {
+      res.json({ error: "Token expired" });
+    }
   });
 }

@@ -13,8 +13,18 @@ const config = {
     port: parseInt(process.env.APOLLO_PORT as string) ?? 4005
   },
   auth: {
-    secret: "secret_string",
-    expiry: "2h"
+    code: {
+      secret: "secret_code_string",
+      expiry: "2h"
+    },
+    token: {
+      secret: "secret_token_string",
+      expiry: "4h"
+    },
+    refreshToken: {
+      secret: "secret_refresh_string",
+      expiry: "30d"
+    }
   }
 };
 

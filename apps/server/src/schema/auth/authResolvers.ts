@@ -5,7 +5,7 @@ import smtpTransport from "nodemailer-smtp-transport";
 import { magicLink } from "../../email";
 import { appDebug } from "@howdypix/utils";
 import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema";
-import { generateCode, isEmailValid } from "../../middleware/auth";
+import { generateCode, isEmailValid, storeCode } from "../../middleware/auth";
 
 const debug = appDebug("gql:auth");
 
@@ -37,11 +37,13 @@ export const authEmailResolver = (
 
       debug("Send email", mailOptions);
 
+      const code = await generateCode({ email: user.email });
+
       transporter.sendMail(
         {
           ...mailOptions,
           html: magicLink({
-            code: await generateCode(user.email),
+            code,
             name: user.name
           })
         },
@@ -53,6 +55,8 @@ export const authEmailResolver = (
               messageData: error.message
             });
           } else {
+            // Save in memory
+            storeCode(user.email, code);
             debug(`Email sent successfully to ${user.email}.`);
             resolve({
               messageId: "AUTH_EMAIL_OK"
