@@ -5,7 +5,7 @@ import smtpTransport from "nodemailer-smtp-transport";
 import { magicLink } from "../../email";
 import { appDebug } from "@howdypix/utils";
 import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema";
-import { generateCode, isEmailValid, storeCode } from "../../middleware/auth";
+import { generateCode, isEmailValid, storeCode } from "../../lib/auth";
 
 const debug = appDebug("gql:auth");
 

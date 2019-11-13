@@ -4,7 +4,7 @@ import { join } from "path";
 import { transform } from "lodash";
 import { UserConfigState } from "../state";
 import { Express } from "express";
-import { isTokenValid } from "../middleware/auth";
+import { isTokenValid } from "../lib/auth";
 
 const { ApolloServer } = require("apollo-server-express");
 
@@ -22,10 +22,9 @@ const destDir = join(
   "graphql-schema"
 );
 
-export function startApollo(
+export function applyApolloMiddleware(
   app: Express,
-  userConfig: UserConfigState,
-  port: number
+  userConfig: UserConfigState
 ) {
   const schema = makeSchema({
     types: transform(

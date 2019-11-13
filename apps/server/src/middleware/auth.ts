@@ -1,123 +1,70 @@
-// POST /auth/send-email    ===> Send an email with a auth code
-// GET  /auth/validate-code ====> Validate the code and generate a token
-// POST /auth/refresh-token ===> Refresh the token
-import jwt from "jsonwebtoken";
-import { User, UserConfigState } from "../state";
-import config from "../config";
-import { appDebug } from "@howdypix/utils";
-import { TokenInfo, UserInfo } from "@howdypix/shared-types";
+import { appDebug, routes } from "@howdypix/utils";
+import {
+  generateToken,
+  generateTokens,
+  isCodeValid,
+  isRefreshTokenValid,
+  isTokenValid,
+  removeCode,
+  storeRefreshToken
+} from "../lib/auth";
+import { Handler } from "express";
 
-const debug = appDebug("lib:auth");
+const debug = appDebug("http");
 
-type Stores = {
-  codes: {
-    [email: string]: string;
-  };
-  tokenList: {
-    [refreshToken: string]: TokenInfo;
-  };
-};
+/**
+ * Check if the code to register is in the memory and is valid.
+ * If so, it means that the right user wants to connect, and we are
+ * ready to generate the connection token.
+ */
+export const codeValidationHandler: Handler = async (req, res) => {
+  const params = routes.codeValidation.checkParams(req.body);
+  const user = await isCodeValid(params.code);
 
-const stores: Stores = {
-  codes: {},
-  tokenList: {}
-};
+  // The code is valid
+  if (user) {
+    // Remove the code
+    removeCode(user.email);
 
-//====================================================
-// Utils
-//====================================================
-export const isEmailValid = (
-  authorizedUsers: UserConfigState["users"],
-  emailToCheck: string
-): User | null => authorizedUsers.find(u => u.email === emailToCheck) ?? null;
+    // Generate a new token
+    const tokens = await generateTokens(user);
 
-export const isJwtTokenValid = async (
-  token: string,
-  secret: string
-): Promise<UserInfo | null> =>
-  new Promise<UserInfo | null>(resolve => {
-    jwt.verify(token, secret, (error, decoded) => {
-      if (!error) {
-        const user = decoded as UserInfo;
-        resolve({ email: (decoded as UserInfo).email });
-      } else {
-        resolve(null);
-      }
-    });
-  });
+    // Store the refreshToken
+    storeRefreshToken(tokens);
 
-export const isTokenValid = (token: string): Promise<UserInfo | null> =>
-  isJwtTokenValid(token, config.auth.token.secret);
-
-export const isRefreshTokenValid = (token: string): Promise<UserInfo | null> =>
-  isJwtTokenValid(token, config.auth.refreshToken.secret);
-
-export const isCodeValid = async (code: string): Promise<UserInfo | null> => {
-  const user = await isJwtTokenValid(code, config.auth.code.secret);
-  if (user && stores.codes[user.email]) {
-    return user;
+    // Return them
+    res.json(tokens);
   } else {
-    return null;
+    res.json({ error: "Token expired" });
   }
 };
 
-export const generateJwtToken = async (
-  user: UserInfo,
-  options: { secret: string; expiry: string }
-): Promise<string> =>
-  new Promise((resolve, reject) => {
-    debug("Generate the API token for auth.", user);
+/**
+ * Checks if the user is authenticated, and returns the user object if so.
+ * Otherwise returns 401.
+ */
+export const isAuthenticatedHandler: Handler = async (req, res) => {
+  const params = routes.authenticatedUser.checkParams(req.body);
+  const user = await isTokenValid(params.token);
 
-    jwt.sign(
-      { ...user },
-      options.secret,
-      { expiresIn: options.expiry },
-      (err, token) => {
-        if (err) {
-          reject(err);
-        } else {
-          debug("Token: " + token);
-          resolve(token);
-        }
-      }
-    );
-  });
+  if (user) {
+    res.json(user);
+  } else {
+    res.sendStatus(401);
+  }
+};
 
-export const generateCode = (user: UserInfo): Promise<string> =>
-  generateJwtToken(user, config.auth.code);
+export const refreshTokenHandler: Handler = async (req, res) => {
+  const params = routes.refreshToken.checkParams(req.body);
+  debug(`Refresh token with: ${params.token}`);
 
-export const generateToken = (user: UserInfo): Promise<string> =>
-  generateJwtToken(user, config.auth.token);
+  const user = await isRefreshTokenValid(params.token);
 
-export const generateRefreshToken = (user: UserInfo): Promise<string> =>
-  generateJwtToken(user, config.auth.refreshToken);
-
-export const generateTokens = async (user: UserInfo): Promise<TokenInfo> =>
-  new Promise(async (resolve, reject) => {
-    debug("Generate the API tokens for auth.", user);
-    resolve({
-      token: await generateToken(user),
-      refreshToken: await generateRefreshToken(user),
-      user
+  if (user) {
+    res.json({
+      token: await generateToken(user)
     });
-  });
-
-export const storeCode = (email: string, code: string): void => {
-  stores.codes[email] = code;
-  debug("Saved code in memory:", stores.codes);
-};
-
-export const removeCode = (email: string): void => {
-  delete stores.codes[email];
-  debug("Removed code from memory:", email);
-};
-
-export const storeRefreshToken = (tokens: TokenInfo): void => {
-  stores.tokenList[tokens.refreshToken] = tokens;
-  debug("Saved refreshToken in memory:", tokens.refreshToken);
-};
-
-export const removeRefreshToken = (refreshToken: string): void => {
-  delete stores.tokenList[refreshToken];
-  debug("Removed refreshToken from memory:", refreshToken);
+  } else {
+    res.sendStatus(401);
+  }
 };

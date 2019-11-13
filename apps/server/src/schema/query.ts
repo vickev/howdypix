@@ -74,7 +74,7 @@ export const Query = () =>
         photos: photos.map(photo => ({
           id: photo.id.toString(),
           thumbnails: generateThumbnailUrls(
-            config.serverHttp.baseUrl,
+            config.serverApi.baseUrl,
             photo
           ).map(tn => tn.url)
         })),

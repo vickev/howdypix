@@ -35,7 +35,6 @@ export interface GetPhotos {
 export interface Mutation {
   authEmail: AuthEmailType;
 }
-
 export interface MutationAuthEmailArgs {
   email?: Maybe<Scalars["String"]>;
 }
@@ -48,7 +47,6 @@ export interface Photo {
 export interface Query {
   getAlbum: GetPhotos;
 }
-
 export interface QueryGetAlbumArgs {
   album?: Maybe<Scalars["String"]>;
   source?: Maybe<Scalars["String"]>;

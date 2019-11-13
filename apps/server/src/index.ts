@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import config from "./config";
-import { startHttp } from "./lib/startHttp";
-import { startApollo } from "./lib/startApollo";
+import { applyApolloMiddleware } from "./middleware/apollo";
 import { loadUserConfig } from "./lib/loadUserConfig";
 import { startFileScan } from "./lib/startFileScan";
 import EventEmitter from "events";
@@ -9,6 +8,14 @@ import { Events } from "./lib/eventEmitter";
 import { startRabbitMq } from "./lib/startRabbitMq";
 import { startCacheDB } from "./lib/startCacheDB";
 import express from "express";
+import { staticHandler } from "./middleware/static";
+import { emailListHandler, emailViewHandler } from "./middleware/email";
+import { routes } from "@howdypix/utils";
+import {
+  codeValidationHandler,
+  isAuthenticatedHandler,
+  refreshTokenHandler
+} from "./middleware/auth";
 
 async function main() {
   const event: Events = new EventEmitter();
@@ -17,16 +24,37 @@ async function main() {
   console.log("User Configuration loaded:");
   console.log(userConfig);
 
-  const app = express();
-
+  /**
+   * Start the mandatory services
+   */
   await startCacheDB(event, userConfig);
-  await startHttp(app, config.serverHttp.port);
-  await startApollo(app, userConfig, config.serverApollo.port);
   await startRabbitMq(event, userConfig, config.rabbitMq.url);
   await startFileScan(event, userConfig);
 
-  app.listen({ port: config.serverHttp.port }, () => {
-    console.log(`Http server stated on port ${config.serverHttp.port}.`);
+  /**
+   * Start the API
+   */
+  const app = express();
+
+  app.use(express.json());
+
+  app.get("/static/*", staticHandler);
+
+  // Only when we develop: it's easier to check the email templates
+  // and develop them.
+  app.get("/email", emailListHandler);
+  app.get("/email/*", emailViewHandler);
+
+  // Authentication routes
+  app.post(routes.codeValidation.route, codeValidationHandler);
+  app.post(routes.authenticatedUser.route, isAuthenticatedHandler);
+  app.post(routes.refreshToken.route, refreshTokenHandler);
+
+  // Attach the Apollo middlewares
+  applyApolloMiddleware(app, userConfig);
+
+  app.listen({ port: config.serverApi.port }, () => {
+    console.log(`API server started on port ${config.serverApi.port}.`);
   });
 }
 
