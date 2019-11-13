@@ -7,7 +7,7 @@ const config = {
   },
   serverApi: {
     baseUrl: "",
-    port: parseInt(process.env.HTTP_PORT as string) ?? 3004
+    port: parseInt(process.env.API_PORT as string) ?? 3004
   },
   auth: {
     code: {
@@ -26,6 +26,6 @@ const config = {
 };
 
 config.serverApi.baseUrl =
-  process.env.HTTP_BASE_URL ?? `http://localhost:${config.serverApi.port}`;
+  process.env.API_BASE_URL ?? `http://localhost:${config.serverApi.port}`;
 
 export default config;

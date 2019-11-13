@@ -10,7 +10,7 @@ import {
 } from "../lib/auth";
 import { Handler } from "express";
 
-const debug = appDebug("http");
+const debug = appDebug("middleware:auth");
 
 /**
  * Check if the code to register is in the memory and is valid.

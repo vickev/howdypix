@@ -39,12 +39,8 @@ app.prepare().then(() => {
   } else {
     server.use(
       "/graphql",
-      (req, res, next) => {
-        console.log(req.originalUrl);
-        next();
-      },
       proxy({
-        target: serverRuntimeConfig.serverApollo.url,
+        target: serverRuntimeConfig.serverApi.url,
         changeOrigin: true
       })
     );
@@ -55,7 +51,7 @@ app.prepare().then(() => {
 
   const authFetch = async <T>(token: string, route: string) =>
     new Promise<T>((resolve, reject) =>
-      fetch(`${serverRuntimeConfig.serverHttp.url}${route}`, {
+      fetch(`${serverRuntimeConfig.serverApi.url}${route}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

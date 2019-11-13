@@ -11,7 +11,7 @@ const { serverRuntimeConfig } = nextConfig;
 export const validateCode: Handler = async (req, res) => {
   // Request for the validation
   const response = await axios.post(
-    `${serverRuntimeConfig.serverHttp.url}${routes.codeValidation.value()}`,
+    `${serverRuntimeConfig.serverApi.url}${routes.codeValidation.value()}`,
     {
       code: req.params.code
     }
