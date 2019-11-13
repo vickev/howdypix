@@ -1,14 +1,19 @@
 import express, { Express } from "express";
 import { state } from "../state";
-import { hparse, routes, thumbnailPath } from "@howdypix/utils";
+import { appDebug, hparse, routes, thumbnailPath } from "@howdypix/utils";
 import { HPathDir } from "@howdypix/shared-types";
 import * as emails from "../email";
 import {
+  generateToken,
   generateTokens,
   isCodeValid,
+  isRefreshTokenValid,
+  isTokenValid,
   removeCode,
   storeRefreshToken
 } from "../middleware/auth";
+
+const debug = appDebug("http");
 
 export function startHttp(app: Express, port: number) {
   app.use(express.json());
@@ -64,6 +69,32 @@ export function startHttp(app: Express, port: number) {
       res.json(tokens);
     } else {
       res.json({ error: "Token expired" });
+    }
+  });
+
+  app.post(routes.authenticatedUser.route, async (req, res) => {
+    const params = routes.authenticatedUser.checkParams(req.body);
+    const user = await isTokenValid(params.token);
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.sendStatus(401);
+    }
+  });
+
+  app.post(routes.refreshToken.route, async (req, res) => {
+    const params = routes.refreshToken.checkParams(req.body);
+    debug(`Refresh token with: ${params.token}`);
+
+    const user = await isRefreshTokenValid(params.token);
+
+    if (user) {
+      res.json({
+        token: await generateToken(user)
+      });
+    } else {
+      res.sendStatus(401);
     }
   });
 }

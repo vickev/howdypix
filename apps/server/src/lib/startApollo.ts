@@ -2,11 +2,10 @@ import { makeSchema } from "nexus";
 import * as types from "../schema";
 import { join } from "path";
 import { transform } from "lodash";
-import { State, User, UserConfigState } from "../state";
+import { UserConfigState } from "../state";
 import { Express } from "express";
-import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
-import passport from "passport";
-import config from "../config";
+import { isTokenValid } from "../middleware/auth";
+
 const { ApolloServer } = require("apollo-server-express");
 
 type Types = {
@@ -44,9 +43,9 @@ export function startApollo(
 
   const apolloServer = new ApolloServer({
     schema,
-    context: () => ({
-      // TODO it's here we need to implement the authorization thing
-      isAuthorized: () => true
+    context: async ({ req }: { req: Request }) => ({
+      // @ts-ignore
+      user: await isTokenValid(req.headers.token)
     })
   });
 

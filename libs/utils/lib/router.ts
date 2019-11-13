@@ -22,5 +22,19 @@ export const routes = {
     // Should be an Assert from TS 3.7, but not yet
     // supported by the editors.
     checkParams: req => req
-  } as RouteWithCheck<{ code: string }>
+  } as RouteWithCheck<{ code: string }>,
+  authenticatedUser: {
+    route: "/auth/user",
+    value: () => `/auth/user`,
+    // Should be an Assert from TS 3.7, but not yet
+    // supported by the editors.
+    checkParams: req => req
+  } as RouteWithCheck<{ token: string }>,
+  refreshToken: {
+    route: "/auth/refresk-token",
+    value: () => `/auth/refresk-token`,
+    // Should be an Assert from TS 3.7, but not yet
+    // supported by the editors.
+    checkParams: req => req
+  } as RouteWithCheck<{ token: string }>
 };

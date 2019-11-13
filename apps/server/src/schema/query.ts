@@ -24,7 +24,7 @@ export const Query = () =>
       album: stringArg(),
       source: stringArg()
     },
-    authorize: (root, args, ctx) => ctx.isAuthorized(),
+    authorize: (root, args, ctx) => !!ctx.user,
     resolve: async (root, args) => {
       const debug = appDebug("gql");
 
