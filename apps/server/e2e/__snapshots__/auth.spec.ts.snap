@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The authentication routes should reject if the code is not valid 1`] = `
+Object {
+  "error": "Token expired",
+}
+`;
+
+exports[`The authentication routes validating the email should return a success message if the email is allowed 1`] = `
+Object {
+  "data": Object {
+    "authEmail": Object {
+      "__typename": "AuthEmailType",
+      "messageData": null,
+      "messageId": "AUTH_EMAIL_OK",
+    },
+  },
+}
+`;
+
+exports[`The authentication routes validating the email should return an error if the email is not allowed 1`] = `
+Object {
+  "data": Object {
+    "authEmail": Object {
+      "__typename": "AuthEmailType",
+      "messageData": null,
+      "messageId": "AUTH_EMAIL_ERR_NOT_EXIST",
+    },
+  },
+}
+`;
+
+exports[`The authentication routes validating the magic link should have an error if the link is not correct 1`] = `
+Object {
+  "error": "Token expired",
+}
+`;
+
+exports[`The authentication routes validating the magic link should return tokens if the magic link is correct 1`] = `
+Object {
+  "email": "dev@vickev.com",
+}
+`;

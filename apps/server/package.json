@@ -14,7 +14,9 @@
     "build": "babel src --out-dir build --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "test:e2e": "concurrently 'yarn start' 'wait-on tcp:3004 && yarn test:e2e:local' --kill-others --kill-others-on-fail --raw --success first",
+    "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests"
   },
   "dependencies": {
     "@howdypix/shared-types": "^0.1.0",
@@ -51,6 +53,7 @@
     "@howdypix/jest-config": "^0.1.0",
     "@howdypix/typescript-config": "^0.1.0",
     "@types/amqplib": "^0.5.13",
+    "@types/axios": "^0.14.0",
     "@types/jest": "^24.0.18",
     "@types/jsonwebtoken": "^8.3.5",
     "@types/lodash": "^4.14.138",
@@ -58,8 +61,15 @@
     "@types/nodemailer": "^6.2.2",
     "@types/nodemailer-smtp-transport": "^2.7.4",
     "@types/yaml": "^1.0.2",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link-http": "^1.5.16",
+    "axios": "^0.19.0",
+    "concurrently": "^5.0.0",
     "eslint": " ^6.3.0",
+    "graphql-tag": "^2.10.1",
     "jest": "^24.9.0",
+    "node-fetch": "^2.6.0",
     "nodemon": "^1.19.2",
     "typescript": "^3.7.2"
   }

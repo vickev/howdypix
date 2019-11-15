@@ -59,7 +59,8 @@ export const authEmailResolver = (
             storeCode(user.email, code);
             debug(`Email sent successfully to ${user.email}.`);
             resolve({
-              messageId: "AUTH_EMAIL_OK"
+              messageId: "AUTH_EMAIL_OK",
+              code
             });
           }
         }

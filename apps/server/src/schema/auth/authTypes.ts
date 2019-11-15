@@ -14,5 +14,6 @@ export const AuthEmailType = () =>
     definition(t) {
       t.field("messageId", { type: "AuthEmailMessage" });
       t.field("messageData", { type: "String", nullable: true });
+      t.field("code", { type: "String", nullable: true });
     }
   });
