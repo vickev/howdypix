@@ -2,16 +2,21 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
 import { useTheme, Theme } from "@material-ui/core/styles";
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import Link from '@material-ui/core/Link';
+
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import FolderIcon from "@material-ui/icons/Folder";
-import { hjoin,hparse } from '@howdypix/utils'
-import { useRouter } from 'next/router'
+import { hjoin, hparse, hpaths } from '@howdypix/utils';
+import { HFile } from "@howdypix/shared-types";
+
+import { useRouter } from 'next/router';
 
 import { withApollo } from "../../src/lib/with-apollo-client";
 import {
@@ -71,7 +76,8 @@ function AlbumPage(props: any) {
 
   console.log(router.query.id)
 
-  const { dir, source } = hparse(router.query.id as string);
+  const folder: HFile = hparse(router.query.id as string);
+  const breadcrumbs: HFile[] = hpaths(folder);
 
   const { t, i18n } = useTranslation("common");
   const theme = useTheme();
@@ -80,8 +86,8 @@ function AlbumPage(props: any) {
     GetSubAlbumQueryVariables
   >(GET_GREETING, {
     variables: {
-      source: source,
-      album: dir
+      source: folder.source || null,
+      album: folder.dir
     }
   });
 
@@ -92,17 +98,31 @@ function AlbumPage(props: any) {
     <Layout>
       <Box bgcolor={"white"} padding={gutter}>
         <Box paddingBottom={gutter}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" key="repo">
+              Repository
+            </Link>
+            {
+              breadcrumbs.map((bread: HFile, index) => (
+                index !== breadcrumbs.length - 1 ?
+                <Link color="inherit" key={bread.dir} href={`/album/${hjoin(bread)}`} >
+                 {bread.name}
+                </Link> :
+                <Typography color="textPrimary" key={bread.source}>{bread.name}</Typography>
+              ))
+            }
+          </Breadcrumbs>
+        </Box>
+        <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1">
-            Album {data && data.getAlbum.album && data.getAlbum.album.name}
+            Album {data?.getAlbum?.album?.name}
           </Typography>
         </Box>
         <Box paddingBottom={gutter}>
-          {data &&
-            data.getAlbum.albums.map(
+          {data?.getAlbum?.albums.map(
               album =>
-                album &&
-                album.name && (
-                  <Box paddingRight={gutter} component="span">
+                album?.name && (
+                  <Box paddingRight={gutter} component="span" key={album.name} >
                     <Button size="medium" variant="outlined" href={`/album/${hjoin({dir: album.dir, source: album.source})}`}>
                       <FolderIcon style={{ marginRight: theme.spacing(1) }} />
                       {album.name}
@@ -118,12 +138,10 @@ function AlbumPage(props: any) {
             cellHeight={imageSize}
             cols={gridCols[useWidth()]}
           >
-            {data &&
-              data.getAlbum.photos.map(
+            {
+              data?.getAlbum?.photos.map(
                 photo =>
-                  photo &&
-                  photo.thumbnails &&
-                  photo.thumbnails[1] && (
+                  photo?.thumbnails[1] && (
                     <GridListTile cols={1} key={photo.thumbnails[1]}>
                       <img src={photo.thumbnails[1]} alt="image" />
                     </GridListTile>

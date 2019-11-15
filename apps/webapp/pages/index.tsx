@@ -63,12 +63,12 @@ function Homepage(props: any) {
       <Box bgcolor={"white"} padding={gutter}>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1">
-            Root
+            Repository
           </Typography>
         </Box>
         <Box paddingBottom={gutter}>
           {rootDir.map(dir => (
-            <Box paddingRight={gutter} component="span">
+            <Box paddingRight={gutter} component="span" key={dir}>
               <Button
                 size="medium"
                 variant="outlined"

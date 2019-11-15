@@ -26,21 +26,24 @@ export function hjoin(howdyfile: HFile): HPath {
 export function hparse(hpath: HPath): HFile {
   const [source, relativePath] = hpath.split(":");
 
-  if (!source || !relativePath) {
+  if (!source) {
     throw new Error(
       `The howdypath is not correct. Expected: @{source}:{path}/{filename}. Received: ${hpath}.`
     );
   }
 
-  const [file, ...dir] = relativePath.split("/").reverse();
-  const ret: HFile = { source: source.replace("@", ""), dir: "" };
+  const ret: HFile = { source: source.replace("@", "") };
 
-  if (/^[^.]+$/.test(file)) {
-    // It's a directory
-    ret.dir = file;
-  } else {
-    ret.dir = path.join(...dir);
-    ret.file = file;
+  // We don't want the "." (when at the root) to be considered as a directory
+  if (relativePath && relativePath !== ".") {
+    const [file, ...dir] = relativePath.split("/").reverse();
+    if (/^[^.]+$/.test(file)) {
+      // It's a directory
+      ret.dir = file;
+    } else {
+      ret.dir = path.join(...dir);
+      ret.file = file;
+    }
   }
 
   return ret;
@@ -61,4 +64,23 @@ export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
     : hparse(howdyfile as HPath);
 
   return path.join(root, ".howdypix", source, dir ?? "", file ? file : "");
+}
+
+export function hpaths(folder: HFile): HFile[] {
+  const paths: HFile[] = [];
+  const folders = folder.dir?.split("/");
+  paths.push({
+    source: folder.source,
+    name: folder.source
+  });
+  folders &&
+    folders.map((element, index) => {
+      paths.push({
+        source: folder.source,
+        dir: folders.slice(0, index).join("/"),
+        name: element
+      });
+    });
+
+  return paths;
 }
