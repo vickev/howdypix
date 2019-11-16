@@ -4,11 +4,11 @@ import axios from "axios";
 import nextConfig from "../next.config";
 import { routes } from "@howdypix/utils";
 import { TokenInfo } from "@howdypix/shared-types";
-import { Middleware } from "express-graphql";
 
 const { serverRuntimeConfig } = nextConfig;
 
-export const validateCode: Handler = async (req, res) => {
+export const validateCode: Handler = async (req, res, next) => {
+  console.log(req.params.code);
   // Request for the validation
   const response = await axios.post(
     `${serverRuntimeConfig.serverApi.url}${routes.codeValidation.value()}`,
@@ -17,11 +17,21 @@ export const validateCode: Handler = async (req, res) => {
     }
   );
 
-  const tokens: TokenInfo = response.data;
+  const tokens: TokenInfo | { error: string } = response.data;
 
-  if (tokens) {
-    res.cookie("token", tokens.token);
-    res.cookie("refreshToken", tokens.refreshToken);
-    res.redirect("/");
+  const querystring =
+    "?" +
+    [req.query["fixture-set"] && "fixture-set=" + req.query["fixture-set"]]
+      .filter(p => p)
+      .join("&");
+
+  console.log(tokens);
+
+  if (!tokens.hasOwnProperty("error")) {
+    res.cookie("token", (tokens as TokenInfo).token);
+    res.cookie("refreshToken", (tokens as TokenInfo).refreshToken);
+    res.redirect("/" + (querystring === "?" ? "" : querystring));
+  } else {
+    next();
   }
 };

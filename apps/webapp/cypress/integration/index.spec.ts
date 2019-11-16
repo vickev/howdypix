@@ -2,6 +2,7 @@
 
 context("Index page", () => {
   beforeEach(() => {
+    cy.login();
     cy.visit("/?fixture-set=full");
   });
 
