@@ -63,7 +63,7 @@ export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
     ? (howdyfile as HFile)
     : hparse(howdyfile as HPath);
 
-  return path.join(root, ".howdypix", source, dir ?? "", file ? file : "");
+  return path.join(root, ".howdypix", source, dir ?? "", file ?? "");
 }
 
 export function hpaths(folder: HFile): HFile[] {
