@@ -2,21 +2,22 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
 import { useTheme, Theme } from "@material-ui/core/styles";
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Link from '@material-ui/core/Link';
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Link from "@material-ui/core/Link";
 
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import FolderIcon from "@material-ui/icons/Folder";
-import { hjoin, hparse, hpaths } from '@howdypix/utils';
+import { hjoin, hparse, hpaths } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
 
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import { NextPage } from "next";
 
 import { withApollo } from "../../src/lib/with-apollo-client";
 import {
@@ -67,15 +68,12 @@ function useWidth() {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const matches = useMediaQuery(theme.breakpoints.up(key));
       return !output && matches ? key : output;
-    }, null) || 'lg'
+    }, null) || "lg"
   );
 }
 
-function AlbumPage(props: any) {
+const AlbumPage:NextPage = function () {
   const router = useRouter();
-
-  console.log(router.query.id)
-
   const folder: HFile = hparse(router.query.id as string);
   const breadcrumbs: HFile[] = hpaths(folder);
 
@@ -115,7 +113,7 @@ function AlbumPage(props: any) {
         </Box>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1">
-            Album {data?.getAlbum?.album?.name}
+            Album {data?.getAlbum.album?.name}
           </Typography>
         </Box>
         <Box paddingBottom={gutter}>
