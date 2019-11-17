@@ -15,6 +15,8 @@ import {
 } from "@howdypix/utils";
 import { UserConfigState } from "../state";
 
+const debug = debug;
+
 export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   const pathsInQueue: string[] = [];
 
@@ -32,8 +34,8 @@ export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   await channel.cancel("server");
   await channel.recover();
 
-  appDebug("rabbit")(`Paths already in queue: ${pathsInQueue.length}.`);
-  appDebug("rabbit")(pathsInQueue);
+  debug(`Paths already in queue: ${pathsInQueue.length}.`);
+  debug(pathsInQueue);
 
   return pathsInQueue;
 }
@@ -86,7 +88,7 @@ export async function startRabbitMq(
     return channel;
   } catch (e) {
     if (process.env.MOCK) {
-      appDebug("rabbit")(
+      debug(
         "Connecting to RabbitMQ failed, but it's probably normal because you're testing."
       );
     } else {

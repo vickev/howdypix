@@ -30,6 +30,7 @@ export function applyApolloMiddleware(
     types: transform(
       types as Types,
       (acc, value, key) => {
+        // We pass the `userConfig` to all the resolvers to be consumed
         acc[key] = value(userConfig);
       },
       {} as { [key: string]: any }
@@ -43,8 +44,7 @@ export function applyApolloMiddleware(
   const apolloServer = new ApolloServer({
     schema,
     context: async ({ req }: { req: Request }) => ({
-      // @ts-ignore
-      user: await isTokenValid(req.headers.token)
+      user: await isTokenValid(req.headers.get("token") || "")
     })
   });
 
