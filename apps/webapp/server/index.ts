@@ -11,8 +11,7 @@ import {
 // @ts-ignore
 import nextConfig from "../next.config";
 import { routes, appDebug } from "@howdypix/utils";
-import { validateCode } from "./auth";
-import { authHandler } from "../middleware/auth";
+import { authHandler, validateCode } from "./middleware/auth";
 import mockApiServer from "./mock/mockApiServer";
 
 const { serverRuntimeConfig } = nextConfig;
@@ -29,7 +28,7 @@ app.prepare().then(() => {
   server.use(nextI18NextMiddleware(nextI18next));
   server.use(cookieParser());
 
-  if (process.env.NODE_ENV === "test" || process.env.MOCK_API) {
+  if (process.env.MOCK_API) {
     console.log("GraphQL will be mocked 🎊");
     server.get("/", checkFixturesMiddleware);
     server.use(
@@ -50,6 +49,7 @@ app.prepare().then(() => {
   // Authentication routes
   server.get(routes.magickLinkValidation.route, validateCode);
 
+  // Next JS Middleware
   server.get("*", authHandler, (req, res) => handle(req, res));
 
   server.listen(port, () => {

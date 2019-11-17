@@ -1,40 +1,52 @@
-interface Route {
-  route: string;
-  value: (...params: string[]) => string;
-}
+import { TokenInfo, UserInfo } from "@howdypix/shared-types";
+import { Express, RequestHandler } from "express-serve-static-core";
+import { compile } from "path-to-regexp";
 
-interface RouteWithCheck<T> extends Route {
-  checkParams(req: object): T;
-}
+class RouteWithValidation<
+  Params extends Record<string, string>,
+  ReqBody extends Record<string, string> = {},
+  ResBody extends Record<string, any> = {}
+> {
+  public route: string;
+  private method: "post" | "get";
 
-type CodeValidation = {
-  code: string;
-};
+  constructor(route: string, method: "post" | "get" = "post") {
+    this.route = route;
+    this.method = method;
+  }
+
+  value(params?: Params): string {
+    if (params) {
+      return compile<Params>(this.route)(params);
+    }
+
+    return this.route;
+  }
+
+  applyMiddleware(
+    app: Express,
+    handler: RequestHandler<Params, ResBody, ReqBody>
+  ): void {
+    app[this.method](this.route, handler);
+  }
+}
 
 export const routes = {
-  magickLinkValidation: {
-    route: "/auth/validate-code/:code",
-    value: (code: string) => `/auth/validate-code/${code}`
-  } as Route,
-  codeValidation: {
-    route: "/auth/validate-code",
-    value: () => `/auth/validate-code`,
-    // Should be an Assert from TS 3.7, but not yet
-    // supported by the editors.
-    checkParams: req => req
-  } as RouteWithCheck<{ code: string }>,
-  authenticatedUser: {
-    route: "/auth/user",
-    value: () => `/auth/user`,
-    // Should be an Assert from TS 3.7, but not yet
-    // supported by the editors.
-    checkParams: req => req
-  } as RouteWithCheck<{ token: string }>,
-  refreshToken: {
-    route: "/auth/refresk-token",
-    value: () => `/auth/refresk-token`,
-    // Should be an Assert from TS 3.7, but not yet
-    // supported by the editors.
-    checkParams: req => req
-  } as RouteWithCheck<{ token: string }>
+  magickLinkValidation: new RouteWithValidation<{ code: string }>(
+    "/auth/validate-code/:code",
+    "get"
+  ),
+  codeValidation: new RouteWithValidation<
+    {},
+    { code: string },
+    TokenInfo | { error: string }
+  >("/auth/validate-code"),
+  authenticatedUser: new RouteWithValidation<{}, { token: string }, UserInfo>(
+    "/auth/user"
+  ),
+  refreshToken: new RouteWithValidation<
+    {},
+    { token: string },
+    { token: string }
+  >("/auth/refresk-token")
 };

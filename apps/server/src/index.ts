@@ -11,11 +11,7 @@ import express from "express";
 import { staticHandler } from "./middleware/static";
 import { emailListHandler, emailViewHandler } from "./middleware/email";
 import { routes } from "@howdypix/utils";
-import {
-  codeValidationHandler,
-  isAuthenticatedHandler,
-  refreshTokenHandler
-} from "./middleware/auth";
+import { applyAuthMiddleware } from "./middleware/auth";
 
 async function main() {
   const event: Events = new EventEmitter();
@@ -46,9 +42,7 @@ async function main() {
   app.get("/email/*", emailViewHandler);
 
   // Authentication routes
-  app.post(routes.codeValidation.route, codeValidationHandler);
-  app.post(routes.authenticatedUser.route, isAuthenticatedHandler);
-  app.post(routes.refreshToken.route, refreshTokenHandler);
+  applyAuthMiddleware(app);
 
   // Attach the Apollo middlewares
   applyApolloMiddleware(app, userConfig);
