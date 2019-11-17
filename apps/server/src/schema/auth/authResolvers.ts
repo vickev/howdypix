@@ -22,13 +22,18 @@ export const authEmailResolver = (
     );
 
     if (user) {
-      const transporter = createTransport(
-        smtpTransport({
-          host: process.env.SMTP_HOST,
-          port: parseInt(process.env.SMTP_PORT as string),
-          ignoreTLS: true
-        })
-      );
+      const transporter = process.env.MOCK
+        ? createTransport({
+            streamTransport: true,
+            newline: "windows"
+          })
+        : createTransport(
+            smtpTransport({
+              host: process.env.SMTP_HOST,
+              port: parseInt(process.env.SMTP_PORT as string),
+              ignoreTLS: true
+            })
+          );
 
       const mailOptions = {
         from: `${sender.name}<${sender.email}>`,

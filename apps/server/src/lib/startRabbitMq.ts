@@ -73,14 +73,24 @@ export async function startRabbitMq(
   userConfig: UserConfigState,
   url: string
 ) {
-  const connection = await connectRabbitMq(url);
-  const channel = await connection.createChannel();
+  try {
+    const connection = await connectRabbitMq(url);
+    const channel = await connection.createChannel();
 
-  await assertQueue(channel, QueueName.TO_PROCESS);
-  await assertQueue(channel, QueueName.PROCESSED);
+    await assertQueue(channel, QueueName.TO_PROCESS);
+    await assertQueue(channel, QueueName.PROCESSED);
 
-  await bindAppEvents(event, userConfig.thumbnailsDir, channel);
-  await bindChannelEvents(event, channel);
+    await bindAppEvents(event, userConfig.thumbnailsDir, channel);
+    await bindChannelEvents(event, channel);
 
-  return channel;
+    return channel;
+  } catch (e) {
+    if (process.env.MOCK) {
+      appDebug("rabbit")(
+        "Connecting to RabbitMQ failed, but it's probably normal because you're testing."
+      );
+    } else {
+      throw e;
+    }
+  }
 }
