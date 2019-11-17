@@ -1,3 +1,7 @@
+/**
+ * This file allows to start a fake API server that matches some of the route provided
+ * by the actual API server. It's used for the integration tests and the e2e tests.
+ */
 import express from "express";
 import { routes } from "@howdypix/utils";
 

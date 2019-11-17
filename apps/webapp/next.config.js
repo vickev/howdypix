@@ -13,6 +13,7 @@ const serverRuntimeConfig = {
   port: process.env.PORT || 3000,
   baseUrl: undefined,
   serverApi: {
+    // If we mock the API server, then we use the mocked API server URL
     url: process.env.MOCK_API
       ? mock.serverApi.url
       : process.env.API_BASE_URL || "http://localhost:3004"

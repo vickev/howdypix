@@ -15,7 +15,7 @@ import {
 } from "@howdypix/utils";
 import { UserConfigState } from "../state";
 
-const debug = debug;
+const debug = appDebug("rabbit");
 
 export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   const pathsInQueue: string[] = [];

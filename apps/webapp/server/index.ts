@@ -56,6 +56,7 @@ app.prepare().then(() => {
     console.log(`> Ready on http://localhost:${port}`);
   });
 
+  // Oh yeah! We mock the API server so we don't need to run it for the tests!!
   if (process.env.MOCK_API) {
     mockApiServer.listen(serverRuntimeConfig.mock.serverApi.port, () => {
       console.log(

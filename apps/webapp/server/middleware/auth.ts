@@ -72,26 +72,34 @@ export const authHandler: Handler = async (req, res, next) => {
   }
 };
 
+const isTokenInfo = (tokens: any): tokens is TokenInfo => {
+  return (
+    tokens.hasOwnProperty("token") && tokens.hasOwnProperty("refreshToken")
+  );
+};
+
 export const applyAuthMiddleware = (app: Express) => {
   routes.magickLinkValidation.applyMiddleware(app, async (req, res, next) => {
     // Request for the validation
-    const response = await axios.post(
+    const response = await axios.post<TokenInfo | { error: string }>(
       `${serverRuntimeConfig.serverApi.url}${routes.codeValidation.value()}`,
       {
         code: req.params.code
       }
     );
 
-    const tokens: TokenInfo | { error: string } = response.data;
+    /**
+     * This weird querystring is to pass some querystrings down to the redirect
+     */
     const querystring =
       "?" +
       [req.query["fixture-set"] && "fixture-set=" + req.query["fixture-set"]]
         .filter(p => p)
         .join("&");
 
-    if (!tokens.hasOwnProperty("error")) {
-      res.cookie("token", (tokens as TokenInfo).token);
-      res.cookie("refreshToken", (tokens as TokenInfo).refreshToken);
+    if (isTokenInfo(response.data)) {
+      res.cookie("token", response.data.token);
+      res.cookie("refreshToken", response.data.refreshToken);
       res.redirect("/" + (querystring === "?" ? "" : querystring));
     } else {
       next();

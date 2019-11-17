@@ -4,12 +4,11 @@ import Head from "next/head";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { createHttpLink, HttpLink } from "apollo-link-http";
+import { HttpLink } from "apollo-link-http";
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
 import { parse as cookieParser } from "cookie";
-import { ApolloLink } from "apollo-link";
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
