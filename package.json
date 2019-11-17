@@ -14,7 +14,7 @@
     "clean": "lerna clean -y && rm -rf node_modules",
     "lint": "lerna run lint && lerna run typecheck",
     "test": "lerna run test --stream --parallel",
-    "test:e2e": "lerna run test:e2e --stream --parallel",
+    "test:e2e": "lerna run test:e2e --stream --scope '@howdypix/app-webapp' && lerna run test:e2e --stream --scope '@howdypix/app-server'",
     "watch": "lerna run dev --stream --parallel",
     "watch:apps": "lerna run dev --stream --parallel --scope '@howdypix/app-*'",
     "watch:services": "lerna run dev --stream --parallel --scope '@howdypix/service-*'",
