@@ -7,7 +7,7 @@ const config = {
   },
   serverApi: {
     baseUrl: "",
-    port: parseInt(process.env.API_PORT as string) ?? 3004
+    port: parseInt(process.env.API_PORT as string) || 3004
   },
   auth: {
     code: {
