@@ -137,11 +137,11 @@ const AlbumPage:NextPage = function () {
             cols={gridCols[useWidth()]}
           >
             {
-              data?.getAlbum?.photos.map(
+              data?.getAlbum.photos?.map(
                 photo =>
                   photo?.thumbnails[1] && (
-                    <GridListTile cols={1} key={photo.thumbnails[1]}>
-                      <img src={photo.thumbnails[1]} alt="image" />
+                    <GridListTile key={photo.thumbnails[1]} >
+                      <img src={photo.thumbnails[1]} alt="image"/>
                     </GridListTile>
                   )
               )}

@@ -16,7 +16,7 @@ export async function onNewFile(
   connection: Connection,
   userConfig: UserConfigState
 ) {
-  const absolutePath = join(root, hfile.dir, hfile.file);
+  const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
   const stat = statSync(absolutePath);
 
   // Check if it exists in the database
@@ -65,19 +65,19 @@ export async function onProcessedFile(
   connection: Connection
 ) {
   const photo = new Photo();
-  photo.make = file.exif.make || "";
-  photo.model = file.exif.model || "";
-  photo.ISO = file.exif.ISO || 0;
-  photo.createDate = file.exif.createDate || 0;
+  photo.make = file.exif.make ?? "";
+  photo.model = file.exif.model ?? "";
+  photo.ISO = file.exif.ISO ?? 0;
+  photo.createDate = file.exif.createDate ?? 0;
   photo.inode = file.stat.inode;
   photo.mtime = file.stat.mtime;
   photo.ctime = file.stat.ctime;
   photo.birthtime = file.stat.birthtime;
   photo.size = file.stat.size;
   photo.source = file.hfile.source;
-  photo.parentDir = parse(file.hfile.dir).dir;
-  photo.dir = file.hfile.dir;
-  photo.file = file.hfile.file;
+  photo.parentDir = parse(file.hfile.dir ?? "").dir ?? "";
+  photo.dir = file.hfile.dir ?? "";
+  photo.file = file.hfile.file ?? "";
 
   const photoRepository = connection.getRepository(Photo);
 

@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const config = {
   rabbitMq: {
-    url: process.env.RABBITMQ_URL ?? "amqp://localhost"
+    url: process.env.RABBITMQ_URL || "amqp://localhost"
   },
   serverHttp: {
     baseUrl: "",
