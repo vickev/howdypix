@@ -11,7 +11,7 @@ import {
 // @ts-ignore
 import nextConfig from "../next.config";
 import { routes, appDebug } from "@howdypix/utils";
-import { authHandler, validateCode } from "./middleware/auth";
+import { applyAuthMiddleware, authHandler } from "./middleware/auth";
 import mockApiServer from "./mock/mockApiServer";
 
 const { serverRuntimeConfig } = nextConfig;
@@ -47,7 +47,7 @@ app.prepare().then(() => {
   }
 
   // Authentication routes
-  server.get(routes.magickLinkValidation.route, validateCode);
+  applyAuthMiddleware(server);
 
   // Next JS Middleware
   server.get("*", authHandler, (req, res) => handle(req, res));

@@ -1,4 +1,4 @@
-import { Handler } from "express";
+import { Express, Handler } from "express";
 import fetch from "isomorphic-unfetch";
 import { appDebug, routes } from "@howdypix/utils";
 // @ts-ignore
@@ -72,28 +72,29 @@ export const authHandler: Handler = async (req, res, next) => {
   }
 };
 
-export const validateCode: Handler = async (req, res, next) => {
-  console.log(req.params.code);
-  // Request for the validation
-  const response = await axios.post(
-    `${serverRuntimeConfig.serverApi.url}${routes.codeValidation.value()}`,
-    {
-      code: req.params.code
+export const applyAuthMiddleware = (app: Express) => {
+  routes.magickLinkValidation.applyMiddleware(app, async (req, res, next) => {
+    // Request for the validation
+    const response = await axios.post(
+      `${serverRuntimeConfig.serverApi.url}${routes.codeValidation.value()}`,
+      {
+        code: req.params.code
+      }
+    );
+
+    const tokens: TokenInfo | { error: string } = response.data;
+    const querystring =
+      "?" +
+      [req.query["fixture-set"] && "fixture-set=" + req.query["fixture-set"]]
+        .filter(p => p)
+        .join("&");
+
+    if (!tokens.hasOwnProperty("error")) {
+      res.cookie("token", (tokens as TokenInfo).token);
+      res.cookie("refreshToken", (tokens as TokenInfo).refreshToken);
+      res.redirect("/" + (querystring === "?" ? "" : querystring));
+    } else {
+      next();
     }
-  );
-
-  const tokens: TokenInfo | { error: string } = response.data;
-  const querystring =
-    "?" +
-    [req.query["fixture-set"] && "fixture-set=" + req.query["fixture-set"]]
-      .filter(p => p)
-      .join("&");
-
-  if (!tokens.hasOwnProperty("error")) {
-    res.cookie("token", (tokens as TokenInfo).token);
-    res.cookie("refreshToken", (tokens as TokenInfo).refreshToken);
-    res.redirect("/" + (querystring === "?" ? "" : querystring));
-  } else {
-    next();
-  }
+  });
 };
