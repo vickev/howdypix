@@ -14,11 +14,11 @@ export const authEmailResolver = (
   sender: UserConfigState["emailSender"]
 ) => async (root: {}, args: NexusGenArgTypes["Mutation"]["authEmail"]) =>
   new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(async resolve => {
-    const email = args.email ?? "NONE";
+    const email = args.email || "NONE";
     const user = isEmailValid(authorizedUsers, email);
 
     debug(
-      `Authentication requested: ${email} - user found: ${user?.name ?? "none"}`
+      `Authentication requested: ${email} - user found: ${user?.name || "none"}`
     );
 
     if (user) {

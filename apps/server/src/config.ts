@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const config = {
   rabbitMq: {
-    url: process.env.RABBITMQ_URL ?? "amqp://localhost"
+    url: process.env.RABBITMQ_URL || "amqp://localhost"
   },
   serverApi: {
     baseUrl: "",
@@ -26,6 +26,6 @@ const config = {
 };
 
 config.serverApi.baseUrl =
-  process.env.API_BASE_URL ?? `http://localhost:${config.serverApi.port}`;
+  process.env.API_BASE_URL || `http://localhost:${config.serverApi.port}`;
 
 export default config;
