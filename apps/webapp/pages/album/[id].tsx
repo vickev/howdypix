@@ -95,7 +95,7 @@ const AlbumPage:NextPage = function () {
   return (
     <Layout>
       <Box bgcolor={"white"} padding={gutter}>
-        <Box paddingBottom={gutter}>
+        <Box paddingBottom={gutter} id="BreadcrumbBox">
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" href="/" key="repo">
               Repository
@@ -116,7 +116,7 @@ const AlbumPage:NextPage = function () {
             Album {data?.getAlbum.album?.name}
           </Typography>
         </Box>
-        <Box paddingBottom={gutter}>
+        <Box paddingBottom={gutter} id="subAlbumBox">
           {data?.getAlbum?.albums.map(
               album =>
                 album?.name && (
@@ -130,7 +130,7 @@ const AlbumPage:NextPage = function () {
             )}
         </Box>
         <Divider variant="fullWidth" />
-        <Box paddingTop={gutter}>
+        <Box paddingTop={gutter} id="pictureBox">
           <GridList
             spacing={theme.spacing(gutter)}
             cellHeight={imageSize}
