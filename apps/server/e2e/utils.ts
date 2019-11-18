@@ -15,7 +15,7 @@ import { routes } from "@howdypix/utils";
  * Create an Apollo client to connect to the Apollo server to run queries for integration tests.
  */
 const link = new HttpLink({
-  uri: process.env.API_BASE_URL + "/graphql",
+  uri: (process.env.API_BASE_URL || "http://localhost:3004") + "/graphql",
   fetch
 });
 
