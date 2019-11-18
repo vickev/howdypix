@@ -8,7 +8,9 @@ const { serverRuntimeConfig } = nextConfig;
 const query: Query = {
   getAlbum: params => ({
     album: { name: "Empty", dir: "test", source: "test" },
-    albums: [{ name: params.album || "test", dir: "", source: "" }],
+    albums: [
+      { name: params.album || "sub-test", dir: "test/sub-test", source: "test" }
+    ],
     photos: []
   })
 };

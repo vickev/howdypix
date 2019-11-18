@@ -35,13 +35,17 @@ export function generateThumbnailUrls(
   height: number | null;
   url: string;
 }> {
+  if (!hfile.file) {
+    throw new Error("You need to pass a file path to generate a URL.");
+  }
+
   return [200, 600].map(size => ({
     width: size,
     height: null,
     url:
       baseUrl +
       "/static/" +
-      hjoin({ ...hfile, file: `${parse(hfile.file).name}x${size}.jpg` })
+      hjoin({ ...hfile, file: `${parse(hfile.file!).name}x${size}.jpg` })
   }));
 }
 

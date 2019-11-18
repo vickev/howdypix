@@ -25,7 +25,7 @@ export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
     QueueName.TO_PROCESS,
     msg => {
       if (msg) {
-        pathsInQueue.push(hjoin(msg.data.hfile));
+        pathsInQueue.push(hjoin(msg.data.hfile) as string);
       }
     },
     { consumerTag: "server" }
