@@ -1,7 +1,6 @@
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -14,6 +13,8 @@ import {
   AuthEmailMutationVariables
 } from "../../__generated__/schema-types";
 import { Divider, styled } from "@material-ui/core";
+import { LoginForm } from "./LoginForm";
+import { LoginEmailSent } from "./LoginEmailSent";
 
 //========================================
 // GraphQL queries
@@ -31,16 +32,9 @@ const AUTH_EMAIL = gql`
 // Styled components
 //========================================
 const CustomPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(5, 6)
-}));
-
-const CustomTextField = styled(TextField)(({ theme }) => ({
+  padding: theme.spacing(5, 6),
   width: "100%",
-  minWidth: 300
-}));
-
-const NextButton = styled(Button)(({ theme }) => ({
-  width: "100%"
+  maxWidth: 400
 }));
 
 //========================================
@@ -48,25 +42,16 @@ const NextButton = styled(Button)(({ theme }) => ({
 //========================================
 function _LoginBox() {
   const { t } = useTranslation("common");
-  const theme = useTheme();
-
-  let input: HTMLInputElement;
 
   const [authEmail, { data, loading, error }] = useMutation<
     AuthEmailMutation,
     AuthEmailMutationVariables
   >(AUTH_EMAIL);
 
-  const messageId = data?.authEmail?.messageId;
-  const messageData = data?.authEmail?.messageData;
-  const errorMessageId =
-    messageId === "AUTH_EMAIL_ERR" || messageId === "AUTH_EMAIL_ERR_NOT_EXIST"
-      ? messageId
-      : null;
-
-  if (messageData) {
-    console.log(messageData);
-  }
+  const hasError =
+    data?.authEmail?.messageId === "AUTH_EMAIL_ERR" ||
+    data?.authEmail?.messageId === "AUTH_EMAIL_ERR_NOT_EXIST";
+  const displayForm = !data || hasError;
 
   return (
     <Box
@@ -82,45 +67,16 @@ function _LoginBox() {
         <Box my={4} textAlign="center">
           <Divider variant="fullWidth" />
         </Box>
-        <form
-          data-testid="login_form"
-          onSubmit={e => {
-            e.preventDefault();
-            authEmail({ variables: { email: input.value } });
-            // TODO redirect to the next form
-          }}
-        >
-          <Box display="flex" flexDirection="column">
-            <CustomTextField
-              data-testid="login_email"
-              label={t("auth.email")}
-              InputLabelProps={{
-                shrink: true
-              }}
-              variant="outlined"
-              margin="dense"
-              inputRef={node => {
-                input = node;
-              }}
-              disabled={loading}
-            />
-            <Box my={2}>
-              <NextButton
-                variant="contained"
-                color="primary"
-                type="submit"
-                disabled={loading}
-              >
-                {t("auth.next")}
-              </NextButton>
-            </Box>
-            {errorMessageId && (
-              <Typography align="center" color={"error"}>
-                {t(errorMessageId)}
-              </Typography>
-            )}
-          </Box>
-        </form>
+        {(displayForm && (
+          <LoginForm
+            loading={loading}
+            data={data}
+            error={error}
+            onSubmit={email => {
+              authEmail({ variables: { email } });
+            }}
+          />
+        )) || <LoginEmailSent />}
       </CustomPaper>
     </Box>
   );

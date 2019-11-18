@@ -19,12 +19,10 @@ context("LoginBox page", () => {
     cy.findByTestId("login_form").should("contain", "error occurred");
   });
 
-  it("should be successful if there is the right email.", () => {
+  it.only("should be successful if there is the right email.", () => {
     cy.visit("/login?fixture-set=full");
     cy.findByTestId("login_email").type("success@vickev.com{enter}");
-    cy.findByTestId("login_form")
-      .should("not.contain", "an authorized email")
-      .should("not.contain", "error");
+    cy.get("body").should("contain", "email has been sent to your address");
   });
 
   it("should be redirect to the homepage if the magic link is valid.", () => {
@@ -43,9 +41,9 @@ context("LoginBox page", () => {
       routes.magickLinkValidation.value({ code: "badCode" }) +
         "?fixture-set=full"
     );
-    // @TODO need to display a proper error
+
     cy.location().should(loc => {
-      expect(loc.pathname).to.not.eq("/");
+      expect(loc.pathname).to.eq("/login");
     });
   });
 
