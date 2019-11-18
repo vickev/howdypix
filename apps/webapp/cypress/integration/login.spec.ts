@@ -3,10 +3,6 @@
 const { routes } = require("@howdypix/utils");
 
 context("LoginBox page", () => {
-  beforeEach(() => {
-    cy.visit("/?fixture-set=full");
-  });
-
   it("should display an error if the email is not valid.", () => {
     cy.visit("/login?fixture-set=full");
     cy.findByTestId("login_email").type("not_existing_email{enter}");
