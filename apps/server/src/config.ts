@@ -3,14 +3,14 @@ require("dotenv").config();
 
 const config = {
   rabbitMq: {
-    url: process.env.RABBITMQ_URL ?? "amqp://localhost"
+    url: process.env.RABBITMQ_URL || "amqp://localhost"
   },
   serverHttp: {
     baseUrl: "",
-    port: parseInt(process.env.HTTP_PORT as string) ?? 3004
+    port: parseInt(process.env.HTTP_PORT as string) || 3004
   },
   serverApollo: {
-    port: parseInt(process.env.APOLLO_PORT as string) ?? 4005
+    port: parseInt(process.env.APOLLO_PORT as string) || 4005
   }
 };
 

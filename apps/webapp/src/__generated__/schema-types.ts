@@ -54,13 +54,26 @@ export interface QueryGetAlbumArgs {
   source?: Maybe<Scalars["String"]>;
 }
 
+export type GetSubAlbumQueryVariables = {
+  source?: Maybe<Scalars["String"]>;
+  album?: Maybe<Scalars["String"]>;
+};
+
+export type GetSubAlbumQuery = {
+  getAlbum: {
+    album: Maybe<Pick<Album, "name">>;
+    photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
+    albums: Array<Pick<Album, "name" | "source" | "dir">>;
+  };
+};
+
 export type GetAlbumQueryVariables = {};
 
 export type GetAlbumQuery = {
   getAlbum: {
     album: Maybe<Pick<Album, "name">>;
     photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
-    albums: Array<Pick<Album, "name">>;
+    albums: Array<Pick<Album, "name" | "source" | "dir">>;
   };
 };
 

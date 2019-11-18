@@ -71,7 +71,7 @@ export const Query = queryField("getAlbum", {
       photos: photos.map(photo => ({
         id: photo.id.toString(),
         thumbnails: generateThumbnailUrls(config.serverHttp.baseUrl, photo).map(
-          tn => tn.url
+          (tn: any) => tn.url
         )
       })),
       albums: albums

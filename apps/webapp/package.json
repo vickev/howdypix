@@ -26,6 +26,7 @@
     "@howdypix/utils": "^0.1.0",
     "@material-ui/core": "^4.4.3",
     "@material-ui/styles": "^4.4.3",
+    "@material-ui/icons": "^4.4.3",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
     "apollo-link": "^1.2.13",
