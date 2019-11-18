@@ -19,7 +19,7 @@ export const applyAuthMiddleware = (app: Express) => {
    * ready to generate the connection token.
    */
   routes.codeValidation.applyMiddleware(app, async (req, res) => {
-    const user = await isCodeValid(req.body.code);
+    const user = await isCodeValid(req.body.code || "");
 
     // The code is valid
     if (user) {
@@ -44,7 +44,7 @@ export const applyAuthMiddleware = (app: Express) => {
    * Otherwise returns 401.
    */
   routes.authenticatedUser.applyMiddleware(app, async (req, res) => {
-    const user = await isTokenValid(req.body.token);
+    const user = await isTokenValid(req.body.token || "");
 
     if (user) {
       res.json(user);
@@ -56,7 +56,7 @@ export const applyAuthMiddleware = (app: Express) => {
   routes.refreshToken.applyMiddleware(app, async (req, res) => {
     debug(`Refresh token with: ${req.body.token}`);
 
-    const user = await isRefreshTokenValid(req.body.token);
+    const user = await isRefreshTokenValid(req.body.token || "");
 
     if (user) {
       res.json({

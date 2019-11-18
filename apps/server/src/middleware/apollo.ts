@@ -44,7 +44,8 @@ export function applyApolloMiddleware(
   const apolloServer = new ApolloServer({
     schema,
     context: async ({ req }: { req: Request }) => ({
-      user: await isTokenValid(req.headers.get("token") || "")
+      // @ts-ignore
+      user: await isTokenValid(req.headers.token || "")
     })
   });
 

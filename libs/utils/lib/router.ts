@@ -4,7 +4,7 @@ import { compile } from "path-to-regexp";
 
 class RouteWithValidation<
   Params extends Record<string, string>,
-  ReqBody extends Record<string, string> = {},
+  ReqBody extends Record<string, string | undefined> = {},
   ResBody extends Record<string, any> = {}
 > {
   public route: string;
@@ -38,15 +38,17 @@ export const routes = {
   ),
   codeValidation: new RouteWithValidation<
     {},
-    { code: string },
+    { code: string | undefined },
     TokenInfo | { error: string }
   >("/auth/validate-code"),
-  authenticatedUser: new RouteWithValidation<{}, { token: string }, UserInfo>(
-    "/auth/user"
-  ),
+  authenticatedUser: new RouteWithValidation<
+    {},
+    { token: string | undefined },
+    UserInfo
+  >("/auth/user"),
   refreshToken: new RouteWithValidation<
     {},
-    { token: string },
+    { token: string | undefined },
     { token: string }
   >("/auth/refresk-token")
 };

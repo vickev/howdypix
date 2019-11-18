@@ -17,7 +17,7 @@ describe("The authentication routes", () => {
   });
 
   describe("validating the email", function() {
-    const sendMutation = (email: string) =>
+    const sendMutation = async (email: string) =>
       client.mutate({
         mutation: gql`
           mutation AuthEmail($email: String!) {
@@ -33,7 +33,11 @@ describe("The authentication routes", () => {
       });
 
     test("should return an error if the email is not allowed", async () => {
-      expect(await sendMutation("NONE")).toMatchSnapshot();
+      try {
+        expect(await sendMutation("NONE")).toMatchSnapshot();
+      } catch (e) {
+        console.log(e.networkError.result);
+      }
     });
 
     test("should return a success message if the email is allowed", async () => {
