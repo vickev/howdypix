@@ -1,12 +1,24 @@
 // Load env variables
 require("dotenv").config();
 
+const mock = {
+  serverApi: {
+    port: 4004,
+    url: undefined
+  }
+};
+mock.serverApi.url = `http://localhost:${mock.serverApi.port}`;
+
 const serverRuntimeConfig = {
   port: process.env.PORT || 3000,
   baseUrl: undefined,
-  serverApollo: {
-    url: process.env.APOLLO_BASE_URL || "http://localhost:4005"
-  }
+  serverApi: {
+    // If we mock the API server, then we use the mocked API server URL
+    url: process.env.MOCK_API
+      ? mock.serverApi.url
+      : process.env.API_BASE_URL || "http://localhost:3004"
+  },
+  mock
 };
 
 const publicRuntimeConfig = {

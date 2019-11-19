@@ -44,9 +44,9 @@ Some tools are available right from the box when developing on this project, and
 
 | Tool               | Description                                                                                                            | Default URL                              |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| GraphQL Playground | Allows to query the schema.                                                                                            | http://localhost:4005/graphql            |
+| GraphQL Playground | Allows to query the schema.                                                                                            | http://localhost:3004/graphql            |
 | MailHog            | MailHog is a service to check the emails sent by the application.                                                      | http://localhost:1080                    |
-| Email Template     | To try the emails that will be sent. To change the parameters of the template function, pass them as query parameters. | http://localhost:4005/email              |
+| Email Templates    | To try the emails that will be sent. To change the parameters of the template function, pass them as query parameters. | http://localhost:3004/email              |
 | RabbitMQ           | RabbitMQ is the message-bus library.                                                                                   | http://localhost:15672 `guest` / `guest` |
 
 ## Code quality

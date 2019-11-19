@@ -4,6 +4,7 @@
   "auth": {
     "title": "Authentication",
     "next": "Next",
-    "email": "Email address"
+    "email": "Email address",
+    "emailSent": "Congratulations, you're almost there! \uD83C\uDF8A An email has been sent to your address. Click on the link to finish logging in!"
   }
 }

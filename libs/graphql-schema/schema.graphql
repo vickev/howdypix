@@ -18,6 +18,7 @@ enum AuthEmailMessage {
 }
 
 type AuthEmailType {
+  code: String
   messageData: String
   messageId: AuthEmailMessage!
 }

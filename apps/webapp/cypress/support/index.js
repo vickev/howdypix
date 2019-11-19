@@ -15,3 +15,8 @@
 
 // Import commands.js using ES2015 syntax:
 import "./commands";
+
+Cypress.Commands.add("login", userType => {
+  cy.setCookie("token", "validToken");
+  cy.setCookie("refreshToken", "validToken");
+});

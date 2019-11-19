@@ -8,10 +8,20 @@ import { HttpLink } from "apollo-link-http";
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
+import { parse as cookieParser } from "cookie";
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
 let apolloClient: ApolloClient<any>;
+
+type InitialState = {
+  fixtureSet: string | null;
+  tokens: {
+    token: string | null;
+    refreshToken: string | null;
+  };
+  [key: string]: any;
+};
 
 type WithApolloProps = {
   apolloClient?: ApolloClient<any>;
@@ -38,9 +48,16 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
   }) => {
     const router = useRouter();
     const fixtureSet = router.query["fixture-set"];
+    const tokens: { token?: string; refreshToken?: string } = {};
+
+    if (typeof document !== "undefined") {
+      const cookies = cookieParser(document.cookie);
+      tokens.token = cookies.token;
+      tokens.refreshToken = cookies.refreshToken;
+    }
 
     const client =
-      apolloClient || initApolloClient({ ...apolloState, fixtureSet });
+      apolloClient || initApolloClient({ ...apolloState, fixtureSet, tokens });
     return (
       <ApolloProvider client={client}>
         <PageComponent {...pageProps} />
@@ -62,14 +79,24 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
 
   if (ssr || PageComponent.getInitialProps) {
     WithApollo.getInitialProps = async ctx => {
-      const fixtureSet =
-        // @ts-ignore
-        ctx.req && ctx.req.query && ctx.req.query["fixture-set"];
+      // @ts-ignore
+      const fixtureSet = ctx?.req?.query?.["fixture-set"];
+      // @ts-ignore
+      const { token, refreshToken } = ctx?.req?.cookies ?? {
+        token: null,
+        refreshToken: null
+      };
       const { AppTree } = ctx;
 
       // Initialize ApolloClient, add it to the ctx object so
       // we can use it in `PageComponent.getInitialProp`.
-      const apolloClient = initApolloClient({ fixtureSet });
+      const apolloClient = initApolloClient({
+        fixtureSet,
+        tokens: {
+          token,
+          refreshToken
+        }
+      });
 
       // Run wrapped getInitialProps methods
       let pageProps = {};
@@ -119,7 +146,9 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
 
       return {
         ...pageProps,
-        apolloState
+        apolloState,
+        token,
+        refreshToken
       };
     };
   }
@@ -132,9 +161,7 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
  * Creates or reuses apollo client in the browser.
  * @param  {Object} initialState
  */
-function initApolloClient(
-  initialState = { fixtureSet: null }
-): ApolloClient<any> {
+function initApolloClient(initialState: InitialState): ApolloClient<any> {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (typeof window === "undefined") {
@@ -151,15 +178,16 @@ function initApolloClient(
 
 /**
  * Creates and configures the ApolloClient
- * @param  {Object} [initialState={}]
  */
-function createApolloClient(
-  initialState: { fixtureSet: string | null } = { fixtureSet: null }
-): ApolloClient<any> {
+function createApolloClient(initialState: InitialState): ApolloClient<any> {
+  const { tokens, fixtureSet, ...apolloState } = initialState;
   const headers: { [key: string]: string | null } = {};
 
-  if (initialState.fixtureSet) {
-    headers["Fixture-set"] = initialState.fixtureSet;
+  if (fixtureSet) {
+    headers["Fixture-set"] = fixtureSet;
+  }
+  if (tokens.token) {
+    headers["token"] = tokens.token;
   }
 
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient

@@ -5,6 +5,7 @@ import smtpTransport from "nodemailer-smtp-transport";
 import { magicLink } from "../../email";
 import { appDebug } from "@howdypix/utils";
 import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema";
+import { generateCode, isEmailValid, storeCode } from "../../lib/auth";
 
 const debug = appDebug("gql:auth");
 
@@ -12,23 +13,27 @@ export const authEmailResolver = (
   authorizedUsers: UserConfigState["users"],
   sender: UserConfigState["emailSender"]
 ) => async (root: {}, args: NexusGenArgTypes["Mutation"]["authEmail"]) =>
-  new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(resolve => {
-    const user = authorizedUsers.find(u => u.email == args.email);
+  new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(async resolve => {
+    const email = args.email || "NONE";
+    const user = isEmailValid(authorizedUsers, email);
 
     debug(
-      `Authentication requested: ${args.email} - user found: ${(user &&
-        user.name) ||
-        "none"}`
+      `Authentication requested: ${email} - user found: ${user?.name || "none"}`
     );
 
     if (user) {
-      const transporter = createTransport(
-        smtpTransport({
-          host: process.env.SMTP_HOST,
-          port: parseInt(process.env.SMTP_PORT as string),
-          ignoreTLS: true
-        })
-      );
+      const transporter = process.env.MOCK
+        ? createTransport({
+            streamTransport: true,
+            newline: "windows"
+          })
+        : createTransport(
+            smtpTransport({
+              host: process.env.SMTP_HOST,
+              port: parseInt(process.env.SMTP_PORT as string),
+              ignoreTLS: true
+            })
+          );
 
       const mailOptions = {
         from: `${sender.name}<${sender.email}>`,
@@ -37,10 +42,15 @@ export const authEmailResolver = (
 
       debug("Send email", mailOptions);
 
+      const code = await generateCode({ email: user.email });
+
       transporter.sendMail(
         {
           ...mailOptions,
-          html: magicLink({ code: "123", name: user.name })
+          html: magicLink({
+            code,
+            name: user.name
+          })
         },
         (error, info) => {
           if (error) {
@@ -50,9 +60,12 @@ export const authEmailResolver = (
               messageData: error.message
             });
           } else {
+            // Save in memory
+            storeCode(user.email, code);
             debug(`Email sent successfully to ${user.email}.`);
             resolve({
-              messageId: "AUTH_EMAIL_OK"
+              messageId: "AUTH_EMAIL_OK",
+              code
             });
           }
         }

@@ -22,6 +22,7 @@ export enum AuthEmailMessage {
 }
 
 export interface AuthEmailType {
+  code?: Maybe<Scalars["String"]>;
   messageData?: Maybe<Scalars["String"]>;
   messageId: AuthEmailMessage;
 }

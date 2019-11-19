@@ -25,6 +25,7 @@ export interface NexusGenRootTypes {
   };
   AuthEmailType: {
     // root type
+    code?: string | null; // String
     messageData?: string | null; // String
     messageId: NexusGenEnums["AuthEmailMessage"]; // AuthEmailMessage!
   };
@@ -61,6 +62,7 @@ export interface NexusGenFieldTypes {
   };
   AuthEmailType: {
     // field return type
+    code: string | null; // String
     messageData: string | null; // String
     messageId: NexusGenEnums["AuthEmailMessage"]; // AuthEmailMessage!
   };

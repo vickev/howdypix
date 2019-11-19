@@ -41,3 +41,13 @@ export enum QueueName {
   TO_PROCESS = "toProcess",
   PROCESSED = "processed"
 }
+
+export type TokenInfo = {
+  token: string;
+  refreshToken: string;
+  user: UserInfo;
+};
+
+export type UserInfo = {
+  email: string;
+};

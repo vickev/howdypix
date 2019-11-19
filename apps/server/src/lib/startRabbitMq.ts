@@ -15,6 +15,8 @@ import {
 } from "@howdypix/utils";
 import { UserConfigState } from "../state";
 
+const debug = appDebug("rabbit");
+
 export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   const pathsInQueue: string[] = [];
 
@@ -32,8 +34,8 @@ export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   await channel.cancel("server");
   await channel.recover();
 
-  appDebug("rabbit")(`Paths already in queue: ${pathsInQueue.length}.`);
-  appDebug("rabbit")(pathsInQueue);
+  debug(`Paths already in queue: ${pathsInQueue.length}.`);
+  debug(pathsInQueue);
 
   return pathsInQueue;
 }
@@ -73,14 +75,24 @@ export async function startRabbitMq(
   userConfig: UserConfigState,
   url: string
 ) {
-  const connection = await connectRabbitMq(url);
-  const channel = await connection.createChannel();
+  try {
+    const connection = await connectRabbitMq(url);
+    const channel = await connection.createChannel();
 
-  await assertQueue(channel, QueueName.TO_PROCESS);
-  await assertQueue(channel, QueueName.PROCESSED);
+    await assertQueue(channel, QueueName.TO_PROCESS);
+    await assertQueue(channel, QueueName.PROCESSED);
 
-  await bindAppEvents(event, userConfig.thumbnailsDir, channel);
-  await bindChannelEvents(event, channel);
+    await bindAppEvents(event, userConfig.thumbnailsDir, channel);
+    await bindChannelEvents(event, channel);
 
-  return channel;
+    return channel;
+  } catch (e) {
+    if (process.env.MOCK) {
+      debug(
+        "Connecting to RabbitMQ failed, but it's probably normal because you're testing."
+      );
+    } else {
+      throw e;
+    }
+  }
 }
