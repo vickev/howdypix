@@ -2,6 +2,7 @@
 
 context("Album page full", () => {
   beforeEach(() => {
+    cy.login();
     cy.visit("/album/@test?fixture-set=full");
   });
 
@@ -18,6 +19,7 @@ context("Album page full", () => {
 
 context("Album page empty", () => {
   beforeEach(() => {
+    cy.login();
     cy.visit("/album/@test?fixture-set=empty");
   });
 
