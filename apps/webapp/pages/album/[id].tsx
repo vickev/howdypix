@@ -6,7 +6,7 @@ import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import { default as MUILink } from "@material-ui/core/Link";
+import MUILink from "@material-ui/core/Link";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Link from "next/link";
 import { Divider } from "@material-ui/core";
