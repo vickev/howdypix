@@ -10,9 +10,9 @@ interface LayoutProps {
   children: React.ReactElement;
 }
 
-const _Layout: React.FC<LayoutProps> = ({
+const RawLayout: React.FC<LayoutProps> = ({
   leftComponent,
-  rightComponent,
+  // rightComponent,
   children
 }) => {
   const { user, logout } = useCurrentUser();
@@ -35,4 +35,4 @@ const _Layout: React.FC<LayoutProps> = ({
   );
 };
 
-export const Layout = withUser(_Layout);
+export const Layout = withUser(RawLayout);

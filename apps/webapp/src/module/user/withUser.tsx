@@ -23,29 +23,27 @@ const GET_CURRENT_USER = gql`
 `;
 
 export const withUser = <P extends object>(
-  WrappedComponent: React.ComponentType<P>
-): ComponentType<P> => {
-  return props => {
-    const { loading, error, data } = useQuery<
-      GetCurrentUserQuery,
-      GetCurrentUserQueryVariables
-    >(GET_CURRENT_USER);
+  WrappedComponent: ComponentType<P>
+): ComponentType<P> => (props): React.ReactElement => {
+  const { data } = useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(
+    GET_CURRENT_USER
+  );
 
-    if (data) {
-      debug("Currently logged in user:", data?.getCurrentUser);
-    }
+  if (data) {
+    debug("Currently logged in user:", data?.getCurrentUser);
+  }
 
-    return (
-      <UserProvider
-        value={{
-          user: data?.getCurrentUser,
-          logout: () => {
-            window.location.replace("/logout");
-          }
-        }}
-      >
-        <WrappedComponent {...props} />
-      </UserProvider>
-    );
-  };
+  return (
+    <UserProvider
+      value={{
+        user: data?.getCurrentUser,
+        logout: (): void => {
+          window.location.replace("/logout");
+        }
+      }}
+    >
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <WrappedComponent {...props} />
+    </UserProvider>
+  );
 };

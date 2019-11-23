@@ -1,6 +1,6 @@
+import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { useTranslation } from "react-i18next";
 import { Theme, useTheme } from "@material-ui/core/styles";
 import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
@@ -8,7 +8,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Link from "@material-ui/core/Link";
-
+import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -25,11 +25,10 @@ import {
   GetSubAlbumQueryVariables
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
-import { Divider } from "@material-ui/core";
 
-//========================================
+// ========================================
 // Constants
-//========================================
+// ========================================
 const imageSize = 200;
 const gutter = 3;
 const gridCols = {
@@ -39,9 +38,9 @@ const gridCols = {
   sm: 2,
   xs: 1
 };
-//========================================
+// ========================================
 // GraphQL queries
-//========================================
+// ========================================
 const GET_GREETING = gql`
   query GetSubAlbum($source: String, $album: String) {
     getAlbum(source: $source, album: $album) {
@@ -60,26 +59,25 @@ const GET_GREETING = gql`
   }
 `;
 
-function useWidth() {
+function useWidth(): Breakpoint {
   const theme: Theme = useTheme();
   const keys: Breakpoint[] = [...theme.breakpoints.keys].reverse();
   return (
     keys.reduce((output: Breakpoint | null, key: Breakpoint) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const matches = useMediaQuery(theme.breakpoints.up(key));
       return !output && matches ? key : output;
     }, null) || "lg"
   );
 }
 
-const AlbumPage: NextPage = function() {
+const AlbumPage: NextPage = () => {
   const router = useRouter();
   const folder: HFile = hparse(router.query.id as string);
   const breadcrumbs: HFile[] = hpaths(folder);
 
-  const { t, i18n } = useTranslation("common");
   const theme = useTheme();
-  const { loading, error, data } = useQuery<
+  // @TODO: Must consider the error case
+  const { loading, data } = useQuery<
     GetSubAlbumQuery,
     GetSubAlbumQueryVariables
   >(GET_GREETING, {
@@ -93,7 +91,7 @@ const AlbumPage: NextPage = function() {
 
   return (
     <Layout>
-      <Box bgcolor={"white"} padding={gutter}>
+      <Box bgcolor="white" padding={gutter}>
         <Box paddingBottom={gutter} id="BreadcrumbBox">
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" href="/" key="repo">

@@ -1,3 +1,4 @@
+import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
@@ -38,7 +39,7 @@ const CustomPaper = styled(Paper)(({ theme }) => ({
 //= =======================================
 // Main Component
 //= =======================================
-function _LoginBox() {
+function RawLoginBox(): React.ReactElement {
   const { t } = useTranslation("common");
 
   const [authEmail, { data, loading, error }] = useMutation<
@@ -70,7 +71,7 @@ function _LoginBox() {
             loading={loading}
             data={data}
             error={error}
-            onSubmit={email => {
+            onSubmit={(email): void => {
               authEmail({ variables: { email } });
             }}
           />
@@ -80,4 +81,4 @@ function _LoginBox() {
   );
 }
 
-export const LoginBox = withApollo(_LoginBox);
+export const LoginBox = withApollo(RawLoginBox);
