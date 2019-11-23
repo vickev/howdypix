@@ -1,10 +1,9 @@
 import { Express, Handler } from "express";
 import fetch from "isomorphic-unfetch";
 import { appDebug, routes } from "@howdypix/utils";
-// @ts-ignore
-import nextConfig from "../../next.config";
 import axios from "axios";
 import { TokenInfo } from "@howdypix/shared-types";
+import nextConfig from "../../next.config";
 
 const { serverRuntimeConfig } = nextConfig;
 const debug = appDebug("middleware:auth");

@@ -12,7 +12,7 @@
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "NODE_ENV=production node dist/index.js",
     "start:mock": "NODE_ENV=production MOCK_API=true node dist/server/index.js",
-    "lint": "eslint src/**/*.{ts,tsx}",
+    "lint": "eslint {src,server}/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit && tsc --project cypress/tsconfig.json --noEmit",
     "test:e2e": "concurrently 'yarn start:mock' 'wait-on tcp:3000 && cypress run' --kill-others --kill-others-on-fail --raw --success first",
     "test:e2e:local": "cypress open",

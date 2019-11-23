@@ -18,7 +18,7 @@ export async function startRabbitMq(url: string): Promise<Channel> {
 
   await consume<MessageProcess>(channel, QueueName.TO_PROCESS, async msg => {
     if (msg) {
-      appDebug("toProcess")(hjoin(msg.data.hfile));
+      appDebug("toProcess")(hjoin(msg.data.hfile).toString());
       channel.ack(msg);
 
       try {

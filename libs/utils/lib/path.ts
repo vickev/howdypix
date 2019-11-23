@@ -17,10 +17,10 @@ import { HFile, HPath } from "@howdypix/shared-types";
  */
 
 export function hjoin(howdyfile: HFile): HPath {
-  return (
-    `@${howdyfile.source}:` +
-    path.join(howdyfile.dir ?? "", howdyfile.file ?? "")
-  );
+  return `@${howdyfile.source}:${path.join(
+    howdyfile.dir ?? "",
+    howdyfile.file ?? ""
+  )}`;
 }
 
 export function hparse(hpath: HPath): HFile {
@@ -51,17 +51,21 @@ export function hparse(hpath: HPath): HFile {
 
 export function path2hfile(source: string, relativePath: string): HFile {
   const { dir, base } = path.parse(relativePath);
-  return { source: source, dir, file: base };
+  return { source, dir, file: base };
 }
 
 export function hfile2path({ dir, file }: HFile): HPath {
   return (file && path.join(dir ?? "", file)) ?? dir ?? "";
 }
 
-export function thumbnailPath(root: string, howdyfile: HFile | HPath) {
-  const { source, dir, file } = howdyfile.hasOwnProperty("dir")
-    ? (howdyfile as HFile)
-    : hparse(howdyfile as HPath);
+const isHFile = (howdyfile: HFile | HPath): howdyfile is HFile =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  typeof (howdyfile as any).dir !== "undefined";
+
+export function thumbnailPath(root: string, howdyfile: HFile | HPath): string {
+  const { source, dir, file } = isHFile(howdyfile)
+    ? howdyfile
+    : hparse(howdyfile);
 
   return path.join(root, ".howdypix", source, dir ?? "", file ?? "");
 }
@@ -74,7 +78,7 @@ export function hpaths(folder: HFile): HFile[] {
     name: folder.source
   });
   folders &&
-    folders.map((element, index) => {
+    folders.forEach((element, index) => {
       paths.push({
         source: folder.source,
         dir: folders.slice(0, index).join("/"),
