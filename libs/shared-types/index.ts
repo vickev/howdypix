@@ -49,5 +49,6 @@ export type TokenInfo = {
 };
 
 export type UserInfo = {
+  name: string;
   email: string;
 };

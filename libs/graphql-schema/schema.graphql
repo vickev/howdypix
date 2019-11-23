@@ -23,6 +23,11 @@ type AuthEmailType {
   messageId: AuthEmailMessage!
 }
 
+type CurrentUserType {
+  email: String!
+  name: String!
+}
+
 type GetPhotos {
   album: Album
   albums: [Album!]!
@@ -39,5 +44,6 @@ type Photo {
 }
 
 type Query {
+  currentUser: CurrentUserType!
   getAlbum(album: String, source: String): GetPhotos!
 }

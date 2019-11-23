@@ -9,7 +9,7 @@ Object {
 exports[`The authentication routes validating the email should return a success message if the email is allowed 1`] = `
 Object {
   "data": Object {
-    "authEmail": Object {
+    "currentUser": Object {
       "__typename": "AuthEmailType",
       "messageData": null,
       "messageId": "AUTH_EMAIL_OK",
@@ -21,7 +21,7 @@ Object {
 exports[`The authentication routes validating the email should return an error if the email is not allowed 1`] = `
 Object {
   "data": Object {
-    "authEmail": Object {
+    "currentUser": Object {
       "__typename": "AuthEmailType",
       "messageData": null,
       "messageId": "AUTH_EMAIL_ERR_NOT_EXIST",

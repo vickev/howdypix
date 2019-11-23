@@ -5,6 +5,7 @@ import { transform } from "lodash";
 import { UserConfigState } from "../state";
 import { Express } from "express";
 import { isTokenValid } from "../lib/auth";
+import { ApolloContext } from "../types";
 
 const { ApolloServer } = require("apollo-server-express");
 
@@ -43,7 +44,7 @@ export function applyApolloMiddleware(
 
   const apolloServer = new ApolloServer({
     schema,
-    context: async ({ req }: { req: Request }) => ({
+    context: async ({ req }: { req: Request }): Promise<ApolloContext> => ({
       // @ts-ignore
       user: await isTokenValid(req.headers.token || "")
     })
