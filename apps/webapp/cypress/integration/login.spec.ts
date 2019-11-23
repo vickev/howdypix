@@ -65,4 +65,22 @@ context("LoginBox page", () => {
       expect(loc.pathname).to.eq("/login");
     });
   });
+
+  it("should log out the user with logging out.", () => {
+    cy.login();
+    cy.visit("/?fixture-set=full");
+
+    cy.findByText("Foo Bar").click();
+
+    // Should redirect to login
+    cy.location().should(loc => {
+      expect(loc.pathname).to.eq("/login");
+    });
+
+    // When visiting the homepage, should redirect to login again
+    cy.visit("/?fixture-set=full");
+    cy.location().should(loc => {
+      expect(loc.pathname).to.eq("/login");
+    });
+  });
 });

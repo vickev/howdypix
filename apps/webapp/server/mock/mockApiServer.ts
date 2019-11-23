@@ -13,7 +13,7 @@ routes.codeValidation.applyMiddleware(app, (req, res) => {
     res.json({
       refreshToken: "validToken",
       token: "validToken",
-      user: { email: "dev@vickev.com" }
+      user: { email: "dev@vickev.com", name: "Foo Bar" }
     });
   } else {
     res.json({ error: "Token expired" });
@@ -22,7 +22,7 @@ routes.codeValidation.applyMiddleware(app, (req, res) => {
 
 routes.authenticatedUser.applyMiddleware(app, (req, res) => {
   if (req.body.token === "validToken") {
-    res.json({ email: "dev@vickev.com" });
+    res.json({ email: "dev@vickev.com", name: "Foo Bar" });
   } else {
     res.sendStatus(401);
   }

@@ -105,4 +105,11 @@ export const applyAuthMiddleware = (app: Express) => {
       next();
     }
   });
+
+  app.get("/logout", (req, res) => {
+    debug("Logging out the user.");
+    res.cookie("token", "loggedout");
+    res.cookie("refreshToken", "loggedout");
+    res.redirect("/login");
+  });
 };

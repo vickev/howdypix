@@ -29,6 +29,11 @@ export interface NexusGenRootTypes {
     messageData?: string | null; // String
     messageId: NexusGenEnums["AuthEmailMessage"]; // AuthEmailMessage!
   };
+  CurrentUserType: {
+    // root type
+    email: string; // String!
+    name: string; // String!
+  };
   GetPhotos: {
     // root type
     album?: NexusGenRootTypes["Album"] | null; // Album
@@ -66,6 +71,11 @@ export interface NexusGenFieldTypes {
     messageData: string | null; // String
     messageId: NexusGenEnums["AuthEmailMessage"]; // AuthEmailMessage!
   };
+  CurrentUserType: {
+    // field return type
+    email: string; // String!
+    name: string; // String!
+  };
   GetPhotos: {
     // field return type
     album: NexusGenRootTypes["Album"] | null; // Album
@@ -84,6 +94,7 @@ export interface NexusGenFieldTypes {
   Query: {
     // field return type
     getAlbum: NexusGenRootTypes["GetPhotos"]; // GetPhotos!
+    getCurrentUser: NexusGenRootTypes["CurrentUserType"] | null; // CurrentUserType
   };
 }
 
@@ -110,6 +121,7 @@ export interface NexusGenInheritedFields {}
 export type NexusGenObjectNames =
   | "Album"
   | "AuthEmailType"
+  | "CurrentUserType"
   | "GetPhotos"
   | "Mutation"
   | "Photo"

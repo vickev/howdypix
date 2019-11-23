@@ -12,6 +12,10 @@ const query: Query = {
       { name: params.album || "sub-test", dir: "test/sub-test", source: "test" }
     ],
     photos: []
+  }),
+  getCurrentUser: () => ({
+    name: "Foo Bar",
+    email: "dev@vickev.com"
   })
 };
 

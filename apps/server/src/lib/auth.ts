@@ -32,6 +32,10 @@ const trunkToken = (token: string): string => {
   return token;
 };
 
+const isUserInfo = (data: any): data is UserInfo => {
+  return data && data.email && data.name;
+};
+
 //====================================================
 // Validation functions
 //====================================================
@@ -48,10 +52,9 @@ export const isJwtTokenValid = async (
     debug(`Token: ${trunkToken(token)}`);
 
     jwt.verify(token, secret, (error, decoded) => {
-      if (!error) {
-        const user = decoded as UserInfo;
-        debug(`Token valid!`, user);
-        resolve({ email: (decoded as UserInfo).email });
+      if (!error && isUserInfo(decoded)) {
+        debug(`Token valid!`, decoded);
+        resolve({ email: decoded.email, name: decoded.name });
       } else {
         debug(`Token not valid!`);
         resolve(null);

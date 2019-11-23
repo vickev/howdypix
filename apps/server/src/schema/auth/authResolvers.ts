@@ -42,7 +42,7 @@ export const authEmailResolver = (
 
       debug("Send email", mailOptions);
 
-      const code = await generateCode({ email: user.email });
+      const code = await generateCode({ email: user.email, name: user.name });
 
       transporter.sendMail(
         {

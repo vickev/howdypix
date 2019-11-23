@@ -27,6 +27,11 @@ export interface AuthEmailType {
   messageId: AuthEmailMessage;
 }
 
+export interface CurrentUserType {
+  email: Scalars["String"];
+  name: Scalars["String"];
+}
+
 export interface GetPhotos {
   album?: Maybe<Album>;
   albums: Array<Album>;
@@ -48,6 +53,7 @@ export interface Photo {
 
 export interface Query {
   getAlbum: GetPhotos;
+  getCurrentUser?: Maybe<CurrentUserType>;
 }
 
 export interface QueryGetAlbumArgs {
@@ -84,4 +90,10 @@ export type AuthEmailMutationVariables = {
 
 export type AuthEmailMutation = {
   authEmail: Pick<AuthEmailType, "messageId" | "messageData">;
+};
+
+export type GetCurrentUserQueryVariables = {};
+
+export type GetCurrentUserQuery = {
+  getCurrentUser: Maybe<Pick<CurrentUserType, "name" | "email">>;
 };

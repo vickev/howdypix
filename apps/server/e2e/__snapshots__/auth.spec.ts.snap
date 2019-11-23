@@ -39,5 +39,6 @@ Object {
 exports[`The authentication routes validating the magic link should return tokens if the magic link is correct 1`] = `
 Object {
   "email": "dev@vickev.com",
+  "name": "Developer Foobar",
 }
 `;

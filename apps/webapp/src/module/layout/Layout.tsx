@@ -1,8 +1,10 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
 import { styled } from "@material-ui/core/styles";
-import { Container } from "@material-ui/core";
+import { Button, Container } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
+import { useCurrentUser } from "../user/userHook";
+import { withUser } from "../user/withUser";
 
 interface LayoutProps {
   leftComponent?: React.ReactElement;
@@ -10,16 +12,19 @@ interface LayoutProps {
   children: React.ReactElement;
 }
 
-export const Layout: React.FC<LayoutProps> = ({
+const _Layout: React.FC<LayoutProps> = ({
   leftComponent,
   rightComponent,
   children
 }) => {
+  const { user, logout } = useCurrentUser();
+
   return (
     <>
       <Container>
         <Box display="flex" minHeight={"100vh"}>
           <Box width={200} minHeight={"100%"}>
+            <Button onClick={logout}>{user?.name}</Button>
             {leftComponent}
           </Box>
           <Box flex={1} minHeight={"100%"} bgcolor={"white"} boxShadow={1}>
@@ -31,3 +36,5 @@ export const Layout: React.FC<LayoutProps> = ({
     </>
   );
 };
+
+export const Layout = withUser(_Layout);
