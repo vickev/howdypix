@@ -93,8 +93,8 @@ export interface NexusGenFieldTypes {
   };
   Query: {
     // field return type
-    currentUser: NexusGenRootTypes["CurrentUserType"]; // CurrentUserType!
     getAlbum: NexusGenRootTypes["GetPhotos"]; // GetPhotos!
+    getCurrentUser: NexusGenRootTypes["CurrentUserType"] | null; // CurrentUserType
   };
 }
 

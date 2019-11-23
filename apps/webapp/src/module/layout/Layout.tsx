@@ -3,7 +3,7 @@ import Box from "@material-ui/core/Box";
 import { styled } from "@material-ui/core/styles";
 import { Button, Container } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
-import { useConnectedUser } from "../user/userHook";
+import { useCurrentUser } from "../user/userHook";
 import { withUser } from "../user/withUser";
 
 interface LayoutProps {
@@ -17,7 +17,7 @@ const _Layout: React.FC<LayoutProps> = ({
   rightComponent,
   children
 }) => {
-  const { user, logout } = useConnectedUser();
+  const { user, logout } = useCurrentUser();
 
   return (
     <>

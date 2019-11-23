@@ -2,6 +2,6 @@ import { UserContext, UserContextData } from "./userContext";
 import { useContext } from "react";
 import { GetCurrentUserQuery } from "../../__generated__/schema-types";
 
-export const useConnectedUser = (): UserContextData => {
+export const useCurrentUser = (): UserContextData => {
   return useContext(UserContext);
 };

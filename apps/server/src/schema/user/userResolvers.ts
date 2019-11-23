@@ -10,11 +10,8 @@ import { ApolloContext } from "../../types";
 
 const debug = appDebug("gql:user");
 
-export const currentUserResolver = () => async (
+export const getCurrentUserResolver = () => (
   root: {},
   args: {},
   ctx: ApolloContext
-) =>
-  new Promise<NexusGenFieldTypes["Query"]["currentUser"]>(async resolve => {
-    resolve(ctx.user || undefined);
-  });
+): NexusGenFieldTypes["Query"]["getCurrentUser"] => ctx.user;
