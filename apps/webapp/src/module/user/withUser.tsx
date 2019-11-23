@@ -1,23 +1,14 @@
 import { UserProvider } from "./userContext";
-import React, {
-  ComponentClass,
-  ComponentType,
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from "react";
+import React, { ComponentType } from "react";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import {
-  GetAlbumQuery,
-  GetAlbumQueryVariables,
   GetCurrentUserQuery,
   GetCurrentUserQueryVariables
 } from "../../__generated__/schema-types";
-import { deepEqual } from "assert";
-import { useTranslation } from "react-i18next";
+import { appDebug } from "@howdypix/utils";
+
+const debug = appDebug("withUser");
 
 //========================================
 // GraphQL queries
@@ -39,6 +30,10 @@ export const withUser = <P extends object>(
       GetCurrentUserQuery,
       GetCurrentUserQueryVariables
     >(GET_CURRENT_USER);
+
+    if (data) {
+      debug("Currently logged in user:", data?.currentUser);
+    }
 
     return (
       <UserProvider
