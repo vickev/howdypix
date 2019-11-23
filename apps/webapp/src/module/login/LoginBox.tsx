@@ -7,18 +7,18 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 
+import { Divider, styled } from "@material-ui/core";
 import { withApollo } from "../../lib/with-apollo-client";
 import {
   AuthEmailMutation,
   AuthEmailMutationVariables
 } from "../../__generated__/schema-types";
-import { Divider, styled } from "@material-ui/core";
 import { LoginForm } from "./LoginForm";
 import { LoginEmailSent } from "./LoginEmailSent";
 
-//========================================
+//= =======================================
 // GraphQL queries
-//========================================
+//= =======================================
 const AUTH_EMAIL = gql`
   mutation AuthEmail($email: String!) {
     authEmail(email: $email) {
@@ -28,18 +28,18 @@ const AUTH_EMAIL = gql`
   }
 `;
 
-//========================================
+//= =======================================
 // Styled components
-//========================================
+//= =======================================
 const CustomPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5, 6),
   width: "100%",
   maxWidth: 400
 }));
 
-//========================================
+//= =======================================
 // Main Component
-//========================================
+//= =======================================
 function _LoginBox() {
   const { t } = useTranslation("common");
 

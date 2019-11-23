@@ -103,7 +103,7 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
       if (PageComponent.getInitialProps) {
         pageProps = await PageComponent.getInitialProps({
           ...ctx
-          //apolloClient
+          // apolloClient
         });
       }
 
@@ -187,7 +187,7 @@ function createApolloClient(initialState: InitialState): ApolloClient<any> {
     headers["Fixture-set"] = fixtureSet;
   }
   if (tokens.token) {
-    headers["token"] = tokens.token;
+    headers.token = tokens.token;
   }
 
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient

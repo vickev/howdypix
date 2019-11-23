@@ -22,15 +22,15 @@ const _Layout: React.FC<LayoutProps> = ({
   return (
     <>
       <Container>
-        <Box display="flex" minHeight={"100vh"}>
-          <Box width={200} minHeight={"100%"}>
+        <Box display="flex" minHeight="100vh">
+          <Box width={200} minHeight="100%">
             <Button onClick={logout}>{user?.name}</Button>
             {leftComponent}
           </Box>
-          <Box flex={1} minHeight={"100%"} bgcolor={"white"} boxShadow={1}>
+          <Box flex={1} minHeight="100%" bgcolor="white" boxShadow={1}>
             {children}
           </Box>
-          {/*<Box width={200}>{rightComponent}</Box>*/}
+          {/* <Box width={200}>{rightComponent}</Box> */}
         </Box>
       </Container>
     </>

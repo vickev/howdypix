@@ -4,13 +4,13 @@ import { styled } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { AuthEmailMutation } from "../../__generated__/schema-types";
 import { ApolloError } from "apollo-client";
 import { useTranslation } from "react-i18next";
+import { AuthEmailMutation } from "../../__generated__/schema-types";
 
-//========================================
+//= =======================================
 // Styled components
-//========================================
+//= =======================================
 const CustomPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5, 6)
 }));
@@ -84,7 +84,7 @@ export const LoginForm: React.FC<Props> = ({
           </NextButton>
         </Box>
         {errorMessageId && (
-          <Typography align="center" color={"error"}>
+          <Typography align="center" color="error">
             {t(errorMessageId)}
           </Typography>
         )}
