@@ -1,15 +1,15 @@
 import sharp from "sharp";
 import mkdirp from "mkdirp";
-import { join, parse, relative } from "path";
+import { join, parse } from "path";
 import { statSync } from "fs";
 import { ExifImage } from "exif";
 import { ExifData, HFile, ProcessData, StatData } from "@howdypix/shared-types";
 import {
   appDebug,
   generateThumbnailPaths,
-  thumbnailPath
+  thumbnailPath,
+  hfile2path
 } from "@howdypix/utils";
-import { hfile2path } from "@howdypix/utils";
 
 export async function fetchExif(root: string, path: string): Promise<ExifData> {
   return new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ export async function createThumbnails(
   root: string,
   hfile: HFile
 ): Promise<string[]> {
-  const { dir, name } = parse(thumbnailPath(thumbnailsDir, hfile));
+  const { dir } = parse(thumbnailPath(thumbnailsDir, hfile));
 
   mkdirp.sync(dir);
 

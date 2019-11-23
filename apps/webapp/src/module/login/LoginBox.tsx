@@ -1,24 +1,23 @@
+import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
 
+import { Divider, styled } from "@material-ui/core";
 import { withApollo } from "../../lib/with-apollo-client";
 import {
   AuthEmailMutation,
   AuthEmailMutationVariables
 } from "../../__generated__/schema-types";
-import { Divider, styled } from "@material-ui/core";
 import { LoginForm } from "./LoginForm";
 import { LoginEmailSent } from "./LoginEmailSent";
 
-//========================================
+//= =======================================
 // GraphQL queries
-//========================================
+//= =======================================
 const AUTH_EMAIL = gql`
   mutation AuthEmail($email: String!) {
     authEmail(email: $email) {
@@ -28,19 +27,19 @@ const AUTH_EMAIL = gql`
   }
 `;
 
-//========================================
+//= =======================================
 // Styled components
-//========================================
+//= =======================================
 const CustomPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5, 6),
   width: "100%",
   maxWidth: 400
 }));
 
-//========================================
+//= =======================================
 // Main Component
-//========================================
-function _LoginBox() {
+//= =======================================
+function RawLoginBox(): React.ReactElement {
   const { t } = useTranslation("common");
 
   const [authEmail, { data, loading, error }] = useMutation<
@@ -72,7 +71,7 @@ function _LoginBox() {
             loading={loading}
             data={data}
             error={error}
-            onSubmit={email => {
+            onSubmit={(email): void => {
               authEmail({ variables: { email } });
             }}
           />
@@ -82,4 +81,4 @@ function _LoginBox() {
   );
 }
 
-export const LoginBox = withApollo(_LoginBox);
+export const LoginBox = withApollo(RawLoginBox);

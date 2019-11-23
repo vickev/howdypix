@@ -19,7 +19,7 @@ const localeSubpathVariations = {
 export default new NextI18Next({
   defaultLanguage: "en",
   otherLanguages: ["fr"],
-  localeSubpaths: localeSubpathVariations["none"],
+  localeSubpaths: localeSubpathVariations.none,
   detection: {
     lookupCookie: "lang",
     order: ["querystring", "cookie", "header"],

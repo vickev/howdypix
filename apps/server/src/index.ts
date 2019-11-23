@@ -10,7 +10,6 @@ import { startCacheDB } from "./lib/startCacheDB";
 import express from "express";
 import { staticHandler } from "./middleware/static";
 import { emailListHandler, emailViewHandler } from "./middleware/email";
-import { routes } from "@howdypix/utils";
 import { applyAuthMiddleware } from "./middleware/auth";
 
 async function main() {

@@ -1,8 +1,8 @@
-import { NexusGenTypes } from "@howdypix/graphql-schema/schema";
+import { NexusGenTypes } from "@howdypix/graphql-schema/schema.d";
 
 export type Query = {
   getAlbum: (
-    _: any,
+    _: unknown,
     params: NexusGenTypes["argTypes"]["Query"]["getAlbum"]
   ) => NexusGenTypes["fieldTypes"]["Query"]["getAlbum"];
   getCurrentUser: () => NexusGenTypes["fieldTypes"]["Query"]["getCurrentUser"];
@@ -10,7 +10,7 @@ export type Query = {
 
 export type Mutation = {
   authEmail: (
-    _: any,
+    _: unknown,
     params: NexusGenTypes["argTypes"]["Mutation"]["authEmail"]
   ) => NexusGenTypes["fieldTypes"]["Mutation"]["authEmail"];
 };

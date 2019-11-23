@@ -1,4 +1,4 @@
-import { enumType, objectType } from "nexus";
+import { objectType } from "nexus";
 
 export const CurrentUserType = () =>
   objectType({

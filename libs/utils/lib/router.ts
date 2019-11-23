@@ -1,13 +1,17 @@
 import { TokenInfo, UserInfo } from "@howdypix/shared-types";
+// We only want the @types/express-serve-static-core, so it's normal not to have express-serve-static-core installed.
+// Therefore we disable the rule:
+// eslint-disable-next-line import/no-unresolved
 import { Express, RequestHandler } from "express-serve-static-core";
 import { compile } from "path-to-regexp";
 
 class RouteWithValidation<
   Params extends Record<string, string>,
   ReqBody extends Record<string, string | undefined> = {},
-  ResBody extends Record<string, any> = {}
+  ResBody extends Record<string, string | UserInfo> = {}
 > {
   public route: string;
+
   private method: "post" | "get";
 
   constructor(route: string, method: "post" | "get" = "post") {
