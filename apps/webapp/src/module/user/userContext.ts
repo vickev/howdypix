@@ -2,7 +2,7 @@ import React from "react";
 import { GetCurrentUserQuery } from "../../__generated__/schema-types";
 
 export type UserContextData = {
-  user?: GetCurrentUserQuery["currentUser"] | null;
+  user?: GetCurrentUserQuery["getCurrentUser"] | null;
   logout: () => void;
 };
 

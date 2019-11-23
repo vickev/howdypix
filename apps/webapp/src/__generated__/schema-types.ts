@@ -52,8 +52,8 @@ export interface Photo {
 }
 
 export interface Query {
-  currentUser: CurrentUserType;
   getAlbum: GetPhotos;
+  getCurrentUser?: Maybe<CurrentUserType>;
 }
 
 export interface QueryGetAlbumArgs {
@@ -95,5 +95,5 @@ export type AuthEmailMutation = {
 export type GetCurrentUserQueryVariables = {};
 
 export type GetCurrentUserQuery = {
-  currentUser: Pick<CurrentUserType, "name" | "email">;
+  getCurrentUser: Maybe<Pick<CurrentUserType, "name" | "email">>;
 };

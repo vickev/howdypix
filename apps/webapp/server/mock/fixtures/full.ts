@@ -22,7 +22,7 @@ const query: Query = {
       }
     ]
   }),
-  currentUser: () => ({
+  getCurrentUser: () => ({
     name: "Foo Bar",
     email: "dev@vickev.com"
   })

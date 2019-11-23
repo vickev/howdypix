@@ -66,7 +66,7 @@ context("LoginBox page", () => {
     });
   });
 
-  it.only("should log out the user with logging out.", () => {
+  it("should log out the user with logging out.", () => {
     cy.login();
     cy.visit("/?fixture-set=full");
 

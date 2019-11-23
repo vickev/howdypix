@@ -15,7 +15,7 @@ const debug = appDebug("withUser");
 //========================================
 const GET_CURRENT_USER = gql`
   query GetCurrentUser {
-    currentUser {
+    getCurrentUser {
       name
       email
     }
@@ -32,13 +32,13 @@ export const withUser = <P extends object>(
     >(GET_CURRENT_USER);
 
     if (data) {
-      debug("Currently logged in user:", data?.currentUser);
+      debug("Currently logged in user:", data?.getCurrentUser);
     }
 
     return (
       <UserProvider
         value={{
-          user: data?.currentUser,
+          user: data?.getCurrentUser,
           logout: () => {
             window.location.replace("/logout");
           }

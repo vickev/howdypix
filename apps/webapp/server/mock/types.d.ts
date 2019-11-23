@@ -5,7 +5,7 @@ export type Query = {
     _: any,
     params: NexusGenTypes["argTypes"]["Query"]["getAlbum"]
   ) => NexusGenTypes["fieldTypes"]["Query"]["getAlbum"];
-  currentUser: () => NexusGenTypes["fieldTypes"]["Query"]["currentUser"];
+  getCurrentUser: () => NexusGenTypes["fieldTypes"]["Query"]["getCurrentUser"];
 };
 
 export type Mutation = {
