@@ -1,9 +1,9 @@
 import fs from "fs";
 import { join } from "path";
 import { parse } from "yaml";
-import { state } from "../state";
+import { UserConfigState, state } from "../state";
 
-export function loadUserConfig() {
+export function loadUserConfig(): UserConfigState {
   const content = fs.readFileSync(join(__dirname, "..", "..", "config.yaml"));
 
   state.userConfig = parse(content.toString());

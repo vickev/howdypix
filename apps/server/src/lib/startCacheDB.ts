@@ -14,7 +14,7 @@ export async function onNewFile(
   event: Events,
   connection: Connection,
   userConfig: UserConfigState
-) {
+): Promise<void> {
   const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
   const stat = statSync(absolutePath);
 
@@ -42,11 +42,11 @@ export async function onNewFile(
 }
 
 export async function onRemoveFile(
-  { root, hfile }: EventTypes["newFile"],
+  { hfile }: EventTypes["newFile"],
   event: Events,
   connection: Connection,
   userConfig: UserConfigState
-) {
+): Promise<void> {
   const photoRepository = connection.getRepository(Photo);
 
   // Remove from database
@@ -62,7 +62,7 @@ export async function onProcessedFile(
   file: EventTypes["processedFile"],
   event: Events,
   connection: Connection
-) {
+): Promise<void> {
   const photo = new Photo();
   photo.make = file.exif.make ?? "";
   photo.model = file.exif.model ?? "";
@@ -92,20 +92,15 @@ export async function startCacheDB(
     ormConfig as SqliteConnectionOptions
   );
 
-  event.on(
-    "newFile",
-    async params => await onNewFile(params, event, connection, userConfig)
+  event.on("newFile", params =>
+    onNewFile(params, event, connection, userConfig)
   );
 
-  event.on(
-    "removeFile",
-    async params => await onRemoveFile(params, event, connection, userConfig)
+  event.on("removeFile", params =>
+    onRemoveFile(params, event, connection, userConfig)
   );
 
-  event.on(
-    "processedFile",
-    async file => await onProcessedFile(file, event, connection)
-  );
+  event.on("processedFile", file => onProcessedFile(file, event, connection));
 
   return connection;
 }

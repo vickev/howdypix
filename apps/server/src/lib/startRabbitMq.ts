@@ -39,7 +39,7 @@ export async function bindAppEvents(
   event: Events,
   thumbnailsDir: string,
   channel: Channel
-) {
+): Promise<void> {
   const pathsInQueue = await fetchPathsInQueue(channel);
 
   // When there is a new file, send it to the queue
@@ -56,7 +56,10 @@ export async function bindAppEvents(
   });
 }
 
-export async function bindChannelEvents(event: Events, channel: Channel) {
+export async function bindChannelEvents(
+  event: Events,
+  channel: Channel
+): Promise<void> {
   await consume<ProcessData>(channel, QueueName.PROCESSED, msg => {
     if (msg) {
       event.emit("processedFile", msg.data);
@@ -69,7 +72,7 @@ export async function startRabbitMq(
   event: Events,
   userConfig: UserConfigState,
   url: string
-) {
+): Promise<Channel | null> {
   try {
     const connection = await connectRabbitMq(url);
     const channel = await connection.createChannel();
@@ -90,4 +93,6 @@ export async function startRabbitMq(
       throw e;
     }
   }
+
+  return null;
 }

@@ -3,11 +3,13 @@ import { createConnection } from "typeorm";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { parse } from "path";
+import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
+import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import config from "../config";
 import ormConfig from "../../ormconfig.json";
 import { Photo as EntityPhoto } from "../entity/Photo";
 
-export const GetPhotos = () =>
+export const GetPhotos = (): NexusObjectTypeDef<"GetPhotos"> =>
   objectType({
     name: "GetPhotos",
     definition(t) {
@@ -17,7 +19,7 @@ export const GetPhotos = () =>
     }
   });
 
-export const Query = () =>
+export const Query = (): NexusExtendTypeDef<"Query"> =>
   queryField("getAlbum", {
     type: "GetPhotos",
     args: {

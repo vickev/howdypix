@@ -32,8 +32,10 @@ const trunkToken = (token: string): string => {
   return token;
 };
 
+// The whole point of predicate functions are to define the type, so we disable the eslint rule.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isUserInfo = (data: any): data is UserInfo => {
-  return data && data.email && data.name;
+  return data && !!data.email && !!data.name;
 };
 
 //= ===================================================
@@ -122,12 +124,13 @@ export const generateRefreshToken = (user: UserInfo): Promise<string> => {
 };
 
 export const generateTokens = async (user: UserInfo): Promise<TokenInfo> =>
-  new Promise(async (resolve, reject) => {
+  new Promise(resolve => {
     debug("Generate the API tokens for auth.", user);
-    resolve({
-      token: await generateToken(user),
-      refreshToken: await generateRefreshToken(user),
-      user
+
+    generateToken(user).then(token => {
+      generateRefreshToken(user).then(refreshToken => {
+        resolve({ token, refreshToken, user });
+      });
     });
   });
 
