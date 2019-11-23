@@ -21,6 +21,10 @@ const query: Query = {
         ]
       }
     ]
+  }),
+  currentUser: () => ({
+    name: "Foo Bar",
+    email: "dev@vickev.com"
   })
 };
 

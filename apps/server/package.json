@@ -11,6 +11,7 @@
     "start": "node build/index",
     "start:mock": "MOCK=true node build/index",
     "dev": "yarn build && wait-on http://localhost:15672 && DEBUG=app:*,-lib:* yarn watch",
+    "dev:mock": "MOCK=true yarn dev",
     "watch": "yarn build --skip-initial-build --watch & nodemon build/index",
     "build": "babel src --out-dir build --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.ts",
