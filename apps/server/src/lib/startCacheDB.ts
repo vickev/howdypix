@@ -1,14 +1,13 @@
-import { Events, EventTypes } from "./eventEmitter";
-
 import { Connection, createConnection } from "typeorm";
-import { Photo } from "../entity/Photo";
-import ormConfig from "../../ormconfig.json";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
-import { appDebug, generateThumbnailPaths } from "@howdypix/utils";
-import { statSync, existsSync, unlinkSync } from "fs";
+import { appDebug, generateThumbnailPaths, hjoin } from "@howdypix/utils";
+import { existsSync, statSync, unlinkSync } from "fs";
 import { join, parse } from "path";
 import { UserConfigState } from "../state";
-import { hjoin } from "@howdypix/utils";
+
+import ormConfig from "../../ormconfig.json";
+import { Photo } from "../entity/Photo";
+import { Events, EventTypes } from "./eventEmitter";
 
 export async function onNewFile(
   { root, hfile }: EventTypes["newFile"],

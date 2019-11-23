@@ -1,6 +1,6 @@
 import { mutationField, stringArg } from "nexus";
 import { authEmailResolver } from "./authResolvers";
-import { State, UserConfigState } from "../../state";
+import { UserConfigState } from "../../state";
 
 export const authEmail = (userConfig: UserConfigState) =>
   mutationField("authEmail", {

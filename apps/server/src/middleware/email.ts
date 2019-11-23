@@ -1,5 +1,5 @@
-import * as emails from "../email";
 import { Handler } from "express";
+import * as emails from "../email";
 
 export const emailListHandler: Handler = (req, res) => {
   res.send(

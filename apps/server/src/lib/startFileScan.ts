@@ -1,7 +1,7 @@
 import chokidar from "chokidar";
 import { relative, resolve } from "path";
-import { Events } from "./eventEmitter";
 import { appDebug, path2hfile } from "@howdypix/utils";
+import { Events } from "./eventEmitter";
 import { UserConfigState } from "../state";
 
 export function onAdd(

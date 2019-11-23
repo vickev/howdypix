@@ -1,4 +1,5 @@
 import { appDebug, routes } from "@howdypix/utils";
+import { Express } from "express";
 import {
   generateToken,
   generateTokens,
@@ -8,7 +9,6 @@ import {
   removeCode,
   storeRefreshToken
 } from "../lib/auth";
-import { Express, Handler } from "express";
 
 const debug = appDebug("middleware:auth");
 

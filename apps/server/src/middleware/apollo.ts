@@ -1,9 +1,9 @@
 import { makeSchema } from "nexus";
-import * as types from "../schema";
 import { join } from "path";
 import { transform } from "lodash";
-import { UserConfigState } from "../state";
 import { Express } from "express";
+import { UserConfigState } from "../state";
+import * as types from "../schema";
 import { isTokenValid } from "../lib/auth";
 import { ApolloContext } from "../types";
 

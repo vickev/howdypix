@@ -1,18 +1,13 @@
-import { Events } from "./eventEmitter";
 import { Channel, connect as connectRabbitMq } from "amqplib";
+import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
 import {
-  HFile,
-  MessageProcess,
-  ProcessData,
-  QueueName
-} from "@howdypix/shared-types";
-import {
+  appDebug,
   assertQueue,
   consume,
-  sendToQueue,
-  appDebug,
-  hjoin
+  hjoin,
+  sendToQueue
 } from "@howdypix/utils";
+import { Events } from "./eventEmitter";
 import { UserConfigState } from "../state";
 
 const debug = appDebug("rabbit");
