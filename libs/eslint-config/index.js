@@ -2,9 +2,9 @@ module.exports = {
   env: {
     node: 1
   },
-  extends: ["prettier"],
+  extends: ["airbnb", "plugin:@typescript-eslint/recommended", "prettier"],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "prettier"],
   globals: {
     test: "readonly",
     expect: "readonly"
@@ -24,6 +24,11 @@ module.exports = {
     }
   },
   rules: {
+    "prettier/prettier": ["error"],
+    "react/jsx-filename-extension": [
+      1,
+      { extensions: [".js", ".jsx", ".ts", ".tsx"] }
+    ],
     "import/no-nodejs-modules": "off",
     "import/no-namespace": "off",
     "import/prefer-default-export": "off",
