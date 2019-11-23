@@ -1,10 +1,17 @@
-import React from "react";
-import Document, { Head, Main, NextScript } from "next/document";
+import React, { ReactElement } from "react";
+import Document, {
+  DocumentInitialProps,
+  Head,
+  Main,
+  NextScript
+} from "next/document";
 import { ServerStyleSheets } from "@material-ui/styles";
+import { RenderPageResult } from "next/dist/next-server/lib/utils";
+import { StylesProviderProps } from "@material-ui/styles/StylesProvider";
 import theme from "../src/theme";
 
 class MyDocument extends Document {
-  render() {
+  render(): ReactElement {
     return (
       <html lang="en">
         <Head>
@@ -29,14 +36,16 @@ class MyDocument extends Document {
   }
 }
 
-MyDocument.getInitialProps = async ctx => {
+MyDocument.getInitialProps = async (ctx): Promise<DocumentInitialProps> => {
   // Render app and page and get the context of the page with collected side effects.
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
 
-  ctx.renderPage = () =>
+  ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
     originalRenderPage({
-      enhanceApp: App => props => sheets.collect(<App {...props} />)
+      enhanceApp: App => (props): ReactElement<StylesProviderProps> =>
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        sheets.collect(<App {...props} />)
     });
 
   const initialProps = await Document.getInitialProps(ctx);

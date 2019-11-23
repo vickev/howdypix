@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Index page", () => {
   beforeEach(() => {
     cy.login();

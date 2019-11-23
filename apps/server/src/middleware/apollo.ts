@@ -1,16 +1,23 @@
 import { makeSchema } from "nexus";
-import * as types from "../schema";
 import { join } from "path";
 import { transform } from "lodash";
+import { Express, Request } from "express";
+import { ApolloServer } from "apollo-server-express";
+import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
+import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
+import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
 import { UserConfigState } from "../state";
-import { Express } from "express";
+import * as types from "../schema";
 import { isTokenValid } from "../lib/auth";
-import { ApolloContext } from "../types";
+import { ApolloContext } from "../types.d";
 
-const { ApolloServer } = require("apollo-server-express");
+type NexusEntity =
+  | NexusExtendTypeDef<string>
+  | NexusObjectTypeDef<string>
+  | NexusEnumTypeDef<string>;
 
-type Types = {
-  [key: string]: (userConfig: UserConfigState) => any;
+type GraphQLTypes = {
+  [key: string]: (userConfig: UserConfigState) => NexusEntity;
 };
 
 const destDir = join(
@@ -26,15 +33,15 @@ const destDir = join(
 export function applyApolloMiddleware(
   app: Express,
   userConfig: UserConfigState
-) {
+): void {
   const schema = makeSchema({
     types: transform(
-      types as Types,
+      types as GraphQLTypes,
       (acc, value, key) => {
         // We pass the `userConfig` to all the resolvers to be consumed
         acc[key] = value(userConfig);
       },
-      {} as { [key: string]: any }
+      {} as { [key: string]: NexusEntity }
     ),
     outputs: {
       schema: join(destDir, "schema.graphql"),
@@ -45,8 +52,7 @@ export function applyApolloMiddleware(
   const apolloServer = new ApolloServer({
     schema,
     context: async ({ req }: { req: Request }): Promise<ApolloContext> => ({
-      // @ts-ignore
-      user: await isTokenValid(req.headers.token || "")
+      user: await isTokenValid((req.headers.token as string) || "")
     })
   });
 

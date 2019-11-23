@@ -1,6 +1,6 @@
-import { extendType, mutationField, queryField, stringArg } from "nexus";
+import { extendType } from "nexus";
 import { getCurrentUserResolver } from "./userResolvers";
-import { State, UserConfigState } from "../../state";
+import { UserConfigState } from "../../state";
 
 export const getCurrentUser = (userConfig: UserConfigState) =>
   extendType({

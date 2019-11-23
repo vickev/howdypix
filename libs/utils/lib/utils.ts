@@ -1,10 +1,10 @@
-import { Channel, ConsumeMessage, Options } from "amqplib";
+import { Channel, ConsumeMessage, Options, Replies } from "amqplib";
 import { join, parse } from "path";
-import { HFile, MessageProcess, QueueName } from "@howdypix/shared-types";
+import { HFile, QueueName } from "@howdypix/shared-types";
 import debug from "debug";
 import { hjoin, thumbnailPath } from "./path";
 
-export async function wait(seconds: number) {
+export async function wait(seconds: number): Promise<void> {
   return new Promise(resolve => {
     setTimeout(resolve, seconds * 1000);
   });
@@ -42,26 +42,30 @@ export function generateThumbnailUrls(
   return [200, 600].map(size => ({
     width: size,
     height: null,
-    url:
-      baseUrl +
-      "/static/" +
-      hjoin({ ...hfile, file: `${parse(hfile.file!).name}x${size}.jpg` })
+    url: `${baseUrl}/static/${hjoin({
+      ...hfile,
+      file: `${parse(hfile.file as string).name}x${size}.jpg`
+    })}`
   }));
 }
 
-export function isHowdypixPath(path: string = ""): boolean {
+export function isHowdypixPath(path = ""): boolean {
   return path.match(/\.howdypix/) !== null;
 }
 
-export function appDebug(space: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function appDebug(space: string): (...message: any[]) => void {
   return debug(`app:${space}`);
 }
 
-export function libDebug(space: string) {
+export function libDebug(space: string): (message: string) => void {
   return debug(`lib:${space}`);
 }
 
-export async function assertQueue(channel: Channel, name: QueueName) {
+export function assertQueue(
+  channel: Channel,
+  name: QueueName
+): Promise<Replies.AssertQueue> {
   return channel.assertQueue(name);
 }
 
@@ -69,12 +73,12 @@ export interface ParsedConsumeMessage<T> extends ConsumeMessage {
   data: T;
 }
 
-export async function consume<T>(
+export function consume<T>(
   channel: Channel,
   name: QueueName,
-  onMessage?: (msg: ParsedConsumeMessage<T> | null) => any,
+  onMessage?: (msg: ParsedConsumeMessage<T> | null) => void,
   options?: Options.Consume
-) {
+): Promise<Replies.Consume> {
   return channel.consume(
     name,
     msg => {
@@ -92,12 +96,12 @@ export async function consume<T>(
   );
 }
 
-export async function sendToQueue<T>(
+export function sendToQueue<T>(
   channel: Channel,
   queue: QueueName,
   data: T,
   options?: Options.Publish
-) {
+): boolean {
   libDebug("rabbit:sendToQueue")(`${queue} ${JSON.stringify(data)}`);
 
   return channel.sendToQueue(queue, Buffer.from(JSON.stringify(data)), options);

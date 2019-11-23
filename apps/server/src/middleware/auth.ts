@@ -1,4 +1,5 @@
 import { appDebug, routes } from "@howdypix/utils";
+import { Express } from "express";
 import {
   generateToken,
   generateTokens,
@@ -8,11 +9,10 @@ import {
   removeCode,
   storeRefreshToken
 } from "../lib/auth";
-import { Express, Handler } from "express";
 
 const debug = appDebug("middleware:auth");
 
-export const applyAuthMiddleware = (app: Express) => {
+export const applyAuthMiddleware = (app: Express): void => {
   /**
    * Check if the code to register is in the memory and is valid.
    * If so, it means that the right user wants to connect, and we are

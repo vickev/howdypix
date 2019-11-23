@@ -1,6 +1,7 @@
 import { objectType } from "nexus";
+import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 
-export const Album = () =>
+export const Album = (): NexusObjectTypeDef<"Album"> =>
   objectType({
     name: "Album",
     definition(t) {

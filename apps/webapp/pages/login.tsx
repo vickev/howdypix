@@ -1,11 +1,12 @@
 import * as React from "react";
+import { NextPage } from "next";
 import { LoginBox } from "../src/module/login/LoginBox";
 
-function Component() {
-  return <LoginBox />;
-}
+type InitialProps = { namespacesRequired: string[] };
 
-Component.getInitialProps = async () => ({
+const Component: NextPage<{}, InitialProps> = () => <LoginBox />;
+
+Component.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 

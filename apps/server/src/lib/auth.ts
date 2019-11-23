@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import { User, UserConfigState } from "../state";
-import config from "../config";
 import { appDebug } from "@howdypix/utils";
 import { TokenInfo, UserInfo } from "@howdypix/shared-types";
+import { User, UserConfigState } from "../state";
+import config from "../config";
 
 const debug = appDebug("lib:auth");
 
@@ -32,13 +32,15 @@ const trunkToken = (token: string): string => {
   return token;
 };
 
+// The whole point of predicate functions are to define the type, so we disable the eslint rule.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isUserInfo = (data: any): data is UserInfo => {
-  return data && data.email && data.name;
+  return data && !!data.email && !!data.name;
 };
 
-//====================================================
+//= ===================================================
 // Validation functions
-//====================================================
+//= ===================================================
 export const isEmailValid = (
   authorizedUsers: UserConfigState["users"],
   emailToCheck: string
@@ -79,14 +81,13 @@ export const isCodeValid = async (code: string): Promise<UserInfo | null> => {
   const user = await isJwtTokenValid(code, config.auth.code.secret);
   if (user && stores.codes[user.email]) {
     return user;
-  } else {
-    return null;
   }
+  return null;
 };
 
-//====================================================
+//= ===================================================
 // Generate functions
-//====================================================
+//= ===================================================
 export const generateJwtToken = async (
   user: UserInfo,
   options: { secret: string; expiry: string }
@@ -100,7 +101,7 @@ export const generateJwtToken = async (
         if (err) {
           reject(err);
         } else {
-          debug("Token: " + trunkToken(token));
+          debug(`Token: ${trunkToken(token)}`);
           resolve(token);
         }
       }
@@ -123,18 +124,19 @@ export const generateRefreshToken = (user: UserInfo): Promise<string> => {
 };
 
 export const generateTokens = async (user: UserInfo): Promise<TokenInfo> =>
-  new Promise(async (resolve, reject) => {
+  new Promise(resolve => {
     debug("Generate the API tokens for auth.", user);
-    resolve({
-      token: await generateToken(user),
-      refreshToken: await generateRefreshToken(user),
-      user
+
+    generateToken(user).then(token => {
+      generateRefreshToken(user).then(refreshToken => {
+        resolve({ token, refreshToken, user });
+      });
     });
   });
 
-//====================================================
+//= ===================================================
 // Storage functions
-//====================================================
+//= ===================================================
 export const storeCode = (email: string, code: string): void => {
   stores.codes[email] = code;
   debug("Saved code in memory:", stores.codes);

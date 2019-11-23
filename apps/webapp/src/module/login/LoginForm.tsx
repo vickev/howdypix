@@ -1,26 +1,22 @@
+import React from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { styled } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { AuthEmailMutation } from "../../__generated__/schema-types";
 import { ApolloError } from "apollo-client";
 import { useTranslation } from "react-i18next";
+import { AuthEmailMutation } from "../../__generated__/schema-types";
 
-//========================================
+//= =======================================
 // Styled components
-//========================================
-const CustomPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(5, 6)
-}));
-
-const CustomTextField = styled(TextField)(({ theme }) => ({
+//= =======================================
+const CustomTextField = styled(TextField)(() => ({
   width: "100%",
   minWidth: 300
 }));
 
-const NextButton = styled(Button)(({ theme }) => ({
+const NextButton = styled(Button)(() => ({
   width: "100%"
 }));
 
@@ -31,12 +27,7 @@ type Props = {
   onSubmit: (value: string) => void;
 };
 
-export const LoginForm: React.FC<Props> = ({
-  onSubmit,
-  loading,
-  data,
-  error
-}) => {
+export const LoginForm: React.FC<Props> = ({ onSubmit, loading, data }) => {
   const { t } = useTranslation("common");
   let input: HTMLInputElement;
 
@@ -48,13 +39,15 @@ export const LoginForm: React.FC<Props> = ({
       : null;
 
   if (messageData) {
+    // We want to console.log in case we need to debug in prod.
+    // eslint-disable-next-line no-console
     console.log(messageData);
   }
 
   return (
     <form
       data-testid="login_form"
-      onSubmit={e => {
+      onSubmit={(e): void => {
         e.preventDefault();
         onSubmit(input.value);
       }}
@@ -68,7 +61,7 @@ export const LoginForm: React.FC<Props> = ({
           }}
           variant="outlined"
           margin="dense"
-          inputRef={node => {
+          inputRef={(node): void => {
             input = node;
           }}
           disabled={loading}
@@ -84,7 +77,7 @@ export const LoginForm: React.FC<Props> = ({
           </NextButton>
         </Box>
         {errorMessageId && (
-          <Typography align="center" color={"error"}>
+          <Typography align="center" color="error">
             {t(errorMessageId)}
           </Typography>
         )}

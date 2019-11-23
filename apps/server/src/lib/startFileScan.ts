@@ -1,7 +1,7 @@
 import chokidar from "chokidar";
 import { relative, resolve } from "path";
-import { Events } from "./eventEmitter";
 import { appDebug, path2hfile } from "@howdypix/utils";
+import { Events } from "./eventEmitter";
 import { UserConfigState } from "../state";
 
 export function onAdd(
@@ -9,7 +9,7 @@ export function onAdd(
   path: string,
   root: string,
   source: string
-) {
+): void {
   const absoluteRoot = resolve(process.cwd(), root);
   const relativePath = relative(root, path);
   appDebug("watcher")(`File ${path} has been added`);
@@ -25,7 +25,7 @@ export function onRemove(
   path: string,
   root: string,
   source: string
-) {
+): void {
   const absoluteRoot = resolve(process.cwd(), root);
   const relativePath = relative(root, path);
   appDebug("watcher")(`File ${path} has been removed`);
@@ -36,8 +36,11 @@ export function onRemove(
   });
 }
 
-export function startFileScan(event: Events, userConfig: UserConfigState) {
-  for (const sourceId in userConfig.photoDirs) {
+export function startFileScan(
+  event: Events,
+  userConfig: UserConfigState
+): void {
+  Object.keys(userConfig.photoDirs).forEach(sourceId => {
     const root = userConfig.photoDirs[sourceId];
 
     // Initiate the watcher
@@ -46,5 +49,5 @@ export function startFileScan(event: Events, userConfig: UserConfigState) {
     watcher
       .on("add", path => onAdd(event, path, root, sourceId))
       .on("unlink", path => onRemove(event, path, root, sourceId));
-  }
+  });
 }

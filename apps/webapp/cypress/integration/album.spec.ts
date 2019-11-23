@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Album page full", () => {
   beforeEach(() => {
     cy.login();
