@@ -1,5 +1,4 @@
-import { connect as connectRabbitMq } from "amqplib";
-import { process } from "./process";
+import { connect as connectRabbitMq, Channel } from "amqplib";
 import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
 import {
   appDebug,
@@ -8,8 +7,9 @@ import {
   hjoin,
   sendToQueue
 } from "@howdypix/utils";
+import { process } from "./process";
 
-export async function startRabbitMq(url: string) {
+export async function startRabbitMq(url: string): Promise<Channel> {
   const connection = await connectRabbitMq(url);
   const channel = await connection.createChannel();
 
@@ -30,6 +30,7 @@ export async function startRabbitMq(url: string) {
 
         await sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
       }
     }
