@@ -1,12 +1,11 @@
-// @ts-ignore
 import nextConfig from "../../../next.config";
-import { FixtureSet, Mutation, Query } from "../types";
+import { FixtureSet, Mutation, Query } from "../types.d";
 import { authEmail } from "../shared";
 
 const { serverRuntimeConfig } = nextConfig;
 
 const query: Query = {
-  getAlbum: params => ({
+  getAlbum: (_, params) => ({
     album: { name: "Full", dir: "test", source: "test" },
     albums: [
       { name: params.album || "sub-test", dir: "test/sub-test", source: "test" }

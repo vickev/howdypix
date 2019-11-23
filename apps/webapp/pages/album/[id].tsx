@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { Theme, useTheme } from "@material-ui/core/styles";
@@ -25,6 +25,9 @@ import {
   GetSubAlbumQueryVariables
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
+
+type Props = {};
+type InitialProps = { namespacesRequired: string[] };
 
 // ========================================
 // Constants
@@ -70,7 +73,7 @@ function useWidth(): Breakpoint {
   );
 }
 
-const AlbumPage: NextPage = () => {
+const AlbumPage: NextPage<Props, InitialProps> = () => {
   const router = useRouter();
   const folder: HFile = hparse(router.query.id as string);
   const breadcrumbs: HFile[] = hpaths(folder);
@@ -121,22 +124,21 @@ const AlbumPage: NextPage = () => {
         </Box>
         <Box paddingBottom={gutter} id="subAlbumBox">
           {data?.getAlbum?.albums.map(
-            album =>
-              album?.name && (
-                <Box paddingRight={gutter} component="span" key={album.name}>
-                  <Button
-                    size="medium"
-                    variant="outlined"
-                    href={`/album/${hjoin({
-                      dir: album.dir,
-                      source: album.source
-                    })}`}
-                  >
-                    <FolderIcon style={{ marginRight: theme.spacing(1) }} />
-                    {album.name}
-                  </Button>
-                </Box>
-              )
+            (album): ReactElement => (
+              <Box paddingRight={gutter} component="span" key={album.name}>
+                <Button
+                  size="medium"
+                  variant="outlined"
+                  href={`/album/${hjoin({
+                    dir: album.dir,
+                    source: album.source
+                  })}`}
+                >
+                  <FolderIcon style={{ marginRight: theme.spacing(1) }} />
+                  {album.name}
+                </Button>
+              </Box>
+            )
           )}
         </Box>
         <Divider variant="fullWidth" />
@@ -147,12 +149,13 @@ const AlbumPage: NextPage = () => {
             cols={gridCols[useWidth()]}
           >
             {data?.getAlbum.photos?.map(
-              photo =>
-                photo?.thumbnails[1] && (
+              (photo): ReactElement | null =>
+                (photo?.thumbnails[1] && (
                   <GridListTile key={photo.thumbnails[1]}>
-                    <img src={photo.thumbnails[1]} alt="image" />
+                    <img src={photo.thumbnails[1]} alt="Thumbnail" />
                   </GridListTile>
-                )
+                )) ||
+                null
             )}
           </GridList>
         </Box>
@@ -161,7 +164,7 @@ const AlbumPage: NextPage = () => {
   );
 };
 
-AlbumPage.getInitialProps = async () => ({
+AlbumPage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 

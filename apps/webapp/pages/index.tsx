@@ -1,61 +1,31 @@
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import { useTranslation } from "react-i18next";
+import React from "react";
 import { useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import FolderIcon from "@material-ui/icons/Folder";
 import { hjoin } from "@howdypix/utils";
+import { NextPage } from "next";
 
 import { withApollo } from "../src/lib/with-apollo-client";
-import {
-  GetAlbumQuery,
-  GetAlbumQueryVariables
-} from "../src/__generated__/schema-types";
 import { Layout } from "../src/module/layout/Layout";
 
-//========================================
+type Props = {};
+type InitialProps = { namespacesRequired: string[] };
+
+// ========================================
 // Constants
-//========================================
+// ========================================
 const gutter = 3;
 // TODO: create graphql query..
 const rootDir = ["main", "second"];
 
-//========================================
-// GraphQL queries
-//========================================
-const GET_GREETING = gql`
-  query GetAlbum {
-    getAlbum(source: "") {
-      album {
-        name
-      }
-      photos {
-        thumbnails
-      }
-      albums {
-        name
-        source
-        dir
-      }
-    }
-  }
-`;
-
-function Homepage(props: any) {
-  const { t, i18n } = useTranslation("common");
+const Homepage: NextPage<Props, InitialProps> = () => {
   const theme = useTheme();
-  const { loading, error, data } = useQuery<
-    GetAlbumQuery,
-    GetAlbumQueryVariables
-  >(GET_GREETING);
-
-  if (loading) return <p>Loading...</p>;
 
   return (
     <Layout>
-      <Box bgcolor={"white"} padding={gutter}>
+      <Box bgcolor="white" padding={gutter}>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1">
             Repository
@@ -78,9 +48,9 @@ function Homepage(props: any) {
       </Box>
     </Layout>
   );
-}
+};
 
-Homepage.getInitialProps = async () => ({
+Homepage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 

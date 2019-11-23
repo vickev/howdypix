@@ -1,5 +1,4 @@
-/// <reference types="Cypress" />
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { routes } = require("@howdypix/utils");
 
 context("LoginBox page", () => {
@@ -23,8 +22,9 @@ context("LoginBox page", () => {
 
   it("should be redirect to the homepage if the magic link is valid.", () => {
     cy.visit(
-      routes.magickLinkValidation.value({ code: "goodCode" }) +
-        "?fixture-set=full"
+      `${routes.magickLinkValidation.value({
+        code: "goodCode"
+      })}?fixture-set=full`
     );
 
     cy.location().should(loc => {
@@ -34,8 +34,9 @@ context("LoginBox page", () => {
 
   it("should be show an error message if the magic link is incorrect.", () => {
     cy.visit(
-      routes.magickLinkValidation.value({ code: "badCode" }) +
-        "?fixture-set=full"
+      `${routes.magickLinkValidation.value({
+        code: "badCode"
+      })}?fixture-set=full`
     );
 
     cy.location().should(loc => {

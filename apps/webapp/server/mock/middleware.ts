@@ -4,6 +4,7 @@ import graphqlHTTP from "express-graphql";
 import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { appDebug } from "@howdypix/utils";
 import fixtureData from "./fixtures";
+import { FixtureSet, Mutation, Query } from "./types.d";
 
 const schema = makeExecutableSchema({
   typeDefs: fs.readFileSync(
@@ -14,7 +15,7 @@ const schema = makeExecutableSchema({
 
 const loadFixtures = (
   req: express.Request
-): { name: string; fixtures?: { query: any; mutation: any } } => {
+): { name: string; fixtures?: FixtureSet } => {
   const fixtureSet = req.header("Fixture-set") || req.query["fixture-set"];
 
   if (fixtureSet && fixtureData[fixtureSet]) {
@@ -28,7 +29,7 @@ const checkFixturesMiddleware = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
-) => {
+): void => {
   if (loadFixtures(req).fixtures) {
     next();
   } else {
@@ -36,24 +37,23 @@ const checkFixturesMiddleware = (
   }
 };
 
-const mockedGraphQLMiddleware = async (
+const mockedGraphQLMiddleware = (
   req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
+  res: express.Response
+): Promise<undefined> => {
   const { name, fixtures } = loadFixtures(req);
 
   addMockFunctionsToSchema({
     schema,
     mocks: {
-      Query: () => fixtures && fixtures.query,
-      Mutation: () => fixtures && fixtures.mutation
+      Query: (): Query | undefined => fixtures && fixtures.query,
+      Mutation: (): Mutation | undefined => fixtures && fixtures.mutation
     }
   });
 
   appDebug("GraphQL")(`Using fixture set: ${name}`);
 
-  return await graphqlHTTP({ schema })(req, res);
+  return graphqlHTTP({ schema })(req, res);
 };
 
 export { mockedGraphQLMiddleware, checkFixturesMiddleware };
