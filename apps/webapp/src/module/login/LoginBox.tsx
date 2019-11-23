@@ -3,9 +3,7 @@ import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
 
 import { Divider, styled } from "@material-ui/core";
 import { withApollo } from "../../lib/with-apollo-client";

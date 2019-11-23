@@ -5,12 +5,12 @@ import next from "next";
 import cookieParser from "cookie-parser";
 import proxy from "http-proxy-middleware";
 import {
-  mockedGraphQLMiddleware,
-  checkFixturesMiddleware
+  checkFixturesMiddleware,
+  mockedGraphQLMiddleware
 } from "./mock/middleware";
 // @ts-ignore
 import nextConfig from "../next.config";
-import { routes, appDebug } from "@howdypix/utils";
+import { appDebug } from "@howdypix/utils";
 import { applyAuthMiddleware, authHandler } from "./middleware/auth";
 import mockApiServer from "./mock/mockApiServer";
 

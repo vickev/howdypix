@@ -1,11 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
-import { useTheme, Theme } from "@material-ui/core/styles";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
+import { useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -18,7 +14,6 @@ import {
   GetAlbumQueryVariables
 } from "../src/__generated__/schema-types";
 import { Layout } from "../src/module/layout/Layout";
-import { Divider } from "@material-ui/core";
 
 //========================================
 // Constants

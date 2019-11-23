@@ -10,7 +10,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap && yarn link-packages-because-of-lerna",
     "link-packages-because-of-lerna": "./scripts/link-packages-because-of-lerna.sh",
-    "prettier": "prettier --write packages/**/*.{js,jsx,ts,tsx,json}",
+    "prettier": "prettier --write ./{apps,libs}/**/*.{js,jsx,ts,tsx,json}",
     "clean": "lerna clean -y && rm -rf node_modules",
     "lint": "lerna run lint && lerna run typecheck",
     "test": "lerna run test --stream --parallel",

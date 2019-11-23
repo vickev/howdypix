@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useTranslation } from "react-i18next";
-import { useTheme, Theme } from "@material-ui/core/styles";
+import { Theme, useTheme } from "@material-ui/core/styles";
 import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import GridList from "@material-ui/core/GridList";
@@ -38,7 +38,7 @@ const gridCols = {
   md: 3,
   sm: 2,
   xs: 1
-}
+};
 //========================================
 // GraphQL queries
 //========================================
@@ -72,7 +72,7 @@ function useWidth() {
   );
 }
 
-const AlbumPage:NextPage = function () {
+const AlbumPage: NextPage = function() {
   const router = useRouter();
   const folder: HFile = hparse(router.query.id as string);
   const breadcrumbs: HFile[] = hpaths(folder);
@@ -89,7 +89,6 @@ const AlbumPage:NextPage = function () {
     }
   });
 
-
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -100,15 +99,21 @@ const AlbumPage:NextPage = function () {
             <Link color="inherit" href="/" key="repo">
               Repository
             </Link>
-            {
-              breadcrumbs.map((bread: HFile, index) => (
-                index !== breadcrumbs.length - 1 ?
-                <Link color="inherit" key={bread.dir} href={`/album/${hjoin(bread)}`} >
-                 {bread.name}
-                </Link> :
-                <Typography color="textPrimary" key={bread.source}>{bread.name}</Typography>
-              ))
-            }
+            {breadcrumbs.map((bread: HFile, index) =>
+              index !== breadcrumbs.length - 1 ? (
+                <Link
+                  color="inherit"
+                  key={bread.dir}
+                  href={`/album/${hjoin(bread)}`}
+                >
+                  {bread.name}
+                </Link>
+              ) : (
+                <Typography color="textPrimary" key={bread.source}>
+                  {bread.name}
+                </Typography>
+              )
+            )}
           </Breadcrumbs>
         </Box>
         <Box paddingBottom={gutter}>
@@ -118,16 +123,23 @@ const AlbumPage:NextPage = function () {
         </Box>
         <Box paddingBottom={gutter} id="subAlbumBox">
           {data?.getAlbum?.albums.map(
-              album =>
-                album?.name && (
-                  <Box paddingRight={gutter} component="span" key={album.name} >
-                    <Button size="medium" variant="outlined" href={`/album/${hjoin({dir: album.dir, source: album.source})}`}>
-                      <FolderIcon style={{ marginRight: theme.spacing(1) }} />
-                      {album.name}
-                    </Button>
-                  </Box>
-                )
-            )}
+            album =>
+              album?.name && (
+                <Box paddingRight={gutter} component="span" key={album.name}>
+                  <Button
+                    size="medium"
+                    variant="outlined"
+                    href={`/album/${hjoin({
+                      dir: album.dir,
+                      source: album.source
+                    })}`}
+                  >
+                    <FolderIcon style={{ marginRight: theme.spacing(1) }} />
+                    {album.name}
+                  </Button>
+                </Box>
+              )
+          )}
         </Box>
         <Divider variant="fullWidth" />
         <Box paddingTop={gutter} id="pictureBox">
@@ -136,21 +148,20 @@ const AlbumPage:NextPage = function () {
             cellHeight={imageSize}
             cols={gridCols[useWidth()]}
           >
-            {
-              data?.getAlbum.photos?.map(
-                photo =>
-                  photo?.thumbnails[1] && (
-                    <GridListTile key={photo.thumbnails[1]} >
-                      <img src={photo.thumbnails[1]} alt="image"/>
-                    </GridListTile>
-                  )
-              )}
+            {data?.getAlbum.photos?.map(
+              photo =>
+                photo?.thumbnails[1] && (
+                  <GridListTile key={photo.thumbnails[1]}>
+                    <img src={photo.thumbnails[1]} alt="image" />
+                  </GridListTile>
+                )
+            )}
           </GridList>
         </Box>
       </Box>
     </Layout>
   );
-}
+};
 
 AlbumPage.getInitialProps = async () => ({
   namespacesRequired: ["common"]

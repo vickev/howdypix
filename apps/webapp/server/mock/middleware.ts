@@ -1,7 +1,7 @@
 import express from "express";
 import fs from "fs";
 import graphqlHTTP from "express-graphql";
-import { makeExecutableSchema, addMockFunctionsToSchema } from "graphql-tools";
+import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { appDebug } from "@howdypix/utils";
 import fixtureData from "./fixtures";
 

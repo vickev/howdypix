@@ -1,8 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import { styled } from "@material-ui/core/styles";
 import { Button, Container } from "@material-ui/core";
-import { grey } from "@material-ui/core/colors";
 import { useCurrentUser } from "../user/userHook";
 import { withUser } from "../user/withUser";
 
