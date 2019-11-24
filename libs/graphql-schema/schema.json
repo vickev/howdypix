@@ -31,7 +31,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "GetPhotos",
+                "name": "GetAlbumPhotos",
                 "ofType": null
               }
             },
@@ -68,7 +68,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "GetPhotos",
+        "name": "GetAlbumPhotos",
         "description": null,
         "fields": [
           {

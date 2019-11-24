@@ -1,6 +1,7 @@
 import { objectType } from "nexus";
+import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 
-export const CurrentUserType = () =>
+export const CurrentUserType = (): NexusObjectTypeDef<"CurrentUserType"> =>
   objectType({
     name: "CurrentUserType",
     definition(t) {
