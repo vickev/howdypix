@@ -1,22 +1,24 @@
 import "reflect-metadata";
+import EventEmitter from "events";
+import express from "express";
 import config from "./config";
 import { applyApolloMiddleware } from "./middleware/apollo";
 import { loadUserConfig } from "./lib/loadUserConfig";
 import { startFileScan } from "./lib/startFileScan";
-import EventEmitter from "events";
 import { Events } from "./lib/eventEmitter";
 import { startRabbitMq } from "./lib/startRabbitMq";
 import { startCacheDB } from "./lib/startCacheDB";
-import express from "express";
 import { staticHandler } from "./middleware/static";
 import { emailListHandler, emailViewHandler } from "./middleware/email";
 import { applyAuthMiddleware } from "./middleware/auth";
 
-async function main() {
+async function main(): Promise<void> {
   const event: Events = new EventEmitter();
 
   const userConfig = loadUserConfig();
+  // eslint-disable-next-line no-console
   console.log("User Configuration loaded:");
+  // eslint-disable-next-line no-console
   console.log(userConfig);
 
   /**
@@ -47,6 +49,7 @@ async function main() {
   applyApolloMiddleware(app, userConfig);
 
   app.listen({ port: config.serverApi.port }, () => {
+    // eslint-disable-next-line no-console
     console.log(`API server started on port ${config.serverApi.port}.`);
   });
 }

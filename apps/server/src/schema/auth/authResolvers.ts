@@ -1,12 +1,12 @@
 import {
   NexusGenArgTypes,
   NexusGenFieldTypes
-} from "@howdypix/graphql-schema/schema";
-import { UserConfigState } from "../../state";
+} from "@howdypix/graphql-schema/schema.d";
 import { createTransport } from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
-import { magicLink } from "../../email";
 import { appDebug } from "@howdypix/utils";
+import { magicLink } from "../../email";
+import { UserConfigState } from "../../state";
 import { generateCode, isEmailValid, storeCode } from "../../lib/auth";
 
 const debug = appDebug("gql:auth");
@@ -14,8 +14,11 @@ const debug = appDebug("gql:auth");
 export const authEmailResolver = (
   authorizedUsers: UserConfigState["users"],
   sender: UserConfigState["emailSender"]
-) => async (root: {}, args: NexusGenArgTypes["Mutation"]["authEmail"]) =>
-  new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(async resolve => {
+) => async (
+  root: {},
+  args: NexusGenArgTypes["Mutation"]["authEmail"]
+): Promise<NexusGenFieldTypes["Mutation"]["authEmail"]> =>
+  new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(resolve => {
     const email = args.email || "NONE";
     const user = isEmailValid(authorizedUsers, email);
 
@@ -32,7 +35,7 @@ export const authEmailResolver = (
         : createTransport(
             smtpTransport({
               host: process.env.SMTP_HOST,
-              port: parseInt(process.env.SMTP_PORT as string),
+              port: parseInt(process.env.SMTP_PORT as string, 0),
               ignoreTLS: true
             })
           );
@@ -44,34 +47,34 @@ export const authEmailResolver = (
 
       debug("Send email", mailOptions);
 
-      const code = await generateCode({ email: user.email, name: user.name });
-
-      transporter.sendMail(
-        {
-          ...mailOptions,
-          html: magicLink({
-            code,
-            name: user.name
-          })
-        },
-        (error, info) => {
-          if (error) {
-            debug("Error sending the email", error.message);
-            resolve({
-              messageId: "AUTH_EMAIL_ERR",
-              messageData: error.message
-            });
-          } else {
-            // Save in memory
-            storeCode(user.email, code);
-            debug(`Email sent successfully to ${user.email}.`);
-            resolve({
-              messageId: "AUTH_EMAIL_OK",
-              code
-            });
+      generateCode({ email: user.email, name: user.name }).then(code => {
+        transporter.sendMail(
+          {
+            ...mailOptions,
+            html: magicLink({
+              code,
+              name: user.name
+            })
+          },
+          error => {
+            if (error) {
+              debug("Error sending the email", error.message);
+              resolve({
+                messageId: "AUTH_EMAIL_ERR",
+                messageData: error.message
+              });
+            } else {
+              // Save in memory
+              storeCode(user.email, code);
+              debug(`Email sent successfully to ${user.email}.`);
+              resolve({
+                messageId: "AUTH_EMAIL_OK",
+                code
+              });
+            }
           }
-        }
-      );
+        );
+      });
     } else {
       resolve({
         messageId: "AUTH_EMAIL_ERR_NOT_EXIST"

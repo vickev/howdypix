@@ -32,7 +32,7 @@ export interface CurrentUserType {
   name: Scalars["String"];
 }
 
-export interface GetPhotos {
+export interface GetAlbumPhotos {
   album?: Maybe<Album>;
   albums: Array<Album>;
   photos: Array<Maybe<Photo>>;
@@ -52,7 +52,7 @@ export interface Photo {
 }
 
 export interface Query {
-  getAlbum: GetPhotos;
+  getAlbum: GetAlbumPhotos;
   getCurrentUser?: Maybe<CurrentUserType>;
 }
 
@@ -67,16 +67,6 @@ export type GetSubAlbumQueryVariables = {
 };
 
 export type GetSubAlbumQuery = {
-  getAlbum: {
-    album: Maybe<Pick<Album, "name">>;
-    photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
-    albums: Array<Pick<Album, "name" | "source" | "dir">>;
-  };
-};
-
-export type GetAlbumQueryVariables = {};
-
-export type GetAlbumQuery = {
   getAlbum: {
     album: Maybe<Pick<Album, "name">>;
     photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
