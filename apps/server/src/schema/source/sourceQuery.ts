@@ -1,0 +1,15 @@
+import { extendType } from "nexus";
+import { getSourcesResolver } from "./sourceResolvers";
+import { EnhancedQuery } from "../../types.d";
+
+export const getSources: EnhancedQuery = userConfig =>
+  extendType({
+    type: "Query",
+    definition(t) {
+      t.field("getSources", {
+        type: "Source",
+        list: [false],
+        resolve: getSourcesResolver(userConfig.photoDirs)
+      });
+    }
+  });

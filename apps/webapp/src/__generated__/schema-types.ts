@@ -54,11 +54,16 @@ export interface Photo {
 export interface Query {
   getAlbum: GetAlbumPhotos;
   getCurrentUser?: Maybe<CurrentUserType>;
+  getSources: Array<Maybe<Source>>;
 }
 
 export interface QueryGetAlbumArgs {
   album?: Maybe<Scalars["String"]>;
   source?: Maybe<Scalars["String"]>;
+}
+
+export interface Source {
+  name: Scalars["String"];
 }
 
 export type GetSubAlbumQueryVariables = {
@@ -72,6 +77,12 @@ export type GetSubAlbumQuery = {
     photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
     albums: Array<Pick<Album, "name" | "source" | "dir">>;
   };
+};
+
+export type GetSourcesQueryVariables = {};
+
+export type GetSourcesQuery = {
+  getSources: Array<Maybe<Pick<Source, "name">>>;
 };
 
 export type AuthEmailMutationVariables = {

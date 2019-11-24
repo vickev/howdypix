@@ -1,8 +1,8 @@
 import { queryField, stringArg } from "nexus";
-import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import { getAlbumResolver } from "./albumResolvers";
+import { EnhancedQuery } from "../../types.d";
 
-export const getAlbum = (): NexusExtendTypeDef<"Query"> =>
+export const getAlbum: EnhancedQuery = () =>
   queryField("getAlbum", {
     type: "GetAlbumPhotos",
     args: {
