@@ -21,6 +21,7 @@
     "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests"
   },
   "dependencies": {
+    "@howdypix/graphql-schema": "^0.1.0",
     "@howdypix/shared-types": "^0.1.0",
     "@howdypix/utils": "^0.1.0",
     "amqplib": "^0.5.5",

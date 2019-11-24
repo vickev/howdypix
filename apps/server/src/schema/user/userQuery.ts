@@ -1,8 +1,8 @@
 import { extendType } from "nexus";
+import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import { getCurrentUserResolver } from "./userResolvers";
-import { UserConfigState } from "../../state";
 
-export const getCurrentUser = (userConfig: UserConfigState) =>
+export const getCurrentUser = (): NexusExtendTypeDef<"Query"> =>
   extendType({
     type: "Query",
     definition(t) {

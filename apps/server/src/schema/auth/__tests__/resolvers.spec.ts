@@ -1,6 +1,8 @@
-import { authEmailResolver } from "../authResolvers";
 import { createTransport } from "nodemailer";
+import { authEmailResolver } from "../authResolvers";
 import { magicLink } from "../../../email";
+
+type SendEmailOptions = { from: string; to: string };
 
 jest.mock("nodemailer", () => ({
   createTransport: jest.fn()
@@ -28,7 +30,7 @@ describe("authEmailResolver", () => {
 
   test("should send an email", async () => {
     (createTransport as jest.Mock).mockImplementation(() => ({
-      sendMail: (options: any, callback: Function) => {
+      sendMail: (options: SendEmailOptions, callback: Function): void => {
         expect(options.from).toEqual("Sender<sender@vickev.com>");
         expect(options.to).toEqual("Name<success@vickev.com>");
         expect(magicLink).toBeCalled();
@@ -41,7 +43,7 @@ describe("authEmailResolver", () => {
 
   test("should send an error if sending an email was not successful", async () => {
     (createTransport as jest.Mock).mockImplementation(() => ({
-      sendMail: (options: any, callback: Function) => {
+      sendMail: (options: SendEmailOptions, callback: Function): void => {
         callback({ message: "Error!!" });
       }
     }));
@@ -54,7 +56,7 @@ describe("authEmailResolver", () => {
 
   test("should resolve with a success if everything is good", async () => {
     (createTransport as jest.Mock).mockImplementation(() => ({
-      sendMail: (options: any, callback: Function) => {
+      sendMail: (options: SendEmailOptions, callback: Function): void => {
         callback();
       }
     }));
