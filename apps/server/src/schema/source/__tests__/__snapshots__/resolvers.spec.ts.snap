@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`currentUserResolver should return the current list of sources 1`] = `
+Array [
+  Object {
+    "name": "source1",
+  },
+  Object {
+    "name": "source2",
+  },
+  Object {
+    "name": "source3",
+  },
+]
+`;

@@ -7,11 +7,11 @@ import FolderIcon from "@material-ui/icons/Folder";
 import { hjoin } from "@howdypix/utils";
 import { NextPage } from "next";
 import Link from "next/link";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
 
 import { withApollo } from "../src/lib/with-apollo-client";
 import { Layout } from "../src/module/layout/Layout";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
 import {
   GetSourcesQuery,
   GetSourcesQueryVariables
