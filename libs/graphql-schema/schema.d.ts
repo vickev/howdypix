@@ -34,7 +34,7 @@ export interface NexusGenRootTypes {
     email: string; // String!
     name: string; // String!
   };
-  GetPhotos: {
+  GetAlbumPhotos: {
     // root type
     album?: NexusGenRootTypes["Album"] | null; // Album
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
@@ -76,7 +76,7 @@ export interface NexusGenFieldTypes {
     email: string; // String!
     name: string; // String!
   };
-  GetPhotos: {
+  GetAlbumPhotos: {
     // field return type
     album: NexusGenRootTypes["Album"] | null; // Album
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
@@ -93,7 +93,7 @@ export interface NexusGenFieldTypes {
   };
   Query: {
     // field return type
-    getAlbum: NexusGenRootTypes["GetPhotos"]; // GetPhotos!
+    getAlbum: NexusGenRootTypes["GetAlbumPhotos"]; // GetAlbumPhotos!
     getCurrentUser: NexusGenRootTypes["CurrentUserType"] | null; // CurrentUserType
   };
 }
@@ -122,7 +122,7 @@ export type NexusGenObjectNames =
   | "Album"
   | "AuthEmailType"
   | "CurrentUserType"
-  | "GetPhotos"
+  | "GetAlbumPhotos"
   | "Mutation"
   | "Photo"
   | "Query";

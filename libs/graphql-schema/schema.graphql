@@ -28,7 +28,7 @@ type CurrentUserType {
   name: String!
 }
 
-type GetPhotos {
+type GetAlbumPhotos {
   album: Album
   albums: [Album!]!
   photos: [Photo]!
@@ -44,6 +44,6 @@ type Photo {
 }
 
 type Query {
-  getAlbum(album: String, source: String): GetPhotos!
+  getAlbum(album: String, source: String): GetAlbumPhotos!
   getCurrentUser: CurrentUserType
 }
