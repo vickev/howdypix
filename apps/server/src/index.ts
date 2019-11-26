@@ -13,8 +13,8 @@ async function main() {
   const event: Events = new EventEmitter();
 
   const userConfig = loadUserConfig();
-  // console.log("User Configuration loaded:");
-  // console.log(userConfig);
+  console.log("User Configuration loaded:");
+  console.log(userConfig);
 
   await startCacheDB(event, userConfig);
   await startHttp(config.serverHttp.port);
