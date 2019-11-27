@@ -47,6 +47,10 @@ export interface NexusGenRootTypes {
     thumbnails: Array<string | null>; // [String]!
   };
   Query: {};
+  Source: {
+    // root type
+    name: string; // String!
+  };
   String: string;
   Int: number;
   Float: number;
@@ -95,6 +99,11 @@ export interface NexusGenFieldTypes {
     // field return type
     getAlbum: NexusGenRootTypes["GetAlbumPhotos"]; // GetAlbumPhotos!
     getCurrentUser: NexusGenRootTypes["CurrentUserType"] | null; // CurrentUserType
+    getSources: Array<NexusGenRootTypes["Source"] | null>; // [Source]!
+  };
+  Source: {
+    // field return type
+    name: string; // String!
   };
 }
 
@@ -125,7 +134,8 @@ export type NexusGenObjectNames =
   | "GetAlbumPhotos"
   | "Mutation"
   | "Photo"
-  | "Query";
+  | "Query"
+  | "Source";
 
 export type NexusGenInputNames = never;
 
