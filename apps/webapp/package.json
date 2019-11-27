@@ -10,7 +10,7 @@
     "dev": "concurrently 'yarn gql:codegen -w' 'NODE_ENV=developpement nodemon server/index.ts' --kill-others --kill-others-on-fail --raw",
     "dev:mock": "concurrently 'yarn gql:codegen -w' 'NODE_ENV=developpement MOCK_API=true nodemon server/index.ts' --kill-others --kill-others-on-fail --raw",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "NODE_ENV=production node dist/server/index.js",
     "start:mock": "NODE_ENV=production MOCK_API=true node dist/server/index.js",
     "lint": "eslint {src,server,pages,cypress}/**/*.{ts,tsx}",
     "typecheck": "tsc --noEmit && tsc --project cypress/tsconfig.json --noEmit",

@@ -6,8 +6,9 @@ import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import MUILink from "@material-ui/core/Link";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Link from "@material-ui/core/Link";
+import Link from "next/link";
 import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -41,10 +42,11 @@ const gridCols = {
   sm: 2,
   xs: 1
 };
+
 // ========================================
 // GraphQL queries
 // ========================================
-const GET_GREETING = gql`
+const GET_ALBUM = gql`
   query GetSubAlbum($source: String, $album: String) {
     getAlbum(source: $source, album: $album) {
       album {
@@ -75,6 +77,7 @@ function useWidth(): Breakpoint {
 
 const AlbumPage: NextPage<Props, InitialProps> = () => {
   const router = useRouter();
+  const width = useWidth();
   const folder: HFile = hparse(router.query.id as string);
   const breadcrumbs: HFile[] = hpaths(folder);
 
@@ -83,7 +86,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const { loading, data } = useQuery<
     GetSubAlbumQuery,
     GetSubAlbumQueryVariables
-  >(GET_GREETING, {
+  >(GET_ALBUM, {
     variables: {
       source: folder.source || null,
       album: folder.dir
@@ -97,17 +100,17 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
       <Box bgcolor="white" padding={gutter}>
         <Box paddingBottom={gutter} id="BreadcrumbBox">
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" key="repo">
-              Repository
+            <Link href="/" key="repo">
+              <MUILink href="">Repository</MUILink>
             </Link>
             {breadcrumbs.map((bread: HFile, index) =>
               index !== breadcrumbs.length - 1 ? (
                 <Link
-                  color="inherit"
+                  href="/album/[id]"
+                  as={`/album/${hjoin(bread)}`}
                   key={bread.dir}
-                  href={`/album/${hjoin(bread)}`}
                 >
-                  {bread.name}
+                  <MUILink href="">{bread.name}</MUILink>
                 </Link>
               ) : (
                 <Typography color="textPrimary" key={bread.source}>
@@ -126,17 +129,18 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
           {data?.getAlbum?.albums.map(
             (album): ReactElement => (
               <Box paddingRight={gutter} component="span" key={album.name}>
-                <Button
-                  size="medium"
-                  variant="outlined"
-                  href={`/album/${hjoin({
+                <Link
+                  href="/album/[id]"
+                  as={`/album/${hjoin({
                     dir: album.dir,
                     source: album.source
                   })}`}
                 >
-                  <FolderIcon style={{ marginRight: theme.spacing(1) }} />
-                  {album.name}
-                </Button>
+                  <Button size="medium" variant="outlined" href="">
+                    <FolderIcon style={{ marginRight: theme.spacing(1) }} />
+                    {album.name}
+                  </Button>
+                </Link>
               </Box>
             )
           )}
@@ -146,12 +150,12 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
           <GridList
             spacing={theme.spacing(gutter)}
             cellHeight={imageSize}
-            cols={gridCols[useWidth()]}
+            cols={gridCols[width]}
           >
             {data?.getAlbum.photos?.map(
-              (photo): ReactElement | null =>
+              (photo, key): ReactElement | null =>
                 (photo?.thumbnails[1] && (
-                  <GridListTile key={photo.thumbnails[1]}>
+                  <GridListTile key={key + photo.thumbnails[1]}>
                     <img src={photo.thumbnails[1]} alt="Thumbnail" />
                   </GridListTile>
                 )) ||

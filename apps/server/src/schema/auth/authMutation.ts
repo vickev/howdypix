@@ -1,11 +1,8 @@
 import { mutationField, stringArg } from "nexus";
-import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import { authEmailResolver } from "./authResolvers";
-import { UserConfigState } from "../../state";
+import { EnhancedMutation } from "../../types.d";
 
-export const authEmail = (
-  userConfig: UserConfigState
-): NexusExtendTypeDef<"Mutation"> =>
+export const authEmail: EnhancedMutation = userConfig =>
   mutationField("authEmail", {
     type: "AuthEmailType",
     args: {

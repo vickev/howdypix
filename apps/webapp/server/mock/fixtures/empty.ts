@@ -12,7 +12,8 @@ const query: Query = {
   getCurrentUser: () => ({
     name: "Foo Bar",
     email: "dev@vickev.com"
-  })
+  }),
+  getSources: () => []
 };
 
 const mutation: Mutation = {

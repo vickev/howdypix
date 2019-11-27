@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -6,9 +6,16 @@ import Button from "@material-ui/core/Button";
 import FolderIcon from "@material-ui/icons/Folder";
 import { hjoin } from "@howdypix/utils";
 import { NextPage } from "next";
+import Link from "next/link";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
 
 import { withApollo } from "../src/lib/with-apollo-client";
 import { Layout } from "../src/module/layout/Layout";
+import {
+  GetSourcesQuery,
+  GetSourcesQueryVariables
+} from "../src/__generated__/schema-types";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -17,11 +24,25 @@ type InitialProps = { namespacesRequired: string[] };
 // Constants
 // ========================================
 const gutter = 3;
-// TODO: create graphql query..
-const rootDir = ["main", "second"];
+
+// ========================================
+// GraphQL queries
+// ========================================
+const GET_SOURCES = gql`
+  query getSources {
+    getSources {
+      name
+    }
+  }
+`;
 
 const Homepage: NextPage<Props, InitialProps> = () => {
   const theme = useTheme();
+  const { loading, data } = useQuery<GetSourcesQuery, GetSourcesQueryVariables>(
+    GET_SOURCES
+  );
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <Layout>
@@ -32,18 +53,22 @@ const Homepage: NextPage<Props, InitialProps> = () => {
           </Typography>
         </Box>
         <Box paddingBottom={gutter}>
-          {rootDir.map(dir => (
-            <Box paddingRight={gutter} component="span" key={dir}>
-              <Button
-                size="medium"
-                variant="outlined"
-                href={`/album/${hjoin({ source: dir })}`}
-              >
-                <FolderIcon style={{ marginRight: theme.spacing(1) }} />
-                {dir}
-              </Button>
-            </Box>
-          ))}
+          {data?.getSources.map(
+            (source): ReactElement | null =>
+              source && (
+                <Box paddingRight={gutter} component="span" key={source.name}>
+                  <Link
+                    href="/album/[id]"
+                    as={`/album/${hjoin({ source: source.name })}`}
+                  >
+                    <Button size="medium" variant="outlined">
+                      <FolderIcon style={{ marginRight: theme.spacing(1) }} />
+                      {source.name}
+                    </Button>
+                  </Link>
+                </Box>
+              )
+          )}
         </Box>
       </Box>
     </Layout>

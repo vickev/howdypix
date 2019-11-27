@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`currentUserResolver should return null if no user in the context 1`] = `null`;
+
+exports[`currentUserResolver should return the current user in the context 1`] = `
+Object {
+  "email": "email",
+  "name": "name",
+}
+`;
