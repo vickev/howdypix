@@ -1,5 +1,6 @@
 import { objectType } from "nexus";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
+import { withPreviewAndStats } from "../mixins";
 
 export const Photo = (): NexusObjectTypeDef<"Photo"> =>
   objectType({
@@ -14,6 +15,7 @@ export const Album = (): NexusObjectTypeDef<"Album"> =>
   objectType({
     name: "Album",
     definition(t) {
+      withPreviewAndStats(t);
       t.field("name", { type: "String" });
       t.field("dir", { type: "String" });
       t.field("source", { type: "String" });

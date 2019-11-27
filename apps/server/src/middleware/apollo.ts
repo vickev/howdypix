@@ -10,6 +10,7 @@ import { UserConfigState } from "../state";
 import * as types from "../schema";
 import { isTokenValid } from "../lib/auth";
 import { ApolloContext } from "../types.d";
+import { Connection } from "typeorm";
 
 type NexusEntity =
   | NexusExtendTypeDef<string>
@@ -32,7 +33,8 @@ const destDir = join(
 
 export function applyApolloMiddleware(
   app: Express,
-  userConfig: UserConfigState
+  userConfig: UserConfigState,
+  connection: Connection
 ): void {
   const schema = makeSchema({
     types: transform(
@@ -52,8 +54,14 @@ export function applyApolloMiddleware(
   const apolloServer = new ApolloServer({
     schema,
     context: async ({ req }: { req: Request }): Promise<ApolloContext> => ({
-      user: await isTokenValid((req.headers.token as string) || "")
-    })
+      user: await isTokenValid((req.headers.token as string) || ""),
+      connection
+    }),
+    playground: {
+      settings: {
+        "request.credentials": "include"
+      }
+    }
   });
 
   apolloServer.applyMiddleware({ app, path: "/graphql" });
