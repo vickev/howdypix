@@ -36,10 +36,19 @@ app.prepare().then(() => {
   } else {
     server.use(
       "/graphql",
-      proxy({
-        target: serverRuntimeConfig.serverApi.url,
-        changeOrigin: true
-      })
+      authHandler({
+        failureCallback: (req, res, next) => {
+          next();
+        }
+      }),
+      (req, res, next) =>
+        proxy({
+          target: serverRuntimeConfig.serverApi.url,
+          changeOrigin: true,
+          headers: {
+            token: res.locals.token ?? ""
+          }
+        })(req, res, next)
     );
   }
 
@@ -47,7 +56,7 @@ app.prepare().then(() => {
   applyAuthMiddleware(server);
 
   // Next JS Middleware
-  server.get("*", authHandler, (req, res) => handle(req, res));
+  server.get("*", authHandler(), (req, res) => handle(req, res));
 
   server.listen(port, () => {
     // eslint-disable-next-line no-console

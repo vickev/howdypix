@@ -1,4 +1,4 @@
-import { Express, Handler } from "express";
+import { Express, Handler, NextFunction, Response, Request } from "express";
 import fetch from "isomorphic-unfetch";
 import { appDebug, routes } from "@howdypix/utils";
 import axios from "axios";
@@ -31,7 +31,15 @@ const fetchUser = (token: string): Promise<{ email: string }> =>
 const refreshToken = async (refreshToken: string): Promise<{ token: string }> =>
   authFetch(refreshToken, routes.refreshToken.value());
 
-export const authHandler: Handler = async (req, res, next) => {
+export const authHandler = (
+  options: {
+    failureCallback: (req: Request, res: Response, next: NextFunction) => void;
+  } = {
+    failureCallback: (req, res): void => {
+      res.redirect("/login");
+    }
+  }
+): Handler => async (req, res, next): Promise<void> => {
   if (/_next/.test(req.originalUrl) || /^\/login/.test(req.originalUrl)) {
     next();
   } else if (req.cookies.token) {
@@ -39,6 +47,7 @@ export const authHandler: Handler = async (req, res, next) => {
       // Try to authenticate to the server
       const user = await fetchUser(req.cookies.token);
       debug("Token is valid - user:", user);
+      res.locals.token = req.cookies.token;
       next();
     } catch (statusCode) {
       debug("Token is expired");
@@ -55,17 +64,19 @@ export const authHandler: Handler = async (req, res, next) => {
 
           debug("New token generated!");
 
+          res.locals.token = newToken.token;
+
           next();
         } catch (e) {
           debug("RefreshToken is expired");
-          res.redirect("/login");
+          options.failureCallback(req, res, next);
         }
       } else {
-        res.redirect("/login");
+        options.failureCallback(req, res, next);
       }
     }
   } else {
-    res.redirect("/login");
+    options.failureCallback(req, res, next);
   }
 };
 

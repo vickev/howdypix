@@ -5,6 +5,9 @@
 type Album {
   dir: String!
   name: String!
+  nbAlbums: Int!
+  nbPhotos: Int!
+  preview: String
   source: String!
 }
 
@@ -44,11 +47,14 @@ type Photo {
 }
 
 type Query {
-  getAlbum(album: String, source: String): GetAlbumPhotos!
+  getAlbum(album: String, source: String!): GetAlbumPhotos!
   getCurrentUser: CurrentUserType
   getSources: [Source]!
 }
 
 type Source {
   name: String!
+  nbAlbums: Int!
+  nbPhotos: Int!
+  preview: String
 }

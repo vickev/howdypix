@@ -1,12 +1,8 @@
 import React, { ReactElement } from "react";
-import { useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import GridListTile from "@material-ui/core/GridListTile";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import FolderIcon from "@material-ui/icons/Folder";
-import { hjoin } from "@howdypix/utils";
 import { NextPage } from "next";
-import Link from "next/link";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 
@@ -16,6 +12,9 @@ import {
   GetSourcesQuery,
   GetSourcesQueryVariables
 } from "../src/__generated__/schema-types";
+import { AlbumCard } from "../src/component/AlbumCard";
+import { AlbumGrid } from "../src/component/AlbumGrid";
+import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -32,12 +31,14 @@ const GET_SOURCES = gql`
   query getSources {
     getSources {
       name
+      nbAlbums
+      nbPhotos
+      preview
     }
   }
 `;
 
 const Homepage: NextPage<Props, InitialProps> = () => {
-  const theme = useTheme();
   const { loading, data } = useQuery<GetSourcesQuery, GetSourcesQueryVariables>(
     GET_SOURCES
   );
@@ -49,26 +50,27 @@ const Homepage: NextPage<Props, InitialProps> = () => {
       <Box bgcolor="white" padding={gutter}>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1">
-            Repository
+            Gallery
           </Typography>
         </Box>
         <Box paddingBottom={gutter}>
-          {data?.getSources.map(
-            (source): ReactElement | null =>
-              source && (
-                <Box paddingRight={gutter} component="span" key={source.name}>
-                  <Link
-                    href="/album/[id]"
-                    as={`/album/${hjoin({ source: source.name })}`}
-                  >
-                    <Button size="medium" variant="outlined">
-                      <FolderIcon style={{ marginRight: theme.spacing(1) }} />
-                      {source.name}
-                    </Button>
-                  </Link>
-                </Box>
-              )
-          )}
+          <AlbumGrid>
+            {data?.getSources.map(
+              (source): ReactElement | null =>
+                source && (
+                  <AlbumGridListTile key={source.name}>
+                    <AlbumCard
+                      name={source.name}
+                      dir="."
+                      source={source.name}
+                      nbPhotos={source.nbPhotos}
+                      nbAlbums={source.nbAlbums}
+                      preview={source.preview}
+                    />
+                  </AlbumGridListTile>
+                )
+            )}
+          </AlbumGrid>
         </Box>
       </Box>
     </Layout>

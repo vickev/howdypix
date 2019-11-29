@@ -4,7 +4,6 @@ import gql from "graphql-tag";
 import { Theme, useTheme } from "@material-ui/core/styles";
 import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import MUILink from "@material-ui/core/Link";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -12,8 +11,6 @@ import Link from "next/link";
 import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import FolderIcon from "@material-ui/icons/Folder";
 import { hjoin, hparse, hpaths } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
 
@@ -26,6 +23,9 @@ import {
   GetSubAlbumQueryVariables
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
+import { AlbumCard } from "../../src/component/AlbumCard";
+import { AlbumGrid } from "../../src/component/AlbumGrid";
+import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -33,21 +33,13 @@ type InitialProps = { namespacesRequired: string[] };
 // ========================================
 // Constants
 // ========================================
-const imageSize = 200;
 const gutter = 3;
-const gridCols = {
-  xl: 4,
-  lg: 4,
-  md: 3,
-  sm: 2,
-  xs: 1
-};
 
 // ========================================
 // GraphQL queries
 // ========================================
 const GET_ALBUM = gql`
-  query GetSubAlbum($source: String, $album: String) {
+  query GetSubAlbum($source: String!, $album: String) {
     getAlbum(source: $source, album: $album) {
       album {
         name
@@ -59,6 +51,9 @@ const GET_ALBUM = gql`
         name
         source
         dir
+        preview
+        nbAlbums
+        nbPhotos
       }
     }
   }
@@ -77,18 +72,16 @@ function useWidth(): Breakpoint {
 
 const AlbumPage: NextPage<Props, InitialProps> = () => {
   const router = useRouter();
-  const width = useWidth();
   const folder: HFile = hparse(router.query.id as string);
   const breadcrumbs: HFile[] = hpaths(folder);
 
-  const theme = useTheme();
   // @TODO: Must consider the error case
   const { loading, data } = useQuery<
     GetSubAlbumQuery,
     GetSubAlbumQueryVariables
   >(GET_ALBUM, {
     variables: {
-      source: folder.source || null,
+      source: folder.source,
       album: folder.dir
     }
   });
@@ -125,44 +118,36 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
             Album {data?.getAlbum.album?.name}
           </Typography>
         </Box>
-        <Box paddingBottom={gutter} id="subAlbumBox">
+        <AlbumGrid>
           {data?.getAlbum?.albums.map(
             (album): ReactElement => (
-              <Box paddingRight={gutter} component="span" key={album.name}>
-                <Link
-                  href="/album/[id]"
-                  as={`/album/${hjoin({
-                    dir: album.dir,
-                    source: album.source
-                  })}`}
-                >
-                  <Button size="medium" variant="outlined" href="">
-                    <FolderIcon style={{ marginRight: theme.spacing(1) }} />
-                    {album.name}
-                  </Button>
-                </Link>
-              </Box>
+              <AlbumGridListTile key={album.name}>
+                <AlbumCard
+                  name={album.name}
+                  dir={album.dir}
+                  source={album.source}
+                  nbAlbums={album.nbPhotos}
+                  nbPhotos={album.nbPhotos}
+                  preview={album.preview}
+                />
+              </AlbumGridListTile>
             )
           )}
+        </AlbumGrid>
+        <Box py={gutter} id="pictureBox">
+          <Divider variant="fullWidth" />
         </Box>
-        <Divider variant="fullWidth" />
-        <Box paddingTop={gutter} id="pictureBox">
-          <GridList
-            spacing={theme.spacing(gutter)}
-            cellHeight={imageSize}
-            cols={gridCols[width]}
-          >
-            {data?.getAlbum.photos?.map(
-              (photo, key): ReactElement | null =>
-                (photo?.thumbnails[1] && (
-                  <GridListTile key={key + photo.thumbnails[1]}>
-                    <img src={photo.thumbnails[1]} alt="Thumbnail" />
-                  </GridListTile>
-                )) ||
-                null
-            )}
-          </GridList>
-        </Box>
+        <AlbumGrid>
+          {data?.getAlbum.photos?.map(
+            (photo, key): ReactElement | null =>
+              (photo?.thumbnails[1] && (
+                <GridListTile key={key + photo.thumbnails[1]}>
+                  <img src={photo.thumbnails[1]} alt="Thumbnail" />
+                </GridListTile>
+              )) ||
+              null
+          )}
+        </AlbumGrid>
       </Box>
     </Layout>
   );

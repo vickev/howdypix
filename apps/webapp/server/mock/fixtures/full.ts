@@ -6,9 +6,23 @@ const { serverRuntimeConfig } = nextConfig;
 
 const query: Query = {
   getAlbum: (_, params) => ({
-    album: { name: "Full", dir: "test", source: "test" },
+    album: {
+      name: "Full",
+      dir: "test",
+      source: "test",
+      preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+      nbAlbums: 2,
+      nbPhotos: 3
+    },
     albums: [
-      { name: params.album || "sub-test", dir: "test/sub-test", source: "test" }
+      {
+        name: params.album || "sub-test",
+        dir: "test/sub-test",
+        source: "test",
+        preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+        nbAlbums: 2,
+        nbPhotos: 3
+      }
     ],
     photos: [
       {
@@ -27,13 +41,22 @@ const query: Query = {
   }),
   getSources: () => [
     {
-      name: "source1"
+      name: "source1",
+      preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+      nbAlbums: 2,
+      nbPhotos: 3
     },
     {
-      name: "source2"
+      name: "source2",
+      preview: null,
+      nbAlbums: 2,
+      nbPhotos: 3
     },
     {
-      name: "source3"
+      name: "source3",
+      preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+      nbAlbums: 2,
+      nbPhotos: 3
     }
   ]
 };

@@ -5,6 +5,8 @@ import {
 import { UserConfigState } from "../../state";
 import { ApolloContext } from "../../types.d";
 import { Source as EntitySource } from "../../entity/Source";
+import { generateThumbnailUrls } from "@howdypix/utils";
+import config from "../../config";
 
 export const getSourcesResolver = (
   photoDirs: UserConfigState["photoDirs"]
@@ -24,6 +26,12 @@ export const getSourcesResolver = (
     name,
     nbAlbums: sources[name]?.nbAlbums ?? 0,
     nbPhotos: sources[name]?.nbPhotos ?? 0,
-    preview: sources[name]?.preview
+    preview:
+      sources[name]?.preview &&
+      generateThumbnailUrls(config.serverApi.baseUrl, {
+        file: sources[name]?.preview,
+        dir: sources[name]?.dir,
+        source: name
+      }).map(tn => tn.url)[0]
   }));
 };
