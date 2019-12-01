@@ -1,9 +1,5 @@
-import { CardMedia } from "@material-ui/core";
 import React from "react";
-import styled from "@material-ui/styles/styled";
-import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 import GridList from "@material-ui/core/GridList";
-import Box from "@material-ui/core/Box";
 import { Theme, useTheme } from "@material-ui/core/styles";
 import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import useMediaQuery from "@material-ui/core/useMediaQuery";

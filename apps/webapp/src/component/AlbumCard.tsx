@@ -1,4 +1,3 @@
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Link from "next/link";
 import { hjoin } from "@howdypix/utils";

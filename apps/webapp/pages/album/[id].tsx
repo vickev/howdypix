@@ -1,12 +1,9 @@
 import React, { ReactElement } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { Theme, useTheme } from "@material-ui/core/styles";
-import { Breakpoint } from "@material-ui/core/styles/createBreakpoints";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import GridListTile from "@material-ui/core/GridListTile";
 import MUILink from "@material-ui/core/Link";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Link from "next/link";
 import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -58,17 +55,6 @@ const GET_ALBUM = gql`
     }
   }
 `;
-
-function useWidth(): Breakpoint {
-  const theme: Theme = useTheme();
-  const keys: Breakpoint[] = [...theme.breakpoints.keys].reverse();
-  return (
-    keys.reduce((output: Breakpoint | null, key: Breakpoint) => {
-      const matches = useMediaQuery(theme.breakpoints.up(key));
-      return !output && matches ? key : output;
-    }, null) || "lg"
-  );
-}
 
 const AlbumPage: NextPage<Props, InitialProps> = () => {
   const router = useRouter();

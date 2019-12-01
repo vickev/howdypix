@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import Typography from "@material-ui/core/Typography";
-import GridListTile from "@material-ui/core/GridListTile";
 import Box from "@material-ui/core/Box";
 import { NextPage } from "next";
 import gql from "graphql-tag";
