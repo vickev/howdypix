@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import EventEmitter from "events";
 import express from "express";
+import { createConnection } from "typeorm";
+import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import config from "./config";
 import { applyApolloMiddleware } from "./middleware/apollo";
 import { loadUserConfig } from "./lib/loadUserConfig";
@@ -11,9 +13,7 @@ import { startCacheDB } from "./lib/startCacheDB";
 import { staticHandler } from "./middleware/static";
 import { emailListHandler, emailViewHandler } from "./middleware/email";
 import { applyAuthMiddleware } from "./middleware/auth";
-import { createConnection } from "typeorm";
 import ormConfig from "../ormconfig.json";
-import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 
 async function main(): Promise<void> {
   const event: Events = new EventEmitter();

@@ -6,11 +6,11 @@ import { ApolloServer } from "apollo-server-express";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
+import { Connection } from "typeorm";
 import { UserConfigState } from "../state";
 import * as types from "../schema";
 import { isTokenValid } from "../lib/auth";
 import { ApolloContext } from "../types.d";
-import { Connection } from "typeorm";
 
 type NexusEntity =
   | NexusExtendTypeDef<string>

@@ -2,10 +2,10 @@ import {
   NexusGenArgTypes,
   NexusGenFieldTypes
 } from "@howdypix/graphql-schema/schema.d";
+import { generateThumbnailUrls } from "@howdypix/utils";
 import { UserConfigState } from "../../state";
 import { ApolloContext } from "../../types.d";
 import { Source as EntitySource } from "../../entity/Source";
-import { generateThumbnailUrls } from "@howdypix/utils";
 import config from "../../config";
 
 export const getSourcesResolver = (
