@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import EventEmitter from "events";
 import express from "express";
+import { createConnection } from "typeorm";
+import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import config from "./config";
 import { applyApolloMiddleware } from "./middleware/apollo";
 import { loadUserConfig } from "./lib/loadUserConfig";
@@ -11,6 +13,7 @@ import { startCacheDB } from "./lib/startCacheDB";
 import { staticHandler } from "./middleware/static";
 import { emailListHandler, emailViewHandler } from "./middleware/email";
 import { applyAuthMiddleware } from "./middleware/auth";
+import ormConfig from "../ormconfig.json";
 
 async function main(): Promise<void> {
   const event: Events = new EventEmitter();
@@ -21,10 +24,15 @@ async function main(): Promise<void> {
   // eslint-disable-next-line no-console
   console.log(userConfig);
 
+  // Open the DB connection
+  const connection = await createConnection({
+    ...(ormConfig as SqliteConnectionOptions)
+  });
+
   /**
    * Start the mandatory services
    */
-  await startCacheDB(event, userConfig);
+  await startCacheDB(event, userConfig, connection);
   await startRabbitMq(event, userConfig, config.rabbitMq.url);
   await startFileScan(event, userConfig);
 
@@ -46,7 +54,7 @@ async function main(): Promise<void> {
   applyAuthMiddleware(app);
 
   // Attach the Apollo middlewares
-  applyApolloMiddleware(app, userConfig);
+  applyApolloMiddleware(app, userConfig, connection);
 
   app.listen({ port: config.serverApi.port }, () => {
     // eslint-disable-next-line no-console

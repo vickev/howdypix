@@ -5,13 +5,16 @@ context("Album page full", () => {
   });
 
   it("should display the pictures.", () => {
-    cy.get("#pictureBox");
-    cy.get("img").should("exist");
+    cy.findByAltText("Thumbnail").should("exist");
   });
 
   it("should display the sub directories.", () => {
-    cy.get("#subAlbumBox .MuiBox-root").first();
-    cy.contains("sub-test");
+    cy.findByText("sub-test").should("exist");
+    cy.findByTestId("albumcard-image").should(
+      "have.css",
+      "background-image",
+      'url("http://localhost:3000/static-tests/albert.jpg")'
+    );
   });
 });
 
@@ -22,11 +25,14 @@ context("Album page empty", () => {
   });
 
   it("should not display the pictures.", () => {
-    cy.get("#pictureBox");
-    cy.get("img").should("not.exist");
+    cy.findByAltText("Thumbnail").should("not.exist");
   });
   it("should display the sub directories.", () => {
-    cy.get("#subAlbumBox .MuiBox-root").first();
-    cy.contains("sub-test");
+    cy.findByTestId("albumcard-image").should(
+      "not.have.css",
+      "background-image",
+      'url("http://localhost:3000/static-tests/albert.jpg")'
+    );
+    cy.findByText("sub-test").should("exist");
   });
 });

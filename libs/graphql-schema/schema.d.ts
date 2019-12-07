@@ -21,6 +21,9 @@ export interface NexusGenRootTypes {
     // root type
     dir: string; // String!
     name: string; // String!
+    nbAlbums: number; // Int!
+    nbPhotos: number; // Int!
+    preview?: string | null; // String
     source: string; // String!
   };
   AuthEmailType: {
@@ -50,6 +53,9 @@ export interface NexusGenRootTypes {
   Source: {
     // root type
     name: string; // String!
+    nbAlbums: number; // Int!
+    nbPhotos: number; // Int!
+    preview?: string | null; // String
   };
   String: string;
   Int: number;
@@ -67,6 +73,9 @@ export interface NexusGenFieldTypes {
     // field return type
     dir: string; // String!
     name: string; // String!
+    nbAlbums: number; // Int!
+    nbPhotos: number; // Int!
+    preview: string | null; // String
     source: string; // String!
   };
   AuthEmailType: {
@@ -104,6 +113,9 @@ export interface NexusGenFieldTypes {
   Source: {
     // field return type
     name: string; // String!
+    nbAlbums: number; // Int!
+    nbPhotos: number; // Int!
+    preview: string | null; // String
   };
 }
 
@@ -118,7 +130,7 @@ export interface NexusGenArgTypes {
     getAlbum: {
       // args
       album?: string | null; // String
-      source?: string | null; // String
+      source: string; // String!
     };
   };
 }

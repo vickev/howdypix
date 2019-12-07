@@ -1,11 +1,8 @@
-import { Connection, createConnection } from "typeorm";
-import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
+import { Connection } from "typeorm";
 import { appDebug, generateThumbnailPaths, hjoin } from "@howdypix/utils";
 import { existsSync, statSync, unlinkSync } from "fs";
 import { join, parse } from "path";
 import { UserConfigState } from "../state";
-
-import ormConfig from "../../ormconfig.json";
 import { Photo } from "../entity/Photo";
 import { Events, EventTypes } from "./eventEmitter";
 
@@ -86,12 +83,9 @@ export async function onProcessedFile(
 
 export async function startCacheDB(
   event: Events,
-  userConfig: UserConfigState
+  userConfig: UserConfigState,
+  connection: Connection
 ): Promise<Connection> {
-  const connection = await createConnection(
-    ormConfig as SqliteConnectionOptions
-  );
-
   event.on("newFile", params =>
     onNewFile(params, event, connection, userConfig)
   );

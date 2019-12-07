@@ -7,7 +7,7 @@ export const getAlbum: EnhancedQuery = () =>
     type: "GetAlbumPhotos",
     args: {
       album: stringArg(),
-      source: stringArg()
+      source: stringArg({ required: true })
     },
     authorize: (root, args, ctx) => !!ctx.user,
     resolve: getAlbumResolver()
