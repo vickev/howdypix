@@ -20,7 +20,7 @@ export function generateThumbnailPaths(
 }> {
   const { dir, name } = parse(thumbnailPath(thumbnailsDir, hfile));
 
-  return [200, 600].map(size => ({
+  return [200, 600, 1280, 2048].map(size => ({
     width: size,
     height: null,
     path: join(dir, `${name}x${size}.jpg`)
@@ -39,7 +39,7 @@ export function generateThumbnailUrls(
     throw new Error("You need to pass a file path to generate a URL.");
   }
 
-  return [200, 600].map(size => ({
+  return [200, 600, 1280, 2048].map(size => ({
     width: size,
     height: null,
     url: `${baseUrl}/static/${hjoin({
@@ -47,6 +47,14 @@ export function generateThumbnailUrls(
       file: `${parse(hfile.file as string).name}x${size}.jpg`
     })}`
   }));
+}
+
+export function generateFileUrl(baseUrl: string, hfile: HFile): string {
+  if (!hfile.file) {
+    throw new Error("You need to pass a file path to generate a URL.");
+  }
+
+  return `${baseUrl}/static/${hjoin(hfile)}`;
 }
 
 export function isHowdypixPath(path = ""): boolean {

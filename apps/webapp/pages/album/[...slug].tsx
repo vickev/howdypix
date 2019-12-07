@@ -43,6 +43,7 @@ const GET_ALBUM = gql`
       }
       photos {
         thumbnails
+        file
       }
       albums {
         name
@@ -131,7 +132,16 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
             (photo, key): ReactElement | null =>
               (photo?.thumbnails[1] && (
                 <GridListTile key={key + photo.thumbnails[1]}>
-                  <img src={photo.thumbnails[1]} alt="Thumbnail" />
+                  <Link
+                    href="/photo/[...slug]"
+                    as={`/photo/${hjoin({
+                      file: photo.file,
+                      dir: folder.dir,
+                      source: folder.source
+                    })}`}
+                  >
+                    <img src={photo.thumbnails[1]} alt="Thumbnail" />
+                  </Link>
                 </GridListTile>
               )) ||
               null
