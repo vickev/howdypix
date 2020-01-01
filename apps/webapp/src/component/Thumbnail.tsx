@@ -16,7 +16,7 @@ type Props = {
 };
 
 export const Thumbnail: React.FC<Props> = ({ hfile, url }) => (
-  <CardActionArea>
+  <CardActionArea data-testid="thumbnail">
     <Link href="/photo/[...slug]" as={`/photo/${hjoin(hfile)}`}>
       <StyledCardMedia image={url} />
     </Link>
