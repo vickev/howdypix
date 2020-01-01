@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { styled } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   nbPhotos?: number;
@@ -23,21 +24,27 @@ const StyledExpansionPanelSummary = styled(ExpansionPanelSummary)(
   })
 );
 
-export const RightPanel: React.FC<Props> = ({ nbPhotos }) => (
-  <StyledExpansionPanel defaultExpanded>
-    <StyledExpansionPanelSummary
-      expandIcon={<ExpandMoreIcon />}
-      aria-controls="panel1a-content"
-      id="panel1a-header"
-    >
-      <Typography>Information</Typography>
-    </StyledExpansionPanelSummary>
-    <ExpansionPanelDetails>
-      {nbPhotos ? (
-        <Typography variant="body2">{nbPhotos} photos</Typography>
-      ) : (
-        <Skeleton width="100%" />
-      )}
-    </ExpansionPanelDetails>
-  </StyledExpansionPanel>
-);
+export const RightPanel: React.FC<Props> = ({ nbPhotos }) => {
+  const { t } = useTranslation("common");
+
+  return (
+    <StyledExpansionPanel defaultExpanded>
+      <StyledExpansionPanelSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography>{t("information")}</Typography>
+      </StyledExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        {nbPhotos ? (
+          <Typography variant="body2">
+            {t("photos", { count: nbPhotos })}
+          </Typography>
+        ) : (
+          <Skeleton width="100%" />
+        )}
+      </ExpansionPanelDetails>
+    </StyledExpansionPanel>
+  );
+};

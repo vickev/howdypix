@@ -25,7 +25,7 @@ import { AlbumCard } from "../../src/component/AlbumCard";
 import { AlbumGrid } from "../../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
 import { Thumbnail } from "../../src/component/Thumbnail";
-import {RightPanel} from "../../src/module/album/RightPanel";
+import { RightPanel } from "../../src/module/album/RightPanel";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -80,7 +80,9 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   });
 
   return (
-    <Layout rightComponent={<RightPanel nbPhotos={data?.getAlbum.photos.length} />}>
+    <Layout
+      rightComponent={<RightPanel nbPhotos={data?.getAlbum.photos.length} />}
+    >
       <Box padding={gutter}>
         <Box paddingBottom={gutter} id="BreadcrumbBox">
           <Breadcrumbs aria-label="breadcrumb">
