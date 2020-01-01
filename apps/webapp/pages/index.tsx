@@ -4,6 +4,8 @@ import Box from "@material-ui/core/Box";
 import { NextPage } from "next";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import GridListTile from "@material-ui/core/GridListTile";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 import { withApollo } from "../src/lib/with-apollo-client";
 import { Layout } from "../src/module/layout/Layout";
@@ -14,8 +16,6 @@ import {
 import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
-import GridListTile from "@material-ui/core/GridListTile";
-import Skeleton from "@material-ui/lab/Skeleton";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
