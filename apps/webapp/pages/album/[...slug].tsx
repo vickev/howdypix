@@ -23,6 +23,7 @@ import { Layout } from "../../src/module/layout/Layout";
 import { AlbumCard } from "../../src/component/AlbumCard";
 import { AlbumGrid } from "../../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
+import { Thumbnail } from "../../src/component/Thumbnail";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -108,7 +109,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
             Album {data?.getAlbum.album?.name}
           </Typography>
         </Box>
-        <AlbumGrid>
+        <AlbumGrid extraHeight={100}>
           {data?.getAlbum?.albums.map(
             (album): ReactElement => (
               <AlbumGridListTile key={album.name}>
@@ -132,16 +133,14 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
             (photo, key): ReactElement | null =>
               (photo?.thumbnails[1] && (
                 <GridListTile key={key + photo.thumbnails[1]}>
-                  <Link
-                    href="/photo/[...slug]"
-                    as={`/photo/${hjoin({
+                  <Thumbnail
+                    hfile={{
                       file: photo.file,
                       dir: folder.dir,
                       source: folder.source
-                    })}`}
-                  >
-                    <img src={photo.thumbnails[1]} alt="Thumbnail" />
-                  </Link>
+                    }}
+                    url={photo.thumbnails[1] ?? ''}
+                  />
                 </GridListTile>
               )) ||
               null

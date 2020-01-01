@@ -31,7 +31,8 @@ const query: Query = {
           `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
           `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
           `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
-        ]
+        ],
+        file: "albert.jpg"
       }
     ]
   }),

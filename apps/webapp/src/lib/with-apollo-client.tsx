@@ -56,7 +56,7 @@ function createApolloClient(initialState: InitialState): ApolloClient<object> {
       uri: `${
         typeof window !== "undefined"
           ? publicRuntimeConfig.baseUrl
-          : `http://localhost:${serverRuntimeConfig.port}`
+          : serverRuntimeConfig.serverApi.url
       }/graphql`, // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
       headers,
@@ -103,17 +103,13 @@ export function withApollo(
   const WithApollo: NextPage<WithApolloProps> = ({
     apolloClient,
     apolloState,
+    token,
+    refreshToken,
     ...pageProps
   }) => {
     const router = useRouter();
     const fixtureSet = router.query["fixture-set"] as string;
-    const tokens: { token?: string; refreshToken?: string } = {};
-
-    if (typeof document !== "undefined") {
-      const cookies = cookieParser(document.cookie);
-      tokens.token = cookies.token;
-      tokens.refreshToken = cookies.refreshToken;
-    }
+    const tokens = { token, refreshToken };
 
     const client =
       apolloClient || initApolloClient({ ...apolloState, fixtureSet, tokens });
@@ -169,10 +165,7 @@ export function withApollo(
       // Run wrapped getInitialProps methods
       let pageProps = {};
       if (PageComponent.getInitialProps) {
-        pageProps = await PageComponent.getInitialProps({
-          ...ctx
-          // apolloClient
-        });
+        pageProps = await PageComponent.getInitialProps(ctx);
       }
 
       // Only on the server:
@@ -188,6 +181,7 @@ export function withApollo(
           try {
             // Run all GraphQL queries
             const { getDataFromTree } = await import("@apollo/react-ssr");
+
             await getDataFromTree(
               <AppTree
                 pageProps={{

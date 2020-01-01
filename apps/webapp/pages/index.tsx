@@ -53,7 +53,7 @@ const Homepage: NextPage<Props, InitialProps> = () => {
           </Typography>
         </Box>
         <Box paddingBottom={gutter}>
-          <AlbumGrid>
+          <AlbumGrid extraHeight={100}>
             {data?.getSources.map(
               (source): ReactElement | null =>
                 source && (
