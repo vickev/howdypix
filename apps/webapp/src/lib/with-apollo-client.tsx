@@ -9,7 +9,6 @@ import { HttpLink } from "apollo-link-http";
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
-import { parse as cookieParser } from "cookie";
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 

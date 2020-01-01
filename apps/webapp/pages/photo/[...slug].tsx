@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { hjoin, hparse, hpaths } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
+import { styled } from "@material-ui/styles";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
@@ -18,7 +19,6 @@ import {
   GetPhotoQueryVariables
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
-import { styled } from "@material-ui/styles";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -89,7 +89,7 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
           </Breadcrumbs>
         </Box>
         <Box paddingBottom={gutter}>
-          <Typography variant="h3" component="h1"></Typography>
+          <Typography variant="h3" component="h1" />
         </Box>
         <Box py={gutter} id="pictureBox">
           <Image src={data?.getPhoto?.files[2] ?? ""} />

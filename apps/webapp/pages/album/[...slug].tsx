@@ -139,7 +139,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
                       dir: folder.dir,
                       source: folder.source
                     }}
-                    url={photo.thumbnails[1] ?? ''}
+                    url={photo.thumbnails[1] ?? ""}
                   />
                 </GridListTile>
               )) ||
