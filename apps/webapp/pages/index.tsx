@@ -14,6 +14,8 @@ import {
 import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
+import GridListTile from "@material-ui/core/GridListTile";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -42,8 +44,6 @@ const Homepage: NextPage<Props, InitialProps> = () => {
     GET_SOURCES
   );
 
-  if (loading) return <p>Loading...</p>;
-
   return (
     <Layout>
       <Box bgcolor="white" padding={gutter}>
@@ -54,21 +54,27 @@ const Homepage: NextPage<Props, InitialProps> = () => {
         </Box>
         <Box paddingBottom={gutter}>
           <AlbumGrid extraHeight={100}>
-            {data?.getSources.map(
-              (source): ReactElement | null =>
-                source && (
-                  <AlbumGridListTile key={source.name}>
-                    <AlbumCard
-                      name={source.name}
-                      dir="."
-                      source={source.name}
-                      nbPhotos={source.nbPhotos}
-                      nbAlbums={source.nbAlbums}
-                      preview={source.preview}
-                    />
-                  </AlbumGridListTile>
-                )
-            )}
+            {loading
+              ? [0, 0, 0].map(() => (
+                  <GridListTile>
+                    <Skeleton variant="rect" height={200} />
+                  </GridListTile>
+                ))
+              : data?.getSources.map(
+                  (source): ReactElement | null =>
+                    source && (
+                      <AlbumGridListTile key={source.name}>
+                        <AlbumCard
+                          name={source.name}
+                          dir="."
+                          source={source.name}
+                          nbPhotos={source.nbPhotos}
+                          nbAlbums={source.nbAlbums}
+                          preview={source.preview}
+                        />
+                      </AlbumGridListTile>
+                    )
+                )}
           </AlbumGrid>
         </Box>
       </Box>

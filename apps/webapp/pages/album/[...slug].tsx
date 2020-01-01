@@ -7,6 +7,7 @@ import MUILink from "@material-ui/core/Link";
 import Link from "next/link";
 import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import Skeleton from "@material-ui/lab/Skeleton";
 import Box from "@material-ui/core/Box";
 import { hjoin, hparse, hpaths } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
@@ -77,8 +78,6 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     }
   });
 
-  if (loading) return <p>Loading...</p>;
-
   return (
     <Layout>
       <Box bgcolor="white" padding={gutter}>
@@ -110,41 +109,53 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
           </Typography>
         </Box>
         <AlbumGrid extraHeight={100}>
-          {data?.getAlbum?.albums.map(
-            (album): ReactElement => (
-              <AlbumGridListTile key={album.name}>
-                <AlbumCard
-                  name={album.name}
-                  dir={album.dir}
-                  source={album.source}
-                  nbAlbums={album.nbPhotos}
-                  nbPhotos={album.nbPhotos}
-                  preview={album.preview}
-                />
-              </AlbumGridListTile>
-            )
-          )}
+          {loading
+            ? [0, 0, 0].map(() => (
+                <GridListTile>
+                  <Skeleton variant="rect" height={200} />
+                </GridListTile>
+              ))
+            : data?.getAlbum?.albums.map(
+                (album): ReactElement => (
+                  <AlbumGridListTile key={album.name}>
+                    <AlbumCard
+                      name={album.name}
+                      dir={album.dir}
+                      source={album.source}
+                      nbAlbums={album.nbPhotos}
+                      nbPhotos={album.nbPhotos}
+                      preview={album.preview}
+                    />
+                  </AlbumGridListTile>
+                )
+              )}
         </AlbumGrid>
         <Box py={gutter} id="pictureBox">
           <Divider variant="fullWidth" />
         </Box>
         <AlbumGrid>
-          {data?.getAlbum.photos?.map(
-            (photo, key): ReactElement | null =>
-              (photo?.thumbnails[1] && (
-                <GridListTile key={key + photo.thumbnails[1]}>
-                  <Thumbnail
-                    hfile={{
-                      file: photo.file,
-                      dir: folder.dir,
-                      source: folder.source
-                    }}
-                    url={photo.thumbnails[1] ?? ""}
-                  />
+          {loading
+            ? [0, 0, 0].map(() => (
+                <GridListTile>
+                  <Skeleton variant="rect" height={200} />
                 </GridListTile>
-              )) ||
-              null
-          )}
+              ))
+            : data?.getAlbum.photos?.map(
+                (photo, key): ReactElement | null =>
+                  (photo?.thumbnails[1] && (
+                    <GridListTile key={key + photo.thumbnails[1]}>
+                      <Thumbnail
+                        hfile={{
+                          file: photo.file,
+                          dir: folder.dir,
+                          source: folder.source
+                        }}
+                        url={photo.thumbnails[1] ?? ""}
+                      />
+                    </GridListTile>
+                  )) ||
+                  null
+              )}
         </AlbumGrid>
       </Box>
     </Layout>
