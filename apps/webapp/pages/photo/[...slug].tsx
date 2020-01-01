@@ -92,7 +92,10 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
           <Typography variant="h3" component="h1" />
         </Box>
         <Box py={gutter} id="pictureBox">
-          <Image src={data?.getPhoto?.files[2] ?? ""} />
+          <Image
+            data-testid="picture-detail"
+            src={data?.getPhoto?.files[2] ?? ""}
+          />
         </Box>
       </Box>
     </Layout>

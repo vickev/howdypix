@@ -36,6 +36,14 @@ const query: Query = {
       }
     ]
   }),
+  getPhoto: () => ({
+    files: [
+      `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+      `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+      `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+    ],
+    id: "id1"
+  }),
   getCurrentUser: () => ({
     name: "Foo Bar",
     email: "dev@vickev.com"
