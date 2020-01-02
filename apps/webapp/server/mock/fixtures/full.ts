@@ -31,9 +31,18 @@ const query: Query = {
           `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
           `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
           `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
-        ]
+        ],
+        file: "albert.jpg"
       }
     ]
+  }),
+  getPhoto: () => ({
+    files: [
+      `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+      `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+      `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+    ],
+    id: "id1"
   }),
   getCurrentUser: () => ({
     name: "Foo Bar",

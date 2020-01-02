@@ -5,7 +5,7 @@ context("Album page full", () => {
   });
 
   it("should display the pictures.", () => {
-    cy.findByAltText("Thumbnail").should("exist");
+    cy.findByTestId("thumbnail").should("exist");
   });
 
   it("should display the sub directories.", () => {
@@ -25,7 +25,7 @@ context("Album page empty", () => {
   });
 
   it("should not display the pictures.", () => {
-    cy.findByAltText("Thumbnail").should("not.exist");
+    cy.findByTestId("thumbnail").should("not.exist");
   });
   it("should display the sub directories.", () => {
     cy.findByTestId("albumcard-image").should(

@@ -25,7 +25,18 @@ const publicRuntimeConfig = {
   baseUrl: undefined
 };
 
-serverRuntimeConfig.baseUrl = publicRuntimeConfig.baseUrl =
+serverRuntimeConfig.baseUrl =
   process.env.BASE_URL || `http://localhost:${serverRuntimeConfig.port}`;
 
-module.exports = { serverRuntimeConfig, publicRuntimeConfig };
+publicRuntimeConfig.baseUrl = serverRuntimeConfig.baseUrl;
+
+// Enable experimental mode to have the catch-all routing
+// @see https://github.com/zeit/next.js/pull/9416/files
+// @see https://github.com/zeit/next.js/issues/9081
+// @see https://github.com/zeit/next.js/issues/9390
+const experimental = {
+  modern: true,
+  catchAllRouting: true
+};
+
+module.exports = { serverRuntimeConfig, publicRuntimeConfig, experimental };

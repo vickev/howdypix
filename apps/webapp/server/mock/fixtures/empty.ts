@@ -26,6 +26,7 @@ const query: Query = {
     ],
     photos: []
   }),
+  getPhoto: () => null,
   getCurrentUser: () => ({
     name: "Foo Bar",
     email: "dev@vickev.com"

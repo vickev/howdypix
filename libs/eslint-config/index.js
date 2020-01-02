@@ -11,7 +11,9 @@ const typescriptAlreadySupportedByTscRules = {
   "no-shadow": "off",
   "no-use-before-define": "off",
   // Typescript already checks for the PropTypes definition
-  "react/prop-types": "off"
+  "react/prop-types": "off",
+  // Handled by prettier
+  "react/jsx-indent": "off"
 };
 
 module.exports = {

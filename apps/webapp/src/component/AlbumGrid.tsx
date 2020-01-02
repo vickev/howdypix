@@ -28,16 +28,18 @@ function useWidth(): Breakpoint {
   );
 }
 
-type Props = {};
+type Props = {
+  extraHeight?: number;
+};
 
-export const AlbumGrid: React.FC<Props> = ({ children }) => {
+export const AlbumGrid: React.FC<Props> = ({ children, extraHeight }) => {
   const width = useWidth();
   const theme = useTheme();
 
   return (
     <GridList
       spacing={theme.spacing(gutter)}
-      cellHeight={imageSize + 100}
+      cellHeight={imageSize + (extraHeight ?? 0)}
       cols={gridCols[width]}
     >
       {children}

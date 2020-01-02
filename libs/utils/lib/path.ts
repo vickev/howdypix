@@ -39,9 +39,9 @@ export function hparse(hpath: HPath): HFile {
     const [file, ...dir] = relativePath.split("/").reverse();
     if (/^[^.]+$/.test(file)) {
       // It's a directory
-      ret.dir = file;
+      ret.dir = relativePath;
     } else {
-      ret.dir = path.join(...dir);
+      ret.dir = path.join(...dir.reverse());
       ret.file = file;
     }
   }
@@ -73,18 +73,19 @@ export function thumbnailPath(root: string, howdyfile: HFile | HPath): string {
 export function hpaths(folder: HFile): HFile[] {
   const paths: HFile[] = [];
   const folders = folder.dir?.split("/");
+
   paths.push({
     source: folder.source,
     name: folder.source
   });
-  folders &&
-    folders.forEach((element, index) => {
-      paths.push({
-        source: folder.source,
-        dir: folders.slice(0, index).join("/"),
-        name: element
-      });
+
+  folders?.forEach((element, index): void => {
+    paths.push({
+      source: folder.source,
+      dir: folders.slice(0, index + 1).join("/"),
+      name: element
     });
+  });
 
   return paths;
 }

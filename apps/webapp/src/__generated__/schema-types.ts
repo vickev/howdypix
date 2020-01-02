@@ -50,18 +50,31 @@ export interface MutationAuthEmailArgs {
 }
 
 export interface Photo {
+  file: Scalars["ID"];
   id: Scalars["ID"];
   thumbnails: Array<Maybe<Scalars["String"]>>;
+}
+
+export interface PhotoDetail {
+  files: Array<Maybe<Scalars["String"]>>;
+  id: Scalars["ID"];
 }
 
 export interface Query {
   getAlbum: GetAlbumPhotos;
   getCurrentUser?: Maybe<CurrentUserType>;
+  getPhoto?: Maybe<PhotoDetail>;
   getSources: Array<Maybe<Source>>;
 }
 
 export interface QueryGetAlbumArgs {
   album?: Maybe<Scalars["String"]>;
+  source: Scalars["String"];
+}
+
+export interface QueryGetPhotoArgs {
+  album: Scalars["String"];
+  file: Scalars["String"];
   source: Scalars["String"];
 }
 
@@ -80,7 +93,7 @@ export type GetSubAlbumQueryVariables = {
 export type GetSubAlbumQuery = {
   getAlbum: {
     album: Maybe<Pick<Album, "name">>;
-    photos: Array<Maybe<Pick<Photo, "thumbnails">>>;
+    photos: Array<Maybe<Pick<Photo, "thumbnails" | "file">>>;
     albums: Array<
       Pick<
         Album,
@@ -97,6 +110,14 @@ export type GetSourcesQuery = {
     Maybe<Pick<Source, "name" | "nbAlbums" | "nbPhotos" | "preview">>
   >;
 };
+
+export type GetPhotoQueryVariables = {
+  source: Scalars["String"];
+  album: Scalars["String"];
+  file: Scalars["String"];
+};
+
+export type GetPhotoQuery = { getPhoto: Maybe<Pick<PhotoDetail, "files">> };
 
 export type AuthEmailMutationVariables = {
   email: Scalars["String"];

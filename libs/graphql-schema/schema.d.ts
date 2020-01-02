@@ -46,8 +46,14 @@ export interface NexusGenRootTypes {
   Mutation: {};
   Photo: {
     // root type
+    file: string; // ID!
     id: string; // ID!
     thumbnails: Array<string | null>; // [String]!
+  };
+  PhotoDetail: {
+    // root type
+    files: Array<string | null>; // [String]!
+    id: string; // ID!
   };
   Query: {};
   Source: {
@@ -101,13 +107,20 @@ export interface NexusGenFieldTypes {
   };
   Photo: {
     // field return type
+    file: string; // ID!
     id: string; // ID!
     thumbnails: Array<string | null>; // [String]!
+  };
+  PhotoDetail: {
+    // field return type
+    files: Array<string | null>; // [String]!
+    id: string; // ID!
   };
   Query: {
     // field return type
     getAlbum: NexusGenRootTypes["GetAlbumPhotos"]; // GetAlbumPhotos!
     getCurrentUser: NexusGenRootTypes["CurrentUserType"] | null; // CurrentUserType
+    getPhoto: NexusGenRootTypes["PhotoDetail"] | null; // PhotoDetail
     getSources: Array<NexusGenRootTypes["Source"] | null>; // [Source]!
   };
   Source: {
@@ -132,6 +145,12 @@ export interface NexusGenArgTypes {
       album?: string | null; // String
       source: string; // String!
     };
+    getPhoto: {
+      // args
+      album: string; // String!
+      file: string; // String!
+      source: string; // String!
+    };
   };
 }
 
@@ -146,6 +165,7 @@ export type NexusGenObjectNames =
   | "GetAlbumPhotos"
   | "Mutation"
   | "Photo"
+  | "PhotoDetail"
   | "Query"
   | "Source";
 

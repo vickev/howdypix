@@ -38,7 +38,7 @@ export const AlbumCard: React.FC<Props> = ({
 }) => (
   <Card>
     <Link
-      href="/album/[id]"
+      href="/album/[...slug]"
       as={`/album/${hjoin({
         dir,
         source

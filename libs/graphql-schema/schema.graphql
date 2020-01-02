@@ -42,13 +42,20 @@ type Mutation {
 }
 
 type Photo {
+  file: ID!
   id: ID!
   thumbnails: [String]!
+}
+
+type PhotoDetail {
+  files: [String]!
+  id: ID!
 }
 
 type Query {
   getAlbum(album: String, source: String!): GetAlbumPhotos!
   getCurrentUser: CurrentUserType
+  getPhoto(album: String!, file: String!, source: String!): PhotoDetail
   getSources: [Source]!
 }
 

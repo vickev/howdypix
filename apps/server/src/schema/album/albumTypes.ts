@@ -7,6 +7,7 @@ export const Photo = (): NexusObjectTypeDef<"Photo"> =>
     name: "Photo",
     definition(t) {
       t.id("id");
+      t.id("file");
       t.field("thumbnails", { type: "String", list: [false] });
     }
   });

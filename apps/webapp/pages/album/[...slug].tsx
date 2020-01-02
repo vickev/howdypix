@@ -7,6 +7,7 @@ import MUILink from "@material-ui/core/Link";
 import Link from "next/link";
 import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import Skeleton from "@material-ui/lab/Skeleton";
 import Box from "@material-ui/core/Box";
 import { hjoin, hparse, hpaths } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
@@ -23,6 +24,8 @@ import { Layout } from "../../src/module/layout/Layout";
 import { AlbumCard } from "../../src/component/AlbumCard";
 import { AlbumGrid } from "../../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
+import { Thumbnail } from "../../src/component/Thumbnail";
+import { RightPanel } from "../../src/module/album/RightPanel";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -43,6 +46,7 @@ const GET_ALBUM = gql`
       }
       photos {
         thumbnails
+        file
       }
       albums {
         name
@@ -58,7 +62,10 @@ const GET_ALBUM = gql`
 
 const AlbumPage: NextPage<Props, InitialProps> = () => {
   const router = useRouter();
-  const folder: HFile = hparse(router.query.id as string);
+
+  const hpath = (router.query.slug as string[]).join("/");
+  const folder: HFile = hparse(hpath);
+
   const breadcrumbs: HFile[] = hpaths(folder);
 
   // @TODO: Must consider the error case
@@ -72,11 +79,11 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     }
   });
 
-  if (loading) return <p>Loading...</p>;
-
   return (
-    <Layout>
-      <Box bgcolor="white" padding={gutter}>
+    <Layout
+      rightComponent={<RightPanel nbPhotos={data?.getAlbum.photos.length} />}
+    >
+      <Box padding={gutter}>
         <Box paddingBottom={gutter} id="BreadcrumbBox">
           <Breadcrumbs aria-label="breadcrumb">
             <Link href="/" key="repo">
@@ -85,7 +92,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
             {breadcrumbs.map((bread: HFile, index) =>
               index !== breadcrumbs.length - 1 ? (
                 <Link
-                  href="/album/[id]"
+                  href="/album/[...slug]"
                   as={`/album/${hjoin(bread)}`}
                   key={bread.dir}
                 >
@@ -104,35 +111,54 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
             Album {data?.getAlbum.album?.name}
           </Typography>
         </Box>
-        <AlbumGrid>
-          {data?.getAlbum?.albums.map(
-            (album): ReactElement => (
-              <AlbumGridListTile key={album.name}>
-                <AlbumCard
-                  name={album.name}
-                  dir={album.dir}
-                  source={album.source}
-                  nbAlbums={album.nbPhotos}
-                  nbPhotos={album.nbPhotos}
-                  preview={album.preview}
-                />
-              </AlbumGridListTile>
-            )
-          )}
+        <AlbumGrid extraHeight={100}>
+          {loading
+            ? [0, 0, 0].map(() => (
+                <GridListTile>
+                  <Skeleton variant="rect" height={200} />
+                </GridListTile>
+              ))
+            : data?.getAlbum?.albums.map(
+                (album): ReactElement => (
+                  <AlbumGridListTile key={album.name}>
+                    <AlbumCard
+                      name={album.name}
+                      dir={album.dir}
+                      source={album.source}
+                      nbAlbums={album.nbPhotos}
+                      nbPhotos={album.nbPhotos}
+                      preview={album.preview}
+                    />
+                  </AlbumGridListTile>
+                )
+              )}
         </AlbumGrid>
         <Box py={gutter} id="pictureBox">
           <Divider variant="fullWidth" />
         </Box>
         <AlbumGrid>
-          {data?.getAlbum.photos?.map(
-            (photo, key): ReactElement | null =>
-              (photo?.thumbnails[1] && (
-                <GridListTile key={key + photo.thumbnails[1]}>
-                  <img src={photo.thumbnails[1]} alt="Thumbnail" />
+          {loading
+            ? [0, 0, 0].map(() => (
+                <GridListTile>
+                  <Skeleton variant="rect" height={200} />
                 </GridListTile>
-              )) ||
-              null
-          )}
+              ))
+            : data?.getAlbum.photos?.map(
+                (photo, key): ReactElement | null =>
+                  (photo?.thumbnails[1] && (
+                    <GridListTile key={key + photo.thumbnails[1]}>
+                      <Thumbnail
+                        hfile={{
+                          file: photo.file,
+                          dir: folder.dir,
+                          source: folder.source
+                        }}
+                        url={photo.thumbnails[1] ?? ""}
+                      />
+                    </GridListTile>
+                  )) ||
+                  null
+              )}
         </AlbumGrid>
       </Box>
     </Layout>
