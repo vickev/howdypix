@@ -1,14 +1,13 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import MUILink from "@material-ui/core/Link";
 import Link from "next/link";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { hjoin, hparse, hpaths } from "@howdypix/utils";
+import { hparse, hpaths } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
 import { styled } from "@material-ui/styles";
+import Button from "@material-ui/core/Button";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
@@ -49,8 +48,6 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
   const hpath = (router.query.slug as string[]).join("/");
   const folder: HFile = hparse(hpath);
 
-  const breadcrumbs: HFile[] = hpaths(folder);
-
   if (!folder.file) {
     return <div>Error</div>;
   }
@@ -71,23 +68,13 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
 
   return (
     <Layout>
-      <Box bgcolor="white" padding={gutter}>
-        <Box paddingBottom={gutter} id="BreadcrumbBox">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link href="/" key="repo">
-              <MUILink href="">Repository</MUILink>
-            </Link>
-            {breadcrumbs.map((bread: HFile) => (
-              <Link
-                href="/album/[id]"
-                as={`/album/${hjoin(bread)}`}
-                key={bread.dir}
-              >
-                <MUILink href="">{bread.name}</MUILink>
-              </Link>
-            ))}
-          </Breadcrumbs>
-        </Box>
+      <Box p={2}>
+        <Link
+          href="/album/[...slug]"
+          as={`/album/@${folder.source}:${folder.dir}`}
+        >
+          <Button variant="outlined">Previous</Button>
+        </Link>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1" />
         </Box>
