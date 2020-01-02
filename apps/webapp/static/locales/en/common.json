@@ -6,5 +6,8 @@
     "next": "Next",
     "email": "Email address",
     "emailSent": "Congratulations, you're almost there! \uD83C\uDF8A An email has been sent to your address. Click on the link to finish logging in!"
-  }
+  },
+  "information": "Information",
+  "photos": "{{count}} photo",
+  "photos_plural": "{{count}} photos"
 }

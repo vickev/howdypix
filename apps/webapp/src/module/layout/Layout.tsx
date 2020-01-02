@@ -12,26 +12,32 @@ interface LayoutProps {
 
 const RawLayout: React.FC<LayoutProps> = ({
   leftComponent,
-  // rightComponent,
+  rightComponent,
   children
 }) => {
   const { user, logout } = useCurrentUser();
 
   return (
-    <>
-      <Container>
-        <Box display="flex" minHeight="100vh">
-          <Box width={200} minHeight="100%">
-            <Button onClick={logout}>{user?.name}</Button>
-            {leftComponent}
-          </Box>
-          <Box flex={1} minHeight="100%" bgcolor="white" boxShadow={1}>
-            {children}
-          </Box>
-          {/* <Box width={200}>{rightComponent}</Box> */}
+    <div style={{ width: "100%" }}>
+      <Box display="flex" minHeight="100vh">
+        <Box width={200} minHeight="100%" p={2}>
+          <Button onClick={logout}>{user?.name}</Button>
+          {leftComponent}
         </Box>
-      </Container>
-    </>
+        <Box
+          flex={1}
+          minHeight="100%"
+          bgcolor="white"
+          boxShadow={4}
+          zIndex={100}
+        >
+          <Container>{children}</Container>
+        </Box>
+        <Box width={200} minHeight="100%">
+          {rightComponent}
+        </Box>
+      </Box>
+    </div>
   );
 };
 
