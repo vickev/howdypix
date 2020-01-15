@@ -9,5 +9,6 @@
   },
   "information": "Information",
   "photos": "{{count}} photo",
-  "photos_plural": "{{count}} photos"
+  "photos_plural": "{{count}} photos",
+  "previous": "Previous"
 }

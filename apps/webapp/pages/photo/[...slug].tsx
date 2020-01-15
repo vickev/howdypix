@@ -18,6 +18,7 @@ import {
   GetPhotoQueryVariables
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -44,6 +45,7 @@ const GET_PHOTO = gql`
 
 const PhotoPage: NextPage<Props, InitialProps> = () => {
   const router = useRouter();
+  const { t } = useTranslation("common");
 
   const hpath = (router.query.slug as string[]).join("/");
   const folder: HFile = hparse(hpath);
@@ -73,7 +75,7 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
           href="/album/[...slug]"
           as={`/album/@${folder.source}:${folder.dir}`}
         >
-          <Button variant="outlined">Previous</Button>
+          <Button variant="outlined">{t("previous")}</Button>
         </Link>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1" />
