@@ -11,4 +11,11 @@ context("Photo page full", () => {
       "http://localhost:3000/static-tests/albert.jpg"
     );
   });
+
+  it("should have a previous button to return to the album.", () => {
+    cy.findByText("Previous").click();
+    cy.location().should(loc => {
+      expect(loc.pathname).to.eq("/album/@test:test");
+    });
+  });
 });
