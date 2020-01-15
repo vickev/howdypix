@@ -42,6 +42,7 @@ type Mutation {
 }
 
 type Photo {
+  birthtime: Float!
   file: ID!
   id: ID!
   thumbnails: [String]!
@@ -52,8 +53,16 @@ type PhotoDetail {
   id: ID!
 }
 
+"""The order of which the list is sorted"""
+enum PhotosOrderBy {
+  DATE_ASC
+  DATE_DESC
+  NAME_ASC
+  NAME_DESC
+}
+
 type Query {
-  getAlbum(album: String, source: String!): GetAlbumPhotos!
+  getAlbum(album: String, orderBy: PhotosOrderBy = DATE_DESC, source: String!): GetAlbumPhotos!
   getCurrentUser: CurrentUserType
   getPhoto(album: String!, file: String!, source: String!): PhotoDetail
   getSources: [Source]!

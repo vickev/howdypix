@@ -50,6 +50,7 @@ export interface MutationAuthEmailArgs {
 }
 
 export interface Photo {
+  birthtime: Scalars["Float"];
   file: Scalars["ID"];
   id: Scalars["ID"];
   thumbnails: Array<Maybe<Scalars["String"]>>;
@@ -58,6 +59,14 @@ export interface Photo {
 export interface PhotoDetail {
   files: Array<Maybe<Scalars["String"]>>;
   id: Scalars["ID"];
+}
+
+/** The order of which the list is sorted */
+export enum PhotosOrderBy {
+  DateAsc = "DATE_ASC",
+  DateDesc = "DATE_DESC",
+  NameAsc = "NAME_ASC",
+  NameDesc = "NAME_DESC"
 }
 
 export interface Query {
@@ -69,6 +78,7 @@ export interface Query {
 
 export interface QueryGetAlbumArgs {
   album?: Maybe<Scalars["String"]>;
+  orderBy?: Maybe<PhotosOrderBy>;
   source: Scalars["String"];
 }
 

@@ -14,6 +14,7 @@ export interface NexusGenEnums {
     | "AUTH_EMAIL_ERR"
     | "AUTH_EMAIL_ERR_NOT_EXIST"
     | "AUTH_EMAIL_OK";
+  PhotosOrderBy: "DATE_ASC" | "DATE_DESC" | "NAME_ASC" | "NAME_DESC";
 }
 
 export interface NexusGenRootTypes {
@@ -46,6 +47,7 @@ export interface NexusGenRootTypes {
   Mutation: {};
   Photo: {
     // root type
+    birthtime: number; // Float!
     file: string; // ID!
     id: string; // ID!
     thumbnails: Array<string | null>; // [String]!
@@ -72,6 +74,7 @@ export interface NexusGenRootTypes {
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
   AuthEmailMessage: NexusGenEnums["AuthEmailMessage"];
+  PhotosOrderBy: NexusGenEnums["PhotosOrderBy"];
 }
 
 export interface NexusGenFieldTypes {
@@ -107,6 +110,7 @@ export interface NexusGenFieldTypes {
   };
   Photo: {
     // field return type
+    birthtime: number; // Float!
     file: string; // ID!
     id: string; // ID!
     thumbnails: Array<string | null>; // [String]!
@@ -143,6 +147,7 @@ export interface NexusGenArgTypes {
     getAlbum: {
       // args
       album?: string | null; // String
+      orderBy?: NexusGenEnums["PhotosOrderBy"] | null; // PhotosOrderBy
       source: string; // String!
     };
     getPhoto: {
@@ -171,7 +176,7 @@ export type NexusGenObjectNames =
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = "AuthEmailMessage";
+export type NexusGenEnumNames = "AuthEmailMessage" | "PhotosOrderBy";
 
 export type NexusGenInterfaceNames = never;
 
