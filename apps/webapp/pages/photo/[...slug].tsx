@@ -4,10 +4,11 @@ import gql from "graphql-tag";
 import Link from "next/link";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { hparse, hpaths } from "@howdypix/utils";
+import { hparse } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
 import { styled } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
+import { useTranslation } from "react-i18next";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
@@ -18,7 +19,6 @@ import {
   GetPhotoQueryVariables
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
-import { useTranslation } from "react-i18next";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
