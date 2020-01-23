@@ -37,6 +37,10 @@ type GetAlbumPhotos {
   photos: [Photo]!
 }
 
+type GetSearchPhotos {
+  photos: [SearchPhoto]!
+}
+
 type Mutation {
   authEmail(email: String): AuthEmailType!
 }
@@ -62,10 +66,27 @@ enum PhotosOrderBy {
 }
 
 type Query {
-  getAlbum(album: String, orderBy: PhotosOrderBy = DATE_DESC, source: String!): GetAlbumPhotos!
+  getAlbum(album: String, source: String!): GetAlbumPhotos!
   getCurrentUser: CurrentUserType
   getPhoto(album: String!, file: String!, source: String!): PhotoDetail
+  getSearch(album: String, orderBy: PhotosOrderBy = DATE_DESC, source: String): GetSearchPhotos!
   getSources: [Source]!
+}
+
+type SearchAlbum {
+  dir: String!
+  name: String!
+  nbAlbums: Int!
+  nbPhotos: Int!
+  preview: String
+  source: String!
+}
+
+type SearchPhoto {
+  birthtime: Float!
+  file: String!
+  id: ID!
+  thumbnails: [String]!
 }
 
 type Source {

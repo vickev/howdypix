@@ -41,6 +41,10 @@ export interface GetAlbumPhotos {
   photos: Array<Maybe<Photo>>;
 }
 
+export interface GetSearchPhotos {
+  photos: Array<Maybe<SearchPhoto>>;
+}
+
 export interface Mutation {
   authEmail: AuthEmailType;
 }
@@ -73,12 +77,12 @@ export interface Query {
   getAlbum: GetAlbumPhotos;
   getCurrentUser?: Maybe<CurrentUserType>;
   getPhoto?: Maybe<PhotoDetail>;
+  getSearch: GetSearchPhotos;
   getSources: Array<Maybe<Source>>;
 }
 
 export interface QueryGetAlbumArgs {
   album?: Maybe<Scalars["String"]>;
-  orderBy?: Maybe<PhotosOrderBy>;
   source: Scalars["String"];
 }
 
@@ -86,6 +90,28 @@ export interface QueryGetPhotoArgs {
   album: Scalars["String"];
   file: Scalars["String"];
   source: Scalars["String"];
+}
+
+export interface QueryGetSearchArgs {
+  album?: Maybe<Scalars["String"]>;
+  orderBy?: Maybe<PhotosOrderBy>;
+  source?: Maybe<Scalars["String"]>;
+}
+
+export interface SearchAlbum {
+  dir: Scalars["String"];
+  name: Scalars["String"];
+  nbAlbums: Scalars["Int"];
+  nbPhotos: Scalars["Int"];
+  preview?: Maybe<Scalars["String"]>;
+  source: Scalars["String"];
+}
+
+export interface SearchPhoto {
+  birthtime: Scalars["Float"];
+  file: Scalars["String"];
+  id: Scalars["ID"];
+  thumbnails: Array<Maybe<Scalars["String"]>>;
 }
 
 export interface Source {
@@ -103,7 +129,6 @@ export type GetSubAlbumQueryVariables = {
 export type GetSubAlbumQuery = {
   getAlbum: {
     album: Maybe<Pick<Album, "name">>;
-    photos: Array<Maybe<Pick<Photo, "thumbnails" | "file">>>;
     albums: Array<
       Pick<
         Album,
@@ -111,6 +136,16 @@ export type GetSubAlbumQuery = {
       >
     >;
   };
+};
+
+export type GetPhotosQueryVariables = {
+  source: Scalars["String"];
+  album?: Maybe<Scalars["String"]>;
+  orderBy?: Maybe<PhotosOrderBy>;
+};
+
+export type GetPhotosQuery = {
+  getSearch: { photos: Array<Maybe<Pick<SearchPhoto, "thumbnails" | "file">>> };
 };
 
 export type GetSourcesQueryVariables = {};

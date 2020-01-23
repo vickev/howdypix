@@ -9,26 +9,8 @@ import { Photo as EntityPhoto } from "../../entity/Photo";
 import { Album as EntityAlbum } from "../../entity/Album";
 import config from "../../config";
 import { ApolloContext } from "../../types.d";
-import { FindOneOptions } from "typeorm";
 
 const debug = appDebug("gql");
-
-const getOrderBy = (
-  order: NexusGenArgTypes["Query"]["getAlbum"]["orderBy"]
-): FindOneOptions<EntityPhoto>["order"] => {
-  switch (order) {
-    case "DATE_ASC":
-      return { birthtime: "ASC" };
-    case "DATE_DESC":
-      return { birthtime: "DESC" };
-    case "NAME_ASC":
-      return { file: "ASC" };
-    case "NAME_DESC":
-      return { file: "DESC" };
-    default:
-      return { birthtime: "DESC" };
-  }
-};
 
 export const getAlbumResolver = () => async (
   root: {},
@@ -50,8 +32,7 @@ export const getAlbumResolver = () => async (
   const albumRepository = ctx.connection.getRepository(EntityAlbum);
 
   const photos = await photoRepository.find({
-    where: { dir: args.album ?? "", source: args.source },
-    order: getOrderBy(args.orderBy)
+    where: { dir: args.album ?? "", source: args.source }
   });
 
   const albums = await albumRepository

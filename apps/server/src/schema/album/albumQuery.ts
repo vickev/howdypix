@@ -7,12 +7,7 @@ export const getAlbum: EnhancedQuery = () =>
     type: "GetAlbumPhotos",
     args: {
       album: stringArg(),
-      source: stringArg({ required: true }),
-      orderBy: arg({
-        type: "PhotosOrderBy",
-        required: false,
-        default: "DATE_DESC"
-      })
+      source: stringArg({ required: true })
     },
     authorize: (root, args, ctx) => !!ctx.user,
     resolve: getAlbumResolver()
