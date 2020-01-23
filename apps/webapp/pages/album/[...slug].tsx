@@ -67,6 +67,7 @@ const GET_PHOTOS = gql`
   query GetPhotos($source: String!, $album: String, $orderBy: PhotosOrderBy) {
     getSearch(source: $source, album: $album, orderBy: $orderBy) {
       photos {
+        id
         thumbnails
         file
       }

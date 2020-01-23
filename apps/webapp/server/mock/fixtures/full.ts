@@ -1,8 +1,43 @@
 import nextConfig from "../../../next.config";
 import { FixtureSet, Mutation, Query } from "../types.d";
 import { authEmail } from "../shared";
+import {
+  NexusGenTypes,
+  NexusGenRootTypes
+} from "@howdypix/graphql-schema/schema.d";
 
 const { serverRuntimeConfig } = nextConfig;
+
+const photo1: NexusGenRootTypes["SearchPhoto"] = {
+  id: "id1",
+  thumbnails: [
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id1`,
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id1`,
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id1`
+  ],
+  file: "albert.jpg",
+  birthtime: 1234
+};
+const photo2: NexusGenRootTypes["SearchPhoto"] = {
+  id: "id2",
+  thumbnails: [
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id2`,
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id2`,
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id2`
+  ],
+  file: "albert.jpg",
+  birthtime: 3456
+};
+const photo3: NexusGenRootTypes["SearchPhoto"] = {
+  id: "id3",
+  thumbnails: [
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id3`,
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id3`,
+    `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?id3`
+  ],
+  file: "albert.jpg",
+  birthtime: 789
+};
 
 const query: Query = {
   getAlbum: (_, params) => ({
@@ -24,19 +59,35 @@ const query: Query = {
         nbPhotos: 3
       }
     ],
-    photos: [
-      {
-        id: "id1",
-        thumbnails: [
-          `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
-          `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
-          `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
-        ],
-        file: "albert.jpg",
-        birthtime: 1234
-      }
-    ]
+    photos: [photo1]
   }),
+  getSearch: (_, params) => {
+    switch (params.orderBy) {
+      case "DATE_ASC":
+        return {
+          photos: [photo1, photo2, photo3]
+        };
+
+      case "DATE_DESC":
+        return {
+          photos: [photo3, photo2, photo1]
+        };
+
+      case "NAME_ASC":
+        return {
+          photos: [photo2, photo1, photo3]
+        };
+
+      case "NAME_DESC":
+        return {
+          photos: [photo3, photo1, photo2]
+        };
+      default:
+        return {
+          photos: [photo1, photo2, photo3]
+        };
+    }
+  },
   getPhoto: () => ({
     files: [
       `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,

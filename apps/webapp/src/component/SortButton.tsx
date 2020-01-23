@@ -79,6 +79,7 @@ export const SortButton: React.FC<Props> = ({ onChange, value }) => {
         <MenuItem onClick={handleClick("NAME", order)}>Name</MenuItem>
       </Menu>
       <IconButton
+        data-testid="orderAscDesc"
         onClick={handleClick(attribute, order === "ASC" ? "DESC" : "ASC")}
       >
         <Icon />

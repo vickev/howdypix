@@ -145,7 +145,9 @@ export type GetPhotosQueryVariables = {
 };
 
 export type GetPhotosQuery = {
-  getSearch: { photos: Array<Maybe<Pick<SearchPhoto, "thumbnails" | "file">>> };
+  getSearch: {
+    photos: Array<Maybe<Pick<SearchPhoto, "id" | "thumbnails" | "file">>>;
+  };
 };
 
 export type GetSourcesQueryVariables = {};
