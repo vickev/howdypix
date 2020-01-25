@@ -1,5 +1,4 @@
-import { Connection, EntitySchema, Repository } from "typeorm";
-import * as searchResolversModule from "../searchResolvers";
+import { Repository } from "typeorm";
 import {
   doSearch,
   fetchSearchResult,

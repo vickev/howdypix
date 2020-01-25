@@ -1,4 +1,4 @@
-import { queryField, stringArg, arg } from "nexus";
+import { queryField, stringArg } from "nexus";
 import { getAlbumResolver } from "./albumResolvers";
 import { EnhancedQuery } from "../../types.d";
 

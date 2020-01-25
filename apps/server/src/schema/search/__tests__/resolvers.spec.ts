@@ -1,4 +1,5 @@
 import { Connection } from "typeorm";
+import { NexusGenFieldTypes } from "@howdypix/graphql-schema/schema.d";
 import * as searchResolversModule from "../searchResolvers";
 import {
   doSearch,
@@ -23,15 +24,12 @@ describe("getSearchResolver", () => {
     jest.resetAllMocks();
   });
 
-  const callResolver = async () => {
+  const callResolver = async (): Promise<NexusGenFieldTypes["Query"]["getSearch"]> => {
     const connection = ({
       getRepository: jest.fn(() => ({}))
     } as unknown) as Connection;
-    return searchResolversModule.getSearchResolver()(
-      {},
-      {},
-      { user: null, connection }
-    );
+    const resolver = searchResolversModule.getSearchResolver();
+    return resolver({}, {}, { user: null, connection });
   };
 
   describe("with not-saved results", () => {

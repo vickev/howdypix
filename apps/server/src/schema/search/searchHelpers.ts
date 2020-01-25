@@ -1,15 +1,8 @@
-import {
-  NexusGenArgTypes,
-  NexusGenFieldTypes,
-  NexusGenRootTypes
-} from "@howdypix/graphql-schema/schema.d";
-import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
+import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema.d";
 import { FindOneOptions, Repository } from "typeorm";
 import { Photo as EntityPhoto } from "../../entity/Photo";
 import { SearchResult as EntitySearchResult } from "../../entity/SearchResult";
 import { Search as EntitySearch } from "../../entity/Search";
-import config from "../../config";
-import { ApolloContext } from "../../types.d";
 
 export const getOrderBy = (
   order: NexusGenArgTypes["Query"]["getSearch"]["orderBy"]
