@@ -20,7 +20,7 @@ context("Album page full", () => {
   it("should re-order the images.", () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    const checkOrderOfImages = orders => {
+    const checkOrderOfImages = (orders): void => {
       cy.findAllByTestId("thumbnail").each((el, key) => {
         cy.wrap(el)
           .find(">div")

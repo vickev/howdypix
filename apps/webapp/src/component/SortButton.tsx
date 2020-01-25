@@ -21,7 +21,7 @@ export const SortButton: React.FC<Props> = ({ onChange, value }) => {
   let text: string;
   let Icon: typeof ExpandMoreIcon | typeof ExpandLessIcon;
 
-  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
   };
 

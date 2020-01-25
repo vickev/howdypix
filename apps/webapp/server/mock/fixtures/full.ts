@@ -1,10 +1,7 @@
+import { NexusGenRootTypes } from "@howdypix/graphql-schema/schema.d";
 import nextConfig from "../../../next.config";
 import { FixtureSet, Mutation, Query } from "../types.d";
 import { authEmail } from "../shared";
-import {
-  NexusGenTypes,
-  NexusGenRootTypes
-} from "@howdypix/graphql-schema/schema.d";
 
 const { serverRuntimeConfig } = nextConfig;
 
