@@ -26,7 +26,8 @@ describe("getPhotoResolver", () => {
           model: "model",
           mtime: 124323423,
           parentDir: "parent",
-          size: 123123
+          size: 123123,
+          searchResults: []
         })
       })
     } as unknown) as Connection;
