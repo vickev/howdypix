@@ -6,6 +6,7 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MenuItem from "@material-ui/core/MenuItem";
 import { NexusGenEnums } from "@howdypix/graphql-schema/schema.d";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   value: NexusGenEnums["PhotosOrderBy"];
@@ -20,6 +21,8 @@ export const SortButton: React.FC<Props> = ({ onChange, value }) => {
   const [attribute, order] = value.split("_") as [Attribute, Order];
   let text: string;
   let Icon: typeof ExpandMoreIcon | typeof ExpandLessIcon;
+
+  const { t } = useTranslation("common");
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
@@ -36,13 +39,13 @@ export const SortButton: React.FC<Props> = ({ onChange, value }) => {
   // Display the value
   switch (attribute) {
     case "DATE":
-      text = "Date";
+      text = t("sort_date");
       break;
     case "NAME":
-      text = "Name";
+      text = t("sort_name");
       break;
     default:
-      text = "Date";
+      text = t("sort_date");
       break;
   }
 
@@ -67,7 +70,7 @@ export const SortButton: React.FC<Props> = ({ onChange, value }) => {
         aria-haspopup="true"
         onClick={handleOpen}
       >
-        Sort By: {text}
+        {t("sort_by", { key: text })}
       </Button>
       <Menu
         id="simple-menu"
