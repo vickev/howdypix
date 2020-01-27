@@ -76,17 +76,29 @@ const GET_PHOTOS = gql`
 `;
 
 const AlbumPage: NextPage<Props, InitialProps> = () => {
+  //= ================================================================
+  // Load the hooks
+  //= ================================================================
   const router = useRouter();
+
+  // Order by parsed from the URL
   const orderBy: PhotosOrderBy =
     (querystring.parse(url.parse(router.asPath).query || "")
       .order as PhotosOrderBy) ?? "DATE_ASC";
+
+  // State to save the old set of data, to avoid flickering when changing the order
   const [savedPhotosData, setOldData] = useState<GetPhotosQuery | undefined>();
 
+  //= ================================================================
+  // Parse the route to get the folder details and the breadcrumbs
+  //= ================================================================
   const hpath = (router.query.slug as string[]).join("/");
   const folder: HFile = hparse(hpath);
-
   const breadcrumbs: HFile[] = hpaths(folder);
 
+  //= ================================================================
+  // Album Query
+  //= ================================================================
   // @TODO: Must consider the error case
   const albumQuery = useQuery<GetSubAlbumQuery, GetSubAlbumQueryVariables>(
     GET_ALBUM,
@@ -100,6 +112,9 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const albumData = albumQuery.data;
   const albumLoading = albumQuery.loading;
 
+  //= ================================================================
+  // Photo Query
+  //= ================================================================
   const photosQuery = useQuery<GetPhotosQuery, GetPhotosQueryVariables>(
     GET_PHOTOS,
     {
@@ -113,10 +128,14 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const photosData = photosQuery.data;
   const photosLoading = photosQuery.loading;
 
+  // Save the data to the state to avoid flickering
   if (!photosLoading && savedPhotosData !== photosData) {
     setOldData(photosData);
   }
 
+  //= ================================================================
+  // Callback functions
+  //= ================================================================
   const handleSortChange = (value: NexusGenEnums["PhotosOrderBy"]): void => {
     router.replace(router.pathname, {
       pathname: url.parse(router.asPath).pathname,
@@ -124,6 +143,9 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     });
   };
 
+  //= ================================================================
+  // Render
+  //= ================================================================
   return (
     <Layout
       rightComponent={
