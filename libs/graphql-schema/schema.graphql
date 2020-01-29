@@ -68,6 +68,11 @@ type PhotoDetail {
   id: ID!
 }
 
+input PhotosFilterBy {
+  make: [String]
+  model: [String]
+}
+
 """The order of which the list is sorted"""
 enum PhotosOrderBy {
   DATE_ASC
@@ -81,7 +86,7 @@ type Query {
   getCurrentUser: CurrentUserType
   getFilters(album: String, source: String!): GetFilters!
   getPhoto(album: String!, file: String!, source: String!): PhotoDetail
-  getSearch(album: String, orderBy: PhotosOrderBy = DATE_DESC, source: String): GetSearchPhotos!
+  getSearch(album: String, filterBy: PhotosFilterBy, orderBy: PhotosOrderBy = DATE_DESC, source: String): GetSearchPhotos!
   getSources: [Source]!
 }
 

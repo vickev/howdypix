@@ -3,7 +3,8 @@ import { join, parse } from "path";
 import { HFile, QueueName } from "@howdypix/shared-types";
 import debug from "debug";
 import { hjoin, thumbnailPath } from "./path";
-import { identity, pick, omitBy, isNil } from "lodash";
+import { isArray, isNil, isObject, omitBy, reduce } from "lodash";
+import stringify from "json-stable-stringify";
 
 export async function wait(seconds: number): Promise<void> {
   return new Promise(resolve => {
@@ -120,4 +121,29 @@ export function removeEmptyValues(object: {
   [key: string]: any;
 }): typeof object {
   return omitBy(object, isNil);
+}
+
+export function sortJson(json: {} | unknown[]): typeof json {
+  if (isArray(json)) {
+    return (json as Array<string>).sort();
+  }
+
+  if (isObject(json)) {
+    return reduce(
+      json,
+      (result, value, key) => {
+        const newResult = result;
+        newResult[key] = sortJson(value);
+
+        return newResult;
+      },
+      {} as { [key: string]: typeof json }
+    );
+  }
+
+  return json;
+}
+
+export function sortJsonStringify(json: {}): {} {
+  return stringify(sortJson(json));
 }

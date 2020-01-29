@@ -71,8 +71,18 @@ const GET_ALBUM = gql`
 `;
 
 const GET_PHOTOS = gql`
-  query GetPhotos($source: String!, $album: String, $orderBy: PhotosOrderBy) {
-    getSearch(source: $source, album: $album, orderBy: $orderBy) {
+  query GetPhotos(
+    $source: String!
+    $album: String
+    $orderBy: PhotosOrderBy
+    $filterBy: PhotosFilterBy
+  ) {
+    getSearch(
+      source: $source
+      album: $album
+      orderBy: $orderBy
+      filterBy: $filterBy
+    ) {
       photos {
         id
         thumbnails
@@ -142,7 +152,15 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
       variables: {
         source: folder.source,
         album: folder.dir,
-        orderBy
+        orderBy,
+        filterBy: {
+          make:
+            typeof qs.cameraMake === "string" ? [qs.cameraMake] : qs.cameraMake,
+          model:
+            typeof qs.cameraModel === "string"
+              ? [qs.cameraModel]
+              : qs.cameraModel
+        }
       }
     }
   );

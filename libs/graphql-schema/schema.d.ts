@@ -7,7 +7,13 @@ declare global {
   interface NexusGen extends NexusGenTypes {}
 }
 
-export interface NexusGenInputs {}
+export interface NexusGenInputs {
+  PhotosFilterBy: {
+    // input type
+    make?: Array<string | null> | null; // [String]
+    model?: Array<string | null> | null; // [String]
+  };
+}
 
 export interface NexusGenEnums {
   AuthEmailMessage:
@@ -104,6 +110,7 @@ export interface NexusGenRootTypes {
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
+  PhotosFilterBy: NexusGenInputs["PhotosFilterBy"];
   AuthEmailMessage: NexusGenEnums["AuthEmailMessage"];
   PhotosOrderBy: NexusGenEnums["PhotosOrderBy"];
 }
@@ -227,6 +234,7 @@ export interface NexusGenArgTypes {
     getSearch: {
       // args
       album?: string | null; // String
+      filterBy?: NexusGenInputs["PhotosFilterBy"] | null; // PhotosFilterBy
       orderBy?: NexusGenEnums["PhotosOrderBy"] | null; // PhotosOrderBy
       source?: string | null; // String
     };
@@ -253,7 +261,7 @@ export type NexusGenObjectNames =
   | "SearchPhoto"
   | "Source";
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = "PhotosFilterBy";
 
 export type NexusGenEnumNames = "AuthEmailMessage" | "PhotosOrderBy";
 

@@ -1,8 +1,11 @@
 import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema.d";
 import { FindOneOptions, Repository } from "typeorm";
+import { sortJsonStringify } from "@howdypix/utils";
 import { Photo as EntityPhoto } from "../../entity/Photo";
 import { SearchResult as EntitySearchResult } from "../../entity/SearchResult";
 import { Search as EntitySearch } from "../../entity/Search";
+import { filterByMake } from "../../lib/filters/filterByMake";
+import { filterByModel } from "../../lib/filters/filterByModel";
 
 export const getOrderBy = (
   order: NexusGenArgTypes["Query"]["getSearch"]["orderBy"]
@@ -28,6 +31,7 @@ export const findSavedSearch = async (
   searchRepository.findOne({
     where: {
       orderBy: args.orderBy,
+      filterBy: args.filterBy ? sortJsonStringify(args.filterBy) : null,
       album: args.album ?? "",
       source: args.source ?? ""
     }
@@ -42,6 +46,10 @@ export const saveNewSearch = async (
   newSearch.album = args.album ?? "";
   newSearch.orderBy = args.orderBy ?? "";
 
+  if (args.filterBy) {
+    newSearch.filterBy = sortJsonStringify(args.filterBy) ?? "";
+  }
+
   return searchRepository.save(newSearch);
 };
 
@@ -49,6 +57,7 @@ export const doSearch = async (
   photoRepository: Repository<EntityPhoto>,
   args: NexusGenArgTypes["Query"]["getSearch"]
 ): Promise<EntityPhoto[]> => {
+  // Define the where statement to filter the right photos
   const where: { dir?: string; source?: string } = {};
   if (args.album) {
     where.dir = args.album;
@@ -58,7 +67,11 @@ export const doSearch = async (
   }
 
   return photoRepository.find({
-    where,
+    where: {
+      ...where,
+      ...filterByMake(args.filterBy?.make).whereStatement,
+      ...filterByModel(args.filterBy?.model).whereStatement
+    },
     order: getOrderBy(args.orderBy)
   });
 };

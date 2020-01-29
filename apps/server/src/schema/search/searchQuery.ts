@@ -12,6 +12,10 @@ export const getSearch: EnhancedQuery = () =>
         type: "PhotosOrderBy",
         required: false,
         default: "DATE_DESC"
+      }),
+      filterBy: arg({
+        type: "PhotosFilterBy",
+        required: false
       })
     },
     authorize: (root, args, ctx) => !!ctx.user,

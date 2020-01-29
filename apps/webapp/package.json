@@ -55,6 +55,7 @@
     "react-client": "^1.0.1",
     "react-dom": "^16.10.1",
     "react-i18next": "^10.13.1",
+    "sort-keys": "^4.0.0",
     "typescript": "^3.7.2"
   },
   "devDependencies": {
