@@ -17,7 +17,7 @@ context("Album page full", () => {
     );
   });
 
-  it("should re-order the images.", () => {
+  it.only("should re-order the images.", () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -36,13 +36,15 @@ context("Album page full", () => {
     checkOrderOfImages(["id1", "id2", "id3"]);
 
     // Change the order
-    cy.findByText("Sort By: Date").click();
+    cy.get("body")
+      .contains("Sort By: Date")
+      .click();
     cy.findByText("Name").click();
     cy.wait(1000);
     checkOrderOfImages(["id2", "id1", "id3"]);
 
     // Change the order
-    cy.findByTestId("orderAscDesc").click();
+    cy.get("[data-testid=orderAscDesc]").click();
     cy.wait(1000);
     checkOrderOfImages(["id3", "id1", "id2"]);
   });
