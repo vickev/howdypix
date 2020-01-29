@@ -52,3 +52,8 @@ export type UserInfo = {
   name: string;
   email: string;
 };
+
+export type AvailableFilters = {
+  model?: string[] | string;
+  make?: string[] | string;
+};

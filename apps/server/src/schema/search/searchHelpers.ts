@@ -4,8 +4,7 @@ import { sortJsonStringify } from "@howdypix/utils";
 import { Photo as EntityPhoto } from "../../entity/Photo";
 import { SearchResult as EntitySearchResult } from "../../entity/SearchResult";
 import { Search as EntitySearch } from "../../entity/Search";
-import { filterByMake } from "../../lib/filters/filterByMake";
-import { filterByModel } from "../../lib/filters/filterByModel";
+import { filterByMake, filterByModel } from "../../lib/filters";
 
 export const getOrderBy = (
   order: NexusGenArgTypes["Query"]["getSearch"]["orderBy"]

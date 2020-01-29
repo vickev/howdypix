@@ -144,6 +144,6 @@ export function sortJson(json: {} | unknown[]): typeof json {
   return json;
 }
 
-export function sortJsonStringify(json: {}): {} {
+export function sortJsonStringify(json: {}): string {
   return stringify(sortJson(json));
 }

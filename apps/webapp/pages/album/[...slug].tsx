@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Box from "@material-ui/core/Box";
 import { hjoin, hparse, hpaths, removeEmptyValues } from "@howdypix/utils";
-import { HFile } from "@howdypix/shared-types";
+import { AvailableFilters, HFile } from "@howdypix/shared-types";
 import { NexusGenEnums } from "@howdypix/graphql-schema/schema.d";
 import url from "url";
 import querystring from "querystring";
@@ -35,14 +35,14 @@ import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
 import { Thumbnail } from "../../src/component/Thumbnail";
 import { RightPanel } from "../../src/module/album/RightPanel";
 import { SortButton } from "../../src/component/SortButton";
-import { Filters, FilterValues } from "../../src/module/album/Filters";
+import { Filters } from "../../src/module/album/Filters";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
 
 type QueryStringParams = {
   order: PhotosOrderBy | undefined;
-} & FilterValues;
+} & AvailableFilters;
 
 // ========================================
 // Constants
@@ -123,9 +123,8 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
 
   // Filter by parsed from the URL
   const filterBy = {
-    make: typeof qs.cameraMake === "string" ? [qs.cameraMake] : qs.cameraMake,
-    model:
-      typeof qs.cameraModel === "string" ? [qs.cameraModel] : qs.cameraModel
+    make: typeof qs.make === "string" ? [qs.make] : qs.make,
+    model: typeof qs.model === "string" ? [qs.model] : qs.model
   };
 
   // State to save the old set of data, to avoid flickering when changing the order
@@ -190,7 +189,6 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     }
   );
   const filtersData = filtersQuery.data;
-  const filtersLoading = filtersQuery.loading;
 
   //= ================================================================
   // Callback functions
@@ -202,7 +200,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     });
   };
 
-  const handleFilterChange = (filterValues: FilterValues): void => {
+  const handleFilterChange = (filterValues: AvailableFilters): void => {
     router.push(router.pathname, {
       pathname: url.parse(router.asPath).pathname,
       query: removeEmptyValues({ ...qs, ...filterValues })

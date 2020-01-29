@@ -2,11 +2,9 @@ import {
   NexusGenArgTypes,
   NexusGenFieldTypes
 } from "@howdypix/graphql-schema/schema.d";
+import { uniq } from "lodash";
 import { ApolloContext } from "../../types.d";
 import { Photo as EntityPhoto } from "../../entity/Photo";
-import { filterByMake } from "../../lib/filters/filterByMake";
-import { filterByModel } from "../../lib/filters/filterByModel";
-import { uniq } from "lodash";
 
 export const getFiltersResolver = () => async (
   root: {},
