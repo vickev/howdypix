@@ -14,6 +14,7 @@ export interface NexusGenEnums {
     | "AUTH_EMAIL_ERR"
     | "AUTH_EMAIL_ERR_NOT_EXIST"
     | "AUTH_EMAIL_OK";
+  PhotosOrderBy: "DATE_ASC" | "DATE_DESC" | "NAME_ASC" | "NAME_DESC";
 }
 
 export interface NexusGenRootTypes {
@@ -43,9 +44,14 @@ export interface NexusGenRootTypes {
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
   };
+  GetSearchPhotos: {
+    // root type
+    photos: Array<NexusGenRootTypes["SearchPhoto"] | null>; // [SearchPhoto]!
+  };
   Mutation: {};
   Photo: {
     // root type
+    birthtime: number; // Float!
     file: string; // ID!
     id: string; // ID!
     thumbnails: Array<string | null>; // [String]!
@@ -56,6 +62,22 @@ export interface NexusGenRootTypes {
     id: string; // ID!
   };
   Query: {};
+  SearchAlbum: {
+    // root type
+    dir: string; // String!
+    name: string; // String!
+    nbAlbums: number; // Int!
+    nbPhotos: number; // Int!
+    preview?: string | null; // String
+    source: string; // String!
+  };
+  SearchPhoto: {
+    // root type
+    birthtime: number; // Float!
+    file: string; // String!
+    id: string; // ID!
+    thumbnails: Array<string | null>; // [String]!
+  };
   Source: {
     // root type
     name: string; // String!
@@ -72,6 +94,7 @@ export interface NexusGenRootTypes {
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
   AuthEmailMessage: NexusGenEnums["AuthEmailMessage"];
+  PhotosOrderBy: NexusGenEnums["PhotosOrderBy"];
 }
 
 export interface NexusGenFieldTypes {
@@ -101,12 +124,17 @@ export interface NexusGenFieldTypes {
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
   };
+  GetSearchPhotos: {
+    // field return type
+    photos: Array<NexusGenRootTypes["SearchPhoto"] | null>; // [SearchPhoto]!
+  };
   Mutation: {
     // field return type
     authEmail: NexusGenRootTypes["AuthEmailType"]; // AuthEmailType!
   };
   Photo: {
     // field return type
+    birthtime: number; // Float!
     file: string; // ID!
     id: string; // ID!
     thumbnails: Array<string | null>; // [String]!
@@ -121,7 +149,24 @@ export interface NexusGenFieldTypes {
     getAlbum: NexusGenRootTypes["GetAlbumPhotos"]; // GetAlbumPhotos!
     getCurrentUser: NexusGenRootTypes["CurrentUserType"] | null; // CurrentUserType
     getPhoto: NexusGenRootTypes["PhotoDetail"] | null; // PhotoDetail
+    getSearch: NexusGenRootTypes["GetSearchPhotos"]; // GetSearchPhotos!
     getSources: Array<NexusGenRootTypes["Source"] | null>; // [Source]!
+  };
+  SearchAlbum: {
+    // field return type
+    dir: string; // String!
+    name: string; // String!
+    nbAlbums: number; // Int!
+    nbPhotos: number; // Int!
+    preview: string | null; // String
+    source: string; // String!
+  };
+  SearchPhoto: {
+    // field return type
+    birthtime: number; // Float!
+    file: string; // String!
+    id: string; // ID!
+    thumbnails: Array<string | null>; // [String]!
   };
   Source: {
     // field return type
@@ -151,6 +196,12 @@ export interface NexusGenArgTypes {
       file: string; // String!
       source: string; // String!
     };
+    getSearch: {
+      // args
+      album?: string | null; // String
+      orderBy?: NexusGenEnums["PhotosOrderBy"] | null; // PhotosOrderBy
+      source?: string | null; // String
+    };
   };
 }
 
@@ -163,15 +214,18 @@ export type NexusGenObjectNames =
   | "AuthEmailType"
   | "CurrentUserType"
   | "GetAlbumPhotos"
+  | "GetSearchPhotos"
   | "Mutation"
   | "Photo"
   | "PhotoDetail"
   | "Query"
+  | "SearchAlbum"
+  | "SearchPhoto"
   | "Source";
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = "AuthEmailMessage";
+export type NexusGenEnumNames = "AuthEmailMessage" | "PhotosOrderBy";
 
 export type NexusGenInterfaceNames = never;
 

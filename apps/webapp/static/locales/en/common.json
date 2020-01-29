@@ -10,5 +10,8 @@
   "information": "Information",
   "photos": "{{count}} photo",
   "photos_plural": "{{count}} photos",
-  "previous": "Previous"
+  "previous": "Previous",
+  "sort_by": "Sort By: {{key}}",
+  "sort_date": "Date",
+  "sort_name": "Name"
 }

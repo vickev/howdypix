@@ -26,6 +26,9 @@ const query: Query = {
     ],
     photos: []
   }),
+  getSearch: () => ({
+    photos: []
+  }),
   getPhoto: () => null,
   getCurrentUser: () => ({
     name: "Foo Bar",

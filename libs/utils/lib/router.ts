@@ -2,7 +2,7 @@ import { TokenInfo, UserInfo } from "@howdypix/shared-types";
 // We only want the @types/express-serve-static-core, so it's normal not to have express-serve-static-core installed.
 // Therefore we disable the rule:
 // eslint-disable-next-line import/no-unresolved
-import { Express, RequestHandler } from "express-serve-static-core";
+import { Express, RequestHandler } from "express";
 import { compile } from "path-to-regexp";
 
 class RouteWithValidation<
@@ -27,10 +27,7 @@ class RouteWithValidation<
     return this.route;
   }
 
-  applyMiddleware(
-    app: Express,
-    handler: RequestHandler<Params, ResBody, ReqBody>
-  ): void {
+  applyMiddleware(app: Express, handler: RequestHandler<Params>): void {
     app[this.method](this.route, handler);
   }
 }

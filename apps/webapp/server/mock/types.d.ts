@@ -5,6 +5,10 @@ export type Query = {
     _: unknown,
     params: NexusGenTypes["argTypes"]["Query"]["getAlbum"]
   ) => NexusGenTypes["fieldTypes"]["Query"]["getAlbum"];
+  getSearch: (
+    _: unknown,
+    params: NexusGenTypes["argTypes"]["Query"]["getSearch"]
+  ) => NexusGenTypes["fieldTypes"]["Query"]["getSearch"];
   getPhoto: (
     _: unknown,
     params: NexusGenTypes["argTypes"]["Query"]["getPhoto"]

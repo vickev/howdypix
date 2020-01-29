@@ -41,6 +41,10 @@ export interface GetAlbumPhotos {
   photos: Array<Maybe<Photo>>;
 }
 
+export interface GetSearchPhotos {
+  photos: Array<Maybe<SearchPhoto>>;
+}
+
 export interface Mutation {
   authEmail: AuthEmailType;
 }
@@ -50,6 +54,7 @@ export interface MutationAuthEmailArgs {
 }
 
 export interface Photo {
+  birthtime: Scalars["Float"];
   file: Scalars["ID"];
   id: Scalars["ID"];
   thumbnails: Array<Maybe<Scalars["String"]>>;
@@ -60,10 +65,19 @@ export interface PhotoDetail {
   id: Scalars["ID"];
 }
 
+/** The order of which the list is sorted */
+export enum PhotosOrderBy {
+  DateAsc = "DATE_ASC",
+  DateDesc = "DATE_DESC",
+  NameAsc = "NAME_ASC",
+  NameDesc = "NAME_DESC"
+}
+
 export interface Query {
   getAlbum: GetAlbumPhotos;
   getCurrentUser?: Maybe<CurrentUserType>;
   getPhoto?: Maybe<PhotoDetail>;
+  getSearch: GetSearchPhotos;
   getSources: Array<Maybe<Source>>;
 }
 
@@ -76,6 +90,28 @@ export interface QueryGetPhotoArgs {
   album: Scalars["String"];
   file: Scalars["String"];
   source: Scalars["String"];
+}
+
+export interface QueryGetSearchArgs {
+  album?: Maybe<Scalars["String"]>;
+  orderBy?: Maybe<PhotosOrderBy>;
+  source?: Maybe<Scalars["String"]>;
+}
+
+export interface SearchAlbum {
+  dir: Scalars["String"];
+  name: Scalars["String"];
+  nbAlbums: Scalars["Int"];
+  nbPhotos: Scalars["Int"];
+  preview?: Maybe<Scalars["String"]>;
+  source: Scalars["String"];
+}
+
+export interface SearchPhoto {
+  birthtime: Scalars["Float"];
+  file: Scalars["String"];
+  id: Scalars["ID"];
+  thumbnails: Array<Maybe<Scalars["String"]>>;
 }
 
 export interface Source {
@@ -93,13 +129,24 @@ export type GetSubAlbumQueryVariables = {
 export type GetSubAlbumQuery = {
   getAlbum: {
     album: Maybe<Pick<Album, "name">>;
-    photos: Array<Maybe<Pick<Photo, "thumbnails" | "file">>>;
     albums: Array<
       Pick<
         Album,
         "name" | "source" | "dir" | "preview" | "nbAlbums" | "nbPhotos"
       >
     >;
+  };
+};
+
+export type GetPhotosQueryVariables = {
+  source: Scalars["String"];
+  album?: Maybe<Scalars["String"]>;
+  orderBy?: Maybe<PhotosOrderBy>;
+};
+
+export type GetPhotosQuery = {
+  getSearch: {
+    photos: Array<Maybe<Pick<SearchPhoto, "id" | "thumbnails" | "file">>>;
   };
 };
 

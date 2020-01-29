@@ -57,7 +57,8 @@ export const getAlbumResolver = () => async (
       thumbnails: generateThumbnailUrls(config.serverApi.baseUrl, photo).map(
         tn => tn.url
       ),
-      file: photo.file
+      file: photo.file,
+      birthtime: Math.round(photo.birthtime)
     })),
     albums: albums
       .map((album): NexusGenRootTypes["Album"] => ({

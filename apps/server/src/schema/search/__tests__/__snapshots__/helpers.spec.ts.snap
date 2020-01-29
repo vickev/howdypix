@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`searchHelpers doSearch should make the right query 1`] = `
+Array [
+  Object {
+    "data": "yay",
+  },
+]
+`;
+
+exports[`searchHelpers doSearch should make the right query 2`] = `
+Array [
+  Array [
+    Object {
+      "order": Object {
+        "birthtime": "ASC",
+      },
+      "where": Object {
+        "dir": "album",
+        "source": "source",
+      },
+    },
+  ],
+]
+`;
+
+exports[`searchHelpers fetchSearchResult should make the right query 1`] = `
+Array [
+  Object {
+    "data": "yay",
+  },
+]
+`;
+
+exports[`searchHelpers fetchSearchResult should make the right query 2`] = `
+Array [
+  Array [
+    Object {
+      "order": Object {
+        "order": "ASC",
+      },
+      "relations": Array [
+        "photo",
+      ],
+      "where": Object {
+        "search": Object {
+          "album": "album",
+          "id": 890,
+          "orderBy": "orderBy",
+          "searchResults": Array [],
+          "source": "source",
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`searchHelpers findSavedSearch should make the right query 1`] = `
+Object {
+  "data": "yay",
+}
+`;
+
+exports[`searchHelpers findSavedSearch should make the right query 2`] = `
+Array [
+  Array [
+    Object {
+      "where": Object {
+        "album": "album",
+        "orderBy": "DATE_ASC",
+        "source": "source",
+      },
+    },
+  ],
+]
+`;
+
+exports[`searchHelpers saveNewSearch should make the right query 1`] = `
+Object {
+  "data": "yay",
+}
+`;
+
+exports[`searchHelpers saveNewSearch should make the right query 2`] = `
+Array [
+  Array [
+    Search {
+      "album": "album",
+      "id": undefined,
+      "orderBy": "DATE_ASC",
+      "searchResults": undefined,
+      "source": "source",
+    },
+  ],
+]
+`;
+
+exports[`searchHelpers saveSearchResult should make the right query 1`] = `
+Array [
+  Array [
+    Object {
+      "data": "yay",
+    },
+  ],
+  Array [
+    Object {
+      "data": "yay",
+    },
+  ],
+]
+`;
+
+exports[`searchHelpers saveSearchResult should make the right query 2`] = `
+Array [
+  Array [
+    SearchResult {
+      "id": undefined,
+      "order": 0,
+      "photo": Object {
+        "id": 123,
+      },
+      "photoId": undefined,
+      "search": Object {
+        "id": 890,
+      },
+      "searchId": undefined,
+    },
+  ],
+  Array [
+    SearchResult {
+      "id": undefined,
+      "order": 1,
+      "photo": Object {
+        "id": 456,
+      },
+      "photoId": undefined,
+      "search": Object {
+        "id": 890,
+      },
+      "searchId": undefined,
+    },
+  ],
+]
+`;

@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
@@ -11,6 +11,9 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Box from "@material-ui/core/Box";
 import { hjoin, hparse, hpaths } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
+import { NexusGenEnums } from "@howdypix/graphql-schema/schema.d";
+import url from "url";
+import querystring from "querystring";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
@@ -18,7 +21,10 @@ import { NextPage } from "next";
 import { withApollo } from "../../src/lib/with-apollo-client";
 import {
   GetSubAlbumQuery,
-  GetSubAlbumQueryVariables
+  GetSubAlbumQueryVariables,
+  GetPhotosQuery,
+  GetPhotosQueryVariables,
+  PhotosOrderBy
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
 import { AlbumCard } from "../../src/component/AlbumCard";
@@ -26,6 +32,7 @@ import { AlbumGrid } from "../../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
 import { Thumbnail } from "../../src/component/Thumbnail";
 import { RightPanel } from "../../src/module/album/RightPanel";
+import { SortButton } from "../../src/component/SortButton";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -44,10 +51,6 @@ const GET_ALBUM = gql`
       album {
         name
       }
-      photos {
-        thumbnails
-        file
-      }
       albums {
         name
         source
@@ -60,28 +63,94 @@ const GET_ALBUM = gql`
   }
 `;
 
+const GET_PHOTOS = gql`
+  query GetPhotos($source: String!, $album: String, $orderBy: PhotosOrderBy) {
+    getSearch(source: $source, album: $album, orderBy: $orderBy) {
+      photos {
+        id
+        thumbnails
+        file
+      }
+    }
+  }
+`;
+
 const AlbumPage: NextPage<Props, InitialProps> = () => {
+  //= ================================================================
+  // Load the hooks
+  //= ================================================================
   const router = useRouter();
 
+  // Order by parsed from the URL
+  const orderBy: PhotosOrderBy =
+    (querystring.parse(url.parse(router.asPath).query || "")
+      .order as PhotosOrderBy) ?? "DATE_ASC";
+
+  // State to save the old set of data, to avoid flickering when changing the order
+  const [savedPhotosData, setOldData] = useState<GetPhotosQuery | undefined>();
+
+  //= ================================================================
+  // Parse the route to get the folder details and the breadcrumbs
+  //= ================================================================
   const hpath = (router.query.slug as string[]).join("/");
   const folder: HFile = hparse(hpath);
-
   const breadcrumbs: HFile[] = hpaths(folder);
 
+  //= ================================================================
+  // Album Query
+  //= ================================================================
   // @TODO: Must consider the error case
-  const { loading, data } = useQuery<
-    GetSubAlbumQuery,
-    GetSubAlbumQueryVariables
-  >(GET_ALBUM, {
-    variables: {
-      source: folder.source,
-      album: folder.dir
+  const albumQuery = useQuery<GetSubAlbumQuery, GetSubAlbumQueryVariables>(
+    GET_ALBUM,
+    {
+      variables: {
+        source: folder.source,
+        album: folder.dir
+      }
     }
-  });
+  );
+  const albumData = albumQuery.data;
+  const albumLoading = albumQuery.loading;
 
+  //= ================================================================
+  // Photo Query
+  //= ================================================================
+  const photosQuery = useQuery<GetPhotosQuery, GetPhotosQueryVariables>(
+    GET_PHOTOS,
+    {
+      variables: {
+        source: folder.source,
+        album: folder.dir,
+        orderBy
+      }
+    }
+  );
+  const photosData = photosQuery.data;
+  const photosLoading = photosQuery.loading;
+
+  // Save the data to the state to avoid flickering
+  if (!photosLoading && savedPhotosData !== photosData) {
+    setOldData(photosData);
+  }
+
+  //= ================================================================
+  // Callback functions
+  //= ================================================================
+  const handleSortChange = (value: NexusGenEnums["PhotosOrderBy"]): void => {
+    router.replace(router.pathname, {
+      pathname: url.parse(router.asPath).pathname,
+      query: { order: value }
+    });
+  };
+
+  //= ================================================================
+  // Render
+  //= ================================================================
   return (
     <Layout
-      rightComponent={<RightPanel nbPhotos={data?.getAlbum.photos.length} />}
+      rightComponent={
+        <RightPanel nbPhotos={photosData?.getSearch.photos.length} />
+      }
     >
       <Box padding={gutter}>
         <Box paddingBottom={gutter} id="BreadcrumbBox">
@@ -108,17 +177,17 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
         </Box>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1">
-            Album {data?.getAlbum.album?.name}
+            Album {albumData?.getAlbum.album?.name}
           </Typography>
         </Box>
         <AlbumGrid extraHeight={100}>
-          {loading
+          {albumLoading
             ? [0, 0, 0].map(() => (
                 <GridListTile>
                   <Skeleton variant="rect" height={200} />
                 </GridListTile>
               ))
-            : data?.getAlbum?.albums.map(
+            : albumData?.getAlbum?.albums.map(
                 (album): ReactElement => (
                   <AlbumGridListTile key={album.name}>
                     <AlbumCard
@@ -134,16 +203,22 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
               )}
         </AlbumGrid>
         <Box py={gutter} id="pictureBox">
-          <Divider variant="fullWidth" />
+          <Box display="flex" flexDirection="row" alignItems="center">
+            <Box flex={1}>
+              <Divider variant="fullWidth" />
+            </Box>
+            <SortButton onChange={handleSortChange} value={orderBy} />
+          </Box>
         </Box>
         <AlbumGrid>
-          {loading
-            ? [0, 0, 0].map(() => (
-                <GridListTile>
+          {photosLoading && !savedPhotosData
+            ? [0, 0, 0].map((num, key) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <GridListTile key={`skeleton_${key}`}>
                   <Skeleton variant="rect" height={200} />
                 </GridListTile>
               ))
-            : data?.getAlbum.photos?.map(
+            : savedPhotosData?.getSearch.photos?.map(
                 (photo, key): ReactElement | null =>
                   (photo?.thumbnails[1] && (
                     <GridListTile key={key + photo.thumbnails[1]}>

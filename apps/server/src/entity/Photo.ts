@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { SearchResult } from "./SearchResult";
 
 @Entity()
 export class Photo {
@@ -43,4 +44,10 @@ export class Photo {
 
   @Column("text")
   file: string;
+
+  @OneToMany(
+    () => SearchResult,
+    searchResult => searchResult.photo
+  )
+  public searchResults!: SearchResult[];
 }
