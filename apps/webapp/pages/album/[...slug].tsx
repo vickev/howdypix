@@ -93,8 +93,12 @@ const GET_PHOTOS = gql`
 `;
 
 const GET_FILTRERS = gql`
-  query GetFilters($source: String!, $album: String) {
-    getFilters(source: $source, album: $album) {
+  query GetFilters(
+    $source: String!
+    $album: String
+    $filterBy: PhotosFilterBy
+  ) {
+    getFilters(source: $source, album: $album, filterBy: $filterBy) {
       cameraMakes
       cameraModels
       dateTakenRange {
@@ -116,6 +120,13 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
 
   // Order by parsed from the URL
   const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
+
+  // Filter by parsed from the URL
+  const filterBy = {
+    make: typeof qs.cameraMake === "string" ? [qs.cameraMake] : qs.cameraMake,
+    model:
+      typeof qs.cameraModel === "string" ? [qs.cameraModel] : qs.cameraModel
+  };
 
   // State to save the old set of data, to avoid flickering when changing the order
   const [savedPhotosData, setOldData] = useState<GetPhotosQuery | undefined>();
@@ -153,14 +164,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
         source: folder.source,
         album: folder.dir,
         orderBy,
-        filterBy: {
-          make:
-            typeof qs.cameraMake === "string" ? [qs.cameraMake] : qs.cameraMake,
-          model:
-            typeof qs.cameraModel === "string"
-              ? [qs.cameraModel]
-              : qs.cameraModel
-        }
+        filterBy
       }
     }
   );
@@ -180,7 +184,8 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     {
       variables: {
         source: folder.source,
-        album: folder.dir
+        album: folder.dir,
+        filterBy
       }
     }
   );

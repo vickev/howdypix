@@ -84,7 +84,7 @@ enum PhotosOrderBy {
 type Query {
   getAlbum(album: String, source: String!): GetAlbumPhotos!
   getCurrentUser: CurrentUserType
-  getFilters(album: String, source: String!): GetFilters!
+  getFilters(album: String, filterBy: PhotosFilterBy, source: String!): GetFilters!
   getPhoto(album: String!, file: String!, source: String!): PhotoDetail
   getSearch(album: String, filterBy: PhotosFilterBy, orderBy: PhotosOrderBy = DATE_DESC, source: String): GetSearchPhotos!
   getSources: [Source]!

@@ -223,6 +223,7 @@ export interface NexusGenArgTypes {
     getFilters: {
       // args
       album?: string | null; // String
+      filterBy?: NexusGenInputs["PhotosFilterBy"] | null; // PhotosFilterBy
       source: string; // String!
     };
     getPhoto: {

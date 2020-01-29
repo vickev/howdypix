@@ -4,6 +4,8 @@ import {
 } from "@howdypix/graphql-schema/schema.d";
 import { ApolloContext } from "../../types.d";
 import { Photo as EntityPhoto } from "../../entity/Photo";
+import { filterByMake } from "../../lib/filters/filterByMake";
+import { filterByModel } from "../../lib/filters/filterByModel";
 import { uniq } from "lodash";
 
 export const getFiltersResolver = () => async (
@@ -12,6 +14,12 @@ export const getFiltersResolver = () => async (
   ctx: ApolloContext
 ): Promise<NexusGenFieldTypes["Query"]["getFilters"]> => {
   const photoRepository = ctx.connection.getRepository(EntityPhoto);
+  const where = {
+    dir: args.album ?? "",
+    source: args.source
+    // ...filterByMake(args.filterBy?.make).whereStatement,
+    // ...filterByModel(args.filterBy?.model).whereStatement
+  };
 
   const dateTakenRange: {
     from: number | null;
@@ -20,7 +28,7 @@ export const getFiltersResolver = () => async (
     .createQueryBuilder("photo")
     .select("MIN(photo.birthtime)", "from")
     .addSelect("MAX(photo.birthtime)", "to")
-    .where({ dir: args.album ?? "", source: args.source })
+    .where(where)
     .getRawOne();
 
   const cameras:
@@ -31,10 +39,7 @@ export const getFiltersResolver = () => async (
     | null = await photoRepository
     .createQueryBuilder("photo")
     .select("DISTINCT photo.model, photo.make")
-    .where({
-      dir: args.album ?? "",
-      source: args.source
-    })
+    .where(where)
     .getRawMany();
 
   return {
