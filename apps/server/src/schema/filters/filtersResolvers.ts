@@ -4,6 +4,7 @@ import {
 } from "@howdypix/graphql-schema/schema.d";
 import { ApolloContext } from "../../types.d";
 import { Photo as EntityPhoto } from "../../entity/Photo";
+import { uniq } from "lodash";
 
 export const getFiltersResolver = () => async (
   root: {},
@@ -37,10 +38,13 @@ export const getFiltersResolver = () => async (
     .getRawMany();
 
   return {
-    cameras:
-      cameras
-        .filter(({ make, model }) => make !== "" || model !== "")
-        .map(({ make, model }) => ({ make, model })) ?? [],
+    cameraMakes: uniq(
+      cameras.filter(({ make }) => make !== "").map(({ make }) => make) ?? []
+    ),
+    cameraModels: uniq(
+      cameras.filter(({ model }) => model !== "").map(({ model }) => model) ??
+        []
+    ),
     dateTakenRange
   };
 };

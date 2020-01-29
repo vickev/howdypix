@@ -26,11 +26,6 @@ type AuthEmailType {
   messageId: AuthEmailMessage!
 }
 
-type Camera {
-  make: String!
-  model: String!
-}
-
 type CurrentUserType {
   email: String!
   name: String!
@@ -48,7 +43,8 @@ type GetAlbumPhotos {
 }
 
 type GetFilters {
-  cameras: [Camera]!
+  cameraMakes: [String!]!
+  cameraModels: [String!]!
   dateTakenRange: DateTaken!
 }
 

@@ -9,7 +9,7 @@ import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Box from "@material-ui/core/Box";
-import { hjoin, hparse, hpaths } from "@howdypix/utils";
+import { hjoin, hparse, hpaths, removeEmptyValues } from "@howdypix/utils";
 import { HFile } from "@howdypix/shared-types";
 import { NexusGenEnums } from "@howdypix/graphql-schema/schema.d";
 import url from "url";
@@ -24,7 +24,9 @@ import {
   GetSubAlbumQueryVariables,
   GetPhotosQuery,
   GetPhotosQueryVariables,
-  PhotosOrderBy
+  PhotosOrderBy,
+  GetFiltersQuery,
+  GetFiltersQueryVariables
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
 import { AlbumCard } from "../../src/component/AlbumCard";
@@ -33,9 +35,14 @@ import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
 import { Thumbnail } from "../../src/component/Thumbnail";
 import { RightPanel } from "../../src/module/album/RightPanel";
 import { SortButton } from "../../src/component/SortButton";
+import { Filters, FilterValues } from "../../src/module/album/Filters";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
+
+type QueryStringParams = {
+  order: PhotosOrderBy | undefined;
+} & FilterValues;
 
 // ========================================
 // Constants
@@ -75,16 +82,30 @@ const GET_PHOTOS = gql`
   }
 `;
 
+const GET_FILTRERS = gql`
+  query GetFilters($source: String!, $album: String) {
+    getFilters(source: $source, album: $album) {
+      cameraMakes
+      cameraModels
+      dateTakenRange {
+        from
+        to
+      }
+    }
+  }
+`;
+
 const AlbumPage: NextPage<Props, InitialProps> = () => {
   //= ================================================================
   // Load the hooks
   //= ================================================================
   const router = useRouter();
+  const qs: QueryStringParams = querystring.parse(
+    url.parse(router.asPath).query || ""
+  ) as QueryStringParams;
 
   // Order by parsed from the URL
-  const orderBy: PhotosOrderBy =
-    (querystring.parse(url.parse(router.asPath).query || "")
-      .order as PhotosOrderBy) ?? "DATE_ASC";
+  const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
 
   // State to save the old set of data, to avoid flickering when changing the order
   const [savedPhotosData, setOldData] = useState<GetPhotosQuery | undefined>();
@@ -134,12 +155,34 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   }
 
   //= ================================================================
+  // Filters Query
+  //= ================================================================
+  const filtersQuery = useQuery<GetFiltersQuery, GetFiltersQueryVariables>(
+    GET_FILTRERS,
+    {
+      variables: {
+        source: folder.source,
+        album: folder.dir
+      }
+    }
+  );
+  const filtersData = filtersQuery.data;
+  const filtersLoading = filtersQuery.loading;
+
+  //= ================================================================
   // Callback functions
   //= ================================================================
   const handleSortChange = (value: NexusGenEnums["PhotosOrderBy"]): void => {
     router.replace(router.pathname, {
       pathname: url.parse(router.asPath).pathname,
-      query: { order: value }
+      query: removeEmptyValues({ ...qs, order: value })
+    });
+  };
+
+  const handleFilterChange = (filterValues: FilterValues): void => {
+    router.push(router.pathname, {
+      pathname: url.parse(router.asPath).pathname,
+      query: removeEmptyValues({ ...qs, ...filterValues })
     });
   };
 
@@ -174,6 +217,15 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
               )
             )}
           </Breadcrumbs>
+        </Box>
+        <Box paddingBottom={gutter}>
+          {filtersData && (
+            <Filters
+              availableFilters={filtersData?.getFilters}
+              selectedFilters={qs}
+              onChange={handleFilterChange}
+            />
+          )}
         </Box>
         <Box paddingBottom={gutter}>
           <Typography variant="h3" component="h1">

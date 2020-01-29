@@ -3,6 +3,7 @@ import { join, parse } from "path";
 import { HFile, QueueName } from "@howdypix/shared-types";
 import debug from "debug";
 import { hjoin, thumbnailPath } from "./path";
+import { identity, pick, omitBy, isNil } from "lodash";
 
 export async function wait(seconds: number): Promise<void> {
   return new Promise(resolve => {
@@ -113,4 +114,10 @@ export function sendToQueue<T>(
   libDebug("rabbit:sendToQueue")(`${queue} ${JSON.stringify(data)}`);
 
   return channel.sendToQueue(queue, Buffer.from(JSON.stringify(data)), options);
+}
+
+export function removeEmptyValues(object: {
+  [key: string]: any;
+}): typeof object {
+  return omitBy(object, isNil);
 }

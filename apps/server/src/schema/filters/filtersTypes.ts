@@ -1,15 +1,6 @@
 import { objectType } from "nexus";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 
-export const Camera = (): NexusObjectTypeDef<"Camera"> =>
-  objectType({
-    name: "Camera",
-    definition(t) {
-      t.field("make", { type: "String" });
-      t.field("model", { type: "String" });
-    }
-  });
-
 export const DateTaken = (): NexusObjectTypeDef<"DateTaken"> =>
   objectType({
     name: "DateTaken",
@@ -23,7 +14,8 @@ export const GetFilters = (): NexusObjectTypeDef<"GetFilters"> =>
   objectType({
     name: "GetFilters",
     definition(t) {
-      t.field("cameras", { type: "Camera", list: [false] });
+      t.field("cameraMakes", { type: "String", list: [true] });
+      t.field("cameraModels", { type: "String", list: [true] });
       t.field("dateTakenRange", { type: "DateTaken" });
     }
   });
