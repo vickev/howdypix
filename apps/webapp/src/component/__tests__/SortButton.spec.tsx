@@ -9,7 +9,7 @@ describe("SortButton", () => {
       <SortButton value="NAME_ASC" onChange={(): void => {}} />
     );
 
-    expect(await findByText("Sort By: Name")).toBeVisible();
+    expect(await findByText("sort_by")).toBeVisible();
   });
 
   test("should call the callback when the sorting changes", async () => {
@@ -18,7 +18,7 @@ describe("SortButton", () => {
       <SortButton value="NAME_ASC" onChange={callback} />
     );
 
-    (await findByText("Sort By: Name")).click();
+    (await findByText("sort_by")).click();
     (await findByText("Date")).click();
     expect(callback).toHaveBeenCalledWith("DATE_ASC");
 
