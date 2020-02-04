@@ -76,6 +76,7 @@ describe("getSearchResolver", () => {
     beforeEach(() => {
       (findSavedSearch as jest.Mock).mockReturnValue({
         searchResults: [],
+        filterBy: "",
         orderBy: "orderBy",
         source: "source",
         album: "album",

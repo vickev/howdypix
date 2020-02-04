@@ -1,4 +1,3 @@
-import nextConfig from "../../../next.config";
 import { FixtureSet, Query, Mutation } from "../types.d";
 import full from "./full";
 

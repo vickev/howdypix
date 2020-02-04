@@ -1,8 +1,8 @@
 import { enumType, objectType, inputObjectType } from "nexus";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
-import { withPreviewAndStats } from "../mixins";
 import { NexusInputObjectTypeDef } from "nexus/dist/definitions/inputObjectType";
+import { withPreviewAndStats } from "../mixins";
 
 export const PhotosOrderBy = (): NexusEnumTypeDef<"PhotosOrderBy"> =>
   enumType({

@@ -7,7 +7,6 @@ import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { useTranslation } from "react-i18next";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import styled from "@material-ui/styles/styled";
 
@@ -35,14 +34,12 @@ export const FilterByMultipleValues: React.FC<Props> = ({
   selected,
   onChange
 }) => {
-  const { t } = useTranslation("common");
-
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
     const newValues = event.target.value as string[];
     onChange(newValues);
   };
 
-  const handleClearButtonClick = () => {
+  const handleClearButtonClick = (): void => {
     onChange(null);
   };
 
@@ -57,8 +54,8 @@ export const FilterByMultipleValues: React.FC<Props> = ({
           input={<OutlinedInput />}
           renderValue={
             selected.length === 0
-              ? () => label
-              : selected => (selected as string[]).join(", ")
+              ? (): string => label
+              : (selected: unknown): string => (selected as string[]).join(", ")
           }
         >
           {values.map(name => (
@@ -70,11 +67,8 @@ export const FilterByMultipleValues: React.FC<Props> = ({
         </StyledSelect>
       </FormControl>
       {selected.length > 0 && (
-        <StyledButton variant="outlined" size={"small"}>
-          <HighlightOffIcon
-            fontSize={"small"}
-            onClick={handleClearButtonClick}
-          />
+        <StyledButton variant="outlined" size="small">
+          <HighlightOffIcon fontSize="small" onClick={handleClearButtonClick} />
         </StyledButton>
       )}
     </ButtonGroup>
