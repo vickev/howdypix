@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sortJsonStringify should sort an object 1`] = `"{\\"a\\":2,\\"b\\":1}"`;
+
+exports[`sortJsonStringify should sort an object 2`] = `"{\\"a\\":{\\"a\\":2,\\"w\\":3},\\"b\\":1}"`;
+
+exports[`sortJsonStringify should sort an object with a deep array 1`] = `"{\\"a\\":{\\"y\\":[\\"aaa\\",\\"zzz\\"]},\\"b\\":1}"`;
+
+exports[`sortJsonStringify should sort an object with an array 1`] = `"{\\"a\\":[\\"aaa\\",\\"zzz\\"],\\"b\\":1}"`;

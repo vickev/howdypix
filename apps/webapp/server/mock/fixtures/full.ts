@@ -37,6 +37,14 @@ const photo3: NexusGenRootTypes["SearchPhoto"] = {
 };
 
 const query: Query = {
+  getFilters: () => ({
+    dateTakenRange: {
+      from: 0,
+      to: 0
+    },
+    cameraMakes: ["make 1", "make 2"],
+    cameraModels: ["model 1", "model 2"]
+  }),
   getAlbum: (_, params) => ({
     album: {
       name: "Full",
