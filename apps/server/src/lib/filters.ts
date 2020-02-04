@@ -5,12 +5,12 @@ import { AvailableFilters } from "@howdypix/shared-types";
 //= =============================================================
 // Define the types
 //= =============================================================
-export type FilterValue = string | (string | null)[] | null | undefined;
-export type FilterFunctionReturn = {
+type FilterValue = string | (string | null)[] | null | undefined;
+type FilterFunctionReturn = {
   whereStatement: { [key: string]: string } | {};
 };
 
-export type FilterFunction = (filterValue: FilterValue) => FilterFunctionReturn;
+type FilterFunction = (filterValue: FilterValue) => FilterFunctionReturn;
 
 //= =============================================================
 // Define the generic functions
