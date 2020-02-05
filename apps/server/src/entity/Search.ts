@@ -10,6 +10,9 @@ export class Search {
   orderBy: string;
 
   @Column({ type: "text", nullable: true })
+  filterBy: string;
+
+  @Column({ type: "text", nullable: true })
   album: string;
 
   @Column({ type: "text", nullable: true })

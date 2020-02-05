@@ -35,10 +35,21 @@ export interface CurrentUserType {
   name: Scalars["String"];
 }
 
+export interface DateTaken {
+  from?: Maybe<Scalars["Float"]>;
+  to?: Maybe<Scalars["Float"]>;
+}
+
 export interface GetAlbumPhotos {
   album?: Maybe<Album>;
   albums: Array<Album>;
   photos: Array<Maybe<Photo>>;
+}
+
+export interface GetFilters {
+  cameraMakes: Array<Scalars["String"]>;
+  cameraModels: Array<Scalars["String"]>;
+  dateTakenRange: DateTaken;
 }
 
 export interface GetSearchPhotos {
@@ -65,6 +76,11 @@ export interface PhotoDetail {
   id: Scalars["ID"];
 }
 
+export interface PhotosFilterBy {
+  make?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  model?: Maybe<Array<Maybe<Scalars["String"]>>>;
+}
+
 /** The order of which the list is sorted */
 export enum PhotosOrderBy {
   DateAsc = "DATE_ASC",
@@ -76,6 +92,7 @@ export enum PhotosOrderBy {
 export interface Query {
   getAlbum: GetAlbumPhotos;
   getCurrentUser?: Maybe<CurrentUserType>;
+  getFilters: GetFilters;
   getPhoto?: Maybe<PhotoDetail>;
   getSearch: GetSearchPhotos;
   getSources: Array<Maybe<Source>>;
@@ -83,6 +100,12 @@ export interface Query {
 
 export interface QueryGetAlbumArgs {
   album?: Maybe<Scalars["String"]>;
+  source: Scalars["String"];
+}
+
+export interface QueryGetFiltersArgs {
+  album?: Maybe<Scalars["String"]>;
+  filterBy?: Maybe<PhotosFilterBy>;
   source: Scalars["String"];
 }
 
@@ -94,6 +117,7 @@ export interface QueryGetPhotoArgs {
 
 export interface QueryGetSearchArgs {
   album?: Maybe<Scalars["String"]>;
+  filterBy?: Maybe<PhotosFilterBy>;
   orderBy?: Maybe<PhotosOrderBy>;
   source?: Maybe<Scalars["String"]>;
 }
@@ -142,11 +166,24 @@ export type GetPhotosQueryVariables = {
   source: Scalars["String"];
   album?: Maybe<Scalars["String"]>;
   orderBy?: Maybe<PhotosOrderBy>;
+  filterBy?: Maybe<PhotosFilterBy>;
 };
 
 export type GetPhotosQuery = {
   getSearch: {
     photos: Array<Maybe<Pick<SearchPhoto, "id" | "thumbnails" | "file">>>;
+  };
+};
+
+export type GetFiltersQueryVariables = {
+  source: Scalars["String"];
+  album?: Maybe<Scalars["String"]>;
+  filterBy?: Maybe<PhotosFilterBy>;
+};
+
+export type GetFiltersQuery = {
+  getFilters: Pick<GetFilters, "cameraMakes" | "cameraModels"> & {
+    dateTakenRange: Pick<DateTaken, "from" | "to">;
   };
 };
 

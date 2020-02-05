@@ -7,7 +7,13 @@ declare global {
   interface NexusGen extends NexusGenTypes {}
 }
 
-export interface NexusGenInputs {}
+export interface NexusGenInputs {
+  PhotosFilterBy: {
+    // input type
+    make?: Array<string | null> | null; // [String]
+    model?: Array<string | null> | null; // [String]
+  };
+}
 
 export interface NexusGenEnums {
   AuthEmailMessage:
@@ -38,11 +44,22 @@ export interface NexusGenRootTypes {
     email: string; // String!
     name: string; // String!
   };
+  DateTaken: {
+    // root type
+    from?: number | null; // Float
+    to?: number | null; // Float
+  };
   GetAlbumPhotos: {
     // root type
     album?: NexusGenRootTypes["Album"] | null; // Album
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
+  };
+  GetFilters: {
+    // root type
+    cameraMakes: string[]; // [String!]!
+    cameraModels: string[]; // [String!]!
+    dateTakenRange: NexusGenRootTypes["DateTaken"]; // DateTaken!
   };
   GetSearchPhotos: {
     // root type
@@ -93,6 +110,7 @@ export interface NexusGenRootTypes {
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
+  PhotosFilterBy: NexusGenInputs["PhotosFilterBy"];
   AuthEmailMessage: NexusGenEnums["AuthEmailMessage"];
   PhotosOrderBy: NexusGenEnums["PhotosOrderBy"];
 }
@@ -118,11 +136,22 @@ export interface NexusGenFieldTypes {
     email: string; // String!
     name: string; // String!
   };
+  DateTaken: {
+    // field return type
+    from: number | null; // Float
+    to: number | null; // Float
+  };
   GetAlbumPhotos: {
     // field return type
     album: NexusGenRootTypes["Album"] | null; // Album
     albums: NexusGenRootTypes["Album"][]; // [Album!]!
     photos: Array<NexusGenRootTypes["Photo"] | null>; // [Photo]!
+  };
+  GetFilters: {
+    // field return type
+    cameraMakes: string[]; // [String!]!
+    cameraModels: string[]; // [String!]!
+    dateTakenRange: NexusGenRootTypes["DateTaken"]; // DateTaken!
   };
   GetSearchPhotos: {
     // field return type
@@ -148,6 +177,7 @@ export interface NexusGenFieldTypes {
     // field return type
     getAlbum: NexusGenRootTypes["GetAlbumPhotos"]; // GetAlbumPhotos!
     getCurrentUser: NexusGenRootTypes["CurrentUserType"] | null; // CurrentUserType
+    getFilters: NexusGenRootTypes["GetFilters"]; // GetFilters!
     getPhoto: NexusGenRootTypes["PhotoDetail"] | null; // PhotoDetail
     getSearch: NexusGenRootTypes["GetSearchPhotos"]; // GetSearchPhotos!
     getSources: Array<NexusGenRootTypes["Source"] | null>; // [Source]!
@@ -190,6 +220,12 @@ export interface NexusGenArgTypes {
       album?: string | null; // String
       source: string; // String!
     };
+    getFilters: {
+      // args
+      album?: string | null; // String
+      filterBy?: NexusGenInputs["PhotosFilterBy"] | null; // PhotosFilterBy
+      source: string; // String!
+    };
     getPhoto: {
       // args
       album: string; // String!
@@ -199,6 +235,7 @@ export interface NexusGenArgTypes {
     getSearch: {
       // args
       album?: string | null; // String
+      filterBy?: NexusGenInputs["PhotosFilterBy"] | null; // PhotosFilterBy
       orderBy?: NexusGenEnums["PhotosOrderBy"] | null; // PhotosOrderBy
       source?: string | null; // String
     };
@@ -213,7 +250,9 @@ export type NexusGenObjectNames =
   | "Album"
   | "AuthEmailType"
   | "CurrentUserType"
+  | "DateTaken"
   | "GetAlbumPhotos"
+  | "GetFilters"
   | "GetSearchPhotos"
   | "Mutation"
   | "Photo"
@@ -223,7 +262,7 @@ export type NexusGenObjectNames =
   | "SearchPhoto"
   | "Source";
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = "PhotosFilterBy";
 
 export type NexusGenEnumNames = "AuthEmailMessage" | "PhotosOrderBy";
 

@@ -1,6 +1,7 @@
-import { enumType, objectType } from "nexus";
+import { enumType, objectType, inputObjectType } from "nexus";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
+import { NexusInputObjectTypeDef } from "nexus/dist/definitions/inputObjectType";
 import { withPreviewAndStats } from "../mixins";
 
 export const PhotosOrderBy = (): NexusEnumTypeDef<"PhotosOrderBy"> =>
@@ -8,6 +9,15 @@ export const PhotosOrderBy = (): NexusEnumTypeDef<"PhotosOrderBy"> =>
     name: "PhotosOrderBy",
     members: ["DATE_ASC", "DATE_DESC", "NAME_ASC", "NAME_DESC"],
     description: "The order of which the list is sorted"
+  });
+
+export const PhotosFilterBy = (): NexusInputObjectTypeDef<"PhotosFilterBy"> =>
+  inputObjectType({
+    name: "PhotosFilterBy",
+    definition(t) {
+      t.field("make", { type: "String", list: [false] });
+      t.field("model", { type: "String", list: [false] });
+    }
   });
 
 export const SearchPhoto = (): NexusObjectTypeDef<"SearchPhoto"> =>

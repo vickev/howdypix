@@ -31,10 +31,21 @@ type CurrentUserType {
   name: String!
 }
 
+type DateTaken {
+  from: Float
+  to: Float
+}
+
 type GetAlbumPhotos {
   album: Album
   albums: [Album!]!
   photos: [Photo]!
+}
+
+type GetFilters {
+  cameraMakes: [String!]!
+  cameraModels: [String!]!
+  dateTakenRange: DateTaken!
 }
 
 type GetSearchPhotos {
@@ -57,6 +68,11 @@ type PhotoDetail {
   id: ID!
 }
 
+input PhotosFilterBy {
+  make: [String]
+  model: [String]
+}
+
 """The order of which the list is sorted"""
 enum PhotosOrderBy {
   DATE_ASC
@@ -68,8 +84,9 @@ enum PhotosOrderBy {
 type Query {
   getAlbum(album: String, source: String!): GetAlbumPhotos!
   getCurrentUser: CurrentUserType
+  getFilters(album: String, filterBy: PhotosFilterBy, source: String!): GetFilters!
   getPhoto(album: String!, file: String!, source: String!): PhotoDetail
-  getSearch(album: String, orderBy: PhotosOrderBy = DATE_DESC, source: String): GetSearchPhotos!
+  getSearch(album: String, filterBy: PhotosFilterBy, orderBy: PhotosOrderBy = DATE_DESC, source: String): GetSearchPhotos!
   getSources: [Source]!
 }
 

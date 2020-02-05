@@ -13,5 +13,7 @@
   "previous": "Previous",
   "sort_by": "Sort By: {{key}}",
   "sort_date": "Date",
-  "sort_name": "Name"
+  "sort_name": "Name",
+  "filter_camera_make": "Camera Make",
+  "filter_camera_model": "Camera Model"
 }

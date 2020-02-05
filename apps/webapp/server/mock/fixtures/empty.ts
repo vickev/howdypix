@@ -5,6 +5,14 @@ import { authEmail } from "../shared";
 const { serverRuntimeConfig } = nextConfig;
 
 const query: Query = {
+  getFilters: () => ({
+    dateTakenRange: {
+      from: 0,
+      to: 0
+    },
+    cameraMakes: [],
+    cameraModels: []
+  }),
   getAlbum: (_, params) => ({
     album: {
       name: "Empty",

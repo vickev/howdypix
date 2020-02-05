@@ -45,6 +45,7 @@ Array [
       "where": Object {
         "search": Object {
           "album": "album",
+          "filterBy": "",
           "id": 890,
           "orderBy": "orderBy",
           "searchResults": Array [],
@@ -68,6 +69,7 @@ Array [
     Object {
       "where": Object {
         "album": "album",
+        "filterBy": null,
         "orderBy": "DATE_ASC",
         "source": "source",
       },
@@ -87,6 +89,7 @@ Array [
   Array [
     Search {
       "album": "album",
+      "filterBy": undefined,
       "id": undefined,
       "orderBy": "DATE_ASC",
       "searchResults": undefined,

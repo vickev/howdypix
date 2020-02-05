@@ -38,7 +38,7 @@ export function applyApolloMiddleware(
 ): void {
   const schema = makeSchema({
     types: transform(
-      types as GraphQLTypes,
+      (types as unknown) as GraphQLTypes,
       (acc, value, key) => {
         // We pass the `userConfig` to all the resolvers to be consumed
         acc[key] = value(userConfig);

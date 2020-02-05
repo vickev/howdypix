@@ -102,7 +102,8 @@ describe("searchHelpers", () => {
           album: "album",
           source: "source",
           orderBy: "orderBy",
-          searchResults: []
+          searchResults: [],
+          filterBy: ""
         }
       )
     ).toMatchSnapshot();
