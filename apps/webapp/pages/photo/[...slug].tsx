@@ -4,8 +4,8 @@ import gql from "graphql-tag";
 import Link from "next/link";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { hparse } from "@howdypix/utils";
-import { HFile } from "@howdypix/shared-types";
+import { hparse, removeEmptyValues } from "@howdypix/utils";
+import { AvailableFilters, HFile } from "@howdypix/shared-types";
 import { styled } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
@@ -16,12 +16,19 @@ import { NextPage } from "next";
 import { withApollo } from "../../src/lib/with-apollo-client";
 import {
   GetPhotoQuery,
-  GetPhotoQueryVariables
+  GetPhotoQueryVariables,
+  PhotosOrderBy
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
+import querystring from "querystring";
+import url from "url";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
+
+type QueryStringParams = {
+  order: PhotosOrderBy | undefined;
+} & AvailableFilters;
 
 // ========================================
 // Constants
@@ -44,8 +51,23 @@ const GET_PHOTO = gql`
 `;
 
 const PhotoPage: NextPage<Props, InitialProps> = () => {
-  const router = useRouter();
+  //= ================================================================
+  // Load the hooks
+  //= ================================================================
   const { t } = useTranslation("common");
+  const router = useRouter();
+  const qs: QueryStringParams = querystring.parse(
+    url.parse(router.asPath).query || ""
+  ) as QueryStringParams;
+
+  // Order by parsed from the URL
+  const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
+
+  // Filter by parsed from the URL
+  const filterBy = {
+    make: typeof qs.make === "string" ? [qs.make] : qs.make,
+    model: typeof qs.model === "string" ? [qs.model] : qs.model
+  };
 
   const hpath = (router.query.slug as string[]).join("/");
   const folder: HFile = hparse(hpath);
@@ -73,7 +95,10 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
       <Box p={2}>
         <Link
           href="/album/[...slug]"
-          as={`/album/@${folder.source}:${folder.dir}`}
+          as={{
+            pathname: `/album/@${folder.source}:${folder.dir}`,
+            query: removeEmptyValues({ ...filterBy, order: orderBy })
+          }}
         >
           <Button variant="outlined">{t("previous")}</Button>
         </Link>

@@ -301,6 +301,8 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
                           dir: folder.dir,
                           source: folder.source
                         }}
+                        filter={filterBy}
+                        order={orderBy}
                         url={photo.thumbnails[1] ?? ""}
                       />
                     </GridListTile>
