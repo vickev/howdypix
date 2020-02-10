@@ -7,6 +7,8 @@ export const PhotoDetail = (): NexusObjectTypeDef<"PhotoDetail"> =>
     definition(t) {
       t.id("id");
       t.field("files", { type: "String", list: [false] });
+      t.field("next", { type: "String", nullable: true });
+      t.field("previous", { type: "String", nullable: true });
       t.field("photoStream", { type: "PhotoStreamThumbnail", list: [true] });
     }
   });

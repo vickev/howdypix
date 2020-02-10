@@ -3,7 +3,6 @@ import {
   FindOneOptions,
   Repository,
   Connection,
-  MoreThanOrEqual,
   Between,
   FindOperator
 } from "typeorm";
@@ -12,7 +11,6 @@ import { Photo as EntityPhoto } from "../../entity/Photo";
 import { SearchResult as EntitySearchResult } from "../../entity/SearchResult";
 import { Search as EntitySearch } from "../../entity/Search";
 import { filterByMake, filterByModel } from "../../lib/filters";
-import { ApolloContext } from "../../types";
 
 export const getOrderBy = (
   order: NexusGenArgTypes["Query"]["getSearch"]["orderBy"]
@@ -108,8 +106,6 @@ export const fetchSearchResult = async (
   const where: { search: EntitySearch; order?: FindOperator<number> } = {
     search
   };
-
-  console.log(start);
 
   if (limit) {
     where.order = Between(start, start + limit);

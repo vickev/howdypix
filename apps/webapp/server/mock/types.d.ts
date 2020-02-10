@@ -1,4 +1,4 @@
-import { NexusGenTypes } from "@howdypix/graphql-schema/schema";
+import { NexusGenTypes } from "@howdypix/graphql-schema/schema.d";
 
 export type Query = {
   getAlbum: (

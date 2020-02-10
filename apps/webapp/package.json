@@ -54,6 +54,7 @@
     "react-apollo": "^3.1.1",
     "react-client": "^1.0.1",
     "react-dom": "^16.10.1",
+    "react-hotkeys": "^2.0.0",
     "react-i18next": "^10.13.1",
     "sort-keys": "^4.0.0",
     "typescript": "^3.7.2"

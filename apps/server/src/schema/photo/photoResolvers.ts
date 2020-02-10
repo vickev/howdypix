@@ -56,6 +56,9 @@ export const getPhotoResolver = () => async (
 
   if (photo) {
     const photoSteam = await fetchPhotoSteam(ctx.connection, photo, args);
+    const photoIndexInStream = photoSteam.findIndex(
+      sr => sr.photoId === photo.id
+    );
 
     return {
       id: photo.id.toString(),
@@ -65,6 +68,8 @@ export const getPhotoResolver = () => async (
         name: photo.file,
         dir: photo.dir
       }).map(tn => tn.url),
+      next: photoSteam[photoIndexInStream + 1]?.photo.file ?? null,
+      previous: photoSteam[photoIndexInStream - 1]?.photo.file ?? null,
       photoStream: photoSteam.map(
         (sr): NexusGenRootTypes["PhotoStreamThumbnail"] => ({
           id: String(sr.photo.id),

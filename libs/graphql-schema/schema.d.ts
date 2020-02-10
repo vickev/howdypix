@@ -77,7 +77,9 @@ export interface NexusGenRootTypes {
     // root type
     files: Array<string | null>; // [String]!
     id: string; // ID!
+    next?: string | null; // String
     photoStream: NexusGenRootTypes["PhotoStreamThumbnail"][]; // [PhotoStreamThumbnail!]!
+    previous?: string | null; // String
   };
   PhotoStreamThumbnail: {
     // root type
@@ -179,7 +181,9 @@ export interface NexusGenFieldTypes {
     // field return type
     files: Array<string | null>; // [String]!
     id: string; // ID!
+    next: string | null; // String
     photoStream: NexusGenRootTypes["PhotoStreamThumbnail"][]; // [PhotoStreamThumbnail!]!
+    previous: string | null; // String
   };
   PhotoStreamThumbnail: {
     // field return type

@@ -1,5 +1,5 @@
 import nextConfig from "../../../next.config";
-import { FixtureSet, Mutation, Query } from "../types";
+import { FixtureSet, Mutation, Query } from "../types.d";
 import { authEmail } from "../shared";
 
 const { serverRuntimeConfig } = nextConfig;

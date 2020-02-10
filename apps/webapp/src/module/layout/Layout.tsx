@@ -1,9 +1,8 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import { Button, Container } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { useCurrentUser } from "../user/userHook";
 import { withUser } from "../user/withUser";
-import { styled } from "@material-ui/styles";
 
 interface LayoutProps {
   leftComponent?: React.ReactElement;
@@ -32,7 +31,7 @@ const RawLayout: React.FC<LayoutProps> = ({
           boxShadow={4}
           zIndex={100}
         >
-          <Box height={"100%"}>{children}</Box>
+          <Box height="100%">{children}</Box>
         </Box>
         <Box width={200} minHeight="100%">
           {rightComponent}

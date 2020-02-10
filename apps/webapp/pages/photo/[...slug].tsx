@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Link from "next/link";
-import Typography from "@material-ui/core/Typography";
+import { GlobalHotKeys } from "react-hotkeys";
 import Box from "@material-ui/core/Box";
-import { hparse, removeEmptyValues } from "@howdypix/utils";
+import { hjoin, hparse, removeEmptyValues } from "@howdypix/utils";
 import { AvailableFilters, HFile } from "@howdypix/shared-types";
 import { styled } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
@@ -19,12 +19,10 @@ import { withApollo } from "../../src/lib/with-apollo-client";
 import {
   GetPhotoQuery,
   GetPhotoQueryVariables,
-  GetPhotosQuery,
   PhotosOrderBy
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
-import { Thumbnail } from "../../src/component/Thumbnail";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -37,6 +35,11 @@ type QueryStringParams = {
 // Constants
 // ========================================
 const gutter = 3;
+const keyMap = {
+  MOVE_RIGHT: "right",
+  MOVE_LEFT: "left",
+  ESCAPE: "esc"
+};
 
 const Image = styled("img")(() => ({
   maxWidth: "100%",
@@ -62,6 +65,8 @@ const GET_PHOTO = gql`
       orderBy: $orderBy
     ) {
       files
+      next
+      previous
       photoStream {
         file
         thumbnails
@@ -100,6 +105,40 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
   const [savedPhotosData, setOldData] = useState<GetPhotoQuery | undefined>();
 
   //= ================================================================
+  // Keyboard events
+  //= ================================================================
+  const handlers = {
+    MOVE_RIGHT: (): void => {
+      if (savedPhotosData?.getPhoto?.next) {
+        router.push("/photo/[...slug]", {
+          pathname: `/photo/${hjoin({
+            ...folder,
+            file: savedPhotosData?.getPhoto?.next
+          })}`,
+          query: removeEmptyValues({ ...filterBy, order: orderBy })
+        });
+      }
+    },
+    MOVE_LEFT: (): void => {
+      if (savedPhotosData?.getPhoto?.previous) {
+        router.push("/photo/[...slug]", {
+          pathname: `/photo/${hjoin({
+            ...folder,
+            file: savedPhotosData?.getPhoto?.previous
+          })}`,
+          query: removeEmptyValues({ ...filterBy, order: orderBy })
+        });
+      }
+    },
+    ESCAPE: (): void => {
+      router.push("/album/[...slug]", {
+        pathname: `/album/@${folder.source}:${folder.dir}`,
+        query: removeEmptyValues({ ...filterBy, order: orderBy })
+      });
+    }
+  };
+
+  //= ================================================================
   // Load the file detail
   //= ================================================================
   const photo = useQuery<GetPhotoQuery, GetPhotoQueryVariables>(GET_PHOTO, {
@@ -121,51 +160,56 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
 
   return (
     <Layout>
-      <Box p={3} height="100%" display={"flex"} flexDirection={"column"}>
-        <Box>
-          <Link
-            href="/album/[...slug]"
-            as={{
-              pathname: `/album/@${folder.source}:${folder.dir}`,
-              query: removeEmptyValues({ ...filterBy, order: orderBy })
-            }}
-          >
-            <Button variant="outlined">{t("previous")}</Button>
-          </Link>
-        </Box>
-        <Box
-          pt={gutter}
-          id="pictureBox"
-          display="flex"
-          flexDirection="column"
-          flex={1}
-        >
-          <Box flex={1} height={"1px"} textAlign={"center"}>
-            <Image
-              data-testid="picture-detail"
-              src={photo.data?.getPhoto?.files[2] ?? ""}
-            />
+      <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
+        <Box p={3} height="100%" display="flex" flexDirection="column">
+          <Box>
+            <Link
+              href="/album/[...slug]"
+              as={{
+                pathname: `/album/@${folder.source}:${folder.dir}`,
+                query: removeEmptyValues({ ...filterBy, order: orderBy })
+              }}
+            >
+              <Button variant="outlined">{t("previous")}</Button>
+            </Link>
           </Box>
-          <Box pt={gutter}>
-            {photo.data?.getPhoto?.photoStream && (
-              <PhotoStream
-                filterBy={filterBy}
-                orderBy={orderBy}
-                photos={
-                  photo.data?.getPhoto?.photoStream.map(photo => ({
-                    hfile: {
-                      file: photo.file,
-                      dir: folder.dir,
-                      source: folder.source
-                    },
-                    thumbnail: photo.thumbnails[1]
-                  })) ?? []
-                }
+          <Box
+            pt={gutter}
+            id="pictureBox"
+            display="flex"
+            flexDirection="column"
+            flex={1}
+          >
+            <Box flex={1} height="1px" textAlign="center">
+              <Image
+                data-testid="picture-detail"
+                src={photo.data?.getPhoto?.files[2] ?? ""}
               />
-            )}
-          </Box>{" "}
+            </Box>
+            <Box pt={gutter}>
+              {photo.data?.getPhoto?.photoStream && (
+                <PhotoStream
+                  filterBy={filterBy}
+                  orderBy={orderBy}
+                  photos={
+                    photo.data?.getPhoto?.photoStream.map((photo): {
+                      hfile: HFile;
+                      thumbnail: string;
+                    } => ({
+                      hfile: {
+                        file: photo.file,
+                        dir: folder.dir,
+                        source: folder.source
+                      },
+                      thumbnail: photo.thumbnails[1]
+                    })) ?? []
+                  }
+                />
+              )}
+            </Box>{" "}
+          </Box>
         </Box>
-      </Box>
+      </GlobalHotKeys>
     </Layout>
   );
 };

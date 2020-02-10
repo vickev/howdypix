@@ -1,4 +1,4 @@
-import { Mutation } from "./types";
+import { Mutation } from "./types.d";
 
 export const authEmail: Mutation["authEmail"] = (_, params) => {
   if (params.email === "success@vickev.com") {
