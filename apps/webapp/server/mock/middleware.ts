@@ -4,7 +4,7 @@ import graphqlHTTP from "express-graphql";
 import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { appDebug } from "@howdypix/utils";
 import fixtureData from "./fixtures";
-import { FixtureSet, Mutation, Query } from "./types.d";
+import { FixtureSet, Mutation, Query } from "./types";
 
 const schema = makeExecutableSchema({
   typeDefs: fs.readFileSync(

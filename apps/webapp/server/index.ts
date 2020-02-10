@@ -3,14 +3,9 @@ import nextI18NextMiddleware from "next-i18next/middleware";
 import next from "next";
 import cookieParser from "cookie-parser";
 import proxy from "http-proxy-middleware";
-import {
-  checkFixturesMiddleware,
-  mockedGraphQLMiddleware
-} from "./mock/middleware";
 import nextConfig from "../next.config";
 import nextI18next from "./i18n";
 import { applyAuthMiddleware, authHandler } from "./middleware/auth";
-import mockApiServer from "./mock/mockApiServer";
 
 const { serverRuntimeConfig } = nextConfig;
 const { port } = serverRuntimeConfig;
@@ -25,6 +20,12 @@ app.prepare().then(() => {
   server.use(cookieParser());
 
   if (process.env.MOCK_API) {
+    const {
+      checkFixturesMiddleware,
+      mockedGraphQLMiddleware
+      // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+    } = require("./mock/middleware");
+
     // eslint-disable-next-line no-console
     console.log("GraphQL will be mocked 🎊");
     server.get("/", checkFixturesMiddleware);
@@ -65,6 +66,9 @@ app.prepare().then(() => {
 
   // Oh yeah! We mock the API server so we don't need to run it for the tests!!
   if (process.env.MOCK_API) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+    const mockApiServer = require("./mock/mockApiServer");
+
     mockApiServer.listen(serverRuntimeConfig.mock.serverApi.port, () => {
       // eslint-disable-next-line no-console
       console.log(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Link from "next/link";
@@ -19,12 +19,12 @@ import { withApollo } from "../../src/lib/with-apollo-client";
 import {
   GetPhotoQuery,
   GetPhotoQueryVariables,
-  GetPhotoStreamQuery,
-  GetPhotoStreamQueryVariables,
+  GetPhotosQuery,
   PhotosOrderBy
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
+import { Thumbnail } from "../../src/component/Thumbnail";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -39,36 +39,31 @@ type QueryStringParams = {
 const gutter = 3;
 
 const Image = styled("img")(() => ({
-  width: "100%"
+  maxWidth: "100%",
+  maxHeight: "100%"
 }));
 
 // ========================================
 // GraphQL queries
 // ========================================
 const GET_PHOTO = gql`
-  query GetPhoto($source: String!, $album: String!, $file: String!) {
-    getPhoto(source: $source, album: $album, file: $file) {
-      files
-    }
-  }
-`;
-
-const GET_PHOTO_STREAM = gql`
-  query GetPhotoStream(
+  query GetPhoto(
     $source: String!
     $album: String!
     $file: String!
     $filterBy: PhotosFilterBy
     $orderBy: PhotosOrderBy
   ) {
-    getStreamPhoto(
+    getPhoto(
       source: $source
       album: $album
       file: $file
       filterBy: $filterBy
       orderBy: $orderBy
     ) {
-      photos {
+      files
+      photoStream {
+        file
         thumbnails
       }
     }
@@ -101,24 +96,13 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
     return <div>Error</div>;
   }
 
+  // State to save the old set of data, to avoid flickering when changing the order
+  const [savedPhotosData, setOldData] = useState<GetPhotoQuery | undefined>();
+
   //= ================================================================
   // Load the file detail
   //= ================================================================
   const photo = useQuery<GetPhotoQuery, GetPhotoQueryVariables>(GET_PHOTO, {
-    variables: {
-      source: folder.source,
-      album: folder.dir === "." ? "" : folder.dir ?? "",
-      file: folder.file
-    }
-  });
-
-  //= ================================================================
-  // Load the photo stream
-  //= ================================================================
-  const photoStream = useQuery<
-    GetPhotoStreamQuery,
-    GetPhotoStreamQueryVariables
-  >(GET_PHOTO_STREAM, {
     variables: {
       source: folder.source,
       album: folder.dir === "." ? "" : folder.dir ?? "",
@@ -128,39 +112,58 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
     }
   });
 
-  if (photo.loading) return <p>Loading...</p>;
+  if (photo.loading && !savedPhotosData) return <p>Loading...</p>;
+
+  // Save the data to the state to avoid flickering
+  if (!photo.loading && savedPhotosData !== photo.data) {
+    setOldData(photo.data);
+  }
 
   return (
     <Layout>
-      <Box p={2}>
-        <Link
-          href="/album/[...slug]"
-          as={{
-            pathname: `/album/@${folder.source}:${folder.dir}`,
-            query: removeEmptyValues({ ...filterBy, order: orderBy })
-          }}
+      <Box p={3} height="100%" display={"flex"} flexDirection={"column"}>
+        <Box>
+          <Link
+            href="/album/[...slug]"
+            as={{
+              pathname: `/album/@${folder.source}:${folder.dir}`,
+              query: removeEmptyValues({ ...filterBy, order: orderBy })
+            }}
+          >
+            <Button variant="outlined">{t("previous")}</Button>
+          </Link>
+        </Box>
+        <Box
+          pt={gutter}
+          id="pictureBox"
+          display="flex"
+          flexDirection="column"
+          flex={1}
         >
-          <Button variant="outlined">{t("previous")}</Button>
-        </Link>
-        <Box paddingBottom={gutter}>
-          <Typography variant="h3" component="h1" />
-        </Box>
-        <Box py={gutter} id="pictureBox">
-          <Image
-            data-testid="picture-detail"
-            src={photo.data?.getPhoto?.files[2] ?? ""}
-          />
-        </Box>
-        <Box py={gutter} id="pictureBox">
-          {photoStream.data && (
-            <PhotoStream
-              photos={
-                photoStream.data?.getStreamPhoto?.photos.map(photo => ({
-                  thumbnail: photo.thumbnails[1]
-                })) ?? []
-              }
+          <Box flex={1} height={"1px"} textAlign={"center"}>
+            <Image
+              data-testid="picture-detail"
+              src={photo.data?.getPhoto?.files[2] ?? ""}
             />
-          )}
+          </Box>
+          <Box pt={gutter}>
+            {photo.data?.getPhoto?.photoStream && (
+              <PhotoStream
+                filterBy={filterBy}
+                orderBy={orderBy}
+                photos={
+                  photo.data?.getPhoto?.photoStream.map(photo => ({
+                    hfile: {
+                      file: photo.file,
+                      dir: folder.dir,
+                      source: folder.source
+                    },
+                    thumbnail: photo.thumbnails[1]
+                  })) ?? []
+                }
+              />
+            )}
+          </Box>{" "}
         </Box>
       </Box>
     </Layout>

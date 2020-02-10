@@ -1,4 +1,4 @@
-import { FixtureSet, Query, Mutation } from "../types.d";
+import { FixtureSet, Query, Mutation } from "../types";
 import full from "./full";
 
 const newQuery: Query = {

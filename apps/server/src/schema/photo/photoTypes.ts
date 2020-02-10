@@ -7,6 +7,7 @@ export const PhotoDetail = (): NexusObjectTypeDef<"PhotoDetail"> =>
     definition(t) {
       t.id("id");
       t.field("files", { type: "String", list: [false] });
+      t.field("photoStream", { type: "PhotoStreamThumbnail", list: [true] });
     }
   });
 
@@ -15,14 +16,7 @@ export const PhotoStreamThumbnail = (): NexusObjectTypeDef<"PhotoStreamThumbnail
     name: "PhotoStreamThumbnail",
     definition(t) {
       t.id("id");
+      t.id("file");
       t.field("thumbnails", { type: "String", list: [true] });
-    }
-  });
-
-export const PhotoStream = (): NexusObjectTypeDef<"PhotoStream"> =>
-  objectType({
-    name: "PhotoStream",
-    definition(t) {
-      t.field("photos", { type: "PhotoStreamThumbnail", list: [true] });
     }
   });
