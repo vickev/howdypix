@@ -99,7 +99,8 @@ const query: Query = {
       `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
       `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
     ],
-    id: "id1"
+    id: "id1",
+    photoStream: []
   }),
   getCurrentUser: () => ({
     name: "Foo Bar",

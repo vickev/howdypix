@@ -104,7 +104,9 @@ describe("searchHelpers", () => {
           orderBy: "orderBy",
           searchResults: [],
           filterBy: ""
-        }
+        },
+        0,
+        null
       )
     ).toMatchSnapshot();
 
