@@ -89,6 +89,15 @@ export enum PhotosOrderBy {
   NameDesc = "NAME_DESC"
 }
 
+export interface PhotoStream {
+  photos: Array<PhotoStreamThumbnail>;
+}
+
+export interface PhotoStreamThumbnail {
+  id: Scalars["ID"];
+  thumbnails: Array<Scalars["String"]>;
+}
+
 export interface Query {
   getAlbum: GetAlbumPhotos;
   getCurrentUser?: Maybe<CurrentUserType>;
@@ -96,6 +105,7 @@ export interface Query {
   getPhoto?: Maybe<PhotoDetail>;
   getSearch: GetSearchPhotos;
   getSources: Array<Maybe<Source>>;
+  getStreamPhoto?: Maybe<PhotoStream>;
 }
 
 export interface QueryGetAlbumArgs {
@@ -120,6 +130,14 @@ export interface QueryGetSearchArgs {
   filterBy?: Maybe<PhotosFilterBy>;
   orderBy?: Maybe<PhotosOrderBy>;
   source?: Maybe<Scalars["String"]>;
+}
+
+export interface QueryGetStreamPhotoArgs {
+  album: Scalars["String"];
+  file: Scalars["String"];
+  filterBy?: Maybe<PhotosFilterBy>;
+  orderBy?: Maybe<PhotosOrderBy>;
+  source: Scalars["String"];
 }
 
 export interface SearchAlbum {
@@ -202,6 +220,20 @@ export type GetPhotoQueryVariables = {
 };
 
 export type GetPhotoQuery = { getPhoto: Maybe<Pick<PhotoDetail, "files">> };
+
+export type GetPhotoStreamQueryVariables = {
+  source: Scalars["String"];
+  album: Scalars["String"];
+  file: Scalars["String"];
+  filterBy?: Maybe<PhotosFilterBy>;
+  orderBy?: Maybe<PhotosOrderBy>;
+};
+
+export type GetPhotoStreamQuery = {
+  getStreamPhoto: Maybe<{
+    photos: Array<Pick<PhotoStreamThumbnail, "thumbnails">>;
+  }>;
+};
 
 export type AuthEmailMutationVariables = {
   email: Scalars["String"];

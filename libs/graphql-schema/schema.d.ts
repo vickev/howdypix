@@ -78,6 +78,15 @@ export interface NexusGenRootTypes {
     files: Array<string | null>; // [String]!
     id: string; // ID!
   };
+  PhotoStream: {
+    // root type
+    photos: NexusGenRootTypes["PhotoStreamThumbnail"][]; // [PhotoStreamThumbnail!]!
+  };
+  PhotoStreamThumbnail: {
+    // root type
+    id: string; // ID!
+    thumbnails: string[]; // [String!]!
+  };
   Query: {};
   SearchAlbum: {
     // root type
@@ -173,6 +182,15 @@ export interface NexusGenFieldTypes {
     files: Array<string | null>; // [String]!
     id: string; // ID!
   };
+  PhotoStream: {
+    // field return type
+    photos: NexusGenRootTypes["PhotoStreamThumbnail"][]; // [PhotoStreamThumbnail!]!
+  };
+  PhotoStreamThumbnail: {
+    // field return type
+    id: string; // ID!
+    thumbnails: string[]; // [String!]!
+  };
   Query: {
     // field return type
     getAlbum: NexusGenRootTypes["GetAlbumPhotos"]; // GetAlbumPhotos!
@@ -181,6 +199,7 @@ export interface NexusGenFieldTypes {
     getPhoto: NexusGenRootTypes["PhotoDetail"] | null; // PhotoDetail
     getSearch: NexusGenRootTypes["GetSearchPhotos"]; // GetSearchPhotos!
     getSources: Array<NexusGenRootTypes["Source"] | null>; // [Source]!
+    getStreamPhoto: NexusGenRootTypes["PhotoStream"] | null; // PhotoStream
   };
   SearchAlbum: {
     // field return type
@@ -239,6 +258,14 @@ export interface NexusGenArgTypes {
       orderBy?: NexusGenEnums["PhotosOrderBy"] | null; // PhotosOrderBy
       source?: string | null; // String
     };
+    getStreamPhoto: {
+      // args
+      album: string; // String!
+      file: string; // String!
+      filterBy?: NexusGenInputs["PhotosFilterBy"] | null; // PhotosFilterBy
+      orderBy?: NexusGenEnums["PhotosOrderBy"] | null; // PhotosOrderBy
+      source: string; // String!
+    };
   };
 }
 
@@ -257,6 +284,8 @@ export type NexusGenObjectNames =
   | "Mutation"
   | "Photo"
   | "PhotoDetail"
+  | "PhotoStream"
+  | "PhotoStreamThumbnail"
   | "Query"
   | "SearchAlbum"
   | "SearchPhoto"

@@ -9,6 +9,8 @@ import { AvailableFilters, HFile } from "@howdypix/shared-types";
 import { styled } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
+import querystring from "querystring";
+import url from "url";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
@@ -17,11 +19,12 @@ import { withApollo } from "../../src/lib/with-apollo-client";
 import {
   GetPhotoQuery,
   GetPhotoQueryVariables,
+  GetPhotoStreamQuery,
+  GetPhotoStreamQueryVariables,
   PhotosOrderBy
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
-import querystring from "querystring";
-import url from "url";
+import { PhotoStream } from "../../src/module/photo/PhotoStream";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -46,6 +49,28 @@ const GET_PHOTO = gql`
   query GetPhoto($source: String!, $album: String!, $file: String!) {
     getPhoto(source: $source, album: $album, file: $file) {
       files
+    }
+  }
+`;
+
+const GET_PHOTO_STREAM = gql`
+  query GetPhotoStream(
+    $source: String!
+    $album: String!
+    $file: String!
+    $filterBy: PhotosFilterBy
+    $orderBy: PhotosOrderBy
+  ) {
+    getStreamPhoto(
+      source: $source
+      album: $album
+      file: $file
+      filterBy: $filterBy
+      orderBy: $orderBy
+    ) {
+      photos {
+        thumbnails
+      }
     }
   }
 `;
@@ -76,19 +101,34 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
     return <div>Error</div>;
   }
 
-  // @TODO: Must consider the error case
-  const { loading, data } = useQuery<GetPhotoQuery, GetPhotoQueryVariables>(
-    GET_PHOTO,
-    {
-      variables: {
-        source: folder.source,
-        album: folder.dir === "." ? "" : folder.dir ?? "",
-        file: folder.file
-      }
+  //= ================================================================
+  // Load the file detail
+  //= ================================================================
+  const photo = useQuery<GetPhotoQuery, GetPhotoQueryVariables>(GET_PHOTO, {
+    variables: {
+      source: folder.source,
+      album: folder.dir === "." ? "" : folder.dir ?? "",
+      file: folder.file
     }
-  );
+  });
 
-  if (loading) return <p>Loading...</p>;
+  //= ================================================================
+  // Load the photo stream
+  //= ================================================================
+  const photoStream = useQuery<
+    GetPhotoStreamQuery,
+    GetPhotoStreamQueryVariables
+  >(GET_PHOTO_STREAM, {
+    variables: {
+      source: folder.source,
+      album: folder.dir === "." ? "" : folder.dir ?? "",
+      file: folder.file,
+      orderBy,
+      filterBy
+    }
+  });
+
+  if (photo.loading) return <p>Loading...</p>;
 
   return (
     <Layout>
@@ -108,8 +148,19 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
         <Box py={gutter} id="pictureBox">
           <Image
             data-testid="picture-detail"
-            src={data?.getPhoto?.files[2] ?? ""}
+            src={photo.data?.getPhoto?.files[2] ?? ""}
           />
+        </Box>
+        <Box py={gutter} id="pictureBox">
+          {photoStream.data && (
+            <PhotoStream
+              photos={
+                photoStream.data?.getStreamPhoto?.photos.map(photo => ({
+                  thumbnail: photo.thumbnails[1]
+                })) ?? []
+              }
+            />
+          )}
         </Box>
       </Box>
     </Layout>

@@ -1,10 +1,18 @@
 import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema.d";
-import { FindOneOptions, Repository } from "typeorm";
+import {
+  FindOneOptions,
+  Repository,
+  Connection,
+  MoreThanOrEqual,
+  Between,
+  FindOperator
+} from "typeorm";
 import { sortJsonStringify } from "@howdypix/utils";
 import { Photo as EntityPhoto } from "../../entity/Photo";
 import { SearchResult as EntitySearchResult } from "../../entity/SearchResult";
 import { Search as EntitySearch } from "../../entity/Search";
 import { filterByMake, filterByModel } from "../../lib/filters";
+import { ApolloContext } from "../../types";
 
 export const getOrderBy = (
   order: NexusGenArgTypes["Query"]["getSearch"]["orderBy"]
@@ -93,13 +101,66 @@ export const saveSearchResult = async (
 
 export const fetchSearchResult = async (
   searchResultRepository: Repository<EntitySearchResult>,
-  search: EntitySearch
+  search: EntitySearch,
+  start: number,
+  limit: number | null
 ): Promise<EntitySearchResult[]> => {
+  const where: { search: EntitySearch; order?: FindOperator<number> } = {
+    search
+  };
+
+  console.log(start);
+
+  if (limit) {
+    where.order = Between(start, start + limit);
+  }
+
   return searchResultRepository.find({
-    where: {
-      search
-    },
+    where,
     relations: ["photo"],
     order: { order: "ASC" }
   });
+};
+
+export const doSearchWithCache = async (
+  connection: Connection,
+  args: NexusGenArgTypes["Query"]["getSearch"],
+  start = 0,
+  limit: number | null = null
+): Promise<EntitySearchResult[]> => {
+  const searchRepository = connection.getRepository(EntitySearch);
+  const photoRepository = connection.getRepository(EntityPhoto);
+  const searchResultRepository = connection.getRepository(EntitySearchResult);
+
+  const searchResults: EntitySearchResult[] = [];
+  const search = await findSavedSearch(searchRepository, args);
+
+  if (!search) {
+    // We create the new entry in the Search table
+    const newSearch = await saveNewSearch(searchRepository, args);
+
+    // We search for the terms according to the criterias
+    const photos = await doSearch(photoRepository, args);
+
+    (await saveSearchResult(searchResultRepository, photos, newSearch)).forEach(
+      s => {
+        if (limit) {
+          if (s.order >= start && s.order < start + limit) {
+            searchResults.push(s);
+          }
+        } else {
+          searchResults.push(s);
+        }
+      }
+    );
+  } else {
+    // Fetch the search results
+    (
+      await fetchSearchResult(searchResultRepository, search, start, limit)
+    ).forEach(s => {
+      searchResults.push(s);
+    });
+  }
+
+  return searchResults;
 };
