@@ -66,6 +66,9 @@ type Photo {
 type PhotoDetail {
   files: [String]!
   id: ID!
+  next: String
+  photoStream: [PhotoStreamThumbnail!]!
+  previous: String
 }
 
 input PhotosFilterBy {
@@ -81,11 +84,17 @@ enum PhotosOrderBy {
   NAME_DESC
 }
 
+type PhotoStreamThumbnail {
+  file: ID!
+  id: ID!
+  thumbnails: [String!]!
+}
+
 type Query {
   getAlbum(album: String, source: String!): GetAlbumPhotos!
   getCurrentUser: CurrentUserType
   getFilters(album: String, filterBy: PhotosFilterBy, source: String!): GetFilters!
-  getPhoto(album: String!, file: String!, source: String!): PhotoDetail
+  getPhoto(album: String!, file: String!, filterBy: PhotosFilterBy, orderBy: PhotosOrderBy = DATE_DESC, source: String!): PhotoDetail
   getSearch(album: String, filterBy: PhotosFilterBy, orderBy: PhotosOrderBy = DATE_DESC, source: String): GetSearchPhotos!
   getSources: [Source]!
 }

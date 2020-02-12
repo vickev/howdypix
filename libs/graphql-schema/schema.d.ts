@@ -77,6 +77,15 @@ export interface NexusGenRootTypes {
     // root type
     files: Array<string | null>; // [String]!
     id: string; // ID!
+    next?: string | null; // String
+    photoStream: NexusGenRootTypes["PhotoStreamThumbnail"][]; // [PhotoStreamThumbnail!]!
+    previous?: string | null; // String
+  };
+  PhotoStreamThumbnail: {
+    // root type
+    file: string; // ID!
+    id: string; // ID!
+    thumbnails: string[]; // [String!]!
   };
   Query: {};
   SearchAlbum: {
@@ -172,6 +181,15 @@ export interface NexusGenFieldTypes {
     // field return type
     files: Array<string | null>; // [String]!
     id: string; // ID!
+    next: string | null; // String
+    photoStream: NexusGenRootTypes["PhotoStreamThumbnail"][]; // [PhotoStreamThumbnail!]!
+    previous: string | null; // String
+  };
+  PhotoStreamThumbnail: {
+    // field return type
+    file: string; // ID!
+    id: string; // ID!
+    thumbnails: string[]; // [String!]!
   };
   Query: {
     // field return type
@@ -230,6 +248,8 @@ export interface NexusGenArgTypes {
       // args
       album: string; // String!
       file: string; // String!
+      filterBy?: NexusGenInputs["PhotosFilterBy"] | null; // PhotosFilterBy
+      orderBy?: NexusGenEnums["PhotosOrderBy"] | null; // PhotosOrderBy
       source: string; // String!
     };
     getSearch: {
@@ -257,6 +277,7 @@ export type NexusGenObjectNames =
   | "Mutation"
   | "Photo"
   | "PhotoDetail"
+  | "PhotoStreamThumbnail"
   | "Query"
   | "SearchAlbum"
   | "SearchPhoto"

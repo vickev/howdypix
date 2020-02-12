@@ -24,6 +24,107 @@ Array [
 ]
 `;
 
+exports[`searchHelpers doSearchWithCache with not-saved results should return the results 1`] = `
+Array [
+  Object {
+    "id": 123,
+    "order": 0,
+    "photo": Object {
+      "dir": "dir",
+      "file": "file",
+      "id": 123,
+      "source": "source",
+    },
+    "search": Object {
+      "id": 123,
+    },
+  },
+  Object {
+    "id": 456,
+    "order": 1,
+    "photo": Object {
+      "dir": "dir",
+      "file": "file",
+      "id": 456,
+      "source": "source",
+    },
+    "search": Object {
+      "id": 123,
+    },
+  },
+]
+`;
+
+exports[`searchHelpers doSearchWithCache with not-saved results should return the results with the pagination 1`] = `
+Array [
+  Object {
+    "id": 123,
+    "order": 0,
+    "photo": Object {
+      "dir": "dir",
+      "file": "file",
+      "id": 123,
+      "source": "source",
+    },
+    "search": Object {
+      "id": 123,
+    },
+  },
+]
+`;
+
+exports[`searchHelpers doSearchWithCache with not-saved results should return the results with the pagination 2`] = `
+Array [
+  Object {
+    "id": 456,
+    "order": 1,
+    "photo": Object {
+      "dir": "dir",
+      "file": "file",
+      "id": 456,
+      "source": "source",
+    },
+    "search": Object {
+      "id": 123,
+    },
+  },
+]
+`;
+
+exports[`searchHelpers doSearchWithCache with saved results should return photo according to the pagination 1`] = `
+Array [
+  undefined,
+  Object {
+    "album": "album",
+    "filterBy": "",
+    "id": 123,
+    "orderBy": "orderBy",
+    "searchResults": Array [],
+    "source": "source",
+  },
+  5,
+  10,
+]
+`;
+
+exports[`searchHelpers doSearchWithCache with saved results should return the saved photos 1`] = `
+Array [
+  Object {
+    "id": 123,
+    "order": 0,
+    "photo": Object {
+      "dir": "dir",
+      "file": "file",
+      "id": 123,
+      "source": "source",
+    },
+    "search": Object {
+      "id": 123,
+    },
+  },
+]
+`;
+
 exports[`searchHelpers fetchSearchResult should make the right query 1`] = `
 Array [
   Object {
@@ -43,6 +144,15 @@ Array [
         "photo",
       ],
       "where": Object {
+        "order": FindOperator {
+          "_multipleParameters": true,
+          "_type": "between",
+          "_useParameter": true,
+          "_value": Array [
+            1,
+            6,
+          ],
+        },
         "search": Object {
           "album": "album",
           "filterBy": "",
