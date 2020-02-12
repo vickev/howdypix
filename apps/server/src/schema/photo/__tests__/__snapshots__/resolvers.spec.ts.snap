@@ -11,5 +11,39 @@ Object {
     "http://localhost:3004/static/@source:dir/filex2048.jpg",
   ],
   "id": "123456789",
+  "next": "file3",
+  "photoStream": Array [
+    Object {
+      "file": "file1",
+      "id": "345",
+      "thumbnails": Array [
+        "http://localhost:3004/static/@undefined:file1x200.jpg",
+        "http://localhost:3004/static/@undefined:file1x600.jpg",
+        "http://localhost:3004/static/@undefined:file1x1280.jpg",
+        "http://localhost:3004/static/@undefined:file1x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "file2",
+      "id": "123456789",
+      "thumbnails": Array [
+        "http://localhost:3004/static/@undefined:file2x200.jpg",
+        "http://localhost:3004/static/@undefined:file2x600.jpg",
+        "http://localhost:3004/static/@undefined:file2x1280.jpg",
+        "http://localhost:3004/static/@undefined:file2x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "file3",
+      "id": "3453",
+      "thumbnails": Array [
+        "http://localhost:3004/static/@undefined:file3x200.jpg",
+        "http://localhost:3004/static/@undefined:file3x600.jpg",
+        "http://localhost:3004/static/@undefined:file3x1280.jpg",
+        "http://localhost:3004/static/@undefined:file3x2048.jpg",
+      ],
+    },
+  ],
+  "previous": "file1",
 }
 `;

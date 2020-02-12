@@ -41,7 +41,11 @@ export const Thumbnail: React.FC<Props> = ({
           query: removeEmptyValues({ ...filter, order })
         }}
       >
-        <StyledCardMedia image={url} height={height} />
+        <StyledCardMedia
+          image={url}
+          height={height}
+          data-testid="thumbnail-image"
+        />
       </Link>
     </CardActionArea>
   </Box>

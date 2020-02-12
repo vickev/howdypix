@@ -30,6 +30,7 @@ export const PhotoStream: React.FC<Props> = ({
       justifyContent="center"
       alignContent="center"
       flexGrow={0}
+      test-dataid="photo-stream"
     >
       {photos.map(photo => (
         <Box

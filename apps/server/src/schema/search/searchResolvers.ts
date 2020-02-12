@@ -7,7 +7,9 @@ import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { SearchResult as EntitySearchResult } from "../../entity/SearchResult";
 import config from "../../config";
 import { ApolloContext } from "../../types.d";
-import { doSearchWithCache } from "./searchHelpers";
+import { searchHelpers } from "../../helpers/searchHelpers";
+
+const { doSearchWithCache } = searchHelpers;
 
 const debug = appDebug("gql");
 
