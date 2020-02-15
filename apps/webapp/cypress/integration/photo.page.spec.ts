@@ -12,6 +12,13 @@ context("Photo page full", () => {
     );
   });
 
+  it("should display all the informations.", () => {
+    cy.findByText(/f\/4545/).should("exist");
+    cy.findByText(/1\/123/).should("exist");
+    cy.findByText(/December 31, 1969 at 7:02 PM/).should("exist");
+    cy.findByText(/123234/).should("exist");
+  });
+
   it("should have a previous button to return to the album.", () => {
     cy.findByText("Previous").click();
     cy.location().should(loc => {

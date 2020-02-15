@@ -4,7 +4,6 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Skeleton from "@material-ui/lab/Skeleton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { styled } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
@@ -51,7 +50,7 @@ export const RightPanel: React.FC<Props> = ({
             {t("date_taken_x", { value: date ? new Date(date) : "N/A" })}
           </Typography>
           <Typography variant="body2">
-            {t("iso", { value: ISO ? ISO : "N/A" })}
+            {t("iso", { value: ISO || "N/A" })}
           </Typography>
           <Typography variant="body2">
             {t("aperture", {

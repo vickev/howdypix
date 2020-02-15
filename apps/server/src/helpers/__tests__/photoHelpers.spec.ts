@@ -37,7 +37,11 @@ describe("photoHelpers", () => {
       mtime: 123414,
       parentDir: "",
       size: 3434,
-      searchResults: []
+      searchResults: [],
+      processedAperture: 4,
+      aperture: 4,
+      shutter: 1 / 40,
+      processedShutter: 40
     };
 
     await photoHelpers.fetchPhotoSteam(connection, photo, {

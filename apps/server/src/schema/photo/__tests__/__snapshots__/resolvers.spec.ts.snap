@@ -4,6 +4,8 @@ exports[`getPhotoResolver should return null if no pictures have been found 1`] 
 
 exports[`getPhotoResolver should return the detail of one picture 1`] = `
 Object {
+  "aperture": 4,
+  "birthtime": 123,
   "files": Array [
     "http://localhost:3004/static/@source:dir/filex200.jpg",
     "http://localhost:3004/static/@source:dir/filex600.jpg",
@@ -11,6 +13,9 @@ Object {
     "http://localhost:3004/static/@source:dir/filex2048.jpg",
   ],
   "id": "123456789",
+  "iso": 348095,
+  "make": "make",
+  "model": "model",
   "next": "file3",
   "photoStream": Array [
     Object {
@@ -45,5 +50,6 @@ Object {
     },
   ],
   "previous": "file1",
+  "shutter": 40,
 }
 `;
