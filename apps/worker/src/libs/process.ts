@@ -18,6 +18,8 @@ export async function fetchExif(root: string, path: string): Promise<ExifData> {
       if (!error) {
         resolve({
           ISO: data.exif.ISO,
+          aperture: data.exif.ApertureValue,
+          shutter: data.exif.ExposureTime,
           createDate: data.exif.CreateDate
             ? new Date(data.exif.CreateDate).getMilliseconds()
             : undefined,

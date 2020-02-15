@@ -94,6 +94,12 @@ const query: Query = {
     }
   },
   getPhoto: () => ({
+    birthtime: 123123,
+    shutter: 123,
+    model: "model",
+    make: "make",
+    iso: 123234,
+    aperture: 4545,
     files: [
       `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
       `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,

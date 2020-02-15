@@ -75,11 +75,17 @@ export interface NexusGenRootTypes {
   };
   PhotoDetail: {
     // root type
+    aperture: number; // Float!
+    birthtime: number; // Float!
     files: Array<string | null>; // [String]!
     id: string; // ID!
+    iso: number; // Float!
+    make: string; // String!
+    model: string; // String!
     next?: string | null; // String
     photoStream: NexusGenRootTypes["PhotoStreamThumbnail"][]; // [PhotoStreamThumbnail!]!
     previous?: string | null; // String
+    shutter: number; // Float!
   };
   PhotoStreamThumbnail: {
     // root type
@@ -179,11 +185,17 @@ export interface NexusGenFieldTypes {
   };
   PhotoDetail: {
     // field return type
+    aperture: number; // Float!
+    birthtime: number; // Float!
     files: Array<string | null>; // [String]!
     id: string; // ID!
+    iso: number; // Float!
+    make: string; // String!
+    model: string; // String!
     next: string | null; // String
     photoStream: NexusGenRootTypes["PhotoStreamThumbnail"][]; // [PhotoStreamThumbnail!]!
     previous: string | null; // String
+    shutter: number; // Float!
   };
   PhotoStreamThumbnail: {
     // field return type

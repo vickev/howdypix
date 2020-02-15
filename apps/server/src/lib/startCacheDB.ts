@@ -64,6 +64,14 @@ export async function onProcessedFile(
   photo.make = file.exif.make ?? "";
   photo.model = file.exif.model ?? "";
   photo.ISO = file.exif.ISO ?? 0;
+  photo.shutter = file.exif.shutter ?? 0;
+  photo.processedShutter = file.exif.shutter
+    ? Math.round((1 / file.exif.shutter) * 10) / 10
+    : 0;
+  photo.aperture = file.exif.aperture ?? 0;
+  photo.processedAperture = file.exif.aperture
+    ? Math.round(file.exif.aperture * 10) / 10
+    : 0;
   photo.createDate = file.exif.createDate ?? 0;
   photo.inode = file.stat.inode;
   photo.mtime = file.stat.mtime;

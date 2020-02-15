@@ -33,7 +33,11 @@ describe("getPhotoResolver", () => {
           mtime: 124323423,
           parentDir: "parent",
           size: 123123,
-          searchResults: []
+          searchResults: [],
+          processedAperture: 4,
+          aperture: 4,
+          shutter: 1 / 40,
+          processedShutter: 40
         })
       })
     } as unknown) as Connection;
