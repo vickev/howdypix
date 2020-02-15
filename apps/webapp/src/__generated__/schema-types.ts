@@ -72,11 +72,17 @@ export interface Photo {
 }
 
 export interface PhotoDetail {
+  aperture: Scalars["Float"];
+  birthtime: Scalars["Float"];
   files: Array<Maybe<Scalars["String"]>>;
   id: Scalars["ID"];
+  iso: Scalars["Float"];
+  make: Scalars["String"];
+  model: Scalars["String"];
   next?: Maybe<Scalars["String"]>;
   photoStream: Array<PhotoStreamThumbnail>;
   previous?: Maybe<Scalars["String"]>;
+  shutter: Scalars["Float"];
 }
 
 export interface PhotosFilterBy {
@@ -216,7 +222,18 @@ export type GetPhotoQueryVariables = {
 
 export type GetPhotoQuery = {
   getPhoto: Maybe<
-    Pick<PhotoDetail, "files" | "next" | "previous"> & {
+    Pick<
+      PhotoDetail,
+      | "aperture"
+      | "birthtime"
+      | "iso"
+      | "make"
+      | "model"
+      | "shutter"
+      | "files"
+      | "next"
+      | "previous"
+    > & {
       photoStream: Array<Pick<PhotoStreamThumbnail, "file" | "thumbnails">>;
     }
   >;

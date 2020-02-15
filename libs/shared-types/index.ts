@@ -24,6 +24,8 @@ export type StatData = {
 
 export type ExifData = {
   ISO?: number;
+  aperture?: number;
+  shutter?: number;
   make?: string;
   model?: string;
   createDate?: number;

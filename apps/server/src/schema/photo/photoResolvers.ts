@@ -41,6 +41,12 @@ export const getPhotoResolver = () => async (
         name: photo.file,
         dir: photo.dir
       }).map(tn => tn.url),
+      aperture: photo.processedAperture,
+      shutter: photo.processedShutter,
+      iso: photo.ISO,
+      make: photo.make,
+      model: photo.model,
+      birthtime: photo.birthtime,
       next: photoSteam[photoIndexInStream + 1]?.photo.file ?? null,
       previous: photoSteam[photoIndexInStream - 1]?.photo.file ?? null,
       photoStream: photoSteam.map(

@@ -64,11 +64,17 @@ type Photo {
 }
 
 type PhotoDetail {
+  aperture: Float!
+  birthtime: Float!
   files: [String]!
   id: ID!
+  iso: Float!
+  make: String!
+  model: String!
   next: String
   photoStream: [PhotoStreamThumbnail!]!
   previous: String
+  shutter: Float!
 }
 
 input PhotosFilterBy {

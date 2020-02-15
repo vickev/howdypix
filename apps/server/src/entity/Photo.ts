@@ -31,6 +31,18 @@ export class Photo {
   ISO: number;
 
   @Column("int")
+  shutter: number;
+
+  @Column("int")
+  processedShutter: number;
+
+  @Column("int")
+  aperture: number;
+
+  @Column("int")
+  processedAperture: number;
+
+  @Column("int")
   createDate: number;
 
   @Column("text")

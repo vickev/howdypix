@@ -4,6 +4,7 @@
 */
 
 import NextI18Next from "next-i18next";
+import { formatDate } from "../src/lib/dateUtils";
 
 const localeSubpathVariations = {
   none: {},
@@ -25,5 +26,12 @@ export default new NextI18Next({
     order: ["querystring", "cookie", "header"],
     lookupQuerystring: "lang",
     caches: ["cookie"]
+  },
+  interpolation: {
+    format(value, format, lng): typeof value {
+      if (format === "formatDate" && value instanceof Date)
+        return formatDate(lng, value);
+      return value;
+    }
   }
 });

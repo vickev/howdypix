@@ -23,6 +23,7 @@ import {
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
+import { RightPanel } from "../../src/module/photo/RightPanel";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -64,6 +65,12 @@ const GET_PHOTO = gql`
       filterBy: $filterBy
       orderBy: $orderBy
     ) {
+      aperture
+      birthtime
+      iso
+      make
+      model
+      shutter
       files
       next
       previous
@@ -159,7 +166,16 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
   }
 
   return (
-    <Layout>
+    <Layout
+      rightComponent={
+        <RightPanel
+          ISO={photo.data?.getPhoto?.iso}
+          aperture={photo.data?.getPhoto?.aperture}
+          shutter={photo.data?.getPhoto?.shutter}
+          date={photo.data?.getPhoto?.birthtime}
+        />
+      }
+    >
       <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
         <Box p={3} height="100%" display="flex" flexDirection="column">
           <Box>
