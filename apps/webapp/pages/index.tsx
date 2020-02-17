@@ -16,6 +16,7 @@ import {
 import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
+import { AlbumTreeView } from "../src/module/layout/AlbumTreeView";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };

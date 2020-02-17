@@ -52,6 +52,8 @@ module.exports = {
     "import/no-nodejs-modules": "off",
     "import/no-namespace": "off",
     "import/prefer-default-export": "off",
-    "sort-class-members/sort-class-members": "off"
+    "sort-class-members/sort-class-members": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 };

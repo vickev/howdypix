@@ -56,6 +56,21 @@ export interface GetSearchPhotos {
   photos: Array<Maybe<SearchPhoto>>;
 }
 
+export interface GetTree {
+  albums: Array<GetTreeAlbums>;
+  sources: Array<GetTreeSources>;
+}
+
+export interface GetTreeAlbums {
+  dir: Scalars["String"];
+  parentDir?: Maybe<Scalars["String"]>;
+  source: Scalars["String"];
+}
+
+export interface GetTreeSources {
+  name: Scalars["String"];
+}
+
 export interface Mutation {
   authEmail: AuthEmailType;
 }
@@ -111,6 +126,7 @@ export interface Query {
   getPhoto?: Maybe<PhotoDetail>;
   getSearch: GetSearchPhotos;
   getSources: Array<Maybe<Source>>;
+  getTree: GetTree;
 }
 
 export interface QueryGetAlbumArgs {
@@ -137,6 +153,11 @@ export interface QueryGetSearchArgs {
   filterBy?: Maybe<PhotosFilterBy>;
   orderBy?: Maybe<PhotosOrderBy>;
   source?: Maybe<Scalars["String"]>;
+}
+
+export interface QueryGetTreeArgs {
+  album: Scalars["String"];
+  source: Scalars["String"];
 }
 
 export interface SearchAlbum {
@@ -237,6 +258,18 @@ export type GetPhotoQuery = {
       photoStream: Array<Pick<PhotoStreamThumbnail, "file" | "thumbnails">>;
     }
   >;
+};
+
+export type GetTreeQueryVariables = {
+  album: Scalars["String"];
+  source: Scalars["String"];
+};
+
+export type GetTreeQuery = {
+  getTree: {
+    sources: Array<Pick<GetTreeSources, "name">>;
+    albums: Array<Pick<GetTreeAlbums, "dir" | "parentDir" | "source">>;
+  };
 };
 
 export type AuthEmailMutationVariables = {

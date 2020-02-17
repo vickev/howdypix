@@ -65,6 +65,21 @@ export interface NexusGenRootTypes {
     // root type
     photos: Array<NexusGenRootTypes["SearchPhoto"] | null>; // [SearchPhoto]!
   };
+  GetTree: {
+    // root type
+    albums: NexusGenRootTypes["GetTreeAlbums"][]; // [GetTreeAlbums!]!
+    sources: NexusGenRootTypes["GetTreeSources"][]; // [GetTreeSources!]!
+  };
+  GetTreeAlbums: {
+    // root type
+    dir: string; // String!
+    parentDir?: string | null; // String
+    source: string; // String!
+  };
+  GetTreeSources: {
+    // root type
+    name: string; // String!
+  };
   Mutation: {};
   Photo: {
     // root type
@@ -172,6 +187,21 @@ export interface NexusGenFieldTypes {
     // field return type
     photos: Array<NexusGenRootTypes["SearchPhoto"] | null>; // [SearchPhoto]!
   };
+  GetTree: {
+    // field return type
+    albums: NexusGenRootTypes["GetTreeAlbums"][]; // [GetTreeAlbums!]!
+    sources: NexusGenRootTypes["GetTreeSources"][]; // [GetTreeSources!]!
+  };
+  GetTreeAlbums: {
+    // field return type
+    dir: string; // String!
+    parentDir: string | null; // String
+    source: string; // String!
+  };
+  GetTreeSources: {
+    // field return type
+    name: string; // String!
+  };
   Mutation: {
     // field return type
     authEmail: NexusGenRootTypes["AuthEmailType"]; // AuthEmailType!
@@ -211,6 +241,7 @@ export interface NexusGenFieldTypes {
     getPhoto: NexusGenRootTypes["PhotoDetail"] | null; // PhotoDetail
     getSearch: NexusGenRootTypes["GetSearchPhotos"]; // GetSearchPhotos!
     getSources: Array<NexusGenRootTypes["Source"] | null>; // [Source]!
+    getTree: NexusGenRootTypes["GetTree"]; // GetTree!
   };
   SearchAlbum: {
     // field return type
@@ -271,6 +302,11 @@ export interface NexusGenArgTypes {
       orderBy?: NexusGenEnums["PhotosOrderBy"] | null; // PhotosOrderBy
       source?: string | null; // String
     };
+    getTree: {
+      // args
+      album: string; // String!
+      source: string; // String!
+    };
   };
 }
 
@@ -286,6 +322,9 @@ export type NexusGenObjectNames =
   | "GetAlbumPhotos"
   | "GetFilters"
   | "GetSearchPhotos"
+  | "GetTree"
+  | "GetTreeAlbums"
+  | "GetTreeSources"
   | "Mutation"
   | "Photo"
   | "PhotoDetail"

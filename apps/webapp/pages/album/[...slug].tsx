@@ -36,6 +36,7 @@ import { Thumbnail } from "../../src/component/Thumbnail";
 import { RightPanel } from "../../src/module/album/RightPanel";
 import { SortButton } from "../../src/component/SortButton";
 import { Filters } from "../../src/module/album/Filters";
+import { AlbumTreeView } from "../../src/module/layout/AlbumTreeView";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -215,6 +216,9 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
       rightComponent={
         <RightPanel nbPhotos={photosData?.getSearch.photos.length} />
       }
+      leftComponent={
+        <AlbumTreeView album={folder.dir} source={folder.source} />
+      }
     >
       <Box padding={gutter}>
         <Box paddingBottom={gutter} id="BreadcrumbBox">
@@ -227,7 +231,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
                 <Link
                   href="/album/[...slug]"
                   as={`/album/${hjoin(bread)}`}
-                  key={bread.dir}
+                  key={`bread_${bread.dir}`}
                 >
                   <MUILink href="">{bread.name}</MUILink>
                 </Link>
@@ -255,8 +259,8 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
         </Box>
         <AlbumGrid extraHeight={100}>
           {albumLoading
-            ? [0, 0, 0].map(() => (
-                <GridListTile>
+            ? [0, 0, 0].map((value, key) => (
+                <GridListTile key={`skeleton_album_${key}`}>
                   <Skeleton variant="rect" height={200} />
                 </GridListTile>
               ))
@@ -287,7 +291,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
           {photosLoading && !savedPhotosData
             ? [0, 0, 0].map((num, key) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <GridListTile key={`skeleton_${key}`}>
+                <GridListTile key={`skeleton_photo_${key}`}>
                   <Skeleton variant="rect" height={200} />
                 </GridListTile>
               ))

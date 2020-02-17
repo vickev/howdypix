@@ -44,33 +44,31 @@ export const FilterByMultipleValues: React.FC<Props> = ({
   };
 
   return (
-    <ButtonGroup>
-      <FormControl variant="outlined">
-        <StyledSelect
-          multiple
-          displayEmpty
-          value={typeof selected === "string" ? [selected] : selected}
-          onChange={handleChange}
-          input={<OutlinedInput />}
-          renderValue={
-            selected.length === 0
-              ? (): string => label
-              : (selected: unknown): string => (selected as string[]).join(", ")
-          }
-        >
-          {values.map(name => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={selected.indexOf(name) > -1} />
-              <ListItemText primary={name} />
-            </MenuItem>
-          ))}
-        </StyledSelect>
-      </FormControl>
+    <>
+      <StyledSelect
+        multiple
+        displayEmpty
+        value={typeof selected === "string" ? [selected] : selected}
+        onChange={handleChange}
+        input={<OutlinedInput />}
+        renderValue={
+          selected.length === 0
+            ? (): string => label
+            : (selected: unknown): string => (selected as string[]).join(", ")
+        }
+      >
+        {values.map(name => (
+          <MenuItem key={name} value={name}>
+            <Checkbox checked={selected.indexOf(name) > -1} />
+            <ListItemText primary={name} />
+          </MenuItem>
+        ))}
+      </StyledSelect>
       {selected.length > 0 && (
         <StyledButton variant="outlined" size="small">
           <HighlightOffIcon fontSize="small" onClick={handleClearButtonClick} />
         </StyledButton>
       )}
-    </ButtonGroup>
+    </>
   );
 };
