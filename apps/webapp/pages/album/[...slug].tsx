@@ -37,6 +37,7 @@ import { RightPanel } from "../../src/module/album/RightPanel";
 import { SortButton } from "../../src/component/SortButton";
 import { Filters } from "../../src/module/album/Filters";
 import { AlbumTreeView } from "../../src/module/layout/AlbumTreeView";
+import { useStore } from "../../src/module/store/storeHook";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -122,6 +123,9 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   // Order by parsed from the URL
   const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
 
+  // Load the general store of the app
+  const { setCurrentSource, setCurrentAlbum } = useStore();
+
   // Filter by parsed from the URL
   const filterBy = {
     make: typeof qs.make === "string" ? [qs.make] : qs.make,
@@ -137,6 +141,12 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const hpath = (router.query.slug as string[]).join("/");
   const folder: HFile = hparse(hpath);
   const breadcrumbs: HFile[] = hpaths(folder);
+
+  //= ================================================================
+  // Update the store of the app
+  //= ================================================================
+  setCurrentSource(folder.source);
+  setCurrentAlbum(folder.dir ?? null);
 
   //= ================================================================
   // Album Query
@@ -212,110 +222,101 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   // Render
   //= ================================================================
   return (
-    <Layout
-      rightComponent={
-        <RightPanel nbPhotos={photosData?.getSearch.photos.length} />
-      }
-      leftComponent={
-        <AlbumTreeView album={folder.dir} source={folder.source} />
-      }
-    >
-      <Box padding={gutter}>
-        <Box paddingBottom={gutter} id="BreadcrumbBox">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link href="/" key="repo">
-              <MUILink href="">Repository</MUILink>
-            </Link>
-            {breadcrumbs.map((bread: HFile, index) =>
-              index !== breadcrumbs.length - 1 ? (
-                <Link
-                  href="/album/[...slug]"
-                  as={`/album/${hjoin(bread)}`}
-                  key={`bread_${bread.dir}`}
-                >
-                  <MUILink href="">{bread.name}</MUILink>
-                </Link>
-              ) : (
-                <Typography color="textPrimary" key={bread.source}>
-                  {bread.name}
-                </Typography>
+    <Box padding={gutter}>
+      <Box paddingBottom={gutter} id="BreadcrumbBox">
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link href="/" key="repo">
+            <MUILink href="">Repository</MUILink>
+          </Link>
+          {breadcrumbs.map((bread: HFile, index) =>
+            index !== breadcrumbs.length - 1 ? (
+              <Link
+                href="/album/[...slug]"
+                as={`/album/${hjoin(bread)}`}
+                key={`bread_${bread.dir}`}
+              >
+                <MUILink href="">{bread.name}</MUILink>
+              </Link>
+            ) : (
+              <Typography color="textPrimary" key={bread.source}>
+                {bread.name}
+              </Typography>
+            )
+          )}
+        </Breadcrumbs>
+      </Box>
+      <Box paddingBottom={gutter}>
+        {filtersData && (
+          <Filters
+            availableFilters={filtersData?.getFilters}
+            selectedFilters={qs}
+            onChange={handleFilterChange}
+          />
+        )}
+      </Box>
+      <Box paddingBottom={gutter}>
+        <Typography variant="h3" component="h1">
+          Album {albumData?.getAlbum.album?.name}
+        </Typography>
+      </Box>
+      <AlbumGrid extraHeight={100}>
+        {albumLoading
+          ? [0, 0, 0].map((value, key) => (
+              <GridListTile key={`skeleton_album_${key}`}>
+                <Skeleton variant="rect" height={200} />
+              </GridListTile>
+            ))
+          : albumData?.getAlbum?.albums.map(
+              (album): ReactElement => (
+                <AlbumGridListTile key={album.name}>
+                  <AlbumCard
+                    name={album.name}
+                    dir={album.dir}
+                    source={album.source}
+                    nbAlbums={album.nbPhotos}
+                    nbPhotos={album.nbPhotos}
+                    preview={album.preview}
+                  />
+                </AlbumGridListTile>
               )
             )}
-          </Breadcrumbs>
-        </Box>
-        <Box paddingBottom={gutter}>
-          {filtersData && (
-            <Filters
-              availableFilters={filtersData?.getFilters}
-              selectedFilters={qs}
-              onChange={handleFilterChange}
-            />
-          )}
-        </Box>
-        <Box paddingBottom={gutter}>
-          <Typography variant="h3" component="h1">
-            Album {albumData?.getAlbum.album?.name}
-          </Typography>
-        </Box>
-        <AlbumGrid extraHeight={100}>
-          {albumLoading
-            ? [0, 0, 0].map((value, key) => (
-                <GridListTile key={`skeleton_album_${key}`}>
-                  <Skeleton variant="rect" height={200} />
-                </GridListTile>
-              ))
-            : albumData?.getAlbum?.albums.map(
-                (album): ReactElement => (
-                  <AlbumGridListTile key={album.name}>
-                    <AlbumCard
-                      name={album.name}
-                      dir={album.dir}
-                      source={album.source}
-                      nbAlbums={album.nbPhotos}
-                      nbPhotos={album.nbPhotos}
-                      preview={album.preview}
-                    />
-                  </AlbumGridListTile>
-                )
-              )}
-        </AlbumGrid>
-        <Box py={gutter} id="pictureBox">
-          <Box display="flex" flexDirection="row" alignItems="center">
-            <Box flex={1}>
-              <Divider variant="fullWidth" />
-            </Box>
-            <SortButton onChange={handleSortChange} value={orderBy} />
+      </AlbumGrid>
+      <Box py={gutter} id="pictureBox">
+        <Box display="flex" flexDirection="row" alignItems="center">
+          <Box flex={1}>
+            <Divider variant="fullWidth" />
           </Box>
+          <SortButton onChange={handleSortChange} value={orderBy} />
         </Box>
-        <AlbumGrid>
-          {photosLoading && !savedPhotosData
-            ? [0, 0, 0].map((num, key) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <GridListTile key={`skeleton_photo_${key}`}>
-                  <Skeleton variant="rect" height={200} />
-                </GridListTile>
-              ))
-            : savedPhotosData?.getSearch.photos?.map(
-                (photo, key): ReactElement | null =>
-                  (photo?.thumbnails[1] && (
-                    <GridListTile key={key + photo.thumbnails[1]}>
-                      <Thumbnail
-                        hfile={{
-                          file: photo.file,
-                          dir: folder.dir,
-                          source: folder.source
-                        }}
-                        filter={filterBy}
-                        order={orderBy}
-                        url={photo.thumbnails[1] ?? ""}
-                      />
-                    </GridListTile>
-                  )) ||
-                  null
-              )}
-        </AlbumGrid>
       </Box>
-    </Layout>
+      <AlbumGrid>
+        {photosLoading && !savedPhotosData
+          ? [0, 0, 0].map((num, key) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <GridListTile key={`skeleton_photo_${key}`}>
+                <Skeleton variant="rect" height={200} />
+              </GridListTile>
+            ))
+          : savedPhotosData?.getSearch.photos?.map(
+              (photo, key): ReactElement | null =>
+                (photo?.thumbnails[1] && (
+                  <GridListTile key={key + photo.thumbnails[1]}>
+                    <Thumbnail
+                      hfile={{
+                        file: photo.file,
+                        dir: folder.dir,
+                        source: folder.source
+                      }}
+                      filter={filterBy}
+                      order={orderBy}
+                      url={photo.thumbnails[1] ?? ""}
+                    />
+                  </GridListTile>
+                )) ||
+                null
+            )}
+      </AlbumGrid>
+    </Box>
   );
 };
 
@@ -323,4 +324,4 @@ AlbumPage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 
-export default withApollo(AlbumPage);
+export default AlbumPage;

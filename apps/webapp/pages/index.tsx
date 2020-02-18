@@ -46,40 +46,38 @@ const Homepage: NextPage<Props, InitialProps> = () => {
   );
 
   return (
-    <Layout>
-      <Box bgcolor="white" padding={gutter}>
-        <Box paddingBottom={gutter}>
-          <Typography variant="h3" component="h1">
-            Gallery
-          </Typography>
-        </Box>
-        <Box paddingBottom={gutter}>
-          <AlbumGrid extraHeight={100}>
-            {loading
-              ? [0, 0, 0].map(() => (
-                  <GridListTile>
-                    <Skeleton variant="rect" height={200} />
-                  </GridListTile>
-                ))
-              : data?.getSources.map(
-                  (source): ReactElement | null =>
-                    source && (
-                      <AlbumGridListTile key={source.name}>
-                        <AlbumCard
-                          name={source.name}
-                          dir="."
-                          source={source.name}
-                          nbPhotos={source.nbPhotos}
-                          nbAlbums={source.nbAlbums}
-                          preview={source.preview}
-                        />
-                      </AlbumGridListTile>
-                    )
-                )}
-          </AlbumGrid>
-        </Box>
+    <Box bgcolor="white" padding={gutter}>
+      <Box paddingBottom={gutter}>
+        <Typography variant="h3" component="h1">
+          Gallery
+        </Typography>
       </Box>
-    </Layout>
+      <Box paddingBottom={gutter}>
+        <AlbumGrid extraHeight={100}>
+          {loading
+            ? [0, 0, 0].map(() => (
+                <GridListTile>
+                  <Skeleton variant="rect" height={200} />
+                </GridListTile>
+              ))
+            : data?.getSources.map(
+                (source): ReactElement | null =>
+                  source && (
+                    <AlbumGridListTile key={source.name}>
+                      <AlbumCard
+                        name={source.name}
+                        dir="."
+                        source={source.name}
+                        nbPhotos={source.nbPhotos}
+                        nbAlbums={source.nbAlbums}
+                        preview={source.preview}
+                      />
+                    </AlbumGridListTile>
+                  )
+              )}
+        </AlbumGrid>
+      </Box>
+    </Box>
   );
 };
 
@@ -87,4 +85,4 @@ Homepage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 
-export default withApollo(Homepage);
+export default Homepage;

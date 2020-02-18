@@ -166,67 +166,56 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
   }
 
   return (
-    <Layout
-      rightComponent={
-        <RightPanel
-          ISO={photo.data?.getPhoto?.iso}
-          aperture={photo.data?.getPhoto?.aperture}
-          shutter={photo.data?.getPhoto?.shutter}
-          date={photo.data?.getPhoto?.birthtime}
-        />
-      }
-    >
-      <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
-        <Box p={3} height="100%" display="flex" flexDirection="column">
-          <Box>
-            <Link
-              href="/album/[...slug]"
-              as={{
-                pathname: `/album/@${folder.source}:${folder.dir}`,
-                query: removeEmptyValues({ ...filterBy, order: orderBy })
-              }}
-            >
-              <Button variant="outlined">{t("previous")}</Button>
-            </Link>
-          </Box>
-          <Box
-            pt={gutter}
-            id="pictureBox"
-            display="flex"
-            flexDirection="column"
-            flex={1}
+    <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
+      <Box p={3} height="100%" display="flex" flexDirection="column">
+        <Box>
+          <Link
+            href="/album/[...slug]"
+            as={{
+              pathname: `/album/@${folder.source}:${folder.dir}`,
+              query: removeEmptyValues({ ...filterBy, order: orderBy })
+            }}
           >
-            <Box flex={1} height="1px" textAlign="center">
-              <Image
-                data-testid="picture-detail"
-                src={photo.data?.getPhoto?.files[2] ?? ""}
-              />
-            </Box>
-            <Box pt={gutter}>
-              {photo.data?.getPhoto?.photoStream && (
-                <PhotoStream
-                  filterBy={filterBy}
-                  orderBy={orderBy}
-                  photos={
-                    photo.data?.getPhoto?.photoStream.map((photo): {
-                      hfile: HFile;
-                      thumbnail: string;
-                    } => ({
-                      hfile: {
-                        file: photo.file,
-                        dir: folder.dir,
-                        source: folder.source
-                      },
-                      thumbnail: photo.thumbnails[1]
-                    })) ?? []
-                  }
-                />
-              )}
-            </Box>{" "}
-          </Box>
+            <Button variant="outlined">{t("previous")}</Button>
+          </Link>
         </Box>
-      </GlobalHotKeys>
-    </Layout>
+        <Box
+          pt={gutter}
+          id="pictureBox"
+          display="flex"
+          flexDirection="column"
+          flex={1}
+        >
+          <Box flex={1} height="1px" textAlign="center">
+            <Image
+              data-testid="picture-detail"
+              src={photo.data?.getPhoto?.files[2] ?? ""}
+            />
+          </Box>
+          <Box pt={gutter}>
+            {photo.data?.getPhoto?.photoStream && (
+              <PhotoStream
+                filterBy={filterBy}
+                orderBy={orderBy}
+                photos={
+                  photo.data?.getPhoto?.photoStream.map((photo): {
+                    hfile: HFile;
+                    thumbnail: string;
+                  } => ({
+                    hfile: {
+                      file: photo.file,
+                      dir: folder.dir,
+                      source: folder.source
+                    },
+                    thumbnail: photo.thumbnails[1]
+                  })) ?? []
+                }
+              />
+            )}
+          </Box>{" "}
+        </Box>
+      </Box>
+    </GlobalHotKeys>
   );
 };
 
@@ -234,4 +223,4 @@ PhotoPage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 
-export default withApollo(PhotoPage);
+export default PhotoPage;
