@@ -1,6 +1,7 @@
 import React from "react";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
+// eslint-disable-next-line import/no-named-default
 import { default as MuiExpansionPanel } from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -15,11 +16,6 @@ const StyledExpansionPanelSummary = styled(ExpansionPanelSummary)(
   ({ theme }) => ({
     background: theme.palette.grey["200"],
     boxShadow: "none"
-  })
-);
-const StyledExpansionPanelDetails = styled(ExpansionPanelDetails)(
-  ({ theme }) => ({
-    padding: theme.spacing(1)
   })
 );
 

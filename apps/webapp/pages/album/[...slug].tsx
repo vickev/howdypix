@@ -17,18 +17,15 @@ import querystring from "querystring";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
-
-import { withApollo } from "../../src/lib/with-apollo-client";
 import {
-  GetSubAlbumQuery,
-  GetSubAlbumQueryVariables,
+  GetFiltersQuery,
+  GetFiltersQueryVariables,
   GetPhotosQuery,
   GetPhotosQueryVariables,
-  PhotosOrderBy,
-  GetFiltersQuery,
-  GetFiltersQueryVariables
+  GetSubAlbumQuery,
+  GetSubAlbumQueryVariables,
+  PhotosOrderBy
 } from "../../src/__generated__/schema-types";
-import { Layout } from "../../src/module/layout/Layout";
 import { AlbumCard } from "../../src/component/AlbumCard";
 import { AlbumGrid } from "../../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
@@ -36,7 +33,6 @@ import { Thumbnail } from "../../src/component/Thumbnail";
 import { AlbumInformationPanel } from "../../src/module/album/AlbumInformationPanel";
 import { SortButton } from "../../src/component/SortButton";
 import { Filters } from "../../src/module/album/Filters";
-import { AlbumTreeView } from "../../src/module/layout/AlbumTreeView/AlbumTreeView";
 import { useStore } from "../../src/context/store/storeHook";
 
 type Props = {};
@@ -266,8 +262,8 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
       </Box>
       <AlbumGrid extraHeight={100}>
         {albumLoading
-          ? [0, 0, 0].map((value, key) => (
-              <GridListTile key={`skeleton_album_${key}`}>
+          ? [0, 1, 2].map(value => (
+              <GridListTile key={`skeleton_album_${value}`}>
                 <Skeleton variant="rect" height={200} />
               </GridListTile>
             ))

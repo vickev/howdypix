@@ -1,25 +1,14 @@
-import React, { ComponentType, useEffect } from "react";
+import React, { ComponentType, Reducer, useEffect, useReducer } from "react";
 import gql from "graphql-tag";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { appDebug } from "@howdypix/utils";
-import { uniq, uniqBy } from "lodash";
+import { uniqBy } from "lodash";
 import {
   GetTreeQuery,
   GetTreeQueryVariables
 } from "../../__generated__/schema-types";
 import { TreeViewProvider } from "./treeViewContext";
-import {
-  SourceWithNodeId,
-  AlbumWithNodeId,
-  TreeItem,
-  TreeItemWithParent
-} from "./types";
-
-const debug = appDebug("withUser");
-
-type DisplayedLeaves = {
-  [key: string]: boolean;
-};
+import { SourceWithNodeId, TreeItem, TreeItemWithParent } from "./types";
+import { Actions, reducer, State } from "./reducer";
 
 //= =======================================
 // GraphQL queries
@@ -44,52 +33,6 @@ const GET_TREE_VIEW = gql`
     }
   }
 `;
-// ========================================================================
-// Utility functions
-// ========================================================================
-const selectParents = (
-  data: GetTreeQuery["getTree"]["albums"] | null | undefined,
-  dir: string
-): { [key: string]: boolean } => {
-  let ret: { [key: string]: boolean } = {};
-
-  if (!data) {
-    ret[dir] = true;
-  } else {
-    data.forEach((d): void => {
-      if (d.dir === dir) {
-        ret[d.dir] = true;
-
-        if (d.parentDir) {
-          ret = {
-            ...ret,
-            ...selectParents(data, d.parentDir)
-          };
-        }
-      }
-    });
-  }
-
-  return ret;
-};
-
-const defaultExpanded = (
-  data: AlbumWithNodeId[],
-  selectedItems: { [name: string]: boolean }
-): string[] => {
-  const ret: string[] = [];
-
-  data.forEach((d): void => {
-    if (d.dir && selectedItems[d.dir]) {
-      ret.push(d.nodeId);
-    }
-    if (d.parentDir === "" && selectedItems[d.source]) {
-      ret.push(d.source);
-    }
-  });
-
-  return uniq(ret);
-};
 
 export const withTreeView = <P extends object>(
   WrappedComponent: ComponentType<P>
@@ -97,15 +40,12 @@ export const withTreeView = <P extends object>(
   // ============================================
   // Hooks
   // ============================================
-  // State of the Tree component to know what node ids are unfolded
-  const [expandedNodeIds, setExpandedNodeIds] = React.useState<string[]>([]);
-
-  // State of the tree fetched from the server
-  const [fetchedAlbums, setAlbums] = React.useState<AlbumWithNodeId[]>();
-  const [fetchedSources, setSources] = React.useState<SourceWithNodeId[]>();
-
-  // All the leaves in the tree that are currently shown
-  const [visibleLeaves, setVisibleLeaves] = React.useState<DisplayedLeaves>({});
+  const [state, dispatch] = useReducer<Reducer<State, Actions>>(reducer, {
+    fetchedAlbums: [],
+    fetchedSources: [],
+    visibleLeaves: {},
+    expandedNodeIds: []
+  });
 
   // ============================================
   // GrapQL query callback
@@ -121,108 +61,48 @@ export const withTreeView = <P extends object>(
   // If the data is fetched, we update the tree state
   useEffect(() => {
     if (data && !loading) {
-      setAlbums(
-        uniqBy([...(fetchedAlbums ?? []), ...data.getTree.albums], "dir").map(
-          album => ({
-            ...album,
-            nodeId: album.source + album.dir
-          })
-        )
-      );
-
-      setSources(
-        data.getTree.sources.map(
+      dispatch({
+        type: "DATA_FETCHED",
+        variables,
+        albums: uniqBy(
+          [...(state.fetchedAlbums ?? []), ...data.getTree.albums],
+          "dir"
+        ).map(album => ({
+          ...album,
+          nodeId: album.source + album.dir
+        })),
+        sources: data.getTree.sources.map(
           (source): SourceWithNodeId => ({
             ...source,
             nodeId: source.name
           })
         )
-      );
+      });
     }
   }, [data, loading]);
 
-  // If there is a new tree structure that has been fetched, we update the visible leaves
-  useEffect(() => {
-    if (fetchedAlbums && fetchedSources) {
-      if (variables.album !== "") {
-        setVisibleLeaves({
-          ...visibleLeaves,
-          ...selectParents(fetchedAlbums, variables.album),
-          [variables.source]: true
-        });
-      } else if (variables.album === "") {
-        setVisibleLeaves({
-          ...visibleLeaves,
-          [variables.source]: true
-        });
-      }
-    }
-  }, [fetchedAlbums, fetchedSources]);
-
-  // When we change the visible leaves, we update the structure in the UI Tree View
-  useEffect(() => {
-    if (fetchedAlbums) {
-      setExpandedNodeIds(defaultExpanded(fetchedAlbums, visibleLeaves));
-    }
-  }, [visibleLeaves]);
-
   const expand = (item: TreeItem): void => {
-    if (item.album === null) {
-      if (visibleLeaves[item.source] === undefined) {
-        fetchTree({
-          variables: {
-            album: "",
-            source: item.source
-          }
-        });
-      }
-    } else if (visibleLeaves[item.album] === undefined) {
-      fetchTree({
-        variables: {
-          album: item.album ?? "",
-          source: item.source
-        }
-      });
-    }
-
-    setVisibleLeaves({
-      ...visibleLeaves,
-      ...(item.album ? selectParents(fetchedAlbums, item.album) : {}),
-      [item.source]: true
+    dispatch({
+      type: "EXPAND",
+      ...item,
+      fetchTree
     });
   };
 
   const collapse = (item: TreeItemWithParent): void => {
-    const newVisibleLeaves = {
-      ...visibleLeaves,
-      [item.source]: true
-    };
-
-    if (item.album !== null) {
-      newVisibleLeaves[item.album] = false;
-    } else {
-      newVisibleLeaves[item.source] = false;
-    }
-
-    if (item.parent) {
-      newVisibleLeaves[item.parent] = true;
-    }
-
-    setVisibleLeaves(newVisibleLeaves);
+    dispatch({
+      type: "COLLAPSE",
+      ...item,
+      fetchTree
+    });
   };
 
   const toggle = (item: TreeItemWithParent): void => {
-    if (item.album !== null) {
-      if (visibleLeaves[item.album]) {
-        collapse(item);
-      } else {
-        expand(item);
-      }
-    } else if (visibleLeaves[item.source]) {
-      collapse(item);
-    } else {
-      expand(item);
-    }
+    dispatch({
+      type: "TOGGLE",
+      ...item,
+      fetchTree
+    });
   };
 
   return (
@@ -231,9 +111,9 @@ export const withTreeView = <P extends object>(
         expand,
         collapse,
         toggle,
-        expandedNodeIds,
-        sources: fetchedSources ?? [],
-        albums: fetchedAlbums ?? []
+        expandedNodeIds: state.expandedNodeIds,
+        sources: state.fetchedSources,
+        albums: state.fetchedAlbums
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}

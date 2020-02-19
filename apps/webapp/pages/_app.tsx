@@ -54,4 +54,4 @@ class MyApp extends App {
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-export default withApollo(withStore(nextI18next.appWithTranslation(MyApp)));
+export default withStore(nextI18next.appWithTranslation(withApollo(MyApp)));

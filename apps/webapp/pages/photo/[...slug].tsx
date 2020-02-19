@@ -14,18 +14,14 @@ import url from "url";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
-
-import { withApollo } from "../../src/lib/with-apollo-client";
 import {
   GetPhotoQuery,
   GetPhotoQueryVariables,
   PhotosOrderBy
 } from "../../src/__generated__/schema-types";
-import { Layout } from "../../src/module/layout/Layout";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
 import { PhotoRightPanel } from "../../src/module/photo/PhotoRightPanel";
 import { useStore } from "../../src/context/store/storeHook";
-import { AlbumInformationPanel } from "../../src/module/album/AlbumInformationPanel";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };

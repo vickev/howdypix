@@ -53,12 +53,9 @@ const LabelWrapper = styled(Button)<{ selected?: boolean }>`
     background-color: ${({ theme }): string => theme.palette.grey[300]};
   }
 `;
-
-const LabelGroup = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-`;
+LabelWrapper.defaultProps = {
+  disableRipple: true
+};
 
 const LabelText = styled(Typography)`
   flex: 1;
@@ -115,8 +112,16 @@ export const StyledTreeItem: React.FC<Props> = ({
 }) => {
   const classes = useTreeItemStyles();
 
-  const iconButton = (icon: React.ReactElement): React.ReactElement => (
-    <IconButton size="small" onClick={onClickExpand}>
+  const iconButton = (
+    icon: React.ReactElement,
+    disabled = false
+  ): React.ReactElement => (
+    <IconButton
+      size="small"
+      onClick={onClickExpand}
+      disabled={disabled}
+      disableRipple
+    >
       {icon}
     </IconButton>
   );
@@ -125,7 +130,7 @@ export const StyledTreeItem: React.FC<Props> = ({
     <TreeItem
       collapseIcon={iconButton(<ExpandMoreIcon />)}
       expandIcon={iconButton(<ChevronRightIcon />)}
-      endIcon={iconButton(<ChevronRightIcon />)}
+      endIcon={iconButton(<ChevronRightIcon />, !nbAlbums)}
       label={
         <LabelWrapper
           fullWidth
@@ -133,13 +138,11 @@ export const StyledTreeItem: React.FC<Props> = ({
           onClick={onClickItem}
           selected={selected}
         >
-          <LabelGroup>
-            <LabelPreview>
-              <Preview src={preview} />
-            </LabelPreview>
-            <LabelText>{label}</LabelText>
-            <LabelCount>{nbImages}</LabelCount>
-          </LabelGroup>
+          <LabelPreview>
+            <Preview src={preview} />
+          </LabelPreview>
+          <LabelText>{label}</LabelText>
+          <LabelCount>{nbImages}</LabelCount>
         </LabelWrapper>
       }
       classes={{

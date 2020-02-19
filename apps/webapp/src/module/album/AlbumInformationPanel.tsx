@@ -1,10 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { styled } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import Box from "@material-ui/core/Box";
 import { ExpansionPanel } from "../../component/ExpansionPanel";
 
 type Props = {

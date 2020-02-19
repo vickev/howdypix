@@ -53,7 +53,8 @@ module.exports = {
     "import/no-namespace": "off",
     "import/prefer-default-export": "off",
     "sort-class-members/sort-class-members": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+
+    // Super useful rule
+    "react/jsx-props-no-spreading": "off"
   }
 };

@@ -1,8 +1,5 @@
 import React, { ComponentType, useState } from "react";
-import { appDebug } from "@howdypix/utils";
 import { StoreProvider } from "./storeContext";
-
-const debug = appDebug("withStore");
 
 export const withStore = <P extends object>(
   WrappedComponent: ComponentType<P>

@@ -10,12 +10,10 @@ import { ExpansionPanel } from "../../component/ExpansionPanel";
 // Component
 // ========================================================================
 interface LayoutProps {
-  leftComponent?: React.ReactElement;
-  rightComponent?: React.ReactElement;
   children: React.ReactElement;
 }
 
-const RawLayout: React.FC<LayoutProps> = ({ leftComponent, children }) => {
+const RawLayout: React.FC<LayoutProps> = ({ children }) => {
   const { user, logout } = useCurrentUser();
   const { rightPanel } = useStore();
 
@@ -27,7 +25,6 @@ const RawLayout: React.FC<LayoutProps> = ({ leftComponent, children }) => {
           <ExpansionPanel label="Albums">
             <AlbumTreeView />
           </ExpansionPanel>
-          {leftComponent}
         </Box>
         <Box
           flex={1}

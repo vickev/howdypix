@@ -6,9 +6,6 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import GridListTile from "@material-ui/core/GridListTile";
 import Skeleton from "@material-ui/lab/Skeleton";
-
-import { withApollo } from "../src/lib/with-apollo-client";
-import { Layout } from "../src/module/layout/Layout";
 import {
   GetSourcesQuery,
   GetSourcesQueryVariables
@@ -16,7 +13,6 @@ import {
 import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
-import { AlbumTreeView } from "../src/module/layout/AlbumTreeView/AlbumTreeView";
 import { useStore } from "../src/context/store/storeHook";
 
 type Props = {};

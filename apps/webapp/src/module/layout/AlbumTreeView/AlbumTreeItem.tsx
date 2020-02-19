@@ -30,7 +30,7 @@ export const AlbumTreeItem: React.FC<AlbumTreeItemProps> = ({
     onClickItem(item);
   };
 
-  const labelText = item.dir.replace((item.parentDir ?? "") + "/", "");
+  const labelText = item.dir.replace(`${item.parentDir ?? ""}/`, "");
 
   return (
     <StyledTreeItem
