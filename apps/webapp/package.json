@@ -59,6 +59,7 @@
     "react-hotkeys": "^2.0.0",
     "react-i18next": "^10.13.1",
     "sort-keys": "^4.0.0",
+    "styled-components": "^5.0.1",
     "typescript": "^3.7.2"
   },
   "devDependencies": {
@@ -86,6 +87,7 @@
     "@types/lodash.unescape": "^4.0.6",
     "@types/node": "^12.7.8",
     "@types/react": "^16.9.3",
+    "@types/styled-components": "^4.4.3",
     "@types/testing-library__cypress": "^5.0.1",
     "concurrently": "^4.1.2",
     "cypress": "^3.8.3",

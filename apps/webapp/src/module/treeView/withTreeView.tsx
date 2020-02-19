@@ -30,11 +30,17 @@ const GET_TREE_VIEW = gql`
     getTree(album: $album, source: $source) {
       sources {
         name
+        preview
+        nbImages
+        nbAlbums
       }
       albums {
         dir
         parentDir
         source
+        preview
+        nbImages
+        nbAlbums
       }
     }
   }
@@ -202,8 +208,6 @@ export const withTreeView = <P extends object>(
     if (item.parent) {
       newVisibleLeaves[item.parent] = true;
     }
-
-    console.log(newVisibleLeaves);
 
     setVisibleLeaves(newVisibleLeaves);
   };

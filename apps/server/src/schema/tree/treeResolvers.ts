@@ -3,13 +3,21 @@ import {
   NexusGenFieldTypes,
   NexusGenRootTypes
 } from "@howdypix/graphql-schema/schema.d";
-import { Connection } from "typeorm";
-import { appDebug } from "@howdypix/utils";
+import { Connection, Not } from "typeorm";
+import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { ApolloContext } from "../../types.d";
 import { Album as EntityAlbum } from "../../entity/Album";
 import { Source as EntitySource } from "../../entity/Source";
+import config from "../../config";
 
 const debug = appDebug("gql");
+
+const generatePreviewUrl = (album: EntityAlbum | EntitySource): string =>
+  generateThumbnailUrls(config.serverApi.baseUrl, {
+    file: album.preview,
+    dir: album.dir,
+    source: album.source
+  }).map(tn => tn.url)[0];
 
 const fetchAlbums = async (
   connection: Connection,
@@ -29,11 +37,16 @@ const fetchAlbums = async (
   });
 
   if (album) {
-    ret.push({
-      dir: album.dir,
-      parentDir: album.parentDir,
-      source: album.source
-    });
+    if (album.dir !== "") {
+      ret.push({
+        dir: album.dir,
+        parentDir: album.parentDir,
+        source: album.source,
+        preview: generatePreviewUrl(album),
+        nbImages: album.nbPhotos,
+        nbAlbums: album.nbAlbums
+      });
+    }
 
     if (album.parentDir) {
       ret.push(
@@ -47,6 +60,7 @@ const fetchAlbums = async (
         ...(
           await albumRepository.find({
             where: {
+              dir: Not(""),
               parentDir: "",
               source
             }
@@ -54,7 +68,10 @@ const fetchAlbums = async (
         ).map(a => ({
           dir: a.dir,
           parentDir: a.parentDir,
-          source: a.source
+          source: a.source,
+          preview: generatePreviewUrl(a),
+          nbImages: a.nbPhotos,
+          nbAlbums: a.nbAlbums
         }))
       );
     }
@@ -62,6 +79,7 @@ const fetchAlbums = async (
     // Fetch any Children information
     const children = await albumRepository.find({
       where: {
+        dir: Not(""),
         parentDir: dir,
         source
       }
@@ -71,7 +89,10 @@ const fetchAlbums = async (
       ret.push({
         dir: c.dir,
         parentDir: c.parentDir,
-        source: c.source
+        source: c.source,
+        preview: generatePreviewUrl(c),
+        nbImages: c.nbPhotos,
+        nbAlbums: c.nbAlbums
       });
     });
   }
@@ -85,7 +106,10 @@ const fetchSources = async (
   const sourceRepository = connection.getRepository(EntitySource);
 
   return (await sourceRepository.find()).map(source => ({
-    name: source.source
+    name: source.source,
+    preview: generatePreviewUrl(source),
+    nbImages: source.nbPhotos,
+    nbAlbums: source.nbAlbums
   }));
 };
 

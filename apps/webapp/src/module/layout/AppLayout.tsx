@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import { useCurrentUser } from "../user/userHook";
 import { withUser } from "../user/withUser";
 import { AlbumTreeView } from "./AlbumTreeView";
+import { ExpansionPanel } from "../../component/ExpansionPanel";
 import { withStore } from "../store/withStore";
 import { useStore } from "../store/storeHook";
 
@@ -19,17 +20,19 @@ const RawLayout: React.FC<LayoutProps> = ({
   children
 }) => {
   const { user, logout } = useCurrentUser();
-  const { currentSource, currentAlbum } = useStore();
+  const { currentSource, currentAlbum, rightPanel } = useStore();
 
   return (
     <div style={{ width: "100%" }}>
       <Box display="flex" minHeight="100vh">
-        <Box width={200} minHeight="100%" p={2}>
+        <Box width={250} minHeight="100%">
           <Button onClick={logout}>{user?.name}</Button>
-          <AlbumTreeView
-            source={currentSource ?? undefined}
-            album={currentAlbum ?? undefined}
-          />
+          <ExpansionPanel label={"Albums"}>
+            <AlbumTreeView
+              source={currentSource ?? undefined}
+              album={currentAlbum ?? undefined}
+            />
+          </ExpansionPanel>
           {leftComponent}
         </Box>
         <Box
@@ -42,7 +45,7 @@ const RawLayout: React.FC<LayoutProps> = ({
           <Box height="100%">{children}</Box>
         </Box>
         <Box width={200} minHeight="100%">
-          {rightComponent}
+          {rightPanel}
         </Box>
       </Box>
     </div>

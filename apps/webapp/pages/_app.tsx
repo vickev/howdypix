@@ -2,7 +2,8 @@ import React, { ReactElement } from "react";
 import App from "next/app";
 import Head from "next/head";
 
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from "styled-components";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import nextI18next from "../server/i18n";
 import theme from "../src/theme";
@@ -36,14 +37,16 @@ class MyApp extends App {
             }
           `}
         </style>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <AppLayout>
-            <Component {...pageProps} />
-          </AppLayout>
-        </ThemeProvider>
+        <MuiThemeProvider theme={theme}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <AppLayout>
+              <Component {...pageProps} />
+            </AppLayout>
+          </ThemeProvider>
+        </MuiThemeProvider>
       </>
     );
   }

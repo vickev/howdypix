@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Link from "next/link";
@@ -23,7 +23,9 @@ import {
 } from "../../src/__generated__/schema-types";
 import { Layout } from "../../src/module/layout/Layout";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
-import { RightPanel } from "../../src/module/photo/RightPanel";
+import { PhotoRightPanel } from "../../src/module/photo/PhotoRightPanel";
+import { useStore } from "../../src/module/store/storeHook";
+import { AlbumInformationPanel } from "../../src/module/album/AlbumInformationPanel";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -95,6 +97,9 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
   // Order by parsed from the URL
   const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
 
+  // Load the general store of the app
+  const { setCurrentSource, setCurrentAlbum, setRightPanel } = useStore();
+
   // Filter by parsed from the URL
   const filterBy = {
     make: typeof qs.make === "string" ? [qs.make] : qs.make,
@@ -158,12 +163,26 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
     }
   });
 
-  if (photo.loading && !savedPhotosData) return <p>Loading...</p>;
-
   // Save the data to the state to avoid flickering
   if (!photo.loading && savedPhotosData !== photo.data) {
     setOldData(photo.data);
   }
+
+  //= ================================================================
+  // Update the store of the app
+  //= ================================================================
+  setCurrentSource(folder.source);
+  setCurrentAlbum(folder.dir === "." ? "" : folder.dir ?? null);
+  useEffect(() => {
+    setRightPanel(
+      <PhotoRightPanel
+        ISO={photo.data?.getPhoto?.iso}
+        aperture={photo.data?.getPhoto?.aperture}
+        shutter={photo.data?.getPhoto?.shutter}
+        date={photo.data?.getPhoto?.birthtime}
+      />
+    );
+  }, [photo.data]);
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>

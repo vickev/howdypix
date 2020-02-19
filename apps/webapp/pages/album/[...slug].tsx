@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
@@ -33,7 +33,7 @@ import { AlbumCard } from "../../src/component/AlbumCard";
 import { AlbumGrid } from "../../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
 import { Thumbnail } from "../../src/component/Thumbnail";
-import { RightPanel } from "../../src/module/album/RightPanel";
+import { AlbumInformationPanel } from "../../src/module/album/AlbumInformationPanel";
 import { SortButton } from "../../src/component/SortButton";
 import { Filters } from "../../src/module/album/Filters";
 import { AlbumTreeView } from "../../src/module/layout/AlbumTreeView";
@@ -124,7 +124,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
 
   // Load the general store of the app
-  const { setCurrentSource, setCurrentAlbum } = useStore();
+  const { setCurrentSource, setCurrentAlbum, setRightPanel } = useStore();
 
   // Filter by parsed from the URL
   const filterBy = {
@@ -141,12 +141,6 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const hpath = (router.query.slug as string[]).join("/");
   const folder: HFile = hparse(hpath);
   const breadcrumbs: HFile[] = hpaths(folder);
-
-  //= ================================================================
-  // Update the store of the app
-  //= ================================================================
-  setCurrentSource(folder.source);
-  setCurrentAlbum(folder.dir ?? null);
 
   //= ================================================================
   // Album Query
@@ -200,6 +194,17 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     }
   );
   const filtersData = filtersQuery.data;
+
+  //= ================================================================
+  // Update the store of the app
+  //= ================================================================
+  setCurrentSource(folder.source);
+  setCurrentAlbum(folder.dir ?? null);
+  useEffect(() => {
+    setRightPanel(
+      <AlbumInformationPanel nbPhotos={photosData?.getSearch.photos.length} />
+    );
+  }, [photosData, photosLoading]);
 
   //= ================================================================
   // Callback functions

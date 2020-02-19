@@ -33,7 +33,7 @@ export const Thumbnail: React.FC<Props> = ({
   maxWidth
 }) => (
   <Box mx={mx} maxWidth={maxWidth ?? "auto"}>
-    <CardActionArea data-testid="thumbnail">
+    <CardActionArea data-testid="thumbnail" disableRipple>
       <Link
         href="/photo/[...slug]"
         as={{

@@ -59,12 +59,18 @@ type GetTree {
 
 type GetTreeAlbums {
   dir: String!
+  nbAlbums: Int!
+  nbImages: Int!
   parentDir: String
+  preview: String
   source: String!
 }
 
 type GetTreeSources {
   name: String!
+  nbAlbums: Int!
+  nbImages: Int!
+  preview: String
 }
 
 type Mutation {

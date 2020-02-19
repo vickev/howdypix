@@ -73,12 +73,18 @@ export interface NexusGenRootTypes {
   GetTreeAlbums: {
     // root type
     dir: string; // String!
+    nbAlbums: number; // Int!
+    nbImages: number; // Int!
     parentDir?: string | null; // String
+    preview?: string | null; // String
     source: string; // String!
   };
   GetTreeSources: {
     // root type
     name: string; // String!
+    nbAlbums: number; // Int!
+    nbImages: number; // Int!
+    preview?: string | null; // String
   };
   Mutation: {};
   Photo: {
@@ -195,12 +201,18 @@ export interface NexusGenFieldTypes {
   GetTreeAlbums: {
     // field return type
     dir: string; // String!
+    nbAlbums: number; // Int!
+    nbImages: number; // Int!
     parentDir: string | null; // String
+    preview: string | null; // String
     source: string; // String!
   };
   GetTreeSources: {
     // field return type
     name: string; // String!
+    nbAlbums: number; // Int!
+    nbImages: number; // Int!
+    preview: string | null; // String
   };
   Mutation: {
     // field return type

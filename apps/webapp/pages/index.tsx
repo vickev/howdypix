@@ -17,6 +17,7 @@ import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
 import { AlbumTreeView } from "../src/module/layout/AlbumTreeView";
+import { useStore } from "../src/module/store/storeHook";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -44,6 +45,12 @@ const Homepage: NextPage<Props, InitialProps> = () => {
   const { loading, data } = useQuery<GetSourcesQuery, GetSourcesQueryVariables>(
     GET_SOURCES
   );
+
+  // Load the general store of the app
+  const { setCurrentSource, setCurrentAlbum, setRightPanel } = useStore();
+  setCurrentAlbum(null);
+  setCurrentSource(null);
+  setRightPanel(null);
 
   return (
     <Box bgcolor="white" padding={gutter}>
