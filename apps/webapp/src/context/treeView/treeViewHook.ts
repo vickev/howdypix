@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
-import { TreeViewContextData, TreeViewContext } from "./treeViewContext";
+import { TreeViewContext } from "./treeViewContext";
+import { TreeViewContextData } from "./types";
 
 type Props = {
   album?: string;

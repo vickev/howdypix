@@ -2,34 +2,32 @@
 // GraphQL queries
 //= =======================================
 import React, { ReactElement } from "react";
-import TreeView from "@material-ui/lab/TreeView";
-import TreeItem from "@material-ui/lab/TreeItem";
-import Box from "@material-ui/core/Box";
-import { GetTreeAlbums } from "../../__generated__/schema-types";
-import { withTreeView } from "../treeView/withTreeView";
-import { useTreeView } from "../treeView/treeViewHook";
-import { useStore } from "../store/storeHook";
-import { AlbumTreeItem } from "./AlbumTreeItem";
-import { StyledTreeItem } from "./StyledTreeItem";
-import { removeEmptyValues } from "@howdypix/utils";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import TreeView from "@material-ui/lab/TreeView";
+import Box from "@material-ui/core/Box";
+import { GetTreeAlbums } from "../../../__generated__/schema-types";
+import { useTreeView, withTreeView } from "../../../context/treeView";
+import { useStore } from "../../../context/store";
+import { AlbumTreeItem } from "./AlbumTreeItem";
+import { StyledTreeItem } from "./StyledTreeItem";
+import { toAlbum } from "../../../lib/router";
 
+// ========================================================================
+// Styled components
+// ========================================================================
 const StyledTreeView = styled(TreeView)`
   width: 100%;
   flex: 1;
 `;
 
 // ========================================================================
-// Album Tree View
+// Component
 // ========================================================================
-interface TreeProps {
-  album?: string;
-  source?: string;
-}
+type TreeProps = {};
 
 // eslint-disable-next-line no-underscore-dangle
-const _AlbumTreeView: React.FC<TreeProps> = ({ album, source }) => {
+const _AlbumTreeView: React.FC<TreeProps> = () => {
   // ============================================
   // Hooks
   // ============================================
@@ -54,20 +52,6 @@ const _AlbumTreeView: React.FC<TreeProps> = ({ album, source }) => {
     });
   };
 
-  const handleAlbumClickItem = (item: GetTreeAlbums): void => {
-    router.push("/album/[...slug]", {
-      pathname: `/album/@${item.source}:${item.dir}`
-    });
-  };
-
-  const handleSourceClickItem = (source: string): (() => void) => {
-    return (): void => {
-      router.push("/album/[...slug]", {
-        pathname: `/album/@${source}:.`
-      });
-    };
-  };
-
   const handleSourceClickExpand = (source: string): (() => void) => {
     return (): void => {
       toggle({
@@ -77,6 +61,12 @@ const _AlbumTreeView: React.FC<TreeProps> = ({ album, source }) => {
       });
     };
   };
+
+  const handleAlbumClickItem = (item: GetTreeAlbums): void =>
+    toAlbum(router, item.source, item.dir);
+
+  const handleSourceClickItem = (source: string): (() => void) => (): void =>
+    toAlbum(router, source);
 
   // ============================================
   // Render

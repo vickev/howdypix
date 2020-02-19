@@ -24,7 +24,7 @@ import {
 import { Layout } from "../../src/module/layout/Layout";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
 import { PhotoRightPanel } from "../../src/module/photo/PhotoRightPanel";
-import { useStore } from "../../src/module/store/storeHook";
+import { useStore } from "../../src/context/store/storeHook";
 import { AlbumInformationPanel } from "../../src/module/album/AlbumInformationPanel";
 
 type Props = {};

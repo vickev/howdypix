@@ -1,26 +1,17 @@
-import Box from "@material-ui/core/Box";
+import React from "react";
+import styled from "styled-components";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
-import styled from "styled-components";
-import TreeView from "@material-ui/lab/TreeView";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
-import { useStore } from "../store/storeHook";
 
 // ========================================================================
 // Styles
 // ========================================================================
-declare module "csstype" {
-  interface Properties {
-    "--tree-view-color"?: string;
-  }
-}
-
 const useTreeItemStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -45,6 +36,9 @@ const useTreeItemStyles = makeStyles((theme: Theme) =>
   })
 );
 
+// ========================================================================
+// Styled components
+// ========================================================================
 const LabelWrapper = styled(Button)<{ selected?: boolean }>`
   display: flex;
   align-items: center;
@@ -65,11 +59,20 @@ const LabelGroup = styled.div`
   align-items: center;
   width: 100%;
 `;
+
 const LabelText = styled(Typography)`
   flex: 1;
 `;
+LabelText.defaultProps = {
+  variant: "body1"
+};
+
 const LabelPreview = styled.div``;
-const LabelCount = styled(Chip)``;
+
+const StyledChip = styled(Chip)``;
+const LabelCount: React.FC<{}> = ({ children }) => (
+  <StyledChip variant="outlined" size="small" label={children} />
+);
 
 const StyledDivImg = styled.div<{ src?: string | null }>`
   ${({ src }): string | null =>
@@ -83,13 +86,13 @@ const StyledDivImg = styled.div<{ src?: string | null }>`
   margin-right: ${({ theme }): string => `${theme.spacing(0.5)}px;`};
 `;
 
-type PreviewProps = {
+const Preview: React.FC<{
   src?: string | null;
-};
-const Preview: React.FC<PreviewProps> = ({ src }) => {
-  return <StyledDivImg src={src} />;
-};
+}> = ({ src }) => <StyledDivImg src={src} />;
 
+// ========================================================================
+// Component
+// ========================================================================
 type Props = TreeItemProps & {
   label: string;
   preview?: string | null;
@@ -100,7 +103,6 @@ type Props = TreeItemProps & {
   onClickItem: () => void;
   onClick?: undefined;
 };
-
 export const StyledTreeItem: React.FC<Props> = ({
   label,
   preview,
@@ -113,23 +115,17 @@ export const StyledTreeItem: React.FC<Props> = ({
 }) => {
   const classes = useTreeItemStyles();
 
+  const iconButton = (icon: React.ReactElement): React.ReactElement => (
+    <IconButton size="small" onClick={onClickExpand}>
+      {icon}
+    </IconButton>
+  );
+
   return (
     <TreeItem
-      collapseIcon={
-        <IconButton size="small" onClick={onClickExpand}>
-          <ExpandMoreIcon />
-        </IconButton>
-      }
-      expandIcon={
-        <IconButton size="small" onClick={onClickExpand}>
-          <ChevronRightIcon />
-        </IconButton>
-      }
-      endIcon={
-        <IconButton size="small" onClick={onClickExpand} disabled={!nbAlbums}>
-          <ChevronRightIcon />
-        </IconButton>
-      }
+      collapseIcon={iconButton(<ExpandMoreIcon />)}
+      expandIcon={iconButton(<ChevronRightIcon />)}
+      endIcon={iconButton(<ChevronRightIcon />)}
       label={
         <LabelWrapper
           fullWidth
@@ -141,8 +137,8 @@ export const StyledTreeItem: React.FC<Props> = ({
             <LabelPreview>
               <Preview src={preview} />
             </LabelPreview>
-            <LabelText variant="body1">{label}</LabelText>
-            <LabelCount variant="outlined" size="small" label={nbImages} />
+            <LabelText>{label}</LabelText>
+            <LabelCount>{nbImages}</LabelCount>
           </LabelGroup>
         </LabelWrapper>
       }

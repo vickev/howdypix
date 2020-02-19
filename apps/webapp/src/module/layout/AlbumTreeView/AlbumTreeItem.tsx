@@ -1,24 +1,18 @@
-//= =======================================
-// GraphQL queries
-//= =======================================
 import React from "react";
-import TreeItem from "@material-ui/lab/TreeItem";
-import { GetTreeAlbums } from "../../__generated__/schema-types";
-import { RawDataAlbum, RawDataAlbums } from "../treeView/treeViewContext";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import { GetTreeAlbums } from "../../../__generated__/schema-types";
+import { AlbumWithNodeId } from "../../../context/treeView";
+import { useStore } from "../../../context/store";
 import { StyledTreeItem } from "./StyledTreeItem";
-import { useStore } from "../store/storeHook";
 
 // ========================================================================
-// Album Tree Item
+// Component
 // ========================================================================
-interface AlbumTreeItemProps {
-  tree: RawDataAlbums;
-  item: RawDataAlbum;
+type AlbumTreeItemProps = {
+  tree: AlbumWithNodeId[];
+  item: AlbumWithNodeId;
   onClickExpand: (item: GetTreeAlbums) => void;
   onClickItem: (item: GetTreeAlbums) => void;
-}
+};
 
 export const AlbumTreeItem: React.FC<AlbumTreeItemProps> = ({
   tree,

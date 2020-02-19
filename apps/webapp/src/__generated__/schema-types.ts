@@ -266,14 +266,6 @@ export type GetPhotoQuery = {
   >;
 };
 
-export type AuthEmailMutationVariables = {
-  email: Scalars["String"];
-};
-
-export type AuthEmailMutation = {
-  authEmail: Pick<AuthEmailType, "messageId" | "messageData">;
-};
-
 export type GetTreeQueryVariables = {
   album: Scalars["String"];
   source: Scalars["String"];
@@ -297,4 +289,12 @@ export type GetCurrentUserQueryVariables = {};
 
 export type GetCurrentUserQuery = {
   getCurrentUser: Maybe<Pick<CurrentUserType, "name" | "email">>;
+};
+
+export type AuthEmailMutationVariables = {
+  email: Scalars["String"];
+};
+
+export type AuthEmailMutation = {
+  authEmail: Pick<AuthEmailType, "messageId" | "messageData">;
 };

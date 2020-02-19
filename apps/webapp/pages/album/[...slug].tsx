@@ -36,8 +36,8 @@ import { Thumbnail } from "../../src/component/Thumbnail";
 import { AlbumInformationPanel } from "../../src/module/album/AlbumInformationPanel";
 import { SortButton } from "../../src/component/SortButton";
 import { Filters } from "../../src/module/album/Filters";
-import { AlbumTreeView } from "../../src/module/layout/AlbumTreeView";
-import { useStore } from "../../src/module/store/storeHook";
+import { AlbumTreeView } from "../../src/module/layout/AlbumTreeView/AlbumTreeView";
+import { useStore } from "../../src/context/store/storeHook";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };

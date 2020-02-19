@@ -7,14 +7,13 @@ import {
   GetTreeQuery,
   GetTreeQueryVariables
 } from "../../__generated__/schema-types";
+import { TreeViewProvider } from "./treeViewContext";
 import {
-  RawDataAlbums,
-  RawDataSource,
-  RawDataSources,
+  SourceWithNodeId,
+  AlbumWithNodeId,
   TreeItem,
-  TreeItemWithParent,
-  TreeViewProvider
-} from "./treeViewContext";
+  TreeItemWithParent
+} from "./types";
 
 const debug = appDebug("withUser");
 
@@ -75,7 +74,7 @@ const selectParents = (
 };
 
 const defaultExpanded = (
-  data: RawDataAlbums,
+  data: AlbumWithNodeId[],
   selectedItems: { [name: string]: boolean }
 ): string[] => {
   const ret: string[] = [];
@@ -102,8 +101,8 @@ export const withTreeView = <P extends object>(
   const [expandedNodeIds, setExpandedNodeIds] = React.useState<string[]>([]);
 
   // State of the tree fetched from the server
-  const [fetchedAlbums, setAlbums] = React.useState<RawDataAlbums>();
-  const [fetchedSources, setSources] = React.useState<RawDataSources>();
+  const [fetchedAlbums, setAlbums] = React.useState<AlbumWithNodeId[]>();
+  const [fetchedSources, setSources] = React.useState<SourceWithNodeId[]>();
 
   // All the leaves in the tree that are currently shown
   const [visibleLeaves, setVisibleLeaves] = React.useState<DisplayedLeaves>({});
@@ -133,7 +132,7 @@ export const withTreeView = <P extends object>(
 
       setSources(
         data.getTree.sources.map(
-          (source): RawDataSource => ({
+          (source): SourceWithNodeId => ({
             ...source,
             nodeId: source.name
           })

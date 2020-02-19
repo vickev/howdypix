@@ -7,8 +7,8 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import nextI18next from "../server/i18n";
 import theme from "../src/theme";
-import { withStore } from "../src/module/store/withStore";
-import { AppLayout } from "../src/module/layout/AppLayout";
+import { withStore } from "../src/context/store/withStore";
+import { Layout } from "../src/module/layout/Layout";
 import { withApollo } from "../src/lib/with-apollo-client";
 
 class MyApp extends App {
@@ -42,9 +42,9 @@ class MyApp extends App {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <AppLayout>
+            <Layout>
               <Component {...pageProps} />
-            </AppLayout>
+            </Layout>
           </ThemeProvider>
         </MuiThemeProvider>
       </>
