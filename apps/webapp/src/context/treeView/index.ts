@@ -4,6 +4,7 @@ import {
 } from "./types";
 
 export { useTreeView } from "./treeViewHook";
+export { TreeViewContext, TreeViewProvider } from "./treeViewContext";
 export { withTreeView } from "./withTreeView";
 
 export type AlbumWithNodeId = _AlbumWithNodeId;

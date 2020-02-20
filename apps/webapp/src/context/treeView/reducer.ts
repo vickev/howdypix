@@ -1,8 +1,10 @@
-import { uniq } from "lodash";
+import { uniq, uniqBy } from "lodash";
 import { QueryLazyOptions } from "@apollo/react-hooks";
 import {
+  GetTreeAlbums,
   GetTreeQuery,
-  GetTreeQueryVariables
+  GetTreeQueryVariables,
+  GetTreeSources
 } from "../../__generated__/schema-types";
 import {
   AlbumWithNodeId,
@@ -73,8 +75,8 @@ export type State = {
 export type Actions =
   | {
       type: "DATA_FETCHED";
-      albums: AlbumWithNodeId[];
-      sources: SourceWithNodeId[];
+      albums: GetTreeAlbums[];
+      sources: GetTreeSources[];
       variables: {
         album: string;
         source: string;
@@ -95,7 +97,10 @@ export type Actions =
       ) => void;
     })
   | (TreeItemWithParent & {
-      type: "COLLAPSE" | "TOGGLE";
+      type: "COLLAPSE";
+    })
+  | (TreeItemWithParent & {
+      type: "TOGGLE";
       fetchTree: (
         options?: QueryLazyOptions<GetTreeQueryVariables> | undefined
       ) => void;
@@ -111,8 +116,22 @@ export const reducer = (state: State, action: Actions): State => {
     case "DATA_FETCHED":
       newState = {
         ...newState,
-        fetchedSources: action.sources,
-        fetchedAlbums: action.albums
+        fetchedSources: uniqBy(
+          [...(newState.fetchedSources ?? []), ...action.sources],
+          "name"
+        ).map(
+          (source): SourceWithNodeId => ({
+            ...source,
+            nodeId: source.name
+          })
+        ),
+        fetchedAlbums: uniqBy(
+          [...(newState.fetchedAlbums ?? []), ...action.albums],
+          "dir"
+        ).map(album => ({
+          ...album,
+          nodeId: album.source + album.dir
+        }))
       };
 
       return reducer(newState, {

@@ -5,6 +5,7 @@ import { useCurrentUser, withUser } from "../../context/user";
 import { useStore } from "../../context/store";
 import { AlbumTreeView } from "./AlbumTreeView";
 import { ExpansionPanel } from "../../component/ExpansionPanel";
+import { withTreeView } from "../../context/treeView";
 
 // ========================================================================
 // Component
@@ -43,4 +44,4 @@ const RawLayout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export const Layout = withUser(RawLayout);
+export const Layout = withUser(withTreeView(RawLayout));

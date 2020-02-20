@@ -1,13 +1,12 @@
 import React, { ComponentType, Reducer, useEffect, useReducer } from "react";
 import gql from "graphql-tag";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { uniqBy } from "lodash";
 import {
   GetTreeQuery,
   GetTreeQueryVariables
 } from "../../__generated__/schema-types";
 import { TreeViewProvider } from "./treeViewContext";
-import { SourceWithNodeId, TreeItem, TreeItemWithParent } from "./types";
+import { TreeItem, TreeItemWithParent } from "./types";
 import { Actions, reducer, State } from "./reducer";
 
 //= =======================================
@@ -64,19 +63,8 @@ export const withTreeView = <P extends object>(
       dispatch({
         type: "DATA_FETCHED",
         variables,
-        albums: uniqBy(
-          [...(state.fetchedAlbums ?? []), ...data.getTree.albums],
-          "dir"
-        ).map(album => ({
-          ...album,
-          nodeId: album.source + album.dir
-        })),
-        sources: data.getTree.sources.map(
-          (source): SourceWithNodeId => ({
-            ...source,
-            nodeId: source.name
-          })
-        )
+        albums: data.getTree.albums,
+        sources: data.getTree.sources
       });
     }
   }, [data, loading]);
@@ -92,8 +80,7 @@ export const withTreeView = <P extends object>(
   const collapse = (item: TreeItemWithParent): void => {
     dispatch({
       type: "COLLAPSE",
-      ...item,
-      fetchTree
+      ...item
     });
   };
 

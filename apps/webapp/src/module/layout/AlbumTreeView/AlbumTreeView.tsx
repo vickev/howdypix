@@ -7,7 +7,7 @@ import styled from "styled-components";
 import TreeView from "@material-ui/lab/TreeView";
 import Box from "@material-ui/core/Box";
 import { GetTreeAlbums } from "../../../__generated__/schema-types";
-import { useTreeView, withTreeView } from "../../../context/treeView";
+import { useTreeView } from "../../../context/treeView";
 import { useStore } from "../../../context/store";
 import { AlbumTreeItem } from "./AlbumTreeItem";
 import { StyledTreeItem } from "./StyledTreeItem";
@@ -27,7 +27,7 @@ const StyledTreeView = styled(TreeView)`
 type TreeProps = {};
 
 // eslint-disable-next-line no-underscore-dangle
-const _AlbumTreeView: React.FC<TreeProps> = () => {
+export const AlbumTreeView: React.FC<TreeProps> = () => {
   // ============================================
   // Hooks
   // ============================================
@@ -110,5 +110,3 @@ const _AlbumTreeView: React.FC<TreeProps> = () => {
     </Box>
   );
 };
-
-export const AlbumTreeView = withTreeView(_AlbumTreeView);
