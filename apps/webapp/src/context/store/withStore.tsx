@@ -7,7 +7,7 @@ export const withStore = <P extends object>(
   const [currentAlbum, setCurrentAlbum] = useState<string | null>(null);
   const [currentSource, setCurrentSource] = useState<string | null>(null);
   const [rightPanel, setRightPanel] = useState<React.ReactElement | null>(null);
-  const [withLayout, setWithLayout] = useState<boolean>(true);
+  const [withLayout, setWithLayout] = useState<boolean>(false);
 
   return (
     <StoreProvider

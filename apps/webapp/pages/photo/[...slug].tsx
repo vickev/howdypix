@@ -244,4 +244,8 @@ PhotoPage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 
+PhotoPage.defaultProps = {
+  displayWithLayout: true
+};
+
 export default PhotoPage;

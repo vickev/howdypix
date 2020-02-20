@@ -12,11 +12,9 @@ import { withApollo } from "../src/lib/with-apollo-client";
 import { useStore } from "../src/context/store";
 
 const MyApp: React.FC<{
-  Component: React.ComponentType;
+  Component: React.ComponentType<{ displayWithLayout?: boolean }>;
   pageProps: object;
 }> = ({ Component, pageProps }) => {
-  const { withLayout } = useStore();
-
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
@@ -44,7 +42,7 @@ const MyApp: React.FC<{
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          {withLayout ? (
+          {Component.defaultProps?.displayWithLayout ? (
             <Layout>
               <Component {...pageProps} />
             </Layout>

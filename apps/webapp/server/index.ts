@@ -32,7 +32,10 @@ app.prepare().then(() => {
       "/static-tests",
       express.static(`${__dirname}/mock/fixtures/static`)
     );
-    server.use("/graphql", checkFixturesMiddleware, mockedGraphQLMiddleware);
+
+    [server, mockApiServer].forEach(s =>
+      s.use("/graphql", checkFixturesMiddleware, mockedGraphQLMiddleware)
+    );
   } else {
     server.use(
       "/graphql",

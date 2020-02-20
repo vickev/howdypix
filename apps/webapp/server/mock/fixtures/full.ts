@@ -135,16 +135,16 @@ const query: Query = {
   getTree: () => ({
     albums: [
       {
-        dir: "Album1",
+        dir: "TreeAlbum1",
         nbAlbums: 1,
         nbImages: 1,
-        source: "source1",
+        source: "treesource1",
         preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
       }
     ],
     sources: [
       {
-        name: "source1",
+        name: "treesource1",
         nbAlbums: 1,
         nbImages: 1,
         source: "source1",

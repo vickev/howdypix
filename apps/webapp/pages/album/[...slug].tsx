@@ -331,4 +331,8 @@ AlbumPage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 
+AlbumPage.defaultProps = {
+  displayWithLayout: true
+};
+
 export default AlbumPage;

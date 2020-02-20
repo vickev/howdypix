@@ -11,61 +11,61 @@ const newQuery: Query = {
       albums.push(
         ...[
           {
-            dir: "Album1",
+            dir: "TreeAlbum1",
             parentDir: "",
             nbAlbums: 1,
             nbImages: 1,
-            source: "source1",
+            source: "treesource1",
             preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
           },
           {
-            dir: "Album2",
+            dir: "TreeAlbum2",
             parentDir: "",
             nbAlbums: 0,
             nbImages: 2,
-            source: "source1",
+            source: "treesource1",
             preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
           }
         ]
       );
-    } else if (params.album === "Album1") {
+    } else if (params.album === "TreeAlbum1") {
       albums.push(
         ...[
           {
-            dir: "Album3",
-            parentDir: "Album1",
+            dir: "TreeAlbum3",
+            parentDir: "TreeAlbum1",
             nbAlbums: 2,
             nbImages: 3,
-            source: "source1",
+            source: "treesource1",
             preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
           },
           {
-            dir: "Album4",
-            parentDir: "Album1",
+            dir: "TreeAlbum4",
+            parentDir: "TreeAlbum1",
             nbAlbums: 0,
             nbImages: 4,
-            source: "source1",
+            source: "treesource1",
             preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
           }
         ]
       );
-    } else if (params.album === "Album3") {
+    } else if (params.album === "TreeAlbum3") {
       albums.push(
         ...[
           {
-            dir: "Album5",
-            parentDir: "Album3",
+            dir: "TreeAlbum5",
+            parentDir: "TreeAlbum3",
             nbAlbums: 0,
             nbImages: 5,
-            source: "source1",
+            source: "treesource1",
             preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
           },
           {
-            dir: "Album6",
-            parentDir: "Album3",
+            dir: "TreeAlbum6",
+            parentDir: "TreeAlbum3",
             nbAlbums: 0,
             nbImages: 6,
-            source: "source1",
+            source: "treesource1",
             preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
           }
         ]
@@ -76,19 +76,19 @@ const newQuery: Query = {
       albums,
       sources: [
         {
-          name: "source1",
+          name: "treesource1",
           nbAlbums: 1,
           nbImages: 1,
           preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
         },
         {
-          name: "source2",
+          name: "treesource2",
           nbAlbums: 0,
           nbImages: 2,
           preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
         },
         {
-          name: "source3",
+          name: "treesource3",
           nbAlbums: 0,
           nbImages: 3,
           preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`

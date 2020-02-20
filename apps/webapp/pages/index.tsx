@@ -14,6 +14,7 @@ import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
 import { useStore } from "../src/context/store/storeHook";
+import Component from "./login";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -64,15 +65,15 @@ const Homepage: NextPage<Props, InitialProps> = () => {
       <Box paddingBottom={gutter}>
         <AlbumGrid extraHeight={100}>
           {loading
-            ? [0, 0, 0].map(() => (
-                <GridListTile>
+            ? [0, 1, 2].map(value => (
+                <GridListTile key={`source_grid_${value}`}>
                   <Skeleton variant="rect" height={200} />
                 </GridListTile>
               ))
             : data?.getSources.map(
                 (source): ReactElement | null =>
                   source && (
-                    <AlbumGridListTile key={source.name}>
+                    <AlbumGridListTile key={`AlbumGridListTile_${source.name}`}>
                       <AlbumCard
                         name={source.name}
                         dir="."
@@ -93,5 +94,9 @@ const Homepage: NextPage<Props, InitialProps> = () => {
 Homepage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
+
+Homepage.defaultProps = {
+  displayWithLayout: true
+};
 
 export default Homepage;
