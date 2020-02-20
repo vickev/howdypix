@@ -7,6 +7,7 @@ export const withStore = <P extends object>(
   const [currentAlbum, setCurrentAlbum] = useState<string | null>(null);
   const [currentSource, setCurrentSource] = useState<string | null>(null);
   const [rightPanel, setRightPanel] = useState<React.ReactElement | null>(null);
+  const [withLayout, setWithLayout] = useState<boolean>(true);
 
   return (
     <StoreProvider
@@ -14,9 +15,11 @@ export const withStore = <P extends object>(
         currentSource,
         currentAlbum,
         rightPanel,
+        withLayout,
         setCurrentSource,
         setCurrentAlbum,
-        setRightPanel
+        setRightPanel,
+        setWithLayout
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}

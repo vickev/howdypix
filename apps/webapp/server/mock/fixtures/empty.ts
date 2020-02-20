@@ -42,7 +42,11 @@ const query: Query = {
     name: "Foo Bar",
     email: "dev@vickev.com"
   }),
-  getSources: () => []
+  getSources: () => [],
+  getTree: () => ({
+    albums: [],
+    sources: []
+  })
 };
 
 const mutation: Mutation = {

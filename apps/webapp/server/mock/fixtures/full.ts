@@ -131,7 +131,27 @@ const query: Query = {
       nbAlbums: 2,
       nbPhotos: 3
     }
-  ]
+  ],
+  getTree: () => ({
+    albums: [
+      {
+        dir: "Album1",
+        nbAlbums: 1,
+        nbImages: 1,
+        source: "source1",
+        preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+      }
+    ],
+    sources: [
+      {
+        name: "source1",
+        nbAlbums: 1,
+        nbImages: 1,
+        source: "source1",
+        preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+      }
+    ]
+  })
 };
 
 const mutation: Mutation = {

@@ -67,8 +67,8 @@ LabelText.defaultProps = {
 const LabelPreview = styled.div``;
 
 const StyledChip = styled(Chip)``;
-const LabelCount: React.FC<{}> = ({ children }) => (
-  <StyledChip variant="outlined" size="small" label={children} />
+const LabelCount: React.FC<{}> = ({ children, ...rest }) => (
+  <StyledChip variant="outlined" size="small" label={children} {...rest} />
 );
 
 const StyledDivImg = styled.div<{ src?: string | null }>`
@@ -120,6 +120,7 @@ export const StyledTreeItem: React.FC<Props> = ({
       size="small"
       onClick={onClickExpand}
       disabled={disabled}
+      data-testid={`treeitem toggle ${label}`}
       disableRipple
     >
       {icon}
@@ -135,6 +136,7 @@ export const StyledTreeItem: React.FC<Props> = ({
         <LabelWrapper
           fullWidth
           size="small"
+          data-testid={`treeitem ${label}${selected ? " selected" : ""}`}
           onClick={onClickItem}
           selected={selected}
         >
@@ -142,7 +144,9 @@ export const StyledTreeItem: React.FC<Props> = ({
             <Preview src={preview} />
           </LabelPreview>
           <LabelText>{label}</LabelText>
-          <LabelCount>{nbImages}</LabelCount>
+          <LabelCount data-testid={`treeitem count ${label}`}>
+            {nbImages}
+          </LabelCount>
         </LabelWrapper>
       }
       classes={{

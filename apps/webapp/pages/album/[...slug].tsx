@@ -120,7 +120,12 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
 
   // Load the general store of the app
-  const { setCurrentSource, setCurrentAlbum, setRightPanel } = useStore();
+  const {
+    setCurrentSource,
+    setCurrentAlbum,
+    setRightPanel,
+    setWithLayout
+  } = useStore();
 
   // Filter by parsed from the URL
   const filterBy = {
@@ -196,6 +201,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   //= ================================================================
   setCurrentSource(folder.source);
   setCurrentAlbum(folder.dir ?? null);
+  setWithLayout(true);
   useEffect(() => {
     setRightPanel(
       <AlbumInformationPanel nbPhotos={photosData?.getSearch.photos.length} />

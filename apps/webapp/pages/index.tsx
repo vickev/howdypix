@@ -43,10 +43,16 @@ const Homepage: NextPage<Props, InitialProps> = () => {
   );
 
   // Load the general store of the app
-  const { setCurrentSource, setCurrentAlbum, setRightPanel } = useStore();
+  const {
+    setCurrentSource,
+    setCurrentAlbum,
+    setRightPanel,
+    setWithLayout
+  } = useStore();
   setCurrentAlbum(null);
   setCurrentSource(null);
   setRightPanel(null);
+  setWithLayout(true);
 
   return (
     <Box bgcolor="white" padding={gutter}>
