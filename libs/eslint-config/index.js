@@ -52,6 +52,9 @@ module.exports = {
     "import/no-nodejs-modules": "off",
     "import/no-namespace": "off",
     "import/prefer-default-export": "off",
-    "sort-class-members/sort-class-members": "off"
+    "sort-class-members/sort-class-members": "off",
+
+    // Super useful rule
+    "react/jsx-props-no-spreading": "off"
   }
 };

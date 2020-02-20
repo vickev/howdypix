@@ -48,6 +48,7 @@
     "i18next": "^17.0.16",
     "isomorphic-unfetch": "^3.0.0",
     "jest": "^24.9.0",
+    "lodash": "^4.17.15",
     "lodash.unescape": "^4.0.1",
     "next": "^9.2.0",
     "next-i18next": "^1.2.1",
@@ -58,6 +59,7 @@
     "react-hotkeys": "^2.0.0",
     "react-i18next": "^10.13.1",
     "sort-keys": "^4.0.0",
+    "styled-components": "^5.0.1",
     "typescript": "^3.7.2"
   },
   "devDependencies": {
@@ -85,6 +87,7 @@
     "@types/lodash.unescape": "^4.0.6",
     "@types/node": "^12.7.8",
     "@types/react": "^16.9.3",
+    "@types/styled-components": "^4.4.3",
     "@types/testing-library__cypress": "^5.0.1",
     "concurrently": "^4.1.2",
     "cypress": "^3.8.3",

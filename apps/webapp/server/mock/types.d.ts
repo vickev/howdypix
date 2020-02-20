@@ -16,6 +16,10 @@ export type Query = {
   getCurrentUser: () => NexusGenTypes["fieldTypes"]["Query"]["getCurrentUser"];
   getSources: () => NexusGenTypes["fieldTypes"]["Query"]["getSources"];
   getFilters: () => NexusGenTypes["fieldTypes"]["Query"]["getFilters"];
+  getTree: (
+    _: unknown,
+    params: NexusGenTypes["argTypes"]["Query"]["getTree"]
+  ) => NexusGenTypes["fieldTypes"]["Query"]["getTree"];
 };
 
 export type Mutation = {

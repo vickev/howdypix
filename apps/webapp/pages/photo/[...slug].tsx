@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Link from "next/link";
@@ -14,16 +14,14 @@ import url from "url";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
-
-import { withApollo } from "../../src/lib/with-apollo-client";
 import {
   GetPhotoQuery,
   GetPhotoQueryVariables,
   PhotosOrderBy
 } from "../../src/__generated__/schema-types";
-import { Layout } from "../../src/module/layout/Layout";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
-import { RightPanel } from "../../src/module/photo/RightPanel";
+import { PhotoRightPanel } from "../../src/module/photo/PhotoRightPanel";
+import { useStore } from "../../src/context/store/storeHook";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -95,6 +93,14 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
   // Order by parsed from the URL
   const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
 
+  // Load the general store of the app
+  const {
+    setCurrentSource,
+    setCurrentAlbum,
+    setRightPanel,
+    setWithLayout
+  } = useStore();
+
   // Filter by parsed from the URL
   const filterBy = {
     make: typeof qs.make === "string" ? [qs.make] : qs.make,
@@ -158,75 +164,79 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
     }
   });
 
-  if (photo.loading && !savedPhotosData) return <p>Loading...</p>;
-
   // Save the data to the state to avoid flickering
   if (!photo.loading && savedPhotosData !== photo.data) {
     setOldData(photo.data);
   }
 
+  //= ================================================================
+  // Update the store of the app
+  //= ================================================================
+  setWithLayout(true);
+  setCurrentSource(folder.source);
+  setCurrentAlbum(folder.dir === "." ? "" : folder.dir ?? null);
+  useEffect(() => {
+    setRightPanel(
+      <PhotoRightPanel
+        ISO={photo.data?.getPhoto?.iso}
+        aperture={photo.data?.getPhoto?.aperture}
+        shutter={photo.data?.getPhoto?.shutter}
+        date={photo.data?.getPhoto?.birthtime}
+      />
+    );
+  }, [photo.data]);
+
   return (
-    <Layout
-      rightComponent={
-        <RightPanel
-          ISO={photo.data?.getPhoto?.iso}
-          aperture={photo.data?.getPhoto?.aperture}
-          shutter={photo.data?.getPhoto?.shutter}
-          date={photo.data?.getPhoto?.birthtime}
-        />
-      }
-    >
-      <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
-        <Box p={3} height="100%" display="flex" flexDirection="column">
-          <Box>
-            <Link
-              href="/album/[...slug]"
-              as={{
-                pathname: `/album/@${folder.source}:${folder.dir}`,
-                query: removeEmptyValues({ ...filterBy, order: orderBy })
-              }}
-            >
-              <Button variant="outlined">{t("previous")}</Button>
-            </Link>
-          </Box>
-          <Box
-            pt={gutter}
-            id="pictureBox"
-            display="flex"
-            flexDirection="column"
-            flex={1}
+    <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
+      <Box p={3} height="100%" display="flex" flexDirection="column">
+        <Box>
+          <Link
+            href="/album/[...slug]"
+            as={{
+              pathname: `/album/@${folder.source}:${folder.dir}`,
+              query: removeEmptyValues({ ...filterBy, order: orderBy })
+            }}
           >
-            <Box flex={1} height="1px" textAlign="center">
-              <Image
-                data-testid="picture-detail"
-                src={photo.data?.getPhoto?.files[2] ?? ""}
-              />
-            </Box>
-            <Box pt={gutter}>
-              {photo.data?.getPhoto?.photoStream && (
-                <PhotoStream
-                  filterBy={filterBy}
-                  orderBy={orderBy}
-                  photos={
-                    photo.data?.getPhoto?.photoStream.map((photo): {
-                      hfile: HFile;
-                      thumbnail: string;
-                    } => ({
-                      hfile: {
-                        file: photo.file,
-                        dir: folder.dir,
-                        source: folder.source
-                      },
-                      thumbnail: photo.thumbnails[1]
-                    })) ?? []
-                  }
-                />
-              )}
-            </Box>{" "}
-          </Box>
+            <Button variant="outlined">{t("previous")}</Button>
+          </Link>
         </Box>
-      </GlobalHotKeys>
-    </Layout>
+        <Box
+          pt={gutter}
+          id="pictureBox"
+          display="flex"
+          flexDirection="column"
+          flex={1}
+        >
+          <Box flex={1} height="1px" textAlign="center">
+            <Image
+              data-testid="picture-detail"
+              src={photo.data?.getPhoto?.files[2] ?? ""}
+            />
+          </Box>
+          <Box pt={gutter}>
+            {photo.data?.getPhoto?.photoStream && (
+              <PhotoStream
+                filterBy={filterBy}
+                orderBy={orderBy}
+                photos={
+                  photo.data?.getPhoto?.photoStream.map((photo): {
+                    hfile: HFile;
+                    thumbnail: string;
+                  } => ({
+                    hfile: {
+                      file: photo.file,
+                      dir: folder.dir,
+                      source: folder.source
+                    },
+                    thumbnail: photo.thumbnails[1]
+                  })) ?? []
+                }
+              />
+            )}
+          </Box>{" "}
+        </Box>
+      </Box>
+    </GlobalHotKeys>
   );
 };
 
@@ -234,4 +244,8 @@ PhotoPage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 
-export default withApollo(PhotoPage);
+PhotoPage.defaultProps = {
+  displayWithLayout: true
+};
+
+export default PhotoPage;

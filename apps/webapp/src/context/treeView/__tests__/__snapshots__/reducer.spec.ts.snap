@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`treeView reducer for the action COLLAPSE must hide the corresponding leaves if hidding an album 1`] = `
+Object {
+  "album1": false,
+  "album2": true,
+  "album3": true,
+  "source1": true,
+  "source2": true,
+}
+`;
+
+exports[`treeView reducer for the action COLLAPSE must hide the corresponding leaves if hidding an album 2`] = `
+Array [
+  "source1",
+  "album2",
+  "album3",
+  "source2",
+]
+`;
+
+exports[`treeView reducer for the action COLLAPSE must hide the corresponding leaves if hiding a source 1`] = `
+Object {
+  "album1": true,
+  "album2": true,
+  "album3": true,
+  "source1": false,
+  "source2": true,
+}
+`;
+
+exports[`treeView reducer for the action COLLAPSE must hide the corresponding leaves if hiding a source 2`] = `
+Array [
+  "album1",
+  "album2",
+  "album3",
+  "source2",
+]
+`;
+
+exports[`treeView reducer for the action DATA_FETCHED must merge the fetched information in the state 1`] = `
+Object {
+  "expandedNodeIds": Array [
+    "source2album1",
+  ],
+  "fetchedAlbums": Array [
+    Object {
+      "dir": "album1",
+      "nbAlbums": 0,
+      "nbImages": 1,
+      "nodeId": "source2album1",
+      "parentDir": "",
+      "preview": "preview1",
+      "source": "source2",
+    },
+    Object {
+      "dir": "album2",
+      "nbAlbums": 0,
+      "nbImages": 2,
+      "nodeId": "source2album2",
+      "parentDir": "",
+      "preview": "preview2",
+      "source": "source2",
+    },
+  ],
+  "fetchedSources": Array [
+    Object {
+      "name": "source1",
+      "nbAlbums": 1,
+      "nbImages": 1,
+      "nodeId": "source1",
+      "preview": "preview1",
+    },
+    Object {
+      "name": "source2",
+      "nbAlbums": 1,
+      "nbImages": 2,
+      "nodeId": "source2",
+      "preview": "preview2",
+    },
+  ],
+  "visibleLeaves": Object {
+    "album1": true,
+    "source1": true,
+  },
+}
+`;
+
+exports[`treeView reducer for the action DISPLAY_LEAF must update the visible leaves state and the expandedNodeIds for a source 1`] = `
+Object {
+  "source1": true,
+}
+`;
+
+exports[`treeView reducer for the action DISPLAY_LEAF must update the visible leaves state and the expandedNodeIds for a source 2`] = `
+Array [
+  "source1",
+]
+`;
+
+exports[`treeView reducer for the action DISPLAY_LEAF must update the visible leaves state and the expandedNodeIds for an album 1`] = `
+Object {
+  "album3": true,
+  "album4": true,
+  "album5": true,
+  "source1": true,
+}
+`;
+
+exports[`treeView reducer for the action DISPLAY_LEAF must update the visible leaves state and the expandedNodeIds for an album 2`] = `
+Array [
+  "source1",
+  "album3",
+  "album4",
+  "album5",
+]
+`;
+
+exports[`treeView reducer for the action EXPAND must display the correct leaf if it's a source 1`] = `
+Object {
+  "album1": false,
+  "source1": true,
+}
+`;
+
+exports[`treeView reducer for the action EXPAND must display the correct leaf if it's an album 1`] = `
+Object {
+  "album1": true,
+  "album2": true,
+  "source1": true,
+}
+`;
+
+exports[`treeView reducer for the action TOGGLE must call collapse if it's visible 1`] = `
+Object {
+  "album1": false,
+  "album2": true,
+  "album3": true,
+  "source1": true,
+  "source2": true,
+}
+`;
+
+exports[`treeView reducer for the action TOGGLE must call collapse if it's visible 2`] = `
+Array [
+  "source1",
+  "album2",
+  "album3",
+  "source2",
+]
+`;
+
+exports[`treeView reducer for the action TOGGLE must call expand if it's hidden 1`] = `
+Object {
+  "album1": true,
+  "album2": false,
+  "album3": true,
+  "source1": true,
+  "source2": true,
+}
+`;
+
+exports[`treeView reducer for the action TOGGLE must call expand if it's hidden 2`] = `
+Array [
+  "album1",
+  "source1",
+  "album3",
+  "source2",
+]
+`;
+
+exports[`treeView reducer for the action UPDATE_EXPANDED_NODE_IDS must update the expandedNodeIds 1`] = `
+Array [
+  "album1",
+  "source1",
+  "album2",
+  "album3",
+  "source2",
+]
+`;
+
+exports[`treeView reducer for the action UPDATE_EXPANDED_NODE_IDS must update the expandedNodeIds when everything is false 1`] = `Array []`;

@@ -1,12 +1,10 @@
 import React from "react";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import ListItemText from "@material-ui/core/ListItemText";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import styled from "@material-ui/styles/styled";
 
@@ -44,33 +42,31 @@ export const FilterByMultipleValues: React.FC<Props> = ({
   };
 
   return (
-    <ButtonGroup>
-      <FormControl variant="outlined">
-        <StyledSelect
-          multiple
-          displayEmpty
-          value={typeof selected === "string" ? [selected] : selected}
-          onChange={handleChange}
-          input={<OutlinedInput />}
-          renderValue={
-            selected.length === 0
-              ? (): string => label
-              : (selected: unknown): string => (selected as string[]).join(", ")
-          }
-        >
-          {values.map(name => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={selected.indexOf(name) > -1} />
-              <ListItemText primary={name} />
-            </MenuItem>
-          ))}
-        </StyledSelect>
-      </FormControl>
+    <>
+      <StyledSelect
+        multiple
+        displayEmpty
+        value={typeof selected === "string" ? [selected] : selected}
+        onChange={handleChange}
+        input={<OutlinedInput />}
+        renderValue={
+          selected.length === 0
+            ? (): string => label
+            : (selected: unknown): string => (selected as string[]).join(", ")
+        }
+      >
+        {values.map(name => (
+          <MenuItem key={name} value={name}>
+            <Checkbox checked={selected.indexOf(name) > -1} />
+            <ListItemText primary={name} />
+          </MenuItem>
+        ))}
+      </StyledSelect>
       {selected.length > 0 && (
         <StyledButton variant="outlined" size="small">
           <HighlightOffIcon fontSize="small" onClick={handleClearButtonClick} />
         </StyledButton>
       )}
-    </ButtonGroup>
+    </>
   );
 };

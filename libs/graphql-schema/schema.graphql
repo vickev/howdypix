@@ -52,6 +52,27 @@ type GetSearchPhotos {
   photos: [SearchPhoto]!
 }
 
+type GetTree {
+  albums: [GetTreeAlbums!]!
+  sources: [GetTreeSources!]!
+}
+
+type GetTreeAlbums {
+  dir: String!
+  nbAlbums: Int!
+  nbImages: Int!
+  parentDir: String
+  preview: String
+  source: String!
+}
+
+type GetTreeSources {
+  name: String!
+  nbAlbums: Int!
+  nbImages: Int!
+  preview: String
+}
+
 type Mutation {
   authEmail(email: String): AuthEmailType!
 }
@@ -103,6 +124,7 @@ type Query {
   getPhoto(album: String!, file: String!, filterBy: PhotosFilterBy, orderBy: PhotosOrderBy = DATE_DESC, source: String!): PhotoDetail
   getSearch(album: String, filterBy: PhotosFilterBy, orderBy: PhotosOrderBy = DATE_DESC, source: String): GetSearchPhotos!
   getSources: [Source]!
+  getTree(album: String!, source: String!): GetTree!
 }
 
 type SearchAlbum {

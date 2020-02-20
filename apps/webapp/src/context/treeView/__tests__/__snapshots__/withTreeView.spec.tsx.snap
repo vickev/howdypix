@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withTreeView must call the COLLAPSE type in the reducer. 1`] = `
+Object {
+  "album": "album2",
+  "parent": null,
+  "source": "source2",
+  "type": "COLLAPSE",
+}
+`;
+
+exports[`withTreeView must call the EXPAND type in the reducer. 1`] = `
+Object {
+  "album": "album2",
+  "fetchTree": [Function],
+  "source": "source2",
+  "type": "EXPAND",
+}
+`;
+
+exports[`withTreeView must call the TOGGLE type in the reducer. 1`] = `
+Object {
+  "album": "album2",
+  "fetchTree": [Function],
+  "parent": null,
+  "source": "source2",
+  "type": "TOGGLE",
+}
+`;

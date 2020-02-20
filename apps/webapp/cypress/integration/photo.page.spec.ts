@@ -15,7 +15,7 @@ context("Photo page full", () => {
   it("should display all the informations.", () => {
     cy.findByText(/f\/4545/).should("exist");
     cy.findByText(/1\/123/).should("exist");
-    cy.findByText(/December 31, 1969 at 7:02 PM/).should("exist");
+    cy.findByText(/January 1, 2020 at 1:00 AM/).should("exist");
     cy.findByText(/123234/).should("exist");
   });
 

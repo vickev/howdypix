@@ -27,7 +27,7 @@ const StyledExpansionPanelSummary = styled(ExpansionPanelSummary)(
   })
 );
 
-export const RightPanel: React.FC<Props> = ({
+export const PhotoRightPanel: React.FC<Props> = ({
   date,
   ISO,
   aperture,

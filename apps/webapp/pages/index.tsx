@@ -6,9 +6,6 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import GridListTile from "@material-ui/core/GridListTile";
 import Skeleton from "@material-ui/lab/Skeleton";
-
-import { withApollo } from "../src/lib/with-apollo-client";
-import { Layout } from "../src/module/layout/Layout";
 import {
   GetSourcesQuery,
   GetSourcesQueryVariables
@@ -16,6 +13,8 @@ import {
 import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
+import { useStore } from "../src/context/store/storeHook";
+import Component from "./login";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -44,41 +43,51 @@ const Homepage: NextPage<Props, InitialProps> = () => {
     GET_SOURCES
   );
 
+  // Load the general store of the app
+  const {
+    setCurrentSource,
+    setCurrentAlbum,
+    setRightPanel,
+    setWithLayout
+  } = useStore();
+  setCurrentAlbum(null);
+  setCurrentSource(null);
+  setRightPanel(null);
+  setWithLayout(true);
+
   return (
-    <Layout>
-      <Box bgcolor="white" padding={gutter}>
-        <Box paddingBottom={gutter}>
-          <Typography variant="h3" component="h1">
-            Gallery
-          </Typography>
-        </Box>
-        <Box paddingBottom={gutter}>
-          <AlbumGrid extraHeight={100}>
-            {loading
-              ? [0, 0, 0].map(() => (
-                  <GridListTile>
-                    <Skeleton variant="rect" height={200} />
-                  </GridListTile>
-                ))
-              : data?.getSources.map(
-                  (source): ReactElement | null =>
-                    source && (
-                      <AlbumGridListTile key={source.name}>
-                        <AlbumCard
-                          name={source.name}
-                          dir="."
-                          source={source.name}
-                          nbPhotos={source.nbPhotos}
-                          nbAlbums={source.nbAlbums}
-                          preview={source.preview}
-                        />
-                      </AlbumGridListTile>
-                    )
-                )}
-          </AlbumGrid>
-        </Box>
+    <Box bgcolor="white" padding={gutter}>
+      <Box paddingBottom={gutter}>
+        <Typography variant="h3" component="h1">
+          Gallery
+        </Typography>
       </Box>
-    </Layout>
+      <Box paddingBottom={gutter}>
+        <AlbumGrid extraHeight={100}>
+          {loading
+            ? [0, 1, 2].map(value => (
+                <GridListTile key={`source_grid_${value}`}>
+                  <Skeleton variant="rect" height={200} />
+                </GridListTile>
+              ))
+            : data?.getSources.map(
+                (source): ReactElement | null =>
+                  source && (
+                    <AlbumGridListTile key={`AlbumGridListTile_${source.name}`}>
+                      <AlbumCard
+                        name={source.name}
+                        dir="."
+                        source={source.name}
+                        nbPhotos={source.nbPhotos}
+                        nbAlbums={source.nbAlbums}
+                        preview={source.preview}
+                      />
+                    </AlbumGridListTile>
+                  )
+              )}
+        </AlbumGrid>
+      </Box>
+    </Box>
   );
 };
 
@@ -86,4 +95,8 @@ Homepage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 
-export default withApollo(Homepage);
+Homepage.defaultProps = {
+  displayWithLayout: true
+};
+
+export default Homepage;

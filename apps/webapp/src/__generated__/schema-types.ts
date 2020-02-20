@@ -56,6 +56,27 @@ export interface GetSearchPhotos {
   photos: Array<Maybe<SearchPhoto>>;
 }
 
+export interface GetTree {
+  albums: Array<GetTreeAlbums>;
+  sources: Array<GetTreeSources>;
+}
+
+export interface GetTreeAlbums {
+  dir: Scalars["String"];
+  nbAlbums: Scalars["Int"];
+  nbImages: Scalars["Int"];
+  parentDir?: Maybe<Scalars["String"]>;
+  preview?: Maybe<Scalars["String"]>;
+  source: Scalars["String"];
+}
+
+export interface GetTreeSources {
+  name: Scalars["String"];
+  nbAlbums: Scalars["Int"];
+  nbImages: Scalars["Int"];
+  preview?: Maybe<Scalars["String"]>;
+}
+
 export interface Mutation {
   authEmail: AuthEmailType;
 }
@@ -111,6 +132,7 @@ export interface Query {
   getPhoto?: Maybe<PhotoDetail>;
   getSearch: GetSearchPhotos;
   getSources: Array<Maybe<Source>>;
+  getTree: GetTree;
 }
 
 export interface QueryGetAlbumArgs {
@@ -137,6 +159,11 @@ export interface QueryGetSearchArgs {
   filterBy?: Maybe<PhotosFilterBy>;
   orderBy?: Maybe<PhotosOrderBy>;
   source?: Maybe<Scalars["String"]>;
+}
+
+export interface QueryGetTreeArgs {
+  album: Scalars["String"];
+  source: Scalars["String"];
 }
 
 export interface SearchAlbum {
@@ -239,16 +266,35 @@ export type GetPhotoQuery = {
   >;
 };
 
-export type AuthEmailMutationVariables = {
-  email: Scalars["String"];
+export type GetTreeQueryVariables = {
+  album: Scalars["String"];
+  source: Scalars["String"];
 };
 
-export type AuthEmailMutation = {
-  authEmail: Pick<AuthEmailType, "messageId" | "messageData">;
+export type GetTreeQuery = {
+  getTree: {
+    sources: Array<
+      Pick<GetTreeSources, "name" | "preview" | "nbImages" | "nbAlbums">
+    >;
+    albums: Array<
+      Pick<
+        GetTreeAlbums,
+        "dir" | "parentDir" | "source" | "preview" | "nbImages" | "nbAlbums"
+      >
+    >;
+  };
 };
 
 export type GetCurrentUserQueryVariables = {};
 
 export type GetCurrentUserQuery = {
   getCurrentUser: Maybe<Pick<CurrentUserType, "name" | "email">>;
+};
+
+export type AuthEmailMutationVariables = {
+  email: Scalars["String"];
+};
+
+export type AuthEmailMutation = {
+  authEmail: Pick<AuthEmailType, "messageId" | "messageData">;
 };

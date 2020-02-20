@@ -44,7 +44,7 @@ export const AlbumCard: React.FC<Props> = ({
         source
       })}`}
     >
-      <CardActionArea data-testid="albumcard">
+      <CardActionArea data-testid="albumcard" disableRipple>
         {preview ? (
           <CustomCardMedia
             image={preview ?? ""}

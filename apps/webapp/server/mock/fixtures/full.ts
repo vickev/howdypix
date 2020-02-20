@@ -94,7 +94,7 @@ const query: Query = {
     }
   },
   getPhoto: () => ({
-    birthtime: 123123,
+    birthtime: new Date("January 01, 2020 01:00:00").getTime(),
     shutter: 123,
     model: "model",
     make: "make",
@@ -131,7 +131,27 @@ const query: Query = {
       nbAlbums: 2,
       nbPhotos: 3
     }
-  ]
+  ],
+  getTree: () => ({
+    albums: [
+      {
+        dir: "TreeAlbum1",
+        nbAlbums: 1,
+        nbImages: 1,
+        source: "treesource1",
+        preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+      }
+    ],
+    sources: [
+      {
+        name: "treesource1",
+        nbAlbums: 1,
+        nbImages: 1,
+        source: "source1",
+        preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+      }
+    ]
+  })
 };
 
 const mutation: Mutation = {

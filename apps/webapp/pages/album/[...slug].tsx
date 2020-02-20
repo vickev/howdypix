@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
@@ -17,25 +17,23 @@ import querystring from "querystring";
 
 import { useRouter } from "next/router";
 import { NextPage } from "next";
-
-import { withApollo } from "../../src/lib/with-apollo-client";
 import {
-  GetSubAlbumQuery,
-  GetSubAlbumQueryVariables,
+  GetFiltersQuery,
+  GetFiltersQueryVariables,
   GetPhotosQuery,
   GetPhotosQueryVariables,
-  PhotosOrderBy,
-  GetFiltersQuery,
-  GetFiltersQueryVariables
+  GetSubAlbumQuery,
+  GetSubAlbumQueryVariables,
+  PhotosOrderBy
 } from "../../src/__generated__/schema-types";
-import { Layout } from "../../src/module/layout/Layout";
 import { AlbumCard } from "../../src/component/AlbumCard";
 import { AlbumGrid } from "../../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../../src/component/AlbumGridListTile";
 import { Thumbnail } from "../../src/component/Thumbnail";
-import { RightPanel } from "../../src/module/album/RightPanel";
+import { AlbumInformationPanel } from "../../src/module/album/AlbumInformationPanel";
 import { SortButton } from "../../src/component/SortButton";
 import { Filters } from "../../src/module/album/Filters";
+import { useStore } from "../../src/context/store/storeHook";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -121,6 +119,14 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   // Order by parsed from the URL
   const orderBy = qs.order ?? PhotosOrderBy.DateAsc;
 
+  // Load the general store of the app
+  const {
+    setCurrentSource,
+    setCurrentAlbum,
+    setRightPanel,
+    setWithLayout
+  } = useStore();
+
   // Filter by parsed from the URL
   const filterBy = {
     make: typeof qs.make === "string" ? [qs.make] : qs.make,
@@ -191,6 +197,18 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const filtersData = filtersQuery.data;
 
   //= ================================================================
+  // Update the store of the app
+  //= ================================================================
+  setCurrentSource(folder.source);
+  setCurrentAlbum(folder.dir ?? null);
+  setWithLayout(true);
+  useEffect(() => {
+    setRightPanel(
+      <AlbumInformationPanel nbPhotos={photosData?.getSearch.photos.length} />
+    );
+  }, [photosData, photosLoading]);
+
+  //= ================================================================
   // Callback functions
   //= ================================================================
   const handleSortChange = (value: NexusGenEnums["PhotosOrderBy"]): void => {
@@ -211,107 +229,101 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   // Render
   //= ================================================================
   return (
-    <Layout
-      rightComponent={
-        <RightPanel nbPhotos={photosData?.getSearch.photos.length} />
-      }
-    >
-      <Box padding={gutter}>
-        <Box paddingBottom={gutter} id="BreadcrumbBox">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link href="/" key="repo">
-              <MUILink href="">Repository</MUILink>
-            </Link>
-            {breadcrumbs.map((bread: HFile, index) =>
-              index !== breadcrumbs.length - 1 ? (
-                <Link
-                  href="/album/[...slug]"
-                  as={`/album/${hjoin(bread)}`}
-                  key={bread.dir}
-                >
-                  <MUILink href="">{bread.name}</MUILink>
-                </Link>
-              ) : (
-                <Typography color="textPrimary" key={bread.source}>
-                  {bread.name}
-                </Typography>
+    <Box padding={gutter}>
+      <Box paddingBottom={gutter} id="BreadcrumbBox">
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link href="/" key="repo">
+            <MUILink href="">Repository</MUILink>
+          </Link>
+          {breadcrumbs.map((bread: HFile, index) =>
+            index !== breadcrumbs.length - 1 ? (
+              <Link
+                href="/album/[...slug]"
+                as={`/album/${hjoin(bread)}`}
+                key={`bread_${bread.dir}`}
+              >
+                <MUILink href="">{bread.name}</MUILink>
+              </Link>
+            ) : (
+              <Typography color="textPrimary" key={bread.source}>
+                {bread.name}
+              </Typography>
+            )
+          )}
+        </Breadcrumbs>
+      </Box>
+      <Box paddingBottom={gutter}>
+        {filtersData && (
+          <Filters
+            availableFilters={filtersData?.getFilters}
+            selectedFilters={qs}
+            onChange={handleFilterChange}
+          />
+        )}
+      </Box>
+      <Box paddingBottom={gutter}>
+        <Typography variant="h3" component="h1">
+          Album {albumData?.getAlbum.album?.name}
+        </Typography>
+      </Box>
+      <AlbumGrid extraHeight={100}>
+        {albumLoading
+          ? [0, 1, 2].map(value => (
+              <GridListTile key={`skeleton_album_${value}`}>
+                <Skeleton variant="rect" height={200} />
+              </GridListTile>
+            ))
+          : albumData?.getAlbum?.albums.map(
+              (album): ReactElement => (
+                <AlbumGridListTile key={album.name}>
+                  <AlbumCard
+                    name={album.name}
+                    dir={album.dir}
+                    source={album.source}
+                    nbAlbums={album.nbPhotos}
+                    nbPhotos={album.nbPhotos}
+                    preview={album.preview}
+                  />
+                </AlbumGridListTile>
               )
             )}
-          </Breadcrumbs>
-        </Box>
-        <Box paddingBottom={gutter}>
-          {filtersData && (
-            <Filters
-              availableFilters={filtersData?.getFilters}
-              selectedFilters={qs}
-              onChange={handleFilterChange}
-            />
-          )}
-        </Box>
-        <Box paddingBottom={gutter}>
-          <Typography variant="h3" component="h1">
-            Album {albumData?.getAlbum.album?.name}
-          </Typography>
-        </Box>
-        <AlbumGrid extraHeight={100}>
-          {albumLoading
-            ? [0, 0, 0].map(() => (
-                <GridListTile>
-                  <Skeleton variant="rect" height={200} />
-                </GridListTile>
-              ))
-            : albumData?.getAlbum?.albums.map(
-                (album): ReactElement => (
-                  <AlbumGridListTile key={album.name}>
-                    <AlbumCard
-                      name={album.name}
-                      dir={album.dir}
-                      source={album.source}
-                      nbAlbums={album.nbPhotos}
-                      nbPhotos={album.nbPhotos}
-                      preview={album.preview}
-                    />
-                  </AlbumGridListTile>
-                )
-              )}
-        </AlbumGrid>
-        <Box py={gutter} id="pictureBox">
-          <Box display="flex" flexDirection="row" alignItems="center">
-            <Box flex={1}>
-              <Divider variant="fullWidth" />
-            </Box>
-            <SortButton onChange={handleSortChange} value={orderBy} />
+      </AlbumGrid>
+      <Box py={gutter} id="pictureBox">
+        <Box display="flex" flexDirection="row" alignItems="center">
+          <Box flex={1}>
+            <Divider variant="fullWidth" />
           </Box>
+          <SortButton onChange={handleSortChange} value={orderBy} />
         </Box>
-        <AlbumGrid>
-          {photosLoading && !savedPhotosData
-            ? [0, 0, 0].map((num, key) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <GridListTile key={`skeleton_${key}`}>
-                  <Skeleton variant="rect" height={200} />
-                </GridListTile>
-              ))
-            : savedPhotosData?.getSearch.photos?.map(
-                (photo, key): ReactElement | null =>
-                  (photo?.thumbnails[1] && (
-                    <GridListTile key={key + photo.thumbnails[1]}>
-                      <Thumbnail
-                        hfile={{
-                          file: photo.file,
-                          dir: folder.dir,
-                          source: folder.source
-                        }}
-                        filter={filterBy}
-                        order={orderBy}
-                        url={photo.thumbnails[1] ?? ""}
-                      />
-                    </GridListTile>
-                  )) ||
-                  null
-              )}
-        </AlbumGrid>
       </Box>
-    </Layout>
+      <AlbumGrid>
+        {photosLoading && !savedPhotosData
+          ? [0, 0, 0].map((num, key) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <GridListTile key={`skeleton_photo_${key}`}>
+                <Skeleton variant="rect" height={200} />
+              </GridListTile>
+            ))
+          : savedPhotosData?.getSearch.photos?.map(
+              (photo, key): ReactElement | null =>
+                (photo?.thumbnails[1] && (
+                  <GridListTile key={key + photo.thumbnails[1]}>
+                    <Thumbnail
+                      hfile={{
+                        file: photo.file,
+                        dir: folder.dir,
+                        source: folder.source
+                      }}
+                      filter={filterBy}
+                      order={orderBy}
+                      url={photo.thumbnails[1] ?? ""}
+                    />
+                  </GridListTile>
+                )) ||
+                null
+            )}
+      </AlbumGrid>
+    </Box>
   );
 };
 
@@ -319,4 +331,8 @@ AlbumPage.getInitialProps = async (): Promise<InitialProps> => ({
   namespacesRequired: ["common"]
 });
 
-export default withApollo(AlbumPage);
+AlbumPage.defaultProps = {
+  displayWithLayout: true
+};
+
+export default AlbumPage;
