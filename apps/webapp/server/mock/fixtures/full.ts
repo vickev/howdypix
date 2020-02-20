@@ -94,7 +94,7 @@ const query: Query = {
     }
   },
   getPhoto: () => ({
-    birthtime: 123123,
+    birthtime: new Date("January 01, 2020 01:00:00").getTime(),
     shutter: 123,
     model: "model",
     make: "make",
