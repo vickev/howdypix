@@ -1,5 +1,4 @@
-import React, { ReactElement, useEffect } from "react";
-import App from "next/app";
+import React, { useEffect } from "react";
 import Head from "next/head";
 
 import { ThemeProvider } from "styled-components";
