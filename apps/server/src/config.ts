@@ -1,31 +1,59 @@
 // Load env variables
 require("dotenv").config();
 
-const config = {
-  rabbitMq: {
-    url: process.env.RABBITMQ_URL || "amqp://localhost"
-  },
-  serverApi: {
-    baseUrl: "",
-    port: parseInt(process.env.API_PORT as string, 0) || 3004
-  },
-  auth: {
-    code: {
-      secret: "secret_code_string",
-      expiry: "2h"
-    },
-    token: {
-      secret: "secret_token_string",
-      expiry: "4h"
-    },
-    refreshToken: {
-      secret: "secret_refresh_string",
-      expiry: "30d"
-    }
-  }
+export type User = {
+  email: string;
+  name: string;
 };
 
-config.serverApi.baseUrl =
-  process.env.API_BASE_URL || `http://localhost:${config.serverApi.port}`;
+export type UserConfig = {
+  photoDirs: { [sourceId: string]: string };
+  thumbnailsDir: string;
+  users: User[];
+  emailSender: User;
+};
 
-export default config;
+export type AppConfig = {
+  rabbitMQ: {
+    url: string;
+  };
+  api: {
+    baseUrl: string;
+    port: number;
+  };
+  webapp: {
+    baseUrl: string;
+  };
+  smtp: {
+    host: string;
+    port: number;
+    user: string;
+    password: string;
+    tls: boolean;
+  };
+  auth: {
+    code: {
+      secret: string;
+      expiry: string;
+    };
+    token: {
+      secret: string;
+      expiry: string;
+    };
+    refreshToken: {
+      secret: string;
+      expiry: string;
+    };
+  };
+};
+
+type Config = {
+  user: UserConfig;
+  app: AppConfig;
+};
+
+// eslint-disable-next-line
+const config: Config = require("config");
+
+export const userConfig = config.user;
+export const appConfig = config.app;

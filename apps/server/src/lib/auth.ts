@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 import { appDebug } from "@howdypix/utils";
 import { TokenInfo, UserInfo } from "@howdypix/shared-types";
-import { User, UserConfigState } from "../state";
-import config from "../config";
+import { appConfig, UserConfig, User } from "../config";
 
 const debug = appDebug("lib:auth");
 
@@ -42,7 +41,7 @@ const isUserInfo = (data: any): data is UserInfo => {
 // Validation functions
 //= ===================================================
 export const isEmailValid = (
-  authorizedUsers: UserConfigState["users"],
+  authorizedUsers: UserConfig["users"],
   emailToCheck: string
 ): User | null => authorizedUsers.find(u => u.email === emailToCheck) || null;
 
@@ -66,19 +65,19 @@ export const isJwtTokenValid = async (
 
 export const isTokenValid = (token: string): Promise<UserInfo | null> => {
   debug(`Check if the token is valid...`);
-  return isJwtTokenValid(token, config.auth.token.secret);
+  return isJwtTokenValid(token, appConfig.auth.token.secret);
 };
 
 export const isRefreshTokenValid = (
   token: string
 ): Promise<UserInfo | null> => {
   debug(`Check if the refresh token is valid...`);
-  return isJwtTokenValid(token, config.auth.refreshToken.secret);
+  return isJwtTokenValid(token, appConfig.auth.refreshToken.secret);
 };
 
 export const isCodeValid = async (code: string): Promise<UserInfo | null> => {
   debug(`Check if the user code is valid...`);
-  const user = await isJwtTokenValid(code, config.auth.code.secret);
+  const user = await isJwtTokenValid(code, appConfig.auth.code.secret);
   if (user && stores.codes[user.email]) {
     return user;
   }
@@ -110,17 +109,17 @@ export const generateJwtToken = async (
 
 export const generateCode = (user: UserInfo): Promise<string> => {
   debug("Generate the code for the magic link.", user);
-  return generateJwtToken(user, config.auth.code);
+  return generateJwtToken(user, appConfig.auth.code);
 };
 
 export const generateToken = (user: UserInfo): Promise<string> => {
   debug("Generate the API token.", user);
-  return generateJwtToken(user, config.auth.token);
+  return generateJwtToken(user, appConfig.auth.token);
 };
 
 export const generateRefreshToken = (user: UserInfo): Promise<string> => {
   debug("Generate the Refresh token.", user);
-  return generateJwtToken(user, config.auth.refreshToken);
+  return generateJwtToken(user, appConfig.auth.refreshToken);
 };
 
 export const generateTokens = async (user: UserInfo): Promise<TokenInfo> =>

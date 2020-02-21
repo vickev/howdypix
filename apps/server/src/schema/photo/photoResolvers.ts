@@ -6,7 +6,7 @@ import {
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { Photo as EntityPhoto } from "../../entity/Photo";
 import { ApolloContext } from "../../types.d";
-import config from "../../config";
+import { appConfig } from "../../config";
 import { photoHelpers } from "../../helpers/photoHelpers";
 
 const debug = appDebug("gql");
@@ -35,7 +35,7 @@ export const getPhotoResolver = () => async (
 
     return {
       id: photo.id.toString(),
-      files: generateThumbnailUrls(config.serverApi.baseUrl, {
+      files: generateThumbnailUrls(appConfig.api.baseUrl, {
         file: photo.file,
         source: photo.source,
         name: photo.file,
@@ -54,7 +54,7 @@ export const getPhotoResolver = () => async (
           id: String(sr.photo.id),
           file: String(sr.photo.file),
           thumbnails: generateThumbnailUrls(
-            config.serverApi.baseUrl,
+            appConfig.api.baseUrl,
             sr.photo
           ).map(tn => tn.url)
         })

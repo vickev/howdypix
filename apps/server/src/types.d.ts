@@ -1,7 +1,7 @@
 import { UserInfo } from "@howdypix/shared-types";
 import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import { Connection } from "typeorm";
-import { UserConfigState } from "./state";
+import { UserConfig } from "./config";
 
 export type ApolloContext = {
   user: UserInfo | null;
@@ -9,9 +9,9 @@ export type ApolloContext = {
 };
 
 export type EnhancedQuery = (
-  userConfig: UserConfigState
+  userConfig: UserConfig
 ) => NexusExtendTypeDef<"Query">;
 
 export type EnhancedMutation = (
-  userConfig: UserConfigState
+  userConfig: UserConfig
 ) => NexusExtendTypeDef<"Mutation">;

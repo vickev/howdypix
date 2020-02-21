@@ -2,7 +2,7 @@ import { Connection } from "typeorm";
 import { appDebug, generateThumbnailPaths, hjoin } from "@howdypix/utils";
 import { existsSync, statSync, unlinkSync } from "fs";
 import { join, parse } from "path";
-import { UserConfigState } from "../state";
+import { UserConfig } from "../config";
 import { Photo } from "../entity/Photo";
 import { Events, EventTypes } from "./eventEmitter";
 
@@ -10,7 +10,7 @@ export async function onNewFile(
   { root, hfile }: EventTypes["newFile"],
   event: Events,
   connection: Connection,
-  userConfig: UserConfigState
+  userConfig: UserConfig
 ): Promise<void> {
   const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
   const stat = statSync(absolutePath);
@@ -42,7 +42,7 @@ export async function onRemoveFile(
   { hfile }: EventTypes["newFile"],
   event: Events,
   connection: Connection,
-  userConfig: UserConfigState
+  userConfig: UserConfig
 ): Promise<void> {
   const photoRepository = connection.getRepository(Photo);
 
@@ -91,7 +91,7 @@ export async function onProcessedFile(
 
 export async function startCacheDB(
   event: Events,
-  userConfig: UserConfigState,
+  userConfig: UserConfig,
   connection: Connection
 ): Promise<Connection> {
   event.on("newFile", params =>

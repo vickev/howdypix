@@ -8,12 +8,12 @@ import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { ApolloContext } from "../../types.d";
 import { Album as EntityAlbum } from "../../entity/Album";
 import { Source as EntitySource } from "../../entity/Source";
-import config from "../../config";
+import { appConfig } from "../../config";
 
 const debug = appDebug("gql");
 
 const generatePreviewUrl = (album: EntityAlbum | EntitySource): string =>
-  generateThumbnailUrls(config.serverApi.baseUrl, {
+  generateThumbnailUrls(appConfig.api.baseUrl, {
     file: album.preview,
     dir: album.dir,
     source: album.source

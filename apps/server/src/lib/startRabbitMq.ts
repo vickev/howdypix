@@ -8,7 +8,7 @@ import {
   sendToQueue
 } from "@howdypix/utils";
 import { Events } from "./eventEmitter";
-import { UserConfigState } from "../state";
+import { UserConfig } from "../config";
 
 const debug = appDebug("rabbit");
 
@@ -70,7 +70,7 @@ export async function bindChannelEvents(
 
 export async function startRabbitMq(
   event: Events,
-  userConfig: UserConfigState,
+  userConfig: UserConfig,
   url: string
 ): Promise<Channel | null> {
   try {

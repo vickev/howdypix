@@ -1,0 +1,21 @@
+{
+  "app": {
+    "rabbitMQ":{
+      "url": "RABBITMQ_URL"
+    },
+    "api": {
+      "baseUrl": "API_BASE_URL",
+      "port": "API_PORT"
+    },
+    "webapp": {
+      "baseUrl": "WEBAPP_BASE_URL"
+    },
+    "smtp": {
+      "host": "SMTP_HOST",
+      "port": "SMTP_PORT",
+      "user": "SMTP_USER",
+      "password": "SMTP_PASSWORD",
+      "tls": "SMTP_TLS"
+    }
+  }
+}

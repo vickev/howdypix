@@ -1,6 +1,6 @@
 import { Connection } from "typeorm";
 import { getSourcesResolver } from "../sourceResolvers";
-import { UserConfigState } from "../../../state";
+import { UserConfig } from "../../../config";
 import { Source as EntitySource } from "../../../entity/Source";
 
 describe("currentUserResolver", () => {
@@ -8,7 +8,7 @@ describe("currentUserResolver", () => {
     jest.resetAllMocks();
   });
 
-  const photoDirs: UserConfigState["photoDirs"] = {
+  const photoDirs: UserConfig["photoDirs"] = {
     source1: "source1",
     source2: "source2",
     source3: "source3"

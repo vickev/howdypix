@@ -3,13 +3,12 @@ import {
   NexusGenFieldTypes
 } from "@howdypix/graphql-schema/schema.d";
 import { generateThumbnailUrls } from "@howdypix/utils";
-import { UserConfigState } from "../../state";
+import { UserConfig, appConfig } from "../../config";
 import { ApolloContext } from "../../types.d";
 import { Source as EntitySource } from "../../entity/Source";
-import config from "../../config";
 
 export const getSourcesResolver = (
-  photoDirs: UserConfigState["photoDirs"]
+  photoDirs: UserConfig["photoDirs"]
 ) => async (
   root: {},
   args: NexusGenArgTypes["Query"]["getAlbum"],
@@ -28,7 +27,7 @@ export const getSourcesResolver = (
     nbPhotos: sources[name]?.nbPhotos ?? 0,
     preview:
       sources[name]?.preview &&
-      generateThumbnailUrls(config.serverApi.baseUrl, {
+      generateThumbnailUrls(appConfig.api.baseUrl, {
         file: sources[name]?.preview,
         dir: sources[name]?.dir,
         source: name

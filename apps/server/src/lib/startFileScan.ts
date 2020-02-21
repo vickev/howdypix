@@ -2,7 +2,7 @@ import chokidar from "chokidar";
 import { relative, resolve } from "path";
 import { appDebug, path2hfile } from "@howdypix/utils";
 import { Events } from "./eventEmitter";
-import { UserConfigState } from "../state";
+import { UserConfig } from "../config";
 
 export function onAdd(
   event: Events,
@@ -36,10 +36,7 @@ export function onRemove(
   });
 }
 
-export function startFileScan(
-  event: Events,
-  userConfig: UserConfigState
-): void {
+export function startFileScan(event: Events, userConfig: UserConfig): void {
   Object.keys(userConfig.photoDirs).forEach(sourceId => {
     const root = userConfig.photoDirs[sourceId];
 
