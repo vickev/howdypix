@@ -6,14 +6,14 @@ import { createTransport } from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
 import { appDebug } from "@howdypix/utils";
 import { magicLink } from "../../email";
-import { UserConfigState } from "../../state";
+import { UserConfig } from "../../config";
 import { generateCode, isEmailValid, storeCode } from "../../lib/auth";
 
 const debug = appDebug("gql:auth");
 
 export const authEmailResolver = (
-  authorizedUsers: UserConfigState["users"],
-  sender: UserConfigState["emailSender"]
+  authorizedUsers: UserConfig["users"],
+  sender: UserConfig["emailSender"]
 ) => async (
   root: {},
   args: NexusGenArgTypes["Mutation"]["authEmail"]

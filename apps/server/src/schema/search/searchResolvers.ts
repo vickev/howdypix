@@ -5,7 +5,7 @@ import {
 } from "@howdypix/graphql-schema/schema.d";
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { SearchResult as EntitySearchResult } from "../../entity/SearchResult";
-import config from "../../config";
+import { appConfig } from "../../config";
 import { ApolloContext } from "../../types.d";
 import { searchHelpers } from "../../helpers/searchHelpers";
 
@@ -32,7 +32,7 @@ export const getSearchResolver = () => async (
           searchResult: EntitySearchResult
         ): NexusGenRootTypes["SearchPhoto"] => ({
           id: searchResult.photo.id.toString(),
-          thumbnails: generateThumbnailUrls(config.serverApi.baseUrl, {
+          thumbnails: generateThumbnailUrls(appConfig.api.baseUrl, {
             file: searchResult.photo.file,
             dir: searchResult.photo.dir,
             source: searchResult.photo.source

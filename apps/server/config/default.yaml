@@ -1,0 +1,50 @@
+#####################################################
+# User settings
+#####################################################
+user:
+  emailSender:
+    email: sender@vickev.com
+    name: Howdypix
+  users:
+    - email: dev@vickev.com
+      name: Developer Foobar
+    - email: albert@vickev.com
+      name: Albert Foobar
+  thumbnailsDir: ./photos
+  photoDirs:
+    main: ./photos/main
+    second: ./photos/landscapes
+
+#####################################################
+# Application settings
+#####################################################
+app:
+  rabbitMQ:
+    url: amqp://localhost
+
+  api:
+    baseUrl: http://localhost:3004
+    port: 3004
+
+  webapp:
+    baseUrl: http://localhost:3000
+
+  smtp:
+    host: localhost
+    port: 1025
+    user:
+    password:
+    tls: false
+
+  auth:
+    code:
+      secret: CHANGE ME!!!!!!
+      expiry: 2h
+
+    token:
+      secret: CHANGE ME!!!!!!
+      expiry: 4h
+
+    refreshToken:
+      secret: CHANGE ME!!!!!!
+      expiry: 30d

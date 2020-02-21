@@ -7,7 +7,7 @@ import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { parse } from "path";
 import { Photo as EntityPhoto } from "../../entity/Photo";
 import { Album as EntityAlbum } from "../../entity/Album";
-import config from "../../config";
+import { appConfig } from "../../config";
 import { ApolloContext } from "../../types.d";
 
 const debug = appDebug("gql");
@@ -45,7 +45,7 @@ export const getAlbumResolver = () => async (
     album.nbAlbums = albums.length;
     album.preview =
       photos.length > 0
-        ? generateThumbnailUrls(config.serverApi.baseUrl, photos[0])[0].url
+        ? generateThumbnailUrls(appConfig.api.baseUrl, photos[0])[0].url
         : null;
   }
 
@@ -54,7 +54,7 @@ export const getAlbumResolver = () => async (
   return {
     photos: photos.map(photo => ({
       id: photo.id.toString(),
-      thumbnails: generateThumbnailUrls(config.serverApi.baseUrl, photo).map(
+      thumbnails: generateThumbnailUrls(appConfig.api.baseUrl, photo).map(
         tn => tn.url
       ),
       file: photo.file,
@@ -67,7 +67,7 @@ export const getAlbumResolver = () => async (
         source: album.source,
         nbAlbums: album.nbAlbums,
         nbPhotos: album.nbPhotos,
-        preview: generateThumbnailUrls(config.serverApi.baseUrl, {
+        preview: generateThumbnailUrls(appConfig.api.baseUrl, {
           file: album.preview,
           dir: album.dir,
           source: album.source
