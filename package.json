@@ -1,6 +1,6 @@
 {
   "name": "howdypix",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Open-Source Photo Gallery.",
   "main": "index.js",
   "repository": "git@github.com:vickev/howdypix.git",
@@ -26,11 +26,16 @@
     "build": "yarn build:libs && yarn build:apps",
     "build:apps": "lerna run build --stream --parallel --scope '@howdypix/app-*'",
     "build:services": "lerna run build --stream --parallel --scope '@howdypix/service-*'",
-    "build:libs": "lerna run build --stream --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'"
+    "build:libs": "lerna run build --stream --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'",
+    "bumpversion": "lerna version --conventional-commits",
+    "bumpversion:dry": "yarn version:run --no-git-tag-version --no-push"
   },
   "devDependencies": {
+    "commitizen": "^4.0.3",
+    "cz-lerna-changelog": "^2.0.2",
     "husky": "^3.0.5",
     "lerna": "^3.16.4",
+    "lerna-semantic-release": "^9.1.0",
     "lint-staged": "^9.2.5",
     "prettier": "^1.19.1",
     "shell-quote": "^1.7.2"
@@ -43,5 +48,10 @@
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "babel-jest": "^24.9.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-lerna-changelog"
+    }
   }
 }
