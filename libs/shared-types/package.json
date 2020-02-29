@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/shared-types",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Shared types across the HowdyPix applications.",
   "license": "MIT",
   "main": "./build/index.js",
@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@howdypix/eslint-config": "^0.1.0",
-    "@howdypix/typescript-config": "^0.1.0"
+    "@howdypix/eslint-config": "^0.0.1",
+    "@howdypix/typescript-config": "^0.0.1"
   },
   "dependencies": {
     "typescript": "^3.7.2"

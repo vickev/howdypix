@@ -1,10 +1,10 @@
 {
   "name": "@howdypix/app-worker",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Process the pictures to extract information and create thumbnails.",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "node build/index",
     "dev": "yarn build && wait-on http://localhost:15672 && DEBUG=app:* yarn watch",
@@ -15,8 +15,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@howdypix/shared-types": "^0.1.0",
-    "@howdypix/utils": "^0.1.0",
+    "@howdypix/shared-types": "^0.0.1",
+    "@howdypix/utils": "^0.0.1",
     "@types/sharp": "^0.22.2",
     "amqplib": "^0.5.5",
     "dotenv": "^8.2.0",
@@ -29,10 +29,10 @@
   "devDependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.0",
-    "@howdypix/babel-preset": "^0.1.0",
-    "@howdypix/eslint-config": "^0.1.0",
-    "@howdypix/jest-config": "^0.1.0",
-    "@howdypix/typescript-config": "^0.1.0",
+    "@howdypix/babel-preset": "^0.0.1",
+    "@howdypix/eslint-config": "^0.0.1",
+    "@howdypix/jest-config": "^0.0.1",
+    "@howdypix/typescript-config": "^0.0.1",
     "@types/amqplib": "^0.5.13",
     "@types/exif": "^0.6.0",
     "@types/jest": "^24.0.18",
