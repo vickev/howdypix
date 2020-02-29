@@ -28,7 +28,7 @@
     "build:services": "lerna run build --stream --parallel --scope '@howdypix/service-*'",
     "build:libs": "lerna run build --stream --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'",
     "bumpversion": "lerna version --conventional-commits",
-    "bumpversion:dry": "yarn version:run --no-git-tag-version --no-push"
+    "bumpversion:dry": "yarn bumpversion --no-git-tag-version --no-push"
   },
   "devDependencies": {
     "commitizen": "^4.0.3",

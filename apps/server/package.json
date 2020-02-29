@@ -1,11 +1,11 @@
 {
   "name": "@howdypix/app-server",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Server for the Photo Gallery",
   "main": "index.js",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "typings": "",
   "bin": {
     "howdypix-server": "./bin/howdypix-server.js"
@@ -24,9 +24,9 @@
     "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests"
   },
   "dependencies": {
-    "@howdypix/graphql-schema": "^0.1.0",
-    "@howdypix/shared-types": "^0.1.0",
-    "@howdypix/utils": "^0.1.0",
+    "@howdypix/graphql-schema": "^0.0.1",
+    "@howdypix/shared-types": "^0.0.1",
+    "@howdypix/utils": "^0.0.1",
     "amqplib": "^0.5.5",
     "apollo-server": "^2.9.3",
     "apollo-server-express": "^2.9.7",
@@ -55,11 +55,11 @@
     "@babel/core": "^7.7.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.7.0",
-    "@howdypix/babel-preset": "^0.1.0",
-    "@howdypix/eslint-config": "^0.1.0",
-    "@howdypix/graphql-schema": "^0.1.0",
-    "@howdypix/jest-config": "^0.1.0",
-    "@howdypix/typescript-config": "^0.1.0",
+    "@howdypix/babel-preset": "^0.0.1",
+    "@howdypix/eslint-config": "^0.0.1",
+    "@howdypix/graphql-schema": "^0.0.1",
+    "@howdypix/jest-config": "^0.0.1",
+    "@howdypix/typescript-config": "^0.0.1",
     "@types/amqplib": "^0.5.13",
     "@types/axios": "^0.14.0",
     "@types/config": "^0.0.36",

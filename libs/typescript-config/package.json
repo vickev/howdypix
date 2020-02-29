@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/typescript-config",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Common typescript config for HowdyPix.",
   "license": "MIT",
   "main": "base.json",
