@@ -7,6 +7,9 @@
   "license": "MIT",
   "private": true,
   "typings": "",
+  "bin": {
+    "howdypix-server": "./bin/howdypix-server.js"
+  },
   "scripts": {
     "start": "node build/index",
     "start:mock": "MOCK=true node build/index",
@@ -44,7 +47,8 @@
     "strict-event-emitter-types": "^2.0.0",
     "typeorm": "^0.2.19",
     "wait-on": "^3.3.0",
-    "yaml": "^1.6.0"
+    "yaml": "^1.6.0",
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",

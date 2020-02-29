@@ -38,7 +38,7 @@ app:
 
   auth:
     code:
-      secret: CHANGE ME!!!!!!
+      secret: CHANGE ME!!!!!!!!
       expiry: 2h
 
     token:
