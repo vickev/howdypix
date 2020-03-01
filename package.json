@@ -31,7 +31,9 @@
     "bumpversion:dry": "yarn bumpversion --no-git-tag-version --no-push"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^8.3.4",
     "commitizen": "^4.0.3",
+    "commitlint": "^8.3.5",
     "conventional-changelog-cli": "^2.0.31",
     "cz-lerna-changelog": "^2.0.2",
     "husky": "^3.0.5",
@@ -43,7 +45,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "dependencies": {
