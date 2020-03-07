@@ -28,7 +28,12 @@
     "build:services": "lerna run build --stream --parallel --scope '@howdypix/service-*'",
     "build:libs": "lerna run build --stream --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'",
     "bumpversion": "lerna version --conventional-commits",
-    "bumpversion:dry": "yarn bumpversion --no-git-tag-version --no-push"
+    "bumpversion:dry": "yarn bumpversion --no-git-tag-version --no-push",
+    "lerna:version": "lerna version --conventional-commits --no-push --no-changelog",
+    "lerna:version:revert": "scripts/revert-lerna-version.sh",
+    "version": "node ./scripts/prepare-release",
+    "lerna:publish": "lerna publish from-git --yes",
+    "release": "yarn lerna:version && git push --follow-tags"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
