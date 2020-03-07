@@ -100,5 +100,6 @@
     "source-map-support": "^0.5.16",
     "ts-node": "^8.4.1",
     "wait-on": "^3.3.0"
-  }
+  },
+  "gitHead": "99b810588fb0768ecda77c423a286b2390c1219d"
 }

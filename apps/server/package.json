@@ -88,5 +88,6 @@
     "node-fetch": "^2.6.0",
     "nodemon": "^1.19.2",
     "typescript": "^3.7.2"
-  }
+  },
+  "gitHead": "99b810588fb0768ecda77c423a286b2390c1219d"
 }

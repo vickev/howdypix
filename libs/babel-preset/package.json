@@ -16,5 +16,6 @@
     "@babel/preset-env": "^7.7.0",
     "@babel/preset-react": "7.7.0",
     "@babel/preset-typescript": "^7.7.0"
-  }
+  },
+  "gitHead": "99b810588fb0768ecda77c423a286b2390c1219d"
 }
