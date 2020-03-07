@@ -39,6 +39,7 @@
     "commitlint": "^8.3.5",
     "conventional-changelog-cli": "^2.0.31",
     "cz-lerna-changelog": "^2.0.2",
+    "gh-release": "^3.5.0",
     "husky": "^3.0.5",
     "lerna": "^3.16.4",
     "lerna-semantic-release": "^9.1.0",
