@@ -1,7 +1,7 @@
 {
   "name": "@howdypix/eslint-config",
   "description": "Common eslint configuration for HowdyPix applications",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.3.0",
