@@ -11,10 +11,10 @@ Which problem(s) does it solve and how? What does this PR add?
 - Check-out this branch.
 -
 
-## Checklist
+## Checklisvre 
 
 - [ ] I have read the [CONTRIBUTING](https://github.com/vickev/howdypix/blob/master/.github/CONTRIBUTING.md) guide
-- [ ] I updated the README according to my changes
+- [ ] I have prepared [CHANGELOGs](https://github.com/vickev/howdypix/blob/master/.github/CONTRIBUTING.md#git-workflow) for release
 - [ ] I have translated all my texts, if applicable
 - [ ] I have used `debug()` to help debug the feature, if applicable
 - [ ] I have added tests that prove my fix is effective or that my feature works, if applicable

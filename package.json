@@ -1,6 +1,5 @@
 {
   "name": "howdypix",
-  "version": "0.0.1",
   "description": "Open-Source Photo Gallery.",
   "main": "index.js",
   "repository": "git@github.com:vickev/howdypix.git",
@@ -27,16 +26,15 @@
     "build:apps": "lerna run build --stream --parallel --scope '@howdypix/app-*'",
     "build:services": "lerna run build --stream --parallel --scope '@howdypix/service-*'",
     "build:libs": "lerna run build --stream --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'",
-    "bumpversion": "lerna version --conventional-commits",
-    "bumpversion:dry": "yarn bumpversion --no-git-tag-version --no-push",
     "lerna:version": "lerna version --conventional-commits --no-push --no-changelog",
     "lerna:version:revert": "scripts/revert-lerna-version.sh",
-    "version": "node ./scripts/prepare-release",
     "lerna:publish": "lerna publish from-git --yes",
+    "version": "node ./scripts/prepare-release",
     "release": "yarn lerna:version && git push --follow-tags"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
+    "child-process-promise": "^2.2.1",
     "commitizen": "^4.0.3",
     "commitlint": "^8.3.5",
     "conventional-changelog-cli": "^2.0.31",

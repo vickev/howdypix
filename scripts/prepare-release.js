@@ -2,7 +2,22 @@
 // eslint-disable-next-line prefer-destructuring
 const exec = require("child-process-promise").exec;
 const fs = require("fs-extra");
-const formatDate = require("./utils/format-date");
+const path = require("path");
+const lernaJson = require("../lerna.json");
+
+function formatDate() {
+  const d = new Date();
+  // eslint-disable-next-line prefer-template
+  let month = "" + (d.getMonth() + 1);
+  // eslint-disable-next-line prefer-template
+  let day = "" + d.getDate();
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = `0${month}`;
+  if (day.length < 2) day = `0${day}`;
+
+  return [year, month, day].join("-");
+}
 
 /**
  * Using `lerna changed` to get list of all changed packages in JSON format
@@ -33,7 +48,10 @@ const listChangedPackages = async () => {
 
 const editChangelogs = changedPackages =>
   Promise.all(
-    changedPackages.map(async changedPackage => {
+    [
+      ...changedPackages,
+      { location: path.join(__dirname, ".."), version: lernaJson.version }
+    ].map(async changedPackage => {
       const changelogPath = `${changedPackage.location}/CHANGELOG.md`;
       const changelogContent = await fs.readFile(changelogPath, "utf-8");
       const unreleasedString = "[Unreleased]";

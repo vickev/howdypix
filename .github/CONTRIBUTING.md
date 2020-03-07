@@ -52,3 +52,28 @@ yarn lint
 ```sh
 yarn typecheck
 ```
+## Git workflow
+
+1. Create a feature branch from `master` (or from a fork if from an external contribution) describing the change (`fix-button-space` for example)
+2. When done, push your branch to origin and open a Pull Request with the change in the subject (`Fix Button space` for example)
+3. Fill in the required information from the Pull Request template
+4. Update `CHANGELOG` based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) by adding a `[Unreleased]` section for the changed package(s). This will allow us to know which type of version bump will be needed once the change is merged and we initiate a [release](../RELEASE.md). For example:
+
+```md
+## [Unreleased]
+
+### Fixed
+
+- Fix space ([#520](https://github.com/lightspeed/flame/pull/520))
+```
+
+Here's a list of group sections we support for categorization:
+
+- **Added** for new features.
+- **Changed** for changes in existing functionality.
+- **Deprecated** for soon-to-be removed features.
+- **Removed** for now removed features.
+- **Fixed** for bug fixes.
+- **Dependencies** for updated dependencies.
+- **Documentation** for docs updates.
+- **Breaking** for breaking changes.
