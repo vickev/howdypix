@@ -8,6 +8,9 @@
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "postinstall": "lerna bootstrap && yarn link-packages-because-of-lerna",
     "link-packages-because-of-lerna": "./scripts/link-packages-because-of-lerna.sh",
@@ -33,7 +36,7 @@
     "build:libs": "lerna run build --stream --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'",
     "lerna:version": "lerna version --conventional-commits --no-push --no-changelog",
     "lerna:version:revert": "scripts/revert-lerna-version.sh",
-    "lerna:publish": "lerna publish from-package --yes --no-verify-access",
+    "lerna:publish": "lerna publish from-package --yes",
     "version": "node ./scripts/prepare-release",
     "release": "yarn lerna:version && git push --follow-tags"
   },

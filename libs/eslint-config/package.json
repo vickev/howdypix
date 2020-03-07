@@ -5,6 +5,10 @@
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
   },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.3.0",
@@ -20,6 +24,5 @@
   "devDependencies": {
     "eslint": "6.1.0",
     "typescript": "^3.7.2"
-  },
-  "gitHead": "7a7a3c5dec412467d72bf913bdef6f777d0c0e3d"
+  }
 }

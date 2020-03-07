@@ -3,8 +3,11 @@
   "version": "0.0.2",
   "description": "Common jest configuration for HowdyPix.",
   "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
-  },
-  "gitHead": "7a7a3c5dec412467d72bf913bdef6f777d0c0e3d"
+  }
 }

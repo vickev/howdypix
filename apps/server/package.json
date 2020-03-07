@@ -9,6 +9,9 @@
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "typings": "",
   "bin": {
     "howdypix-server": "./bin/howdypix-server.js"
@@ -88,6 +91,5 @@
     "node-fetch": "^2.6.0",
     "nodemon": "^1.19.2",
     "typescript": "^3.7.2"
-  },
-  "gitHead": "7a7a3c5dec412467d72bf913bdef6f777d0c0e3d"
+  }
 }

@@ -6,6 +6,9 @@
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
   },
-  "main": "base.json",
-  "gitHead": "7a7a3c5dec412467d72bf913bdef6f777d0c0e3d"
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "base.json"
 }
