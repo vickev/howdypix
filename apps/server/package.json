@@ -13,6 +13,10 @@
   "bin": {
     "howdypix-server": "./bin/howdypix-server.js"
   },
+  "files": [
+    "build",
+    "config"
+  ],
   "scripts": {
     "start": "node build/index",
     "start:mock": "MOCK=true node build/index",
