@@ -2,5 +2,8 @@
   "name": "@howdypix/jest-config",
   "version": "0.0.2",
   "description": "Common jest configuration for HowdyPix.",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "url": "git@github.com:vickev/howdypix.git"
+  }
 }

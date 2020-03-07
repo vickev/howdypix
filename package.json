@@ -2,7 +2,9 @@
   "name": "howdypix",
   "description": "Open-Source Photo Gallery.",
   "main": "index.js",
-  "repository": "git@github.com:vickev/howdypix.git",
+  "repository": {
+    "url": "git@github.com:vickev/howdypix.git"
+  },
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": true,
@@ -11,7 +13,10 @@
     "link-packages-because-of-lerna": "./scripts/link-packages-because-of-lerna.sh",
     "prettier": "prettier --write ./{apps,libs}/**/*.{js,jsx,ts,tsx,json}",
     "clean": "lerna clean -y && rm -rf node_modules",
-    "lint": "lerna run lint && lerna run typecheck",
+    "lint:eslint": "lerna run lint",
+    "lint:typecheck": "lerna run typecheck",
+    "lint:changelog": "./scripts/check-changelogs.sh",
+    "lint": "lint:changelog && yarn lint:eslint && lint:typecheck",
     "test": "lerna run test --stream --parallel",
     "test:e2e": "lerna run test:e2e --stream --scope '@howdypix/app-webapp' && lerna run test:e2e --stream --scope '@howdypix/app-server'",
     "watch": "lerna run dev --stream --parallel",
@@ -33,6 +38,7 @@
     "release": "yarn lerna:version && git push --follow-tags"
   },
   "devDependencies": {
+    "@brightcove/kacl": "^0.1.8",
     "@commitlint/config-conventional": "^8.3.4",
     "child-process-promise": "^2.2.1",
     "commitizen": "^4.0.3",

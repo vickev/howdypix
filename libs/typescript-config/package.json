@@ -3,5 +3,8 @@
   "version": "0.0.2",
   "description": "Common typescript config for HowdyPix.",
   "license": "MIT",
+  "repository": {
+    "url": "git@github.com:vickev/howdypix.git"
+  },
   "main": "base.json"
 }

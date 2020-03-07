@@ -2,6 +2,9 @@
   "name": "@howdypix/babel-preset",
   "description": "Preset for babel and howdypix.",
   "version": "0.0.2",
+  "repository": {
+    "url": "git@github.com:vickev/howdypix.git"
+  },
   "license": "MIT",
   "main": "node.js",
   "devDependencies": {
