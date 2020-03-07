@@ -1,5 +1,5 @@
 {
-  "name": "@howdypix/app-server",
+  "name": "@howdypix/server",
   "version": "0.0.2",
   "description": "Server for the Photo Gallery",
   "repository": {

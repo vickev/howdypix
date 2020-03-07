@@ -1,5 +1,5 @@
 {
-  "name": "@howdypix/app-webapp",
+  "name": "@howdypix/webapp",
   "version": "0.0.2",
   "description": "Dispatch work to the workers to parse the pictures.",
   "repository": {

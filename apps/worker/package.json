@@ -1,5 +1,5 @@
 {
-  "name": "@howdypix/app-worker",
+  "name": "@howdypix/worker",
   "version": "0.0.2",
   "description": "Process the pictures to extract information and create thumbnails.",
   "repository": {
