@@ -35,7 +35,7 @@
     "build:services": "lerna run build --stream --parallel --scope '@howdypix/service-*'",
     "build:libs": "lerna run build --stream --ignore '@howdypix/app-*' --ignore '@howdypix/service-*'",
     "lerna:version": "lerna version --conventional-commits --conventional-graduate --no-push --no-changelog",
-    "lerna:version:prerelease": "yarn lerna:version --conventional-prerelease --ignore-scripts",
+    "lerna:version:prerelease": "lerna version --conventional-commits --no-push --no-changelog --conventional-prerelease --ignore-scripts",
     "lerna:version:revert": "scripts/revert-lerna-version.sh",
     "lerna:publish": "lerna publish from-git --yes",
     "version": "node ./scripts/prepare-release",
