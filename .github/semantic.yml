@@ -1,0 +1,17 @@
+# Always validate the PR title, and ignore the commits
+titleOnly: true
+
+scopes:
+  - server
+  - webapp
+  - worker
+  - babel-preset
+  - eslint-config
+  - graphql-schema
+  - jest-config
+  - shared-types
+  - typescript-config
+  - utils
+  - maildev
+  - rabbitmq
+  - root
