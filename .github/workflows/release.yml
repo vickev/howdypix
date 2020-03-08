@@ -50,10 +50,10 @@ jobs:
 
         # If successful => release
       - name: Create a new release
-        run: GITHUB_RELEASE_TOKEN=${{ GITHUB_RELEASE_TOKEN }} node ./scripts/gh-release.js
+        run: GITHUB_RELEASE_TOKEN=${{ secrets.GITHUB_RELEASE_TOKEN }} node ./scripts/gh-release.js
 
         # If successful => publish
       - name: Save auth token for NPM
-        run: echo "//registry.npmjs.org/:_authToken=${{ NPM_AUTH_TOKEN }}" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
       - name: Publish
         run: yarn lerna:publish
