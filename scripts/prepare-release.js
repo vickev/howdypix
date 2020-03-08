@@ -73,7 +73,7 @@ const editChangelogs = changedPackages =>
       } else {
         newChangelogContent = changelogContent.replace(
           unreleasedString,
-          `${changedPackage.version} - ${formatDate()}`
+          `[${changedPackage.version}] - ${formatDate()}`
         );
       }
 
