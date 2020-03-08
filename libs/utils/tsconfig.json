@@ -4,7 +4,7 @@
   "include": ["lib/**/*.ts"],
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./build",
-    "outDir": "./build"
+    "declarationDir": "./dist",
+    "outDir": "./dist"
   }
 }
