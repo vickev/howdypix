@@ -5,7 +5,7 @@ on:
     tags: ["v*"]
 
 jobs:
-  github_release:
+  release_and_publish:
     name: Trigger GitHub release
     runs-on: ubuntu-latest
     steps:
@@ -14,7 +14,46 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+
+        # Install the dependencies
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache yarn
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: Install
         run: yarn install --frozen-lockfile --ignore-scripts
+
+        # Tests
+      - name: Install
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: End-to-end tests
+        run: yarn test:e2e
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: apps/webapp/cypress/screenshots
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: apps/webapp/cypress/videos
+
+        # If successful => release
       - name: Create a new release
-        run: GITHUB_RELEASE_TOKEN=${{GITHUB_RELEASE_TOKEN}} node ./scripts/gh-release.js
+        run: GITHUB_RELEASE_TOKEN=${{ GITHUB_RELEASE_TOKEN }} node ./scripts/gh-release.js
+
+        # If successful => publish
+      - name: Save auth token for NPM
+        run: echo "//registry.npmjs.org/:_authToken=${{ NPM_AUTH_TOKEN }}" > ~/.npmrc
+      - name: Publish
+        run: yarn lerna:publish

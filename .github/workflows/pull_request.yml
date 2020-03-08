@@ -1,5 +1,7 @@
-on: push
-name: Publish mainline
+name: Tests Pull Request
+
+on: pull_request
+
 jobs:
   build_and_e2e:
     name: Build and End-to-End Tests
