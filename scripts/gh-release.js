@@ -3,7 +3,7 @@ const version = require("../lerna.json").version;
 
 if (version.search(/alpha/)) {
   console.log("Alpha version: we do not create a new release in Github.");
-  process.exit(1);
+  process.exit(0);
 }
 
 // all options have defaults and can be omitted
