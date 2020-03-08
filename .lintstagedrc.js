@@ -1,4 +1,5 @@
 const quote = require("shell-quote").quote;
+var shell = require("shelljs");
 
 module.exports = {
   "*.{js,jsx,ts,tsx}": filenames =>
@@ -9,5 +10,6 @@ module.exports = {
       );
 
       return commands;
-    }, [])
+    }, []),
+  "CHANGELOG.md": () => "yarn lint:changelogs"
 };

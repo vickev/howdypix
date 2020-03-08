@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add Github action to automatically create GH releases when there is a new version.
+- `CI`: Auto release and publish to NPM when there is a new version. 
 
 ## 0.0.2 - 2020-03-07
 
