@@ -18,7 +18,8 @@
   },
   "files": [
     "build",
-    "config"
+    "config",
+    "bin"
   ],
   "scripts": {
     "start": "node build/index",
