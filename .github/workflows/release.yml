@@ -53,4 +53,4 @@ jobs:
       - name: Save auth token for NPM
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
       - name: Publish
-        run: yarn lerna:publish
+        run: git checkout . && yarn lerna:publish
