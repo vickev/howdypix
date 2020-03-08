@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/service-rabbitmq",
-  "version": "0.0.2",
+  "version": "0.0.3-alpha.0",
   "description": "Run the RabbitMQ process.",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "repository": {
@@ -8,9 +8,6 @@
   },
   "license": "MIT",
   "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
   "publishConfig": {
     "access": "public"
   },
