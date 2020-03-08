@@ -3,6 +3,13 @@
   "version": "0.0.2",
   "description": "GraphQL schema of HowdyPix, to be used in the applications.",
   "main": "index.js",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "url": "git@github.com:vickev/howdypix.git"
+  },
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --watch schema.graphql scripts/graphql2json.js"

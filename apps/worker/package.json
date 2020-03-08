@@ -1,10 +1,16 @@
 {
-  "name": "@howdypix/app-worker",
+  "name": "@howdypix/worker",
   "version": "0.0.2",
   "description": "Process the pictures to extract information and create thumbnails.",
+  "repository": {
+    "url": "git@github.com:vickev/howdypix.git"
+  },
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "node build/index",
     "dev": "yarn build && wait-on http://localhost:15672 && DEBUG=app:* yarn watch",

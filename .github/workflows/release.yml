@@ -5,49 +5,55 @@ on:
     tags: ["v*"]
 
 jobs:
-  github_release:
+  release_and_publish:
     name: Trigger GitHub release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the new tag
-        uses: actions/checkout@v1.0.0
-
-      - name: Get tag info
-        id: tags
-        uses: babel/actions/get-release-tags@v2
-
-      - name: Generate the changelog
-        id: changelog
-        uses: babel/actions/generate-lerna-changelog@v2
-        with:
-          from: ${{ steps.tags.outputs.old }}
-          to: ${{ steps.tags.outputs.new }}
+      - uses: actions/checkout@v1
+      - name: Dump GitHub context
         env:
-          GITHUB_AUTH: ${{ secrets.GITHUB_RELEASE_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
-      - name: Create a draft GitHub release
-        uses: babel/actions/publish-github-release@v2
+        # Install the dependencies
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache yarn
+        uses: actions/cache@v1
         with:
-          tag: ${{ steps.tags.outputs.new }}
-          changelog: ${{ steps.changelog.outputs.changelog }}
-          token: ${{ secrets.GITHUB_RELEASE_TOKEN }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-      - name: Check if releasing from master
-        id: is_master
-        uses: babel/actions/ref-matches-branch@v2
+      - name: Install
+        run: yarn install --frozen-lockfile --ignore-scripts
+
+        # Tests
+      - name: Install
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: End-to-end tests
+        run: yarn test:e2e
+      - uses: actions/upload-artifact@v1
+        if: failure()
         with:
-          name: master
-
-      - name: Update CHANGELOG.md
-        if: steps.is_master.outputs.result == 1
-        uses: babel/actions/update-changelog@v2
+          name: cypress-screenshots
+          path: apps/webapp/cypress/screenshots
+      - uses: actions/upload-artifact@v1
+        if: always()
         with:
-          changelog: ${{ steps.changelog.outputs.changelog }}
+          name: cypress-videos
+          path: apps/webapp/cypress/videos
 
-      - name: Commit CHANGELOG.md
-        if: steps.is_master.outputs.result == 1
-        run: |
-          git add CHANGELOG.md
-          git -c user.name="Babel Bot" -c user.email="babel-bot@users.noreply.github.com" \
-            commit -m "Add ${{ steps.tags.outputs.new }} to CHANGELOG.md [skip ci]" --no-verify --quiet
-          git push "https://babel-bot:${{ secrets.GITHUB_RELEASE_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" master
+        # If successful => release
+      - name: Create a new release
+        run: GITHUB_RELEASE_TOKEN=${{ GITHUB_RELEASE_TOKEN }} node ./scripts/gh-release.js
+
+        # If successful => publish
+      - name: Save auth token for NPM
+        run: echo "//registry.npmjs.org/:_authToken=${{ NPM_AUTH_TOKEN }}" > ~/.npmrc
+      - name: Publish
+        run: yarn lerna:publish

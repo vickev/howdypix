@@ -2,6 +2,13 @@
   "name": "@howdypix/shared-types",
   "version": "0.0.2",
   "description": "Shared types across the HowdyPix applications.",
+  "repository": {
+    "url": "git@github.com:vickev/howdypix.git"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

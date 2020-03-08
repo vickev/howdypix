@@ -3,8 +3,17 @@
   "version": "0.0.2",
   "description": "Run the RabbitMQ process.",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
+  "repository": {
+    "url": "git@github.com:vickev/howdypix.git"
+  },
   "license": "MIT",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "cd scripts && ./dev.sh"
   }
