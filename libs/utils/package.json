@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/utils",
-  "version": "0.0.3-alpha.0",
+  "version": "0.0.3-alpha.2",
   "description": "A set of reusable functions for HowdyPix.",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
@@ -24,7 +24,7 @@
     "@babel/core": "^7.7.0",
     "@howdypix/babel-preset": "^0.0.3-alpha.0",
     "@howdypix/eslint-config": "^0.0.3-alpha.0",
-    "@howdypix/jest-config": "^0.0.3-alpha.0",
+    "@howdypix/jest-config": "^0.0.3-alpha.2",
     "@howdypix/shared-types": "^0.0.1",
     "@howdypix/typescript-config": "^0.0.3-alpha.0",
     "@types/amqplib": "^0.5.13",
