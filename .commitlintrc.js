@@ -8,7 +8,7 @@ const scopes = _.pullAll(
       ...arr,
       ...fs.readdirSync(path.join(__dirname, directory))
     ],
-    ["chore"]
+    ["root"]
   ),
   ["README.md"]
 );

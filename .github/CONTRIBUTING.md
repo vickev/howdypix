@@ -64,7 +64,7 @@ yarn typecheck
 
 ### Fixed
 
-- Fix space ([#520](https://github.com/lightspeed/flame/pull/520))
+- Fix space ([#520](https://github.com/vickev/howdypix/pull/520))
 ```
 
 Here's a list of group sections we support for categorization:

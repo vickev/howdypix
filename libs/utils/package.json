@@ -10,14 +10,11 @@
     "access": "public"
   },
   "license": "MIT",
-  "main": "./build/index.js",
-  "types": "./build/index.d.ts",
-  "files": [
-    "dist/*"
-  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "rm -rf build && tsc",
+    "build": "rm -rf dist && tsc",
     "lint": "eslint lib/**/*.ts",
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests"
