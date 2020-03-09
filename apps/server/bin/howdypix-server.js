@@ -28,7 +28,7 @@ require("yargs") // eslint-disable-line
       execSync(
         `NODE_CONFIG='${JSON.stringify(
           config
-        )}' node ${__dirname}/../build/index.js`,
+        )}' node ${__dirname}/../dist/index.js`,
         {
           stdio: "inherit"
         }
