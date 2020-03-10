@@ -75,7 +75,8 @@
     "sort-keys": "^4.0.0",
     "styled-components": "^5.0.1",
     "typescript": "^3.7.2",
-    "yaml": "^1.8.0"
+    "yaml": "^1.8.0",
+    "yargs": "^15.3.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.12.1",
