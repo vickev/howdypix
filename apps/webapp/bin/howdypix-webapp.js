@@ -9,6 +9,9 @@ const { join } = require("path");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { parse } = require("yaml");
 
+const actualCwd = process.cwd();
+process.chdir(join(__dirname, ".."));
+
 require("yargs") // eslint-disable-line
   .command(
     "start <config_file_yaml>",
@@ -19,13 +22,11 @@ require("yargs") // eslint-disable-line
       });
     },
     argv => {
-      const content = fs.readFileSync(
-        join(process.cwd(), argv.config_file_yaml)
-      );
+      const content = fs.readFileSync(join(actualCwd, argv.config_file_yaml));
 
       const config = parse(content.toString());
       execSync(
-        `NODE_CONFIG='${JSON.stringify(
+        `NODE_ENV=production NODE_CONFIG='${JSON.stringify(
           config
         )}' node ${__dirname}/../dist/server/index.js`,
         {
