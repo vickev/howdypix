@@ -10,8 +10,12 @@
   "license": "MIT",
   "private": false,
   "files": [
-    "dist"
+    "dist",
+    "bin"
   ],
+  "bin": {
+    "howdypix-webapp": "./bin/howdypix-webapp.js"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -45,6 +49,7 @@
     "apollo-link-http": "^1.5.16",
     "axios": "^0.19.0",
     "concurrently": "^4.1.2",
+    "config": "^3.3.0",
     "cookie": "^0.4.0",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.2.0",
@@ -69,7 +74,8 @@
     "react-i18next": "^10.13.1",
     "sort-keys": "^4.0.0",
     "styled-components": "^5.0.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "yaml": "^1.8.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.12.1",
@@ -87,6 +93,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@types/axios": "^0.14.0",
+    "@types/config": "^0.0.36",
     "@types/cookie": "^0.3.3",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.1",
