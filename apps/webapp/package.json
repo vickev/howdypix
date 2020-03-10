@@ -12,6 +12,7 @@
   "files": [
     "dist",
     "static",
+    ".next",
     "bin"
   ],
   "bin": {
