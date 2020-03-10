@@ -1,5 +1,5 @@
-// Load env variables
-require("dotenv").config();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const config = require("config");
 
 const mock = {
   serverApi: {
@@ -10,13 +10,13 @@ const mock = {
 mock.serverApi.url = `http://localhost:${mock.serverApi.port}`;
 
 const serverRuntimeConfig = {
-  port: process.env.PORT || 3000,
+  port: config.get("app.webapp.port") || 3000,
   baseUrl: undefined,
   serverApi: {
     // If we mock the API server, then we use the mocked API server URL
     url: process.env.MOCK_API
       ? mock.serverApi.url
-      : process.env.API_BASE_URL || "http://localhost:3004"
+      : config.get("app.api.baseUrl") || "http://localhost:3004"
   },
   mock
 };
@@ -26,7 +26,8 @@ const publicRuntimeConfig = {
 };
 
 serverRuntimeConfig.baseUrl =
-  process.env.BASE_URL || `http://localhost:${serverRuntimeConfig.port}`;
+  config.get("app.webapp.baseUrl") ||
+  `http://localhost:${serverRuntimeConfig.port}`;
 
 publicRuntimeConfig.baseUrl = serverRuntimeConfig.baseUrl;
 
