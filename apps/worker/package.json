@@ -11,8 +11,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "bin": {
+    "howdypix-worker": "./bin/howdypix-worker.js"
+  },
   "files": [
-    "dist"
+    "dist",
+    "config",
+    "bin"
   ],
   "scripts": {
     "start": "node dist/index",
@@ -28,12 +33,14 @@
     "@howdypix/utils": "^0.0.3-alpha.4",
     "@types/sharp": "^0.22.2",
     "amqplib": "^0.5.5",
+    "config": "^3.3.0",
     "dotenv": "^8.2.0",
     "exif": "^0.6.0",
     "lodash": "^4.17.15",
     "mkdirp": "^0.5.1",
     "sharp": "^0.23.0",
-    "wait-on": "^3.3.0"
+    "wait-on": "^3.3.0",
+    "yaml": "^1.8.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
@@ -43,6 +50,7 @@
     "@howdypix/jest-config": "^0.0.3-alpha.2",
     "@howdypix/typescript-config": "^0.0.3-alpha.0",
     "@types/amqplib": "^0.5.13",
+    "@types/config": "^0.0.36",
     "@types/exif": "^0.6.0",
     "@types/jest": "^24.0.18",
     "@types/lodash": "^4.14.138",
