@@ -17,6 +17,7 @@
     "howdypix-server": "./bin/howdypix-server.js"
   },
   "files": [
+    "dist",
     "config",
     "bin"
   ],
