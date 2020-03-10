@@ -1,10 +1,7 @@
-// Load env variables
-require("dotenv").config();
+import config from "config";
 
-const config = {
+export default {
   rabbitMq: {
-    url: process.env.RABBITMQ_URL || "amqp://localhost"
+    url: (config.get("app.rabbitMQ.url") as string) || "amqp://localhost"
   }
 };
-
-export default config;

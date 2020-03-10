@@ -1,0 +1,5 @@
+{
+  "rabbitMQ": {
+    "url": "RABBITMQ_URL"
+  }
+}

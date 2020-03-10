@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- CLI to start the worker
+
 ### Changed
 
+- Use `config` instead of `.env` for configuration
 - Changed the output to be `dist` when building  ([#81](https://github.com/vickev/howdypix/pull/81))
 
 ## [0.0.2] - 2020-03-07
