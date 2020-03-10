@@ -11,6 +11,7 @@
   "private": false,
   "files": [
     "dist",
+    "static",
     "bin"
   ],
   "bin": {

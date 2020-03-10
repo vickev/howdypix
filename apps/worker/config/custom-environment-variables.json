@@ -1,5 +1,7 @@
 {
-  "rabbitMQ": {
-    "url": "RABBITMQ_URL"
+  "app": {
+    "rabbitMQ": {
+      "url": "RABBITMQ_URL"
+    }
   }
 }
