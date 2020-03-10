@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/server",
-  "version": "0.0.3-alpha.4",
+  "version": "0.0.3-alpha.5",
   "description": "Server for the Photo Gallery",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
