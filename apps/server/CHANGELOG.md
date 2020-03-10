@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- CLI to start the server
+
 ### Changed
 
 - Changed the output to be `dist` when building ([#81](https://github.com/vickev/howdypix/pull/81))

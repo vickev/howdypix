@@ -34,4 +34,5 @@ require("yargs") // eslint-disable-line
         }
       );
     }
-  ).argv;
+  )
+  .demandCommand().argv;
