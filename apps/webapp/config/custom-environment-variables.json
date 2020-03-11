@@ -1,0 +1,11 @@
+{
+  "app": {
+    "api": {
+      "baseUrl": "API_BASE_URL"
+    },
+    "webapp": {
+      "port": "WEBAPP_PORT",
+      "baseUrl": "WEBAPP_BASE_URL"
+    }
+  }
+}
