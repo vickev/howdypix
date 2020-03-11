@@ -12,6 +12,7 @@
   "files": [
     "dist",
     "config",
+    "next.config.js",
     "static",
     ".next",
     "bin"
