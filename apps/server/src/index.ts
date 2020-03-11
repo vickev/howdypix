@@ -53,7 +53,7 @@ async function main(): Promise<void> {
   applyAuthMiddleware(app);
 
   // Attach the Apollo middlewares
-  applyApolloMiddleware(app, userConfig, connection);
+  applyApolloMiddleware(app, appConfig, userConfig, connection);
 
   app.listen({ port: appConfig.api.port }, () => {
     // eslint-disable-next-line no-console

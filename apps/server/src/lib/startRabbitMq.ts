@@ -1,4 +1,5 @@
 import { Channel, connect as connectRabbitMq } from "amqplib";
+import { resolve } from "path";
 import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
 import {
   appDebug,
@@ -80,7 +81,11 @@ export async function startRabbitMq(
     await assertQueue(channel, QueueName.TO_PROCESS);
     await assertQueue(channel, QueueName.PROCESSED);
 
-    await bindAppEvents(event, userConfig.thumbnailsDir, channel);
+    await bindAppEvents(
+      event,
+      resolve(process.cwd(), userConfig.thumbnailsDir),
+      channel
+    );
     await bindChannelEvents(event, channel);
 
     return channel;

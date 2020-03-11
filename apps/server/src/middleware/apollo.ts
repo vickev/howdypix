@@ -7,7 +7,7 @@ import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
 import { Connection } from "typeorm";
-import { UserConfig } from "../config";
+import { UserConfig, AppConfig } from "../config";
 import * as types from "../schema";
 import { isTokenValid } from "../lib/auth";
 import { ApolloContext } from "../types.d";
@@ -18,7 +18,7 @@ type NexusEntity =
   | NexusEnumTypeDef<string>;
 
 type GraphQLTypes = {
-  [key: string]: (userConfig: UserConfig) => NexusEntity;
+  [key: string]: (appConfig: AppConfig, userConfig: UserConfig) => NexusEntity;
 };
 
 const destDir = join(
@@ -33,6 +33,7 @@ const destDir = join(
 
 export function applyApolloMiddleware(
   app: Express,
+  appConfig: AppConfig,
   userConfig: UserConfig,
   connection: Connection
 ): void {
@@ -41,7 +42,7 @@ export function applyApolloMiddleware(
       (types as unknown) as GraphQLTypes,
       (acc, value, key) => {
         // We pass the `userConfig` to all the resolvers to be consumed
-        acc[key] = value(userConfig);
+        acc[key] = value(appConfig, userConfig);
       },
       {} as { [key: string]: NexusEntity }
     ),

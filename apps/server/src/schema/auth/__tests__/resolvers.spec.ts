@@ -18,6 +18,7 @@ describe("authEmailResolver", () => {
   });
 
   const resolver = authEmailResolver(
+    { tls: false, port: 222, host: "toto", password: "", user: "" },
     [{ name: "Name", email: "success@vickev.com" }],
     { name: "Sender", email: "sender@vickev.com" }
   );

@@ -2,7 +2,7 @@ import { extendType } from "nexus";
 import { getSourcesResolver } from "./sourceResolvers";
 import { EnhancedQuery } from "../../types.d";
 
-export const getSources: EnhancedQuery = userConfig =>
+export const getSources: EnhancedQuery = (appConfig, userConfig) =>
   extendType({
     type: "Query",
     definition(t) {

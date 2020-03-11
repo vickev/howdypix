@@ -6,12 +6,13 @@ import { createTransport } from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
 import { appDebug } from "@howdypix/utils";
 import { magicLink } from "../../email";
-import { UserConfig } from "../../config";
+import { UserConfig, AppConfig } from "../../config";
 import { generateCode, isEmailValid, storeCode } from "../../lib/auth";
 
 const debug = appDebug("gql:auth");
 
 export const authEmailResolver = (
+  smtpConfig: AppConfig["smtp"],
   authorizedUsers: UserConfig["users"],
   sender: UserConfig["emailSender"]
 ) => async (
@@ -34,9 +35,9 @@ export const authEmailResolver = (
           })
         : createTransport(
             smtpTransport({
-              host: process.env.SMTP_HOST,
-              port: parseInt(process.env.SMTP_PORT as string, 0),
-              ignoreTLS: true
+              host: smtpConfig.host,
+              port: smtpConfig.port,
+              ignoreTLS: smtpConfig.tls
             })
           );
 
