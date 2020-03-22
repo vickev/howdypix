@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Changed the output to be `dist` when building ([#81](https://github.com/vickev/howdypix/pull/81))
+- Thumbnails URLs point to the `webapp` URL instead of the `server` ([#92](https://github.com/vickev/howdypix/pull/92))
 
 ## [0.0.2] - 2020-03-07
 
