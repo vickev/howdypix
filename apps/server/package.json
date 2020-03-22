@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/server",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.8",
   "description": "Server for the Photo Gallery",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
@@ -37,8 +37,8 @@
   },
   "dependencies": {
     "@howdypix/graphql-schema": "^0.0.3-alpha.0",
-    "@howdypix/shared-types": "^0.0.3-alpha.0",
-    "@howdypix/utils": "^0.0.3-alpha.4",
+    "@howdypix/shared-types": "^0.1.0-alpha.8",
+    "@howdypix/utils": "^0.1.0-alpha.8",
     "amqplib": "^0.5.5",
     "apollo-server": "^2.9.3",
     "apollo-server-express": "^2.9.7",
@@ -68,7 +68,7 @@
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.7.0",
     "@howdypix/babel-preset": "^0.0.3-alpha.0",
-    "@howdypix/eslint-config": "^0.0.3-alpha.0",
+    "@howdypix/eslint-config": "^0.1.0-alpha.8",
     "@howdypix/graphql-schema": "^0.0.1",
     "@howdypix/jest-config": "^0.0.3-alpha.2",
     "@howdypix/typescript-config": "^0.0.3-alpha.0",

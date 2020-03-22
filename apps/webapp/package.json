@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/webapp",
-  "version": "0.1.0-alpha.7",
+  "version": "0.1.0-alpha.8",
   "description": "Dispatch work to the workers to parse the pictures.",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
@@ -40,8 +40,8 @@
     "@apollo/react-hooks": "^3.1.1",
     "@apollo/react-ssr": "^3.1.1",
     "@howdypix/graphql-schema": "^0.0.3-alpha.0",
-    "@howdypix/shared-types": "^0.0.3-alpha.0",
-    "@howdypix/utils": "^0.0.3-alpha.4",
+    "@howdypix/shared-types": "^0.1.0-alpha.8",
+    "@howdypix/utils": "^0.1.0-alpha.8",
     "@material-ui/core": "^4.4.3",
     "@material-ui/icons": "^4.4.3",
     "@material-ui/lab": "^4.0.0-alpha.38",
@@ -89,7 +89,7 @@
     "@graphql-codegen/typescript-operations": "^1.12.1",
     "@graphql-codegen/typescript-react-apollo": "^1.12.1",
     "@howdypix/babel-preset": "^0.0.3-alpha.0",
-    "@howdypix/eslint-config": "^0.0.3-alpha.0",
+    "@howdypix/eslint-config": "^0.1.0-alpha.8",
     "@howdypix/graphql-schema": "^0.0.1",
     "@howdypix/jest-config": "^0.0.3-alpha.2",
     "@howdypix/shared-types": "^0.0.1",
