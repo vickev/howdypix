@@ -35,7 +35,7 @@ export const getPhotoResolver = () => async (
 
     return {
       id: photo.id.toString(),
-      files: generateThumbnailUrls(appConfig.api.baseUrl, {
+      files: generateThumbnailUrls(appConfig.webapp.baseUrl, {
         file: photo.file,
         source: photo.source,
         name: photo.file,
@@ -54,7 +54,7 @@ export const getPhotoResolver = () => async (
           id: String(sr.photo.id),
           file: String(sr.photo.file),
           thumbnails: generateThumbnailUrls(
-            appConfig.api.baseUrl,
+            appConfig.webapp.baseUrl,
             sr.photo
           ).map(tn => tn.url)
         })

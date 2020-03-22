@@ -12,7 +12,9 @@ import { startCacheDB } from "./lib/startCacheDB";
 import { staticHandler } from "./middleware/static";
 import { emailListHandler, emailViewHandler } from "./middleware/email";
 import { applyAuthMiddleware } from "./middleware/auth";
-import ormConfig from "../ormconfig.js";
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import ormConfig from "../ormconfig";
 
 async function main(): Promise<void> {
   const event: Events = new EventEmitter();
@@ -21,6 +23,7 @@ async function main(): Promise<void> {
   console.log("User Configuration loaded:");
   // eslint-disable-next-line no-console
   console.log(userConfig);
+  // eslint-disable-next-line no-console
   console.log(appConfig);
 
   // Open the DB connection

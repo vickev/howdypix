@@ -13,7 +13,7 @@ import { appConfig } from "../../config";
 const debug = appDebug("gql");
 
 const generatePreviewUrl = (album: EntityAlbum | EntitySource): string =>
-  generateThumbnailUrls(appConfig.api.baseUrl, {
+  generateThumbnailUrls(appConfig.webapp.baseUrl, {
     file: album.preview,
     dir: album.dir,
     source: album.source

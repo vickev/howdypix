@@ -27,7 +27,7 @@ export const getSourcesResolver = (
     nbPhotos: sources[name]?.nbPhotos ?? 0,
     preview:
       sources[name]?.preview &&
-      generateThumbnailUrls(appConfig.api.baseUrl, {
+      generateThumbnailUrls(appConfig.webapp.baseUrl, {
         file: sources[name]?.preview,
         dir: sources[name]?.dir,
         source: name

@@ -58,6 +58,14 @@ app.prepare().then(() => {
   // Authentication routes
   applyAuthMiddleware(server);
 
+  // Static files
+  server.get(
+    "/static/*",
+    proxy({
+      target: serverRuntimeConfig.serverApi.url
+    })
+  );
+
   // Next JS Middleware
   server.get("*", authHandler(), (req, res) => handle(req, res));
 
