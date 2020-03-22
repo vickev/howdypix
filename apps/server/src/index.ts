@@ -12,7 +12,7 @@ import { startCacheDB } from "./lib/startCacheDB";
 import { staticHandler } from "./middleware/static";
 import { emailListHandler, emailViewHandler } from "./middleware/email";
 import { applyAuthMiddleware } from "./middleware/auth";
-import ormConfig from "../ormconfig.json";
+import ormConfig from "../ormconfig.js";
 
 async function main(): Promise<void> {
   const event: Events = new EventEmitter();
