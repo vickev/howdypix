@@ -4,11 +4,11 @@ import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
 import {
   appDebug,
   assertQueue,
-  connectToRabbitMq,
   consume,
   hjoin,
   sendToQueue
 } from "@howdypix/utils";
+import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { Events } from "./eventEmitter";
 import { UserConfig } from "../config";
 

@@ -5,9 +5,9 @@ import {
   assertQueue,
   consume,
   hjoin,
-  sendToQueue,
-  connectToRabbitMq
+  sendToQueue
 } from "@howdypix/utils";
+import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { process } from "./process";
 
 export async function startRabbitMq(url: string): Promise<void> {
@@ -39,6 +39,6 @@ export async function startRabbitMq(url: string): Promise<void> {
       }
     });
   } catch (e) {
-    appError("An error occured: ", e);
+    appError(`An error occured: ${e}`);
   }
 }
