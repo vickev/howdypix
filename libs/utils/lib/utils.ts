@@ -64,8 +64,23 @@ export function isHowdypixPath(path = ""): boolean {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function appInfo(space: string): (...message: any[]) => void {
+  return debug(`app:info:${space}`);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function appWarning(space: string): (...message: any[]) => void {
+  return debug(`app:warn:${space}`);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function appError(space: string): (...message: any[]) => void {
+  return debug(`app:error:${space}`);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appDebug(space: string): (...message: any[]) => void {
-  return debug(`app:${space}`);
+  return debug(`app:debug:${space}`);
 }
 
 export function libDebug(space: string): (message: string) => void {

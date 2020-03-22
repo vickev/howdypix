@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "start": "node dist/index",
-    "dev": "yarn build && wait-on http://localhost:15672 && DEBUG=app:* yarn watch",
+    "dev": "yarn build && DEBUG=app:* yarn watch",
     "watch": "yarn build --skip-initial-build --watch & nodemon dist/index",
     "build": "babel src --out-dir dist --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.ts",
@@ -40,7 +40,6 @@
     "lodash": "^4.17.15",
     "mkdirp": "^0.5.1",
     "sharp": "^0.23.0",
-    "wait-on": "^3.3.0",
     "yargs": "^15.3.0"
   },
   "devDependencies": {

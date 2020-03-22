@@ -1,4 +1,4 @@
-import { Channel, connect as connectRabbitMq } from "amqplib";
+import { Channel } from "amqplib";
 import { resolve } from "path";
 import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
 import {
@@ -8,6 +8,7 @@ import {
   hjoin,
   sendToQueue
 } from "@howdypix/utils";
+import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { Events } from "./eventEmitter";
 import { UserConfig } from "../config";
 
@@ -74,8 +75,13 @@ export async function startRabbitMq(
   userConfig: UserConfig,
   url: string
 ): Promise<Channel | null> {
+  if (process.env.MOCK) {
+    return null;
+  }
+
+  const connection = await connectToRabbitMq(url);
+
   try {
-    const connection = await connectRabbitMq(url);
     const channel = await connection.createChannel();
 
     await assertQueue(channel, QueueName.TO_PROCESS);
