@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - CLI to start the server
-- Retry the connection when RabbitMQ is not available ([#82](https://github.com/vickev/howdypix/pull/82))
+- Retry the connection when RabbitMQ is not available ([#94](https://github.com/vickev/howdypix/pull/94))
 
 ### Changed
 
