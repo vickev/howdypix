@@ -20,7 +20,7 @@
     "dist",
     "config",
     "bin",
-    "ormconfig.json"
+    "ormconfig.js"
   ],
   "scripts": {
     "start": "node dist/index",
