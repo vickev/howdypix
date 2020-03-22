@@ -1,7 +1,6 @@
 # Default ignored files
 .idea
 node_modules
-build
 dist
 yarn-error.log
 lerna-debug.log
