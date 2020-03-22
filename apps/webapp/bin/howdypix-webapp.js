@@ -7,9 +7,8 @@ const { execSync } = require("child_process");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { join } = require("path");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { parse } = require("yaml");
+const { load } = require("js-yaml");
 
-const actualCwd = process.cwd();
 process.chdir(join(__dirname, ".."));
 
 require("yargs") // eslint-disable-line
@@ -22,17 +21,23 @@ require("yargs") // eslint-disable-line
       });
     },
     argv => {
-      const content = fs.readFileSync(join(actualCwd, argv.config_file_yaml));
+      const absolutePath = join(process.cwd(), argv.config_file_yaml);
 
-      const config = parse(content.toString());
-      execSync(
-        `NODE_ENV=production NODE_CONFIG='${JSON.stringify(
-          config
-        )}' node ${__dirname}/../dist/server/index.js`,
-        {
-          stdio: "inherit"
-        }
-      );
+      if (fs.existsSync(absolutePath)) {
+        const content = fs.readFileSync(absolutePath);
+        const config = load(content.toString());
+
+        execSync(
+          `NODE_ENV=production NODE_CONFIG='${JSON.stringify(
+            config
+          )}' node ${__dirname}/../dist/server/index.js`,
+          {
+            stdio: "inherit"
+          }
+        );
+      } else {
+        console.log(`Cannot find file ${absolutePath}.`);
+      }
     }
   )
   .demandCommand().argv;
