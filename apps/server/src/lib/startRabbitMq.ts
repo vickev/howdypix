@@ -75,6 +75,10 @@ export async function startRabbitMq(
   userConfig: UserConfig,
   url: string
 ): Promise<Channel | null> {
+  if (process.env.MOCK) {
+    return null;
+  }
+
   const connection = await connectToRabbitMq(url);
 
   try {
