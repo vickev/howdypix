@@ -32,7 +32,7 @@ export const getSearchResolver = () => async (
           searchResult: EntitySearchResult
         ): NexusGenRootTypes["SearchPhoto"] => ({
           id: searchResult.photo.id.toString(),
-          thumbnails: generateThumbnailUrls(appConfig.api.baseUrl, {
+          thumbnails: generateThumbnailUrls(appConfig.webapp.baseUrl, {
             file: searchResult.photo.file,
             dir: searchResult.photo.dir,
             source: searchResult.photo.source
