@@ -55,6 +55,19 @@ module.exports = {
     "sort-class-members/sort-class-members": "off",
 
     // Super useful rule
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+
+    // @see https://github.com/benmosher/eslint-plugin-import/issues/1615#issuecomment-577500405
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        js: "never",
+        mjs: "never",
+        jsx: "never",
+        ts: "never",
+        tsx: "never"
+      }
+    ]
   }
 };
