@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Added more support to send emails (with gmail for example) ([#95](https://github.com/vickev/howdypix/pull/95))
+
 ### Added
 
 - CLI to start the server
