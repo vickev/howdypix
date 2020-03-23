@@ -9,4 +9,4 @@ RUN apk --no-cache --virtual build-dependencies add \
 
 COPY config config
 
-CMD ./node_modules/.bin/howdypix-server start ./config/default.yaml
+CMD DEBUG=app:*,-lib:* ./node_modules/.bin/howdypix-server start ./config/default.yaml
