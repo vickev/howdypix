@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/worker",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-alpha.10",
   "description": "Process the pictures to extract information and create thumbnails.",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
