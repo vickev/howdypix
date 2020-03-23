@@ -37,11 +37,16 @@ export const authEmailResolver = (
             smtpTransport({
               host: smtpConfig.host,
               port: smtpConfig.port,
-              ignoreTLS: smtpConfig.tls
+              requireTLS: smtpConfig.tls,
+              auth: {
+                user: smtpConfig.user,
+                pass: smtpConfig.password
+              }
             })
           );
 
       const mailOptions = {
+        subject: "Authentication code",
         from: `${sender.name}<${sender.email}>`,
         to: `${user.name}<${user.email}>`
       };

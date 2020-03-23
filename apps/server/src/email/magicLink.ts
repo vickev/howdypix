@@ -1,5 +1,6 @@
 import mjml2html from "mjml";
 import { routes } from "@howdypix/utils";
+import { appConfig } from "../config";
 
 export const magicLink = ({
   name = "Foo Bar",
@@ -16,7 +17,7 @@ export const magicLink = ({
           <mj-text font-size="30px" color="#F45E43" font-family="helvetica">Welcome ${name}!</mj-text>
           <mj-divider border-color="#F45E43"></mj-divider>
           <mj-text font-size="20px" color="#F45E43" font-family="helvetica">To authenticate, click <a href="${
-            process.env.WEBAPP_BASE_URL
+            appConfig.webapp.baseUrl
           }${routes.magickLinkValidation.value({ code })} ">here</a>.</mj-text> 
           <mj-text font-size="10px" color="#F45E43" font-family="helvetica">You can also manually enter your secured code: <strong>${code}</strong>.</mj-text>
         </mj-column>

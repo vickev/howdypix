@@ -1,6 +1,3 @@
-// Load env variables
-require("dotenv").config();
-
 export type User = {
   email: string;
   name: string;
