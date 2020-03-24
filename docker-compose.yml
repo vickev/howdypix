@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  webapp:
+    container_name: howdypix_webapp
+    build: ./apps/webapp
+    ports:
+      - "3000:3000"
+    environment:
+      - API_BASE_URL=http://server:3004
+
+  worker:
+    container_name: howdypix_worker
+    build: ./apps/worker
+    volumes:
+      - "./apps/worker/config:/node_modules/@howdypix/worker/config"
+      - "./apps/server/photos:/photos"
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+
+  server:
+    container_name: howdypix_server
+    build: ./apps/server
+    volumes:
+      - "./apps/server/ormconfig.js:/node_modules/@howdypix/server/ormconfig.js"
+      - "./apps/server/photos:/photos"
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+      - SMTP_HOST=maildev
+
+  rabbitmq:
+    container_name: howdypix_rabbitmq
+    image: rabbitmq
+
+  maildev:
+    container_name: howdypix_maildev
+    image: mailhog/mailhog
+    ports:
+    - 1086:8025
+    - 1026:1025
