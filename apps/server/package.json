@@ -63,10 +63,10 @@
     "yargs": "^15.1.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.0",
-    "@babel/plugin-proposal-class-properties": "^7.7.0",
-    "@babel/plugin-proposal-decorators": "^7.7.0",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "@howdypix/babel-preset": "^0.0.3-alpha.0",
     "@howdypix/eslint-config": "^0.1.0-alpha.8",
     "@howdypix/graphql-schema": "^0.0.1",
