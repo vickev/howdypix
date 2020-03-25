@@ -40,7 +40,7 @@
     "lodash": "^4.17.15",
     "mkdirp": "^0.5.1",
     "sharp": "^0.23.0",
-    "yargs": "^15.3.0"
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -56,9 +56,9 @@
     "@types/lodash": "^4.14.138",
     "@types/mkdirp": "^0.5.2",
     "@types/sharp": "^0.22.2",
-    "eslint": " ^6.3.0",
+    "eslint": "^6.8.0",
     "jest": "^24.9.0",
-    "nodemon": "^1.19.2",
-    "typescript": "^3.7.2"
+    "nodemon": "^2.0.2",
+    "typescript": "^3.8.3"
   }
 }
