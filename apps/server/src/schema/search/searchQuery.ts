@@ -10,8 +10,8 @@ export const getSearch: EnhancedQuery = () =>
       album: stringArg(),
       source: stringArg(),
       ...withOrderByQueryArg(),
-      ...withFilterByQueryArg()
+      ...withFilterByQueryArg(),
     },
     authorize: (root, args, ctx) => !!ctx.user,
-    resolve: getSearchResolver()
+    resolve: getSearchResolver(),
   });

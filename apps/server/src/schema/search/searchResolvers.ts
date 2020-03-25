@@ -1,7 +1,7 @@
 import {
   NexusGenArgTypes,
   NexusGenFieldTypes,
-  NexusGenRootTypes
+  NexusGenRootTypes,
 } from "@howdypix/graphql-schema/schema.d";
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { SearchResult as EntitySearchResult } from "../../entity/SearchResult";
@@ -35,11 +35,11 @@ export const getSearchResolver = () => async (
           thumbnails: generateThumbnailUrls(appConfig.webapp.baseUrl, {
             file: searchResult.photo.file,
             dir: searchResult.photo.dir,
-            source: searchResult.photo.source
-          }).map(tn => tn.url),
+            source: searchResult.photo.source,
+          }).map((tn) => tn.url),
           file: searchResult.photo.file,
-          birthtime: Math.round(searchResult.photo.birthtime)
+          birthtime: Math.round(searchResult.photo.birthtime),
         })
-      ) ?? []
+      ) ?? [],
   };
 };

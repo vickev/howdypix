@@ -31,15 +31,14 @@
   "dependencies": {
     "@howdypix/shared-types": "^0.1.0-alpha.8",
     "@howdypix/utils": "^0.1.0-alpha.8",
-    "@types/sharp": "^0.22.2",
     "amqplib": "^0.5.5",
     "config": "^3.3.0",
     "dotenv": "^8.2.0",
     "exif": "^0.6.0",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
-    "mkdirp": "^0.5.1",
-    "sharp": "^0.23.0",
+    "mkdirp": "^1.0.3",
+    "sharp": "^0.25.2",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
@@ -52,12 +51,12 @@
     "@types/amqplib": "^0.5.13",
     "@types/config": "^0.0.36",
     "@types/exif": "^0.6.0",
-    "@types/jest": "^24.0.18",
+    "@types/jest": "^25.1.4",
     "@types/lodash": "^4.14.138",
-    "@types/mkdirp": "^0.5.2",
-    "@types/sharp": "^0.22.2",
+    "@types/mkdirp": "^1.0.0",
+    "@types/sharp": "^0.24.0",
     "eslint": "^6.8.0",
-    "jest": "^24.9.0",
+    "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "typescript": "^3.8.3"
   }

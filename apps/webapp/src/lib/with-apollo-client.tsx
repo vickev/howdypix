@@ -59,9 +59,9 @@ function createApolloClient(initialState: InitialState): ApolloClient<object> {
       }/graphql`, // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
       headers,
-      fetch
+      fetch,
     }),
-    cache: new InMemoryCache().restore(initialState as NormalizedCacheObject)
+    cache: new InMemoryCache().restore(initialState as NormalizedCacheObject),
   });
 }
 
@@ -141,13 +141,13 @@ export function withApollo(
       const fixtureSet = req?.query?.["fixture-set"];
       const {
         token,
-        refreshToken
+        refreshToken,
       }: {
         token: string | null;
         refreshToken: string | null;
       } = req?.cookies ?? {
         token: null,
-        refreshToken: null
+        refreshToken: null,
       };
       const { AppTree } = ctx;
 
@@ -157,8 +157,8 @@ export function withApollo(
         fixtureSet,
         tokens: {
           token,
-          refreshToken
-        }
+          refreshToken,
+        },
       });
 
       // Run wrapped getInitialProps methods
@@ -185,7 +185,7 @@ export function withApollo(
               <AppTree
                 pageProps={{
                   ...pageProps,
-                  apolloClient
+                  apolloClient,
                 }}
               />
             );
@@ -210,7 +210,7 @@ export function withApollo(
         ...pageProps,
         apolloState,
         token,
-        refreshToken
+        refreshToken,
       };
     };
   }

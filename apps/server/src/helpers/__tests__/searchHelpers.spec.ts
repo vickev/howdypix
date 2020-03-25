@@ -9,7 +9,7 @@ const {
   fetchSearchResult,
   findSavedSearch,
   saveNewSearch,
-  saveSearchResult
+  saveSearchResult,
 } = searchHelpers;
 
 describe("searchHelpers", () => {
@@ -20,7 +20,7 @@ describe("searchHelpers", () => {
   test("findSavedSearch should make the right query", async () => {
     const findOne = jest.fn(() => ({ data: "yay" }));
     const repository = {
-      findOne
+      findOne,
     };
 
     expect(
@@ -29,7 +29,7 @@ describe("searchHelpers", () => {
         {
           orderBy: "DATE_ASC",
           source: "source",
-          album: "album"
+          album: "album",
         }
       )
     ).toMatchSnapshot();
@@ -40,14 +40,14 @@ describe("searchHelpers", () => {
   test("saveNewSearch should make the right query", async () => {
     const save = jest.fn(() => ({ data: "yay" }));
     const repository = {
-      save
+      save,
     };
 
     expect(
       await saveNewSearch((repository as unknown) as Repository<EntitySearch>, {
         orderBy: "DATE_ASC",
         source: "source",
-        album: "album"
+        album: "album",
       })
     ).toMatchSnapshot();
 
@@ -57,14 +57,14 @@ describe("searchHelpers", () => {
   test("doSearch should make the right query", async () => {
     const find = jest.fn(() => [{ data: "yay" }]);
     const repository = {
-      find
+      find,
     };
 
     expect(
       await doSearch((repository as unknown) as Repository<EntityPhoto>, {
         orderBy: "DATE_ASC",
         source: "source",
-        album: "album"
+        album: "album",
       })
     ).toMatchSnapshot();
 
@@ -74,7 +74,7 @@ describe("searchHelpers", () => {
   test("saveSearchResult should make the right query", async () => {
     const save = jest.fn(() => [{ data: "yay" }]);
     const repository = {
-      save
+      save,
     };
 
     expect(
@@ -93,7 +93,7 @@ describe("searchHelpers", () => {
   test("fetchSearchResult should make the right query", async () => {
     const find = jest.fn(() => [{ data: "yay" }]);
     const repository = {
-      find
+      find,
     };
 
     expect(
@@ -105,7 +105,7 @@ describe("searchHelpers", () => {
           source: "source",
           orderBy: "orderBy",
           searchResults: [],
-          filterBy: ""
+          filterBy: "",
         },
         1,
         5
@@ -137,7 +137,7 @@ describe("searchHelpers", () => {
     });
 
     const connection = ({
-      getRepository: jest.fn(() => ({}))
+      getRepository: jest.fn(() => ({})),
     } as unknown) as Connection;
 
     describe("with not-saved results", () => {
@@ -148,28 +148,28 @@ describe("searchHelpers", () => {
             order: 0,
             id: 123,
             search: {
-              id: 123
+              id: 123,
             },
             photo: {
               id: 123,
               file: "file",
               source: "source",
-              dir: "dir"
-            }
+              dir: "dir",
+            },
           },
           {
             order: 1,
             id: 456,
             search: {
-              id: 123
+              id: 123,
             },
             photo: {
               id: 456,
               file: "file",
               source: "source",
-              dir: "dir"
-            }
-          }
+              dir: "dir",
+            },
+          },
         ] as EntitySearchResult[]);
       });
 
@@ -212,7 +212,7 @@ describe("searchHelpers", () => {
           orderBy: "orderBy",
           source: "source",
           album: "album",
-          id: 123
+          id: 123,
         } as EntitySearch);
 
         (searchHelpers.fetchSearchResult as jest.Mock).mockReturnValue([
@@ -220,15 +220,15 @@ describe("searchHelpers", () => {
             order: 0,
             id: 123,
             search: {
-              id: 123
+              id: 123,
             },
             photo: {
               id: 123,
               file: "file",
               source: "source",
-              dir: "dir"
-            }
-          }
+              dir: "dir",
+            },
+          },
         ] as EntitySearchResult[]);
       });
 

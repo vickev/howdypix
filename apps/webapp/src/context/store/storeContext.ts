@@ -9,7 +9,7 @@ export const StoreContext = React.createContext<StoreContextData>({
   setRightPanel: () => {},
   setCurrentAlbum: () => {},
   setCurrentSource: () => {},
-  setWithLayout: () => {}
+  setWithLayout: () => {},
 });
 
 export const StoreProvider = StoreContext.Provider;

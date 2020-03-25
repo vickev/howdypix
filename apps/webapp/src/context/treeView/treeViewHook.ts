@@ -13,7 +13,7 @@ export const useTreeView = ({ album, source }: Props): TreeViewContextData => {
   useEffect(() => {
     context.expand({
       album: album ?? null,
-      source: source ?? ""
+      source: source ?? "",
     });
   }, [album, source]);
 

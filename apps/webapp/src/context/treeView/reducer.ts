@@ -4,13 +4,13 @@ import {
   GetTreeAlbums,
   GetTreeQuery,
   GetTreeQueryVariables,
-  GetTreeSources
+  GetTreeSources,
 } from "../../__generated__/schema-types";
 import {
   AlbumWithNodeId,
   SourceWithNodeId,
   TreeItem,
-  TreeItemWithParent
+  TreeItemWithParent,
 } from "./types";
 
 // ========================================================================
@@ -32,7 +32,7 @@ const selectParents = (
         if (d.parentDir) {
           ret = {
             ...ret,
-            ...selectParents(data, d.parentDir)
+            ...selectParents(data, d.parentDir),
           };
         }
       }
@@ -122,22 +122,22 @@ export const reducer = (state: State, action: Actions): State => {
         ).map(
           (source): SourceWithNodeId => ({
             ...source,
-            nodeId: source.name
+            nodeId: source.name,
           })
         ),
         fetchedAlbums: uniqBy(
           [...(newState.fetchedAlbums ?? []), ...action.albums],
           "dir"
-        ).map(album => ({
+        ).map((album) => ({
           ...album,
-          nodeId: album.source + album.dir
-        }))
+          nodeId: album.source + album.dir,
+        })),
       };
 
       return reducer(newState, {
         type: "DISPLAY_LEAF",
         source: action.variables.source,
-        album: action.variables.album
+        album: action.variables.album,
       });
 
     case "DISPLAY_LEAF":
@@ -149,8 +149,8 @@ export const reducer = (state: State, action: Actions): State => {
             ...(action.album !== ""
               ? selectParents(newState.fetchedAlbums, action.album)
               : {}),
-            [action.source]: true
-          }
+            [action.source]: true,
+          },
         },
         { type: "UPDATE_EXPANDED_NODE_IDS" }
       );
@@ -161,7 +161,7 @@ export const reducer = (state: State, action: Actions): State => {
         expandedNodeIds: calculateExpandedNodeIds(
           newState.fetchedAlbums,
           newState.visibleLeaves
-        )
+        ),
       };
 
     case "EXPAND":
@@ -170,16 +170,16 @@ export const reducer = (state: State, action: Actions): State => {
           action.fetchTree({
             variables: {
               album: "",
-              source: action.source
-            }
+              source: action.source,
+            },
           });
         }
       } else if (newState.visibleLeaves[action.album] === undefined) {
         action.fetchTree({
           variables: {
             album: action.album ?? "",
-            source: action.source
-          }
+            source: action.source,
+          },
         });
       }
 
@@ -188,7 +188,7 @@ export const reducer = (state: State, action: Actions): State => {
         reducer(newState, {
           type: "DISPLAY_LEAF",
           source: action.source,
-          album: action.album ?? ""
+          album: action.album ?? "",
         }),
         { type: "UPDATE_EXPANDED_NODE_IDS" }
       );
@@ -202,8 +202,8 @@ export const reducer = (state: State, action: Actions): State => {
             ...(action.album !== null
               ? { [action.album]: false }
               : { [action.source]: false }),
-            ...(action.parent ? { [action.parent]: true } : {})
-          }
+            ...(action.parent ? { [action.parent]: true } : {}),
+          },
         },
         { type: "UPDATE_EXPANDED_NODE_IDS" }
       );
@@ -213,26 +213,26 @@ export const reducer = (state: State, action: Actions): State => {
         if (newState.visibleLeaves[action.album]) {
           return reducer(newState, {
             ...action,
-            type: "COLLAPSE"
+            type: "COLLAPSE",
           });
         }
 
         return reducer(newState, {
           ...action,
-          type: "EXPAND"
+          type: "EXPAND",
         });
       }
 
       if (newState.visibleLeaves[action.source]) {
         return reducer(newState, {
           ...action,
-          type: "COLLAPSE"
+          type: "COLLAPSE",
         });
       }
 
       return reducer(newState, {
         ...action,
-        type: "EXPAND"
+        type: "EXPAND",
       });
 
     default:

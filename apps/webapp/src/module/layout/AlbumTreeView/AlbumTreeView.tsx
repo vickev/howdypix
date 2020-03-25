@@ -38,7 +38,7 @@ export const AlbumTreeView: React.FC<TreeProps> = () => {
 
   const { sources, albums, expandedNodeIds, toggle } = useTreeView({
     album: currentAlbum ?? undefined,
-    source: currentSource ?? undefined
+    source: currentSource ?? undefined,
   });
 
   // ============================================
@@ -48,7 +48,7 @@ export const AlbumTreeView: React.FC<TreeProps> = () => {
     toggle({
       album: item.dir,
       parent: item.parentDir ?? null,
-      source: item.source
+      source: item.source,
     });
   };
 
@@ -57,7 +57,7 @@ export const AlbumTreeView: React.FC<TreeProps> = () => {
       toggle({
         album: null,
         parent: null,
-        source
+        source,
       });
     };
   };

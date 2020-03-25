@@ -11,7 +11,7 @@ describe("currentUserResolver", () => {
   const photoDirs: UserConfig["photoDirs"] = {
     source1: "source1",
     source2: "source2",
-    source3: "source3"
+    source3: "source3",
   };
 
   const resolver = getSourcesResolver(photoDirs);
@@ -24,17 +24,17 @@ describe("currentUserResolver", () => {
           nbAlbums: 1,
           nbPhotos: 10,
           preview: "preview1.png",
-          dir: "dir1"
+          dir: "dir1",
         },
         {
           source: "source2",
           nbAlbums: 2,
           nbPhotos: 20,
           preview: "preview2.png",
-          dir: "dir2"
-        }
-      ]
-    })
+          dir: "dir2",
+        },
+      ],
+    }),
   } as unknown) as Connection;
 
   test("should return the current list of sources", async () => {

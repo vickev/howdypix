@@ -1,7 +1,7 @@
 import {
   NexusGenArgTypes,
   NexusGenFieldTypes,
-  NexusGenRootTypes
+  NexusGenRootTypes,
 } from "@howdypix/graphql-schema/schema.d";
 import { Connection, Not } from "typeorm";
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
@@ -16,8 +16,8 @@ const generatePreviewUrl = (album: EntityAlbum | EntitySource): string =>
   generateThumbnailUrls(appConfig.webapp.baseUrl, {
     file: album.preview,
     dir: album.dir,
-    source: album.source
-  }).map(tn => tn.url)[0];
+    source: album.source,
+  }).map((tn) => tn.url)[0];
 
 const fetchAlbums = async (
   connection: Connection,
@@ -32,8 +32,8 @@ const fetchAlbums = async (
   const album = await albumRepository.findOne({
     where: {
       dir,
-      source
-    }
+      source,
+    },
   });
 
   if (album) {
@@ -44,14 +44,14 @@ const fetchAlbums = async (
         source: album.source,
         preview: generatePreviewUrl(album),
         nbImages: album.nbPhotos,
-        nbAlbums: album.nbAlbums
+        nbAlbums: album.nbAlbums,
       });
     }
 
     if (album.parentDir) {
       ret.push(
         ...(await fetchAlbums(connection, album.parentDir, source)).filter(
-          a => a.dir !== album.dir
+          (a) => a.dir !== album.dir
         )
       );
     } else {
@@ -62,16 +62,16 @@ const fetchAlbums = async (
             where: {
               dir: Not(""),
               parentDir: "",
-              source
-            }
+              source,
+            },
           })
-        ).map(a => ({
+        ).map((a) => ({
           dir: a.dir,
           parentDir: a.parentDir,
           source: a.source,
           preview: generatePreviewUrl(a),
           nbImages: a.nbPhotos,
-          nbAlbums: a.nbAlbums
+          nbAlbums: a.nbAlbums,
         }))
       );
     }
@@ -81,8 +81,8 @@ const fetchAlbums = async (
       where: {
         dir: Not(""),
         parentDir: dir,
-        source
-      }
+        source,
+      },
     });
 
     children.forEach((c): void => {
@@ -92,7 +92,7 @@ const fetchAlbums = async (
         source: c.source,
         preview: generatePreviewUrl(c),
         nbImages: c.nbPhotos,
-        nbAlbums: c.nbAlbums
+        nbAlbums: c.nbAlbums,
       });
     });
   }
@@ -105,11 +105,11 @@ const fetchSources = async (
 ): Promise<NexusGenRootTypes["GetTreeSources"][]> => {
   const sourceRepository = connection.getRepository(EntitySource);
 
-  return (await sourceRepository.find()).map(source => ({
+  return (await sourceRepository.find()).map((source) => ({
     name: source.source,
     preview: generatePreviewUrl(source),
     nbImages: source.nbPhotos,
-    nbAlbums: source.nbAlbums
+    nbAlbums: source.nbAlbums,
   }));
 };
 
@@ -122,6 +122,6 @@ export const getTreeResolver = () => async (
 
   return {
     albums: await fetchAlbums(ctx.connection, args.album, args.source),
-    sources: await fetchSources(ctx.connection)
+    sources: await fetchSources(ctx.connection),
   };
 };

@@ -7,7 +7,7 @@ import {
   isRefreshTokenValid,
   isTokenValid,
   removeCode,
-  storeRefreshToken
+  storeRefreshToken,
 } from "../lib/auth";
 
 const debug = appDebug("middleware:auth");
@@ -60,7 +60,7 @@ export const applyAuthMiddleware = (app: Express): void => {
 
     if (user) {
       res.json({
-        token: await generateToken(user)
+        token: await generateToken(user),
       });
     } else {
       res.sendStatus(401);

@@ -21,7 +21,7 @@ export interface Album {
 export enum AuthEmailMessage {
   AuthEmailErr = "AUTH_EMAIL_ERR",
   AuthEmailErrNotExist = "AUTH_EMAIL_ERR_NOT_EXIST",
-  AuthEmailOk = "AUTH_EMAIL_OK"
+  AuthEmailOk = "AUTH_EMAIL_OK",
 }
 
 export interface AuthEmailType {
@@ -116,7 +116,7 @@ export enum PhotosOrderBy {
   DateAsc = "DATE_ASC",
   DateDesc = "DATE_DESC",
   NameAsc = "NAME_ASC",
-  NameDesc = "NAME_DESC"
+  NameDesc = "NAME_DESC",
 }
 
 export interface PhotoStreamThumbnail {

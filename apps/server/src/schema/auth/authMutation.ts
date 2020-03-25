@@ -6,11 +6,11 @@ export const authEmail: EnhancedMutation = (appConfig, userConfig) =>
   mutationField("authEmail", {
     type: "AuthEmailType",
     args: {
-      email: stringArg()
+      email: stringArg(),
     },
     resolve: authEmailResolver(
       appConfig.smtp,
       userConfig.users,
       userConfig.emailSender
-    )
+    ),
   });

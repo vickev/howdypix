@@ -11,12 +11,12 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 
 const CustomCardMedia = styled(CardMedia)({
-  height: 200
+  height: 200,
 });
 
 const CustomImageIcon = styled(ImageOutlinedIcon)({
   width: 200,
-  height: 200
+  height: 200,
 });
 
 type Props = {
@@ -34,14 +34,14 @@ export const AlbumCard: React.FC<Props> = ({
   name,
   nbAlbums,
   source,
-  dir
+  dir,
 }) => (
   <Card>
     <Link
       href="/album/[...slug]"
       as={`/album/${hjoin({
         dir,
-        source
+        source,
       })}`}
     >
       <CardActionArea data-testid="albumcard" disableRipple>

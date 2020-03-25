@@ -23,11 +23,11 @@ context("LoginBox page", () => {
   it("should be redirect to the homepage if the magic link is valid.", () => {
     cy.visit(
       `${routes.magickLinkValidation.value({
-        code: "goodCode"
+        code: "goodCode",
       })}?fixture-set=full`
     );
 
-    cy.location().should(loc => {
+    cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/");
     });
   });
@@ -35,11 +35,11 @@ context("LoginBox page", () => {
   it("should be show an error message if the magic link is incorrect.", () => {
     cy.visit(
       `${routes.magickLinkValidation.value({
-        code: "badCode"
+        code: "badCode",
       })}?fixture-set=full`
     );
 
-    cy.location().should(loc => {
+    cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/login");
     });
   });
@@ -50,7 +50,7 @@ context("LoginBox page", () => {
 
     cy.visit("/?fixture-set=full");
 
-    cy.getCookie("token").should(cookie => {
+    cy.getCookie("token").should((cookie) => {
       expect(cookie && cookie.value).to.not.eq("wrongToken");
     });
   });
@@ -62,7 +62,7 @@ context("LoginBox page", () => {
 
     cy.visit("/?fixture-set=full");
 
-    cy.location().should(loc => {
+    cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/login");
     });
   });
@@ -74,13 +74,13 @@ context("LoginBox page", () => {
     cy.findByText("Foo Bar").click();
 
     // Should redirect to login
-    cy.location().should(loc => {
+    cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/login");
     });
 
     // When visiting the homepage, should redirect to login again
     cy.visit("/?fixture-set=full");
-    cy.location().should(loc => {
+    cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/login");
     });
   });

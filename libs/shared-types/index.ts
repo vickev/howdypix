@@ -41,7 +41,7 @@ export type ProcessData = {
 
 export enum QueueName {
   TO_PROCESS = "toProcess",
-  PROCESSED = "processed"
+  PROCESSED = "processed",
 }
 
 export type TokenInfo = {

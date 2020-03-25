@@ -4,7 +4,7 @@ import {
   Repository,
   Connection,
   Between,
-  FindOperator
+  FindOperator,
 } from "typeorm";
 import { sortJsonStringify } from "@howdypix/utils";
 import { Photo as EntityPhoto } from "../entity/Photo";
@@ -39,8 +39,8 @@ export const searchHelpers = {
         orderBy: args.orderBy,
         filterBy: args.filterBy ? sortJsonStringify(args.filterBy) : null,
         album: args.album ?? "",
-        source: args.source ?? ""
-      }
+        source: args.source ?? "",
+      },
     }),
 
   saveNewSearch: async (
@@ -76,9 +76,9 @@ export const searchHelpers = {
       where: {
         ...where,
         ...filterByMake(args.filterBy?.make).whereStatement,
-        ...filterByModel(args.filterBy?.model).whereStatement
+        ...filterByModel(args.filterBy?.model).whereStatement,
       },
-      order: searchHelpers.getOrderBy(args.orderBy)
+      order: searchHelpers.getOrderBy(args.orderBy),
     });
   },
 
@@ -105,7 +105,7 @@ export const searchHelpers = {
     limit: number | null
   ): Promise<EntitySearchResult[]> => {
     const where: { search: EntitySearch; order?: FindOperator<number> } = {
-      search
+      search,
     };
 
     if (limit) {
@@ -115,7 +115,7 @@ export const searchHelpers = {
     return searchResultRepository.find({
       where,
       relations: ["photo"],
-      order: { order: "ASC" }
+      order: { order: "ASC" },
     });
   },
 
@@ -148,7 +148,7 @@ export const searchHelpers = {
           photos,
           newSearch
         )
-      ).forEach(s => {
+      ).forEach((s) => {
         if (limit) {
           if (s.order >= start && s.order < start + limit) {
             searchResults.push(s);
@@ -166,11 +166,11 @@ export const searchHelpers = {
           start,
           limit
         )
-      ).forEach(s => {
+      ).forEach((s) => {
         searchResults.push(s);
       });
     }
 
     return searchResults;
-  }
+  },
 };

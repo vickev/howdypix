@@ -4,8 +4,8 @@ const config = require("config");
 const mock = {
   serverApi: {
     port: 4004,
-    url: undefined
-  }
+    url: undefined,
+  },
 };
 mock.serverApi.url = `http://localhost:${mock.serverApi.port}`;
 
@@ -16,13 +16,13 @@ const serverRuntimeConfig = {
     // If we mock the API server, then we use the mocked API server URL
     url: process.env.MOCK_API
       ? mock.serverApi.url
-      : config.get("app.api.baseUrl") || "http://localhost:3004"
+      : config.get("app.api.baseUrl") || "http://localhost:3004",
   },
-  mock
+  mock,
 };
 
 const publicRuntimeConfig = {
-  baseUrl: undefined
+  baseUrl: undefined,
 };
 
 serverRuntimeConfig.baseUrl =
@@ -37,7 +37,7 @@ publicRuntimeConfig.baseUrl = serverRuntimeConfig.baseUrl;
 // @see https://github.com/zeit/next.js/issues/9390
 const experimental = {
   modern: true,
-  catchAllRouting: true
+  catchAllRouting: true,
 };
 
 module.exports = { serverRuntimeConfig, publicRuntimeConfig, experimental };

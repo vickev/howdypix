@@ -1,6 +1,6 @@
 {
   "app": {
-    "rabbitMQ":{
+    "rabbitMQ": {
       "url": "RABBITMQ_URL"
     },
     "api": {

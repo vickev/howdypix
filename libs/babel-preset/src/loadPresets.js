@@ -3,7 +3,7 @@ const packageName = require("../package").name;
 const load = (type, names) => {
   const ret = {};
 
-  names.forEach(name => {
+  names.forEach((name) => {
     ret[name];
 
     try {
@@ -19,5 +19,5 @@ const load = (type, names) => {
   return ret;
 };
 
-module.exports.loadPresets = presets => load("preset", presets);
-module.exports.loadPlugins = plugins => load("plugin", plugins);
+module.exports.loadPresets = (presets) => load("preset", presets);
+module.exports.loadPlugins = (plugins) => load("plugin", plugins);

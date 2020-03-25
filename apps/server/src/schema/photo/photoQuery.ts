@@ -11,8 +11,8 @@ export const getPhoto: EnhancedQuery = () =>
       file: stringArg({ required: true }),
       source: stringArg({ required: true }),
       ...withOrderByQueryArg(),
-      ...withFilterByQueryArg()
+      ...withFilterByQueryArg(),
     },
     nullable: true,
-    resolve: getPhotoResolver()
+    resolve: getPhotoResolver(),
   });

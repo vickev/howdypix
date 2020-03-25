@@ -12,7 +12,7 @@ function run() {
 
   if (result.errors && result.errors.length > 0) {
     throw new Error(
-      "An error occurred: " + result.errors.map(e => e.message).join(`, `)
+      "An error occurred: " + result.errors.map((e) => e.message).join(`, `)
     );
   }
 

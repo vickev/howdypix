@@ -18,7 +18,7 @@ export const AlbumTreeItem: React.FC<AlbumTreeItemProps> = ({
   tree,
   item,
   onClickExpand,
-  onClickItem
+  onClickItem,
 }) => {
   const { currentSource, currentAlbum } = useStore();
 
@@ -44,8 +44,8 @@ export const AlbumTreeItem: React.FC<AlbumTreeItemProps> = ({
       selected={item.source === currentSource && item.dir === currentAlbum}
     >
       {tree
-        .filter(d => d.parentDir === item.dir && item.dir !== "")
-        .map(d => (
+        .filter((d) => d.parentDir === item.dir && item.dir !== "")
+        .map((d) => (
           <AlbumTreeItem
             tree={tree}
             item={d}

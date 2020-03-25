@@ -3,5 +3,5 @@ export const formatDate = (locale = "en-US", date: Date): string =>
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     dateStyle: "long",
-    timeStyle: "short"
+    timeStyle: "short",
   }).format(date);

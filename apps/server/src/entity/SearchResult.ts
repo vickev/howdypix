@@ -16,15 +16,9 @@ export class SearchResult {
   @Column("int")
   public order!: number;
 
-  @ManyToOne(
-    () => Search,
-    search => search.searchResults
-  )
+  @ManyToOne(() => Search, (search) => search.searchResults)
   public search!: Search;
 
-  @ManyToOne(
-    () => Photo,
-    photo => photo.searchResults
-  )
+  @ManyToOne(() => Photo, (photo) => photo.searchResults)
   public photo!: Photo;
 }

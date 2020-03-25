@@ -7,7 +7,7 @@ export const AuthEmailMessage = (): NexusEnumTypeDef<"AuthEmailMessage"> =>
     name: "AuthEmailMessage",
     members: ["AUTH_EMAIL_OK", "AUTH_EMAIL_ERR_NOT_EXIST", "AUTH_EMAIL_ERR"],
     description:
-      "The type of message that the user can get when requesting a magic link."
+      "The type of message that the user can get when requesting a magic link.",
   });
 
 export const AuthEmailType = (): NexusObjectTypeDef<"AuthEmailType"> =>
@@ -17,5 +17,5 @@ export const AuthEmailType = (): NexusObjectTypeDef<"AuthEmailType"> =>
       t.field("messageId", { type: "AuthEmailMessage" });
       t.field("messageData", { type: "String", nullable: true });
       t.field("code", { type: "String", nullable: true });
-    }
+    },
   });

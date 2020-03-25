@@ -13,7 +13,7 @@ type Props = {
 export const Filters: React.FC<Props> = ({
   availableFilters,
   onChange,
-  selectedFilters
+  selectedFilters,
 }) => {
   const { t } = useTranslation("common");
 

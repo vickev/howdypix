@@ -1,7 +1,7 @@
 import {
   NexusGenArgTypes,
   NexusGenFieldTypes,
-  NexusGenRootTypes
+  NexusGenRootTypes,
 } from "@howdypix/graphql-schema/schema.d";
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { parse } from "path";
@@ -23,7 +23,7 @@ export const getAlbumResolver = () => async (
     source: args.source,
     nbAlbums: 0,
     nbPhotos: 0,
-    preview: ""
+    preview: "",
   };
 
   debug(`Fetching album ${args.album}.`);
@@ -32,7 +32,7 @@ export const getAlbumResolver = () => async (
   const albumRepository = ctx.connection.getRepository(EntityAlbum);
 
   const photos = await photoRepository.find({
-    where: { dir: args.album ?? "", source: args.source }
+    where: { dir: args.album ?? "", source: args.source },
   });
 
   const albums = await albumRepository
@@ -52,13 +52,13 @@ export const getAlbumResolver = () => async (
   debug(`${photos.length} photos; ${albums.length} sub-albums.`);
 
   return {
-    photos: photos.map(photo => ({
+    photos: photos.map((photo) => ({
       id: photo.id.toString(),
       thumbnails: generateThumbnailUrls(appConfig.webapp.baseUrl, photo).map(
-        tn => tn.url
+        (tn) => tn.url
       ),
       file: photo.file,
-      birthtime: Math.round(photo.birthtime)
+      birthtime: Math.round(photo.birthtime),
     })),
     albums: albums
       .map((album): NexusGenRootTypes["Album"] => ({
@@ -70,10 +70,10 @@ export const getAlbumResolver = () => async (
         preview: generateThumbnailUrls(appConfig.webapp.baseUrl, {
           file: album.preview,
           dir: album.dir,
-          source: album.source
-        }).map(tn => tn.url)[1]
+          source: album.source,
+        }).map((tn) => tn.url)[1],
       }))
-      .filter(a => a.dir),
-    album
+      .filter((a) => a.dir),
+    album,
   };
 };

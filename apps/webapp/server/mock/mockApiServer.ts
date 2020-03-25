@@ -13,7 +13,7 @@ routes.codeValidation.applyMiddleware(app, (req, res) => {
     res.json({
       refreshToken: "validToken",
       token: "validToken",
-      user: { email: "dev@vickev.com", name: "Foo Bar" }
+      user: { email: "dev@vickev.com", name: "Foo Bar" },
     });
   } else {
     res.json({ error: "Token expired" });
@@ -31,7 +31,7 @@ routes.authenticatedUser.applyMiddleware(app, (req, res) => {
 routes.refreshToken.applyMiddleware(app, (req, res) => {
   if (req.body.token === "validToken") {
     res.send({
-      token: "newToken"
+      token: "newToken",
     });
   } else {
     res.sendStatus(401);

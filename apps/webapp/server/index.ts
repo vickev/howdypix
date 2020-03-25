@@ -2,10 +2,10 @@ import express from "express";
 import nextI18NextMiddleware from "next-i18next/middleware";
 import next from "next";
 import cookieParser from "cookie-parser";
-import proxy from "http-proxy-middleware";
+import { createProxyMiddleware } from "http-proxy-middleware";
 import {
   checkFixturesMiddleware,
-  mockedGraphQLMiddleware
+  mockedGraphQLMiddleware,
 } from "./mock/middleware";
 import nextConfig from "../next.config";
 import nextI18next from "./i18n";
@@ -33,7 +33,7 @@ app.prepare().then(() => {
       express.static(`${__dirname}/mock/fixtures/static`)
     );
 
-    [server, mockApiServer].forEach(s =>
+    [server, mockApiServer].forEach((s) =>
       s.use("/graphql", checkFixturesMiddleware, mockedGraphQLMiddleware)
     );
   } else {
@@ -42,15 +42,15 @@ app.prepare().then(() => {
       authHandler({
         failureCallback: (req, res, next) => {
           next();
-        }
+        },
       }),
       (req, res, next) =>
-        proxy({
+        createProxyMiddleware({
           target: serverRuntimeConfig.serverApi.url,
           changeOrigin: true,
           headers: {
-            token: res.locals.token ?? ""
-          }
+            token: res.locals.token ?? "",
+          },
         })(req, res, next)
     );
   }
@@ -61,8 +61,8 @@ app.prepare().then(() => {
   // Static files
   server.get(
     "/static/*",
-    proxy({
-      target: serverRuntimeConfig.serverApi.url
+    createProxyMiddleware({
+      target: serverRuntimeConfig.serverApi.url,
     })
   );
 

@@ -21,7 +21,7 @@ context("Photo page full", () => {
 
   it("should have a previous button to return to the album.", () => {
     cy.findByText("Previous").click();
-    cy.location().should(loc => {
+    cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/album/@test:test");
     });
   });

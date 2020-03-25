@@ -9,7 +9,7 @@ export const getSources: EnhancedQuery = (appConfig, userConfig) =>
       t.field("getSources", {
         type: "Source",
         list: [false],
-        resolve: getSourcesResolver(userConfig.photoDirs)
+        resolve: getSourcesResolver(userConfig.photoDirs),
       });
-    }
+    },
   });

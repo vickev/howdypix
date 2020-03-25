@@ -7,7 +7,7 @@ export const DateTaken = (): NexusObjectTypeDef<"DateTaken"> =>
     definition(t) {
       t.field("from", { type: "Float", nullable: true });
       t.field("to", { type: "Float", nullable: true });
-    }
+    },
   });
 
 export const GetFilters = (): NexusObjectTypeDef<"GetFilters"> =>
@@ -17,5 +17,5 @@ export const GetFilters = (): NexusObjectTypeDef<"GetFilters"> =>
       t.field("cameraMakes", { type: "String", list: [true] });
       t.field("cameraModels", { type: "String", list: [true] });
       t.field("dateTakenRange", { type: "DateTaken" });
-    }
+    },
   });

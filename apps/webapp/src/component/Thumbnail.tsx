@@ -8,9 +8,9 @@ import CardMedia, { CardMediaProps } from "@material-ui/core/CardMedia";
 import styled from "@material-ui/styles/styled";
 import { PhotosOrderBy } from "../__generated__/schema-types";
 
-const StyledCardMedia = styled(CardMedia)(props => ({
+const StyledCardMedia = styled(CardMedia)((props) => ({
   minHeight: props.height ?? "auto",
-  paddingBottom: !props.height ? "100%" : "inherit"
+  paddingBottom: !props.height ? "100%" : "inherit",
 })) as React.ComponentType<CardMediaProps & { height?: number }>;
 
 type Props = {
@@ -30,7 +30,7 @@ export const Thumbnail: React.FC<Props> = ({
   order,
   mx,
   height,
-  maxWidth
+  maxWidth,
 }) => (
   <Box mx={mx} maxWidth={maxWidth ?? "auto"}>
     <CardActionArea data-testid="thumbnail" disableRipple>
@@ -38,7 +38,7 @@ export const Thumbnail: React.FC<Props> = ({
         href="/photo/[...slug]"
         as={{
           pathname: `/photo/${hjoin(hfile)}`,
-          query: removeEmptyValues({ ...filter, order })
+          query: removeEmptyValues({ ...filter, order }),
         }}
       >
         <StyledCardMedia

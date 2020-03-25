@@ -16,7 +16,7 @@ describe("The authentication routes", () => {
     expect(response.data).toMatchSnapshot();
   });
 
-  describe("validating the email", function() {
+  describe("validating the email", function () {
     const sendMutation = async (email: string) =>
       client.mutate({
         mutation: gql`
@@ -28,8 +28,8 @@ describe("The authentication routes", () => {
           }
         `,
         variables: {
-          email
-        }
+          email,
+        },
       });
 
     test("should return an error if the email is not allowed", async () => {
@@ -45,7 +45,7 @@ describe("The authentication routes", () => {
     });
   });
 
-  describe("validating the magic link", function() {
+  describe("validating the magic link", function () {
     test("should return tokens if the magic link is correct", async () => {
       const data = await fetchTokens();
 
@@ -60,14 +60,14 @@ describe("The authentication routes", () => {
     });
   });
 
-  describe("fetching the user info", function() {
+  describe("fetching the user info", function () {
     test("should return the user info if the token is correct", async () => {
       const { token, user } = await fetchTokens();
 
       const response = await axios.post<UserInfo>(
         routes.authenticatedUser.value(),
         {
-          token
+          token,
         }
       );
 
@@ -79,7 +79,7 @@ describe("The authentication routes", () => {
         const response = await axios.post<UserInfo>(
           routes.authenticatedUser.value(),
           {
-            token: "wrong"
+            token: "wrong",
           }
         );
       } catch (e) {
@@ -88,15 +88,15 @@ describe("The authentication routes", () => {
     });
   });
 
-  describe("refreshing the token", function() {
-    test("should return a new token", async done => {
+  describe("refreshing the token", function () {
+    test("should return a new token", async (done) => {
       const { refreshToken, token } = await fetchTokens();
 
       setTimeout(async () => {
         const response = await axios.post<{ token: string }>(
           routes.refreshToken.value(),
           {
-            token: refreshToken
+            token: refreshToken,
           }
         );
 
@@ -112,7 +112,7 @@ describe("The authentication routes", () => {
         const response = await axios.post<{ token: string }>(
           routes.refreshToken.value(),
           {
-            token: "wrong"
+            token: "wrong",
           }
         );
       } catch (e) {

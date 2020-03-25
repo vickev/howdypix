@@ -3,26 +3,26 @@ const { loadPresets, loadPlugins } = require("./src/loadPresets");
 let presets = loadPresets(["env", "typescript", "react"]);
 let plugins = loadPlugins([
   "proposal-nullish-coalescing-operator",
-  "proposal-optional-chaining"
+  "proposal-optional-chaining",
 ]);
 
-module.exports = function() {
+module.exports = function () {
   return {
     presets: [
       [
         presets.env,
         {
           targets: {
-            node: "current"
-          }
-        }
+            node: "current",
+          },
+        },
       ],
       presets.react,
-      presets.typescript
+      presets.typescript,
     ],
     plugins: [
       plugins["proposal-nullish-coalescing-operator"],
-      plugins["proposal-optional-chaining"]
-    ]
+      plugins["proposal-optional-chaining"],
+    ],
   };
 };

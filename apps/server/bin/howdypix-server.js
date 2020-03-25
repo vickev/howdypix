@@ -13,12 +13,12 @@ require("yargs") // eslint-disable-line
   .command(
     "start <config_file_yaml>",
     "start the server",
-    yargs => {
+    (yargs) => {
       yargs.positional("config_file_yaml", {
-        describe: "The configuration file to load written in YAML"
+        describe: "The configuration file to load written in YAML",
       });
     },
-    argv => {
+    (argv) => {
       const absolutePath = join(process.cwd(), argv.config_file_yaml);
 
       if (fs.existsSync(absolutePath)) {
@@ -30,7 +30,7 @@ require("yargs") // eslint-disable-line
             config
           )}' node ${__dirname}/../dist/index.js`,
           {
-            stdio: "inherit"
+            stdio: "inherit",
           }
         );
       } else {

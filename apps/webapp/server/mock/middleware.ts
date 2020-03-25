@@ -10,7 +10,7 @@ const schema = makeExecutableSchema({
   typeDefs: fs.readFileSync(
     require.resolve("@howdypix/graphql-schema/schema.graphql"),
     "utf8"
-  )
+  ),
 });
 
 const loadFixtures = (
@@ -47,8 +47,8 @@ const mockedGraphQLMiddleware = (
     schema,
     mocks: {
       Query: (): Query | undefined => fixtures && fixtures.query,
-      Mutation: (): Mutation | undefined => fixtures && fixtures.mutation
-    }
+      Mutation: (): Mutation | undefined => fixtures && fixtures.mutation,
+    },
   });
 
   appDebug("GraphQL")(`Using fixture set: ${name}`);

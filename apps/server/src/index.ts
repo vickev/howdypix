@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import EventEmitter from "events";
+import { EventEmitter } from "events";
 import express from "express";
 import { createConnection } from "typeorm";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
@@ -28,7 +28,7 @@ async function main(): Promise<void> {
 
   // Open the DB connection
   const connection = await createConnection({
-    ...(ormConfig as SqliteConnectionOptions)
+    ...(ormConfig as SqliteConnectionOptions),
   });
 
   /**

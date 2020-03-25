@@ -37,9 +37,9 @@ describe("getPhotoResolver", () => {
           processedAperture: 4,
           aperture: 4,
           shutter: 1 / 40,
-          processedShutter: 40
-        })
-      })
+          processedShutter: 40,
+        }),
+      }),
     } as unknown) as Connection;
 
     (photoHelpers.fetchPhotoSteam as jest.Mock).mockReturnValue([
@@ -50,8 +50,8 @@ describe("getPhotoResolver", () => {
         searchId: 678,
         photo: {
           id: 345,
-          file: "file1"
-        }
+          file: "file1",
+        },
       },
       {
         id: 12,
@@ -60,8 +60,8 @@ describe("getPhotoResolver", () => {
         searchId: 6782,
         photo: {
           id: 123456789,
-          file: "file2"
-        }
+          file: "file2",
+        },
       },
       {
         id: 123,
@@ -70,9 +70,9 @@ describe("getPhotoResolver", () => {
         searchId: 6783,
         photo: {
           id: 3453,
-          file: "file3"
-        }
-      }
+          file: "file3",
+        },
+      },
     ] as EntitySearchResult[]);
 
     expect(
@@ -87,8 +87,8 @@ describe("getPhotoResolver", () => {
   test("should return null if no pictures have been found", async () => {
     const connection = ({
       getRepository: () => ({
-        findOne: (): null => null
-      })
+        findOne: (): null => null,
+      }),
     } as unknown) as Connection;
 
     expect(

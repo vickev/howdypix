@@ -1,6 +1,6 @@
 import {
   GetTreeAlbums,
-  GetTreeSources
+  GetTreeSources,
 } from "../../__generated__/schema-types";
 
 export type TreeItem = {

@@ -7,7 +7,7 @@ import { isArray, isNil, isObject, omitBy, reduce } from "lodash";
 import stringify from "json-stable-stringify";
 
 export async function wait(seconds: number): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, seconds * 1000);
   });
 }
@@ -22,10 +22,10 @@ export function generateThumbnailPaths(
 }> {
   const { dir, name } = parse(thumbnailPath(thumbnailsDir, hfile));
 
-  return [200, 600, 1280, 2048].map(size => ({
+  return [200, 600, 1280, 2048].map((size) => ({
     width: size,
     height: null,
-    path: join(dir, `${name}x${size}.jpg`)
+    path: join(dir, `${name}x${size}.jpg`),
   }));
 }
 
@@ -41,13 +41,13 @@ export function generateThumbnailUrls(
     throw new Error("You need to pass a file path to generate a URL.");
   }
 
-  return [200, 600, 1280, 2048].map(size => ({
+  return [200, 600, 1280, 2048].map((size) => ({
     width: size,
     height: null,
     url: `${baseUrl}/static/${hjoin({
       ...hfile,
-      file: `${parse(hfile.file as string).name}x${size}.jpg`
-    })}`
+      file: `${parse(hfile.file as string).name}x${size}.jpg`,
+    })}`,
   }));
 }
 
@@ -106,7 +106,7 @@ export function consume<T>(
 ): Promise<Replies.Consume> {
   return channel.consume(
     name,
-    msg => {
+    (msg) => {
       if (msg) {
         const data: T = JSON.parse(msg.content.toString());
 

@@ -1,6 +1,6 @@
 import {
   NexusGenArgTypes,
-  NexusGenFieldTypes
+  NexusGenFieldTypes,
 } from "@howdypix/graphql-schema/schema.d";
 import { createTransport } from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
@@ -19,7 +19,7 @@ export const authEmailResolver = (
   root: {},
   args: NexusGenArgTypes["Mutation"]["authEmail"]
 ): Promise<NexusGenFieldTypes["Mutation"]["authEmail"]> =>
-  new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>(resolve => {
+  new Promise<NexusGenFieldTypes["Mutation"]["authEmail"]>((resolve) => {
     const email = args.email || "NONE";
     const user = isEmailValid(authorizedUsers, email);
 
@@ -31,7 +31,7 @@ export const authEmailResolver = (
       const transporter = process.env.MOCK
         ? createTransport({
             streamTransport: true,
-            newline: "windows"
+            newline: "windows",
           })
         : createTransport(
             smtpTransport({
@@ -40,34 +40,34 @@ export const authEmailResolver = (
               requireTLS: smtpConfig.tls,
               auth: {
                 user: smtpConfig.user,
-                pass: smtpConfig.password
-              }
+                pass: smtpConfig.password,
+              },
             })
           );
 
       const mailOptions = {
         subject: "Authentication code",
         from: `${sender.name}<${sender.email}>`,
-        to: `${user.name}<${user.email}>`
+        to: `${user.name}<${user.email}>`,
       };
 
       debug("Send email", mailOptions);
 
-      generateCode({ email: user.email, name: user.name }).then(code => {
+      generateCode({ email: user.email, name: user.name }).then((code) => {
         transporter.sendMail(
           {
             ...mailOptions,
             html: magicLink({
               code,
-              name: user.name
-            })
+              name: user.name,
+            }),
           },
-          error => {
+          (error) => {
             if (error) {
               debug("Error sending the email", error.message);
               resolve({
                 messageId: "AUTH_EMAIL_ERR",
-                messageData: error.message
+                messageData: error.message,
               });
             } else {
               // Save in memory
@@ -75,7 +75,7 @@ export const authEmailResolver = (
               debug(`Email sent successfully to ${user.email}.`);
               resolve({
                 messageId: "AUTH_EMAIL_OK",
-                code
+                code,
               });
             }
           }
@@ -83,7 +83,7 @@ export const authEmailResolver = (
       });
     } else {
       resolve({
-        messageId: "AUTH_EMAIL_ERR_NOT_EXIST"
+        messageId: "AUTH_EMAIL_ERR_NOT_EXIST",
       });
     }
   });

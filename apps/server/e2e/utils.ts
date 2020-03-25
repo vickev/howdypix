@@ -16,12 +16,12 @@ import { routes } from "@howdypix/utils";
  */
 const link = new HttpLink({
   uri: (process.env.API_BASE_URL || "http://localhost:3004") + "/graphql",
-  fetch
+  fetch,
 });
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: link
+  link: link,
 });
 
 /**
@@ -39,8 +39,8 @@ export const fetchMagicLinkCode = async (): Promise<string> => {
       }
     `,
     variables: {
-      email: "dev@vickev.com"
-    }
+      email: "dev@vickev.com",
+    },
   });
 
   return data.data.authEmail.code;
@@ -53,7 +53,7 @@ export const fetchTokens = async (forceCode?: string): Promise<TokenInfo> => {
   const code = forceCode ? forceCode : await fetchMagicLinkCode();
 
   const response = await axios.post<TokenInfo>(routes.codeValidation.value(), {
-    code
+    code,
   });
 
   return response.data;

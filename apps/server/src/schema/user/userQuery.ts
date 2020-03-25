@@ -9,7 +9,7 @@ export const getCurrentUser: EnhancedQuery = () =>
       t.field("getCurrentUser", {
         type: "CurrentUserType",
         nullable: true,
-        resolve: getCurrentUserResolver()
+        resolve: getCurrentUserResolver(),
       });
-    }
+    },
   });

@@ -6,7 +6,7 @@ import {
   assertQueue,
   consume,
   hjoin,
-  sendToQueue
+  sendToQueue,
 } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { Events } from "./eventEmitter";
@@ -20,7 +20,7 @@ export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   await consume<MessageProcess>(
     channel,
     QueueName.TO_PROCESS,
-    msg => {
+    (msg) => {
       if (msg) {
         pathsInQueue.push(hjoin(msg.data.hfile) as string);
       }
@@ -47,12 +47,12 @@ export async function bindAppEvents(
   // When there is a new file, send it to the queue
   event.on("processFile", ({ root, hfile }) => {
     const hpath = hjoin(hfile);
-    if (pathsInQueue.filter(p => p === hpath).length === 0) {
+    if (pathsInQueue.filter((p) => p === hpath).length === 0) {
       appDebug("sendToQueue")(hpath);
       sendToQueue<MessageProcess>(channel, QueueName.TO_PROCESS, {
         thumbnailsDir,
         root,
-        hfile
+        hfile,
       });
     }
   });
@@ -62,7 +62,7 @@ export async function bindChannelEvents(
   event: Events,
   channel: Channel
 ): Promise<void> {
-  await consume<ProcessData>(channel, QueueName.PROCESSED, msg => {
+  await consume<ProcessData>(channel, QueueName.PROCESSED, (msg) => {
     if (msg) {
       event.emit("processedFile", msg.data);
       channel.ack(msg);

@@ -4,7 +4,7 @@ import { appConfig } from "../config";
 
 export const magicLink = ({
   name = "Foo Bar",
-  code = "1234"
+  code = "1234",
 }: {
   name: string;
   code: string;

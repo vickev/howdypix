@@ -8,5 +8,5 @@ export const Source = (): NexusObjectTypeDef<"Source"> =>
     definition(t) {
       withPreviewAndStats(t);
       t.field("name", { type: "String" });
-    }
+    },
   });

@@ -3,7 +3,7 @@ import Document, {
   DocumentInitialProps,
   Head,
   Main,
-  NextScript
+  NextScript,
 } from "next/document";
 import { ServerStyleSheets } from "@material-ui/styles";
 import { RenderPageResult } from "next/dist/next-server/lib/utils";
@@ -43,9 +43,9 @@ MyDocument.getInitialProps = async (ctx): Promise<DocumentInitialProps> => {
 
   ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
     originalRenderPage({
-      enhanceApp: App => (props): ReactElement<StylesProviderProps> =>
+      enhanceApp: (App) => (props): ReactElement<StylesProviderProps> =>
         // eslint-disable-next-line react/jsx-props-no-spreading
-        sheets.collect(<App {...props} />)
+        sheets.collect(<App {...props} />),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
@@ -57,8 +57,8 @@ MyDocument.getInitialProps = async (ctx): Promise<DocumentInitialProps> => {
       <React.Fragment key="styles">
         {initialProps.styles}
         {sheets.getStyleElement()}
-      </React.Fragment>
-    ]
+      </React.Fragment>,
+    ],
   };
 };
 
