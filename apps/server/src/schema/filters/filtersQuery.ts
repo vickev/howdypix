@@ -10,9 +10,9 @@ export const getFilters: EnhancedQuery = () =>
       source: stringArg({ required: true }),
       filterBy: arg({
         type: "PhotosFilterBy",
-        required: false
-      })
+        required: false,
+      }),
     },
     authorize: (root, args, ctx) => !!ctx.user,
-    resolve: getFiltersResolver()
+    resolve: getFiltersResolver(),
   });

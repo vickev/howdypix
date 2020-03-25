@@ -21,7 +21,7 @@ export const PhotoStream: React.FC<Props> = ({
   photos,
   gutter = 1,
   filterBy,
-  orderBy
+  orderBy,
 }) => {
   return (
     <CustomGrid
@@ -32,7 +32,7 @@ export const PhotoStream: React.FC<Props> = ({
       flexGrow={0}
       test-dataid="photo-stream"
     >
-      {photos.map(photo => (
+      {photos.map((photo) => (
         <Box
           flex={1}
           justifyContent="center"

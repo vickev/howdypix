@@ -1,6 +1,6 @@
 import {
   AlbumWithNodeId as _AlbumWithNodeId,
-  SourceWithNodeId as _SourceWithNodeId
+  SourceWithNodeId as _SourceWithNodeId,
 } from "./types";
 
 export { useTreeView } from "./treeViewHook";

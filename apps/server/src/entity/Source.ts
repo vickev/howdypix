@@ -20,7 +20,7 @@ FROM
       ON (p.source = p3.source 
       AND p3.dir != "") 
 GROUP BY
-   p.source`
+   p.source`,
 })
 export class Source {
   @Column("text")

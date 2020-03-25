@@ -18,9 +18,6 @@ export class Search {
   @Column({ type: "text", nullable: true })
   source: string;
 
-  @OneToMany(
-    () => SearchResult,
-    searchResult => searchResult.search
-  )
+  @OneToMany(() => SearchResult, (searchResult) => searchResult.search)
   public searchResults!: SearchResult[];
 }

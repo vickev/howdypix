@@ -18,8 +18,8 @@ const newQuery: Query = {
       thumbnails: [
         `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?${id}`,
         `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?${id}`,
-        `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?${id}`
-      ]
+        `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg?${id}`,
+      ],
     });
 
     if (params.file === "firstPhoto.jpg") {
@@ -71,11 +71,11 @@ const newQuery: Query = {
     }
 
     return photo;
-  }
+  },
 };
 
 const newMutation: Mutation = {
-  ...full.mutation
+  ...full.mutation,
 };
 
 export default { query: newQuery, mutation: newMutation } as FixtureSet;

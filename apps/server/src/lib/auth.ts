@@ -20,7 +20,7 @@ type Stores = {
 
 const stores: Stores = {
   codes: {},
-  tokenList: {}
+  tokenList: {},
 };
 
 const trunkToken = (token: string): string => {
@@ -43,13 +43,13 @@ const isUserInfo = (data: any): data is UserInfo => {
 export const isEmailValid = (
   authorizedUsers: UserConfig["users"],
   emailToCheck: string
-): User | null => authorizedUsers.find(u => u.email === emailToCheck) || null;
+): User | null => authorizedUsers.find((u) => u.email === emailToCheck) || null;
 
 export const isJwtTokenValid = async (
   token: string,
   secret: string
 ): Promise<UserInfo | null> =>
-  new Promise<UserInfo | null>(resolve => {
+  new Promise<UserInfo | null>((resolve) => {
     debug(`Token: ${trunkToken(token)}`);
 
     jwt.verify(token, secret, (error, decoded) => {
@@ -123,11 +123,11 @@ export const generateRefreshToken = (user: UserInfo): Promise<string> => {
 };
 
 export const generateTokens = async (user: UserInfo): Promise<TokenInfo> =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     debug("Generate the API tokens for auth.", user);
 
-    generateToken(user).then(token => {
-      generateRefreshToken(user).then(refreshToken => {
+    generateToken(user).then((token) => {
+      generateRefreshToken(user).then((refreshToken) => {
         resolve({ token, refreshToken, user });
       });
     });

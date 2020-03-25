@@ -14,7 +14,7 @@ const gridCols = {
   lg: 4,
   md: 3,
   sm: 2,
-  xs: 1
+  xs: 1,
 };
 
 function useWidth(): Breakpoint {

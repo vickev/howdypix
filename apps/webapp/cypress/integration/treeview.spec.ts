@@ -9,14 +9,14 @@ context("TreeView", () => {
     cy.findByTestId(`treeitem toggle TreeAlbum1`).click();
     cy.findByTestId(`treeitem toggle TreeAlbum3`).click();
 
-    [1, 2, 3].forEach(item => {
+    [1, 2, 3].forEach((item) => {
       cy.findByTestId(`treeitem treesource${item}`).contains(
         `treesource${item}`
       );
       cy.findByTestId(`treeitem count treesource${item}`).contains(`${item}`);
     });
 
-    [1, 2, 3, 4, 5, 6].forEach(item => {
+    [1, 2, 3, 4, 5, 6].forEach((item) => {
       cy.findByTestId(`treeitem TreeAlbum${item}`).contains(`Album${item}`);
       cy.findByTestId(`treeitem count TreeAlbum${item}`).contains(`${item}`);
     });
@@ -28,17 +28,17 @@ context("TreeView", () => {
     cy.findByTestId(`treeitem toggle TreeAlbum3`).click();
     cy.findByTestId(`treeitem toggle TreeAlbum1`).click();
 
-    [3, 4, 5, 6].forEach(item => {
+    [3, 4, 5, 6].forEach((item) => {
       cy.findByTestId(`treeitem TreeAlbum${item}`).should(`not.visible`);
     });
 
-    [1, 2].forEach(item => {
+    [1, 2].forEach((item) => {
       cy.findByTestId(`treeitem TreeAlbum${item}`).should(`visible`);
     });
 
     cy.findByTestId(`treeitem toggle TreeAlbum1`).click();
 
-    [1, 2, 3, 4, 5, 6].forEach(item => {
+    [1, 2, 3, 4, 5, 6].forEach((item) => {
       cy.findByTestId(`treeitem TreeAlbum${item}`).should(`visible`);
     });
   });

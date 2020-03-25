@@ -7,7 +7,7 @@ export const TreeViewContext = React.createContext<TreeViewContextData>({
   toggle: () => {},
   expandedNodeIds: [],
   sources: [],
-  albums: []
+  albums: [],
 });
 
 export const TreeViewProvider = TreeViewContext.Provider;

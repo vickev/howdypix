@@ -8,7 +8,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {
   GetSourcesQuery,
-  GetSourcesQueryVariables
+  GetSourcesQueryVariables,
 } from "../src/__generated__/schema-types";
 import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
@@ -48,7 +48,7 @@ const Homepage: NextPage<Props, InitialProps> = () => {
     setCurrentSource,
     setCurrentAlbum,
     setRightPanel,
-    setWithLayout
+    setWithLayout,
   } = useStore();
   setCurrentAlbum(null);
   setCurrentSource(null);
@@ -65,7 +65,7 @@ const Homepage: NextPage<Props, InitialProps> = () => {
       <Box paddingBottom={gutter}>
         <AlbumGrid extraHeight={100}>
           {loading
-            ? [0, 1, 2].map(value => (
+            ? [0, 1, 2].map((value) => (
                 <GridListTile key={`source_grid_${value}`}>
                   <Skeleton variant="rect" height={200} />
                 </GridListTile>
@@ -92,11 +92,11 @@ const Homepage: NextPage<Props, InitialProps> = () => {
 };
 
 Homepage.getInitialProps = async (): Promise<InitialProps> => ({
-  namespacesRequired: ["common"]
+  namespacesRequired: ["common"],
 });
 
 Homepage.defaultProps = {
-  displayWithLayout: true
+  displayWithLayout: true,
 };
 
 export default Homepage;

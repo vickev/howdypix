@@ -1,7 +1,7 @@
 import { objectType } from "nexus";
 import {
   NexusObjectTypeDef,
-  ObjectDefinitionBlock
+  ObjectDefinitionBlock,
 } from "nexus/dist/definitions/objectType";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,7 +19,7 @@ export const GetTreeAlbums = (): NexusObjectTypeDef<"GetTreeAlbums"> =>
       t.field("parentDir", { type: "String", nullable: true });
       t.field("source", { type: "String", nullable: false });
       withMetaInfo(t);
-    }
+    },
   });
 export const GetTreeSources = (): NexusObjectTypeDef<"GetTreeSources"> =>
   objectType({
@@ -29,7 +29,7 @@ export const GetTreeSources = (): NexusObjectTypeDef<"GetTreeSources"> =>
       t.field("preview", { type: "String", nullable: true });
       t.field("nbImages", { type: "Int", nullable: false });
       withMetaInfo(t);
-    }
+    },
   });
 
 export const GetTree = (): NexusObjectTypeDef<"GetTree"> =>
@@ -38,11 +38,11 @@ export const GetTree = (): NexusObjectTypeDef<"GetTree"> =>
     definition(t) {
       t.field("albums", {
         type: "GetTreeAlbums",
-        list: [true]
+        list: [true],
       });
       t.field("sources", {
         type: "GetTreeSources",
-        list: [true]
+        list: [true],
       });
-    }
+    },
   });

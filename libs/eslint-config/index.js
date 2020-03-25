@@ -1,7 +1,7 @@
 const prettierRules = {
   "prettier/prettier": ["error"],
   "react/jsx-one-expression-per-line": "off",
-  "react/jsx-wrap-multilines": "off"
+  "react/jsx-wrap-multilines": "off",
 };
 
 const typescriptAlreadySupportedByTscRules = {
@@ -14,40 +14,40 @@ const typescriptAlreadySupportedByTscRules = {
   // Typescript already checks for the PropTypes definition
   "react/prop-types": "off",
   // Handled by prettier
-  "react/jsx-indent": "off"
+  "react/jsx-indent": "off",
 };
 
 module.exports = {
   env: {
-    node: 1
+    node: 1,
   },
   extends: ["airbnb", "plugin:@typescript-eslint/recommended", "prettier"],
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "prettier"],
   globals: {
     test: "readonly",
-    expect: "readonly"
+    expect: "readonly",
   },
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
   },
   parserOptions: {
     ecmaVersion: 6,
     sourceType: "module",
     ecmaFeatures: {
-      modules: true
-    }
+      modules: true,
+    },
   },
   rules: {
     ...prettierRules,
     ...typescriptAlreadySupportedByTscRules,
     "react/jsx-filename-extension": [
       1,
-      { extensions: [".js", ".jsx", ".ts", ".tsx"] }
+      { extensions: [".js", ".jsx", ".ts", ".tsx"] },
     ],
     "import/no-nodejs-modules": "off",
     "import/no-namespace": "off",
@@ -56,6 +56,9 @@ module.exports = {
 
     // Super useful rule
     "react/jsx-props-no-spreading": "off",
+
+    // I don't see the use of this rule...
+    "@typescript-eslint/no-empty-function": "off",
 
     // @see https://github.com/benmosher/eslint-plugin-import/issues/1615#issuecomment-577500405
     "import/extensions": [
@@ -66,8 +69,8 @@ module.exports = {
         mjs: "never",
         jsx: "never",
         ts: "never",
-        tsx: "never"
-      }
-    ]
-  }
+        tsx: "never",
+      },
+    ],
+  },
 };

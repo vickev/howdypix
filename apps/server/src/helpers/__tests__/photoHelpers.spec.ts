@@ -11,8 +11,8 @@ describe("photoHelpers", () => {
   const callFetchPhotoSteam = async (order: number): Promise<void> => {
     const connection = ({
       getRepository: jest.fn(() => ({
-        findOne: jest.fn(() => ({ order }))
-      }))
+        findOne: jest.fn(() => ({ order })),
+      })),
     } as unknown) as Connection;
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -41,7 +41,7 @@ describe("photoHelpers", () => {
       processedAperture: 4,
       aperture: 4,
       shutter: 1 / 40,
-      processedShutter: 40
+      processedShutter: 40,
     };
 
     await photoHelpers.fetchPhotoSteam(connection, photo, {
@@ -49,7 +49,7 @@ describe("photoHelpers", () => {
       file: "file",
       filterBy: {},
       orderBy: "DATE_ASC",
-      source: "source"
+      source: "source",
     });
   };
 

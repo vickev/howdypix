@@ -48,21 +48,21 @@ export function applyApolloMiddleware(
     ),
     outputs: {
       schema: join(destDir, "schema.graphql"),
-      typegen: join(destDir, "schema.d.ts")
-    }
+      typegen: join(destDir, "schema.d.ts"),
+    },
   });
 
   const apolloServer = new ApolloServer({
     schema,
     context: async ({ req }: { req: Request }): Promise<ApolloContext> => ({
       user: await isTokenValid((req.headers.token as string) || ""),
-      connection
+      connection,
     }),
     playground: {
       settings: {
-        "request.credentials": "include"
-      }
-    }
+        "request.credentials": "include",
+      },
+    },
   });
 
   apolloServer.applyMiddleware({ app, path: "/graphql" });

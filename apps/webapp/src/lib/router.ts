@@ -6,6 +6,6 @@ export const toAlbum = (
   album?: string | null
 ): void => {
   router.push("/album/[...slug]", {
-    pathname: `/album/@${source}:${album ?? "."}`
+    pathname: `/album/@${source}:${album ?? "."}`,
   });
 };

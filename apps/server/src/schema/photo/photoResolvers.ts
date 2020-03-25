@@ -1,7 +1,7 @@
 import {
   NexusGenArgTypes,
   NexusGenFieldTypes,
-  NexusGenRootTypes
+  NexusGenRootTypes,
 } from "@howdypix/graphql-schema/schema.d";
 import { appDebug, generateThumbnailUrls } from "@howdypix/utils";
 import { Photo as EntityPhoto } from "../../entity/Photo";
@@ -20,7 +20,7 @@ export const getPhotoResolver = () => async (
 
   const photoRepository = ctx.connection.getRepository(EntityPhoto);
   const photo = await photoRepository.findOne({
-    where: { dir: args.album, source: args.source, file: args.file }
+    where: { dir: args.album, source: args.source, file: args.file },
   });
 
   if (photo) {
@@ -30,7 +30,7 @@ export const getPhotoResolver = () => async (
       args
     );
     const photoIndexInStream = photoSteam.findIndex(
-      sr => sr.photoId === photo.id
+      (sr) => sr.photoId === photo.id
     );
 
     return {
@@ -39,8 +39,8 @@ export const getPhotoResolver = () => async (
         file: photo.file,
         source: photo.source,
         name: photo.file,
-        dir: photo.dir
-      }).map(tn => tn.url),
+        dir: photo.dir,
+      }).map((tn) => tn.url),
       aperture: photo.processedAperture,
       shutter: photo.processedShutter,
       iso: photo.ISO,
@@ -56,9 +56,9 @@ export const getPhotoResolver = () => async (
           thumbnails: generateThumbnailUrls(
             appConfig.webapp.baseUrl,
             sr.photo
-          ).map(tn => tn.url)
+          ).map((tn) => tn.url),
         })
-      )
+      ),
     };
   }
 

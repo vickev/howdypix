@@ -19,7 +19,7 @@ export const withStore = <P extends object>(
         setCurrentSource,
         setCurrentAlbum,
         setRightPanel,
-        setWithLayout
+        setWithLayout,
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}

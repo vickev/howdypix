@@ -17,7 +17,7 @@ import { NextPage } from "next";
 import {
   GetPhotoQuery,
   GetPhotoQueryVariables,
-  PhotosOrderBy
+  PhotosOrderBy,
 } from "../../src/__generated__/schema-types";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
 import { PhotoRightPanel } from "../../src/module/photo/PhotoRightPanel";
@@ -37,12 +37,12 @@ const gutter = 3;
 const keyMap = {
   MOVE_RIGHT: "right",
   MOVE_LEFT: "left",
-  ESCAPE: "esc"
+  ESCAPE: "esc",
 };
 
 const Image = styled("img")(() => ({
   maxWidth: "100%",
-  maxHeight: "100%"
+  maxHeight: "100%",
 }));
 
 // ========================================
@@ -98,13 +98,13 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
     setCurrentSource,
     setCurrentAlbum,
     setRightPanel,
-    setWithLayout
+    setWithLayout,
   } = useStore();
 
   // Filter by parsed from the URL
   const filterBy = {
     make: typeof qs.make === "string" ? [qs.make] : qs.make,
-    model: typeof qs.model === "string" ? [qs.model] : qs.model
+    model: typeof qs.model === "string" ? [qs.model] : qs.model,
   };
 
   const hpath = (router.query.slug as string[]).join("/");
@@ -126,9 +126,9 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
         router.push("/photo/[...slug]", {
           pathname: `/photo/${hjoin({
             ...folder,
-            file: savedPhotosData?.getPhoto?.next
+            file: savedPhotosData?.getPhoto?.next,
           })}`,
-          query: removeEmptyValues({ ...filterBy, order: orderBy })
+          query: removeEmptyValues({ ...filterBy, order: orderBy }),
         });
       }
     },
@@ -137,18 +137,18 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
         router.push("/photo/[...slug]", {
           pathname: `/photo/${hjoin({
             ...folder,
-            file: savedPhotosData?.getPhoto?.previous
+            file: savedPhotosData?.getPhoto?.previous,
           })}`,
-          query: removeEmptyValues({ ...filterBy, order: orderBy })
+          query: removeEmptyValues({ ...filterBy, order: orderBy }),
         });
       }
     },
     ESCAPE: (): void => {
       router.push("/album/[...slug]", {
         pathname: `/album/@${folder.source}:${folder.dir}`,
-        query: removeEmptyValues({ ...filterBy, order: orderBy })
+        query: removeEmptyValues({ ...filterBy, order: orderBy }),
       });
-    }
+    },
   };
 
   //= ================================================================
@@ -160,8 +160,8 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
       album: folder.dir === "." ? "" : folder.dir ?? "",
       file: folder.file,
       orderBy,
-      filterBy
-    }
+      filterBy,
+    },
   });
 
   // Save the data to the state to avoid flickering
@@ -194,7 +194,7 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
             href="/album/[...slug]"
             as={{
               pathname: `/album/@${folder.source}:${folder.dir}`,
-              query: removeEmptyValues({ ...filterBy, order: orderBy })
+              query: removeEmptyValues({ ...filterBy, order: orderBy }),
             }}
           >
             <Button variant="outlined">{t("previous")}</Button>
@@ -226,9 +226,9 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
                     hfile: {
                       file: photo.file,
                       dir: folder.dir,
-                      source: folder.source
+                      source: folder.source,
                     },
-                    thumbnail: photo.thumbnails[1]
+                    thumbnail: photo.thumbnails[1],
                   })) ?? []
                 }
               />
@@ -241,11 +241,11 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
 };
 
 PhotoPage.getInitialProps = async (): Promise<InitialProps> => ({
-  namespacesRequired: ["common"]
+  namespacesRequired: ["common"],
 });
 
 PhotoPage.defaultProps = {
-  displayWithLayout: true
+  displayWithLayout: true,
 };
 
 export default PhotoPage;

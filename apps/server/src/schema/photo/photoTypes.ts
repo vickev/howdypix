@@ -16,15 +16,17 @@ export const PhotoDetail = (): NexusObjectTypeDef<"PhotoDetail"> =>
       t.field("next", { type: "String", nullable: true });
       t.field("previous", { type: "String", nullable: true });
       t.field("photoStream", { type: "PhotoStreamThumbnail", list: [true] });
-    }
+    },
   });
 
-export const PhotoStreamThumbnail = (): NexusObjectTypeDef<"PhotoStreamThumbnail"> =>
+export const PhotoStreamThumbnail = (): NexusObjectTypeDef<
+  "PhotoStreamThumbnail"
+> =>
   objectType({
     name: "PhotoStreamThumbnail",
     definition(t) {
       t.id("id");
       t.id("file");
       t.field("thumbnails", { type: "String", list: [true] });
-    }
+    },
   });

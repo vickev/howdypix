@@ -13,7 +13,7 @@ import { TreeViewProvider } from "../../../../context/treeView";
 import {
   AlbumWithNodeId,
   SourceWithNodeId,
-  TreeViewContextData
+  TreeViewContextData,
 } from "../../../../context/treeView/types";
 import { StoreProvider } from "../../../../context/store";
 import theme from "../../../../theme";
@@ -31,7 +31,7 @@ const createFakeAlbum = (
   nbAlbums: 0,
   nbImages: id,
   preview: `preview${id}`,
-  ...overrides
+  ...overrides,
 });
 
 const createFakeSource = (
@@ -43,7 +43,7 @@ const createFakeSource = (
   nbAlbums: 0,
   nbImages: id,
   preview: `preview${id}`,
-  ...overrides
+  ...overrides,
 });
 
 describe("AlbumTreeView", () => {
@@ -59,11 +59,11 @@ describe("AlbumTreeView", () => {
     const expandedNodeIds: TreeViewContextData["expandedNodeIds"] = [
       "source1",
       "album1",
-      "album2"
+      "album2",
     ];
     const sources: TreeViewContextData["sources"] = [
       createFakeSource(1, { nbAlbums: 6 }),
-      createFakeSource(2)
+      createFakeSource(2),
     ];
     const albums: TreeViewContextData["albums"] = [
       createFakeAlbum(1, 1, null, { nbAlbums: 0 }),
@@ -71,7 +71,7 @@ describe("AlbumTreeView", () => {
       createFakeAlbum(3, 1, null, { nbAlbums: 0 }),
       createFakeAlbum(4, 1, 2, { nbAlbums: 1 }),
       createFakeAlbum(5, 1, 2, { nbAlbums: 0 }),
-      createFakeAlbum(6, 1, 4, { nbAlbums: 0 })
+      createFakeAlbum(6, 1, 4, { nbAlbums: 0 }),
     ];
 
     const currentSource = null;
@@ -94,7 +94,7 @@ describe("AlbumTreeView", () => {
             setCurrentSource,
             setCurrentAlbum,
             setRightPanel,
-            setWithLayout
+            setWithLayout,
           }}
         >
           <TreeViewProvider
@@ -104,7 +104,7 @@ describe("AlbumTreeView", () => {
               toggle,
               expandedNodeIds,
               sources,
-              albums
+              albums,
             }}
           >
             <AlbumTreeView />

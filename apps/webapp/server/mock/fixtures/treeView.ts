@@ -16,7 +16,7 @@ const newQuery: Query = {
             nbAlbums: 1,
             nbImages: 1,
             source: "treesource1",
-            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
           },
           {
             dir: "TreeAlbum2",
@@ -24,8 +24,8 @@ const newQuery: Query = {
             nbAlbums: 0,
             nbImages: 2,
             source: "treesource1",
-            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
-          }
+            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+          },
         ]
       );
     } else if (params.album === "TreeAlbum1") {
@@ -37,7 +37,7 @@ const newQuery: Query = {
             nbAlbums: 2,
             nbImages: 3,
             source: "treesource1",
-            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
           },
           {
             dir: "TreeAlbum4",
@@ -45,8 +45,8 @@ const newQuery: Query = {
             nbAlbums: 0,
             nbImages: 4,
             source: "treesource1",
-            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
-          }
+            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+          },
         ]
       );
     } else if (params.album === "TreeAlbum3") {
@@ -58,7 +58,7 @@ const newQuery: Query = {
             nbAlbums: 0,
             nbImages: 5,
             source: "treesource1",
-            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
           },
           {
             dir: "TreeAlbum6",
@@ -66,8 +66,8 @@ const newQuery: Query = {
             nbAlbums: 0,
             nbImages: 6,
             source: "treesource1",
-            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
-          }
+            preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+          },
         ]
       );
     }
@@ -79,27 +79,27 @@ const newQuery: Query = {
           name: "treesource1",
           nbAlbums: 1,
           nbImages: 1,
-          preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+          preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
         },
         {
           name: "treesource2",
           nbAlbums: 0,
           nbImages: 2,
-          preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
+          preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
         },
         {
           name: "treesource3",
           nbAlbums: 0,
           nbImages: 3,
-          preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`
-        }
-      ]
+          preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
+        },
+      ],
     };
-  }
+  },
 };
 
 const newMutation: Mutation = {
-  ...full.mutation
+  ...full.mutation,
 };
 
 export default { query: newQuery, mutation: newMutation } as FixtureSet;

@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { appDebug } from "@howdypix/utils";
 import {
   GetCurrentUserQuery,
-  GetCurrentUserQueryVariables
+  GetCurrentUserQueryVariables,
 } from "../../__generated__/schema-types";
 import { UserProvider } from "./userContext";
 
@@ -39,7 +39,7 @@ export const withUser = <P extends object>(
         user: data?.getCurrentUser,
         logout: (): void => {
           window.location.replace("/logout");
-        }
+        },
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}

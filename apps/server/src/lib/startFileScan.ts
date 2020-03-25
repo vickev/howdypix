@@ -16,7 +16,7 @@ export function onAdd(
 
   event.emit("newFile", {
     hfile: path2hfile(source, relativePath),
-    root: absoluteRoot
+    root: absoluteRoot,
   });
 }
 
@@ -32,19 +32,19 @@ export function onRemove(
 
   event.emit("removeFile", {
     root: absoluteRoot,
-    hfile: path2hfile(source, relativePath)
+    hfile: path2hfile(source, relativePath),
   });
 }
 
 export function startFileScan(event: Events, userConfig: UserConfig): void {
-  Object.keys(userConfig.photoDirs).forEach(sourceId => {
+  Object.keys(userConfig.photoDirs).forEach((sourceId) => {
     const root = userConfig.photoDirs[sourceId];
 
     // Initiate the watcher
     const watcher = chokidar.watch(root, { ignored: /.howdypix/ });
 
     watcher
-      .on("add", path => onAdd(event, path, root, sourceId))
-      .on("unlink", path => onRemove(event, path, root, sourceId));
+      .on("add", (path) => onAdd(event, path, root, sourceId))
+      .on("unlink", (path) => onRemove(event, path, root, sourceId));
   });
 }

@@ -33,7 +33,7 @@ GROUP BY
    P.DIR,
    P.SOURCE,
    P.PARENTDIR;
-    `
+    `,
 })
 export class Album {
   @Column("text")

@@ -10,7 +10,7 @@ import { Divider, styled } from "@material-ui/core";
 import { withApollo } from "../../lib/with-apollo-client";
 import {
   AuthEmailMutation,
-  AuthEmailMutationVariables
+  AuthEmailMutationVariables,
 } from "../../__generated__/schema-types";
 import { LoginForm } from "./LoginForm";
 import { LoginEmailSent } from "./LoginEmailSent";
@@ -33,7 +33,7 @@ const AUTH_EMAIL = gql`
 const CustomPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5, 6),
   width: "100%",
-  maxWidth: 400
+  maxWidth: 400,
 }));
 
 //= =======================================

@@ -13,10 +13,10 @@ const authFetch = async <T>(token: string, route: string): Promise<T> =>
     fetch(`${serverRuntimeConfig.serverApi.url}${route}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ token })
-    }).then(async res => {
+      body: JSON.stringify({ token }),
+    }).then(async (res) => {
       if (res.status === 200) {
         resolve(await res.json());
       } else {
@@ -37,7 +37,7 @@ export const authHandler = (
   } = {
     failureCallback: (req, res): void => {
       res.redirect("/login");
-    }
+    },
   }
 ): Handler => async (req, res, next): Promise<void> => {
   if (/_next/.test(req.originalUrl) || /^\/login/.test(req.originalUrl)) {
@@ -91,7 +91,7 @@ export const applyAuthMiddleware = (app: Express): void => {
     const response = await axios.post<TokenInfo | { error: string }>(
       `${serverRuntimeConfig.serverApi.url}${routes.codeValidation.value()}`,
       {
-        code: req.params.code
+        code: req.params.code,
       }
     );
 
@@ -99,9 +99,9 @@ export const applyAuthMiddleware = (app: Express): void => {
      * This weird querystring is to pass some querystrings down to the redirect
      */
     const querystring = `?${[
-      req.query["fixture-set"] && `fixture-set=${req.query["fixture-set"]}`
+      req.query["fixture-set"] && `fixture-set=${req.query["fixture-set"]}`,
     ]
-      .filter(p => p)
+      .filter((p) => p)
       .join("&")}`;
 
     if (isTokenInfo(response.data)) {

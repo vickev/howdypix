@@ -11,12 +11,12 @@ import styled from "@material-ui/styles/styled";
 const StyledSelect = styled(Select)({
   "& > div": {
     padding: "8px",
-    borderRight: 0
-  }
+    borderRight: 0,
+  },
 });
 
 const StyledButton = styled(Button)({
-  borderLeft: 0
+  borderLeft: 0,
 });
 
 type Props = {
@@ -30,7 +30,7 @@ export const FilterByMultipleValues: React.FC<Props> = ({
   label,
   values,
   selected,
-  onChange
+  onChange,
 }) => {
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
     const newValues = event.target.value as string[];
@@ -55,7 +55,7 @@ export const FilterByMultipleValues: React.FC<Props> = ({
             : (selected: unknown): string => (selected as string[]).join(", ")
         }
       >
-        {values.map(name => (
+        {values.map((name) => (
           <MenuItem key={name} value={name}>
             <Checkbox checked={selected.indexOf(name) > -1} />
             <ListItemText primary={name} />

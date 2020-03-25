@@ -10,11 +10,11 @@ const Component: NextPage<{}, InitialProps> = () => {
 };
 
 Component.getInitialProps = async (): Promise<InitialProps> => ({
-  namespacesRequired: ["common"]
+  namespacesRequired: ["common"],
 });
 
 Component.defaultProps = {
-  displayWithLayout: false
+  displayWithLayout: false,
 };
 
 export default Component;

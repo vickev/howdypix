@@ -12,7 +12,7 @@ context("Index page", () => {
 
   it("Clicking on a source should get us to the album.", () => {
     cy.findByText("source1").click();
-    cy.location().should(loc => {
+    cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/album/@source1:.");
     });
   });

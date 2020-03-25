@@ -8,7 +8,7 @@ export type UserContextData = {
 
 export const UserContext = React.createContext<UserContextData>({
   user: null,
-  logout: () => {}
+  logout: () => {},
 });
 
 export const UserProvider = UserContext.Provider;

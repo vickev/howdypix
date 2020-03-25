@@ -50,7 +50,7 @@ export async function onRemoveFile(
   await photoRepository.delete(hfile);
 
   // Remove thumbnails
-  generateThumbnailPaths(userConfig.thumbnailsDir, hfile).forEach(tn => {
+  generateThumbnailPaths(userConfig.thumbnailsDir, hfile).forEach((tn) => {
     unlinkSync(tn.path);
   });
 }
@@ -94,15 +94,15 @@ export async function startCacheDB(
   userConfig: UserConfig,
   connection: Connection
 ): Promise<Connection> {
-  event.on("newFile", params =>
+  event.on("newFile", (params) =>
     onNewFile(params, event, connection, userConfig)
   );
 
-  event.on("removeFile", params =>
+  event.on("removeFile", (params) =>
     onRemoveFile(params, event, connection, userConfig)
   );
 
-  event.on("processedFile", file => onProcessedFile(file, event, connection));
+  event.on("processedFile", (file) => onProcessedFile(file, event, connection));
 
   return connection;
 }

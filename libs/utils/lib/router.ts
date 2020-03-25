@@ -51,5 +51,5 @@ export const routes = {
     {},
     { token: string | undefined },
     { token: string }
-  >("/auth/refresk-token")
+  >("/auth/refresk-token"),
 };

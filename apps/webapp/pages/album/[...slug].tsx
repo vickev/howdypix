@@ -24,7 +24,7 @@ import {
   GetPhotosQueryVariables,
   GetSubAlbumQuery,
   GetSubAlbumQueryVariables,
-  PhotosOrderBy
+  PhotosOrderBy,
 } from "../../src/__generated__/schema-types";
 import { AlbumCard } from "../../src/component/AlbumCard";
 import { AlbumGrid } from "../../src/component/AlbumGrid";
@@ -124,13 +124,13 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     setCurrentSource,
     setCurrentAlbum,
     setRightPanel,
-    setWithLayout
+    setWithLayout,
   } = useStore();
 
   // Filter by parsed from the URL
   const filterBy = {
     make: typeof qs.make === "string" ? [qs.make] : qs.make,
-    model: typeof qs.model === "string" ? [qs.model] : qs.model
+    model: typeof qs.model === "string" ? [qs.model] : qs.model,
   };
 
   // State to save the old set of data, to avoid flickering when changing the order
@@ -152,8 +152,8 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
     {
       variables: {
         source: folder.source,
-        album: folder.dir
-      }
+        album: folder.dir,
+      },
     }
   );
   const albumData = albumQuery.data;
@@ -169,8 +169,8 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
         source: folder.source,
         album: folder.dir,
         orderBy,
-        filterBy
-      }
+        filterBy,
+      },
     }
   );
   const photosData = photosQuery.data;
@@ -190,8 +190,8 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
       variables: {
         source: folder.source,
         album: folder.dir,
-        filterBy
-      }
+        filterBy,
+      },
     }
   );
   const filtersData = filtersQuery.data;
@@ -214,14 +214,14 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   const handleSortChange = (value: NexusGenEnums["PhotosOrderBy"]): void => {
     router.replace(router.pathname, {
       pathname: url.parse(router.asPath).pathname,
-      query: removeEmptyValues({ ...qs, order: value })
+      query: removeEmptyValues({ ...qs, order: value }),
     });
   };
 
   const handleFilterChange = (filterValues: AvailableFilters): void => {
     router.push(router.pathname, {
       pathname: url.parse(router.asPath).pathname,
-      query: removeEmptyValues({ ...qs, ...filterValues })
+      query: removeEmptyValues({ ...qs, ...filterValues }),
     });
   };
 
@@ -268,7 +268,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
       </Box>
       <AlbumGrid extraHeight={100}>
         {albumLoading
-          ? [0, 1, 2].map(value => (
+          ? [0, 1, 2].map((value) => (
               <GridListTile key={`skeleton_album_${value}`}>
                 <Skeleton variant="rect" height={200} />
               </GridListTile>
@@ -312,7 +312,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
                       hfile={{
                         file: photo.file,
                         dir: folder.dir,
-                        source: folder.source
+                        source: folder.source,
                       }}
                       filter={filterBy}
                       order={orderBy}
@@ -328,11 +328,11 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
 };
 
 AlbumPage.getInitialProps = async (): Promise<InitialProps> => ({
-  namespacesRequired: ["common"]
+  namespacesRequired: ["common"],
 });
 
 AlbumPage.defaultProps = {
-  displayWithLayout: true
+  displayWithLayout: true,
 };
 
 export default AlbumPage;

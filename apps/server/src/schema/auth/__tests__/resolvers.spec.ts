@@ -5,11 +5,11 @@ import { magicLink } from "../../../email";
 type SendEmailOptions = { from: string; to: string };
 
 jest.mock("nodemailer", () => ({
-  createTransport: jest.fn()
+  createTransport: jest.fn(),
 }));
 
 jest.mock("../../../email", () => ({
-  magicLink: jest.fn()
+  magicLink: jest.fn(),
 }));
 
 describe("authEmailResolver", () => {
@@ -25,7 +25,7 @@ describe("authEmailResolver", () => {
 
   test("should send an error if the user does not exist", async () => {
     expect(await resolver({}, { email: "toto" })).toEqual({
-      messageId: "AUTH_EMAIL_ERR_NOT_EXIST"
+      messageId: "AUTH_EMAIL_ERR_NOT_EXIST",
     });
   });
 
@@ -36,7 +36,7 @@ describe("authEmailResolver", () => {
         expect(options.to).toEqual("Name<success@vickev.com>");
         expect(magicLink).toBeCalled();
         callback();
-      }
+      },
     }));
 
     await resolver({}, { email: "success@vickev.com" });
@@ -46,12 +46,12 @@ describe("authEmailResolver", () => {
     (createTransport as jest.Mock).mockImplementation(() => ({
       sendMail: (options: SendEmailOptions, callback: Function): void => {
         callback({ message: "Error!!" });
-      }
+      },
     }));
 
     expect(await resolver({}, { email: "success@vickev.com" })).toEqual({
       messageId: "AUTH_EMAIL_ERR",
-      messageData: "Error!!"
+      messageData: "Error!!",
     });
   });
 
@@ -59,12 +59,12 @@ describe("authEmailResolver", () => {
     (createTransport as jest.Mock).mockImplementation(() => ({
       sendMail: (options: SendEmailOptions, callback: Function): void => {
         callback();
-      }
+      },
     }));
 
     expect(await resolver({}, { email: "success@vickev.com" })).toEqual({
       messageId: "AUTH_EMAIL_OK",
-      code: expect.stringContaining("")
+      code: expect.stringContaining(""),
     });
   });
 });

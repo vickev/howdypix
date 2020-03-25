@@ -57,9 +57,6 @@ export class Photo {
   @Column("text")
   file: string;
 
-  @OneToMany(
-    () => SearchResult,
-    searchResult => searchResult.photo
-  )
+  @OneToMany(() => SearchResult, (searchResult) => searchResult.photo)
   public searchResults!: SearchResult[];
 }

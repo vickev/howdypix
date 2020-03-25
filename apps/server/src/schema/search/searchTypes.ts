@@ -8,7 +8,7 @@ export const PhotosOrderBy = (): NexusEnumTypeDef<"PhotosOrderBy"> =>
   enumType({
     name: "PhotosOrderBy",
     members: ["DATE_ASC", "DATE_DESC", "NAME_ASC", "NAME_DESC"],
-    description: "The order of which the list is sorted"
+    description: "The order of which the list is sorted",
   });
 
 export const PhotosFilterBy = (): NexusInputObjectTypeDef<"PhotosFilterBy"> =>
@@ -17,7 +17,7 @@ export const PhotosFilterBy = (): NexusInputObjectTypeDef<"PhotosFilterBy"> =>
     definition(t) {
       t.field("make", { type: "String", list: [false] });
       t.field("model", { type: "String", list: [false] });
-    }
+    },
   });
 
 export const SearchPhoto = (): NexusObjectTypeDef<"SearchPhoto"> =>
@@ -28,7 +28,7 @@ export const SearchPhoto = (): NexusObjectTypeDef<"SearchPhoto"> =>
       t.field("file", { type: "String" });
       t.field("thumbnails", { type: "String", list: [false] });
       t.field("birthtime", { type: "Float" });
-    }
+    },
   });
 
 export const SearchAlbum = (): NexusObjectTypeDef<"SearchAlbum"> =>
@@ -39,7 +39,7 @@ export const SearchAlbum = (): NexusObjectTypeDef<"SearchAlbum"> =>
       t.field("name", { type: "String" });
       t.field("dir", { type: "String" });
       t.field("source", { type: "String" });
-    }
+    },
   });
 
 export const GetSearchPhotos = (): NexusObjectTypeDef<"GetSearchPhotos"> =>
@@ -47,5 +47,5 @@ export const GetSearchPhotos = (): NexusObjectTypeDef<"GetSearchPhotos"> =>
     name: "GetSearchPhotos",
     definition(t) {
       t.field("photos", { type: "SearchPhoto", list: [false] });
-    }
+    },
   });

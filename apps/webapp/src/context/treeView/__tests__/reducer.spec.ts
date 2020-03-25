@@ -14,7 +14,7 @@ const createFakeAlbum = (
   nbAlbums: 0,
   nbImages: id,
   preview: `preview${id}`,
-  ...overrides
+  ...overrides,
 });
 
 const createFakeSource = (
@@ -26,7 +26,7 @@ const createFakeSource = (
   nbAlbums: 0,
   nbImages: id,
   preview: `preview${id}`,
-  ...overrides
+  ...overrides,
 });
 
 describe("treeView reducer", () => {
@@ -39,17 +39,17 @@ describe("treeView reducer", () => {
           expandedNodeIds: [],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 1 }),
-            createFakeSource(2, { nbAlbums: 1 })
-          ]
+            createFakeSource(2, { nbAlbums: 1 }),
+          ],
         },
         {
           type: "DATA_FETCHED",
           variables: { album: "album1", source: "source1" },
           sources: [
             createFakeSource(1, { nbAlbums: 1 }),
-            createFakeSource(2, { nbAlbums: 1 })
+            createFakeSource(2, { nbAlbums: 1 }),
           ],
-          albums: [createFakeAlbum(2, 2)]
+          albums: [createFakeAlbum(2, 2)],
         }
       );
 
@@ -67,18 +67,18 @@ describe("treeView reducer", () => {
             createFakeAlbum(2, 1),
             createFakeAlbum(3, 1, null, { nbAlbums: 1 }),
             createFakeAlbum(4, 1, 3, { nbAlbums: 1 }),
-            createFakeAlbum(5, 1, 4)
+            createFakeAlbum(5, 1, 4),
           ],
           expandedNodeIds: [],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 1 }),
-            createFakeSource(2)
-          ]
+            createFakeSource(2),
+          ],
         },
         {
           type: "DISPLAY_LEAF",
           album: "album5",
-          source: "source1"
+          source: "source1",
         }
       );
 
@@ -95,18 +95,18 @@ describe("treeView reducer", () => {
             createFakeAlbum(2, 1),
             createFakeAlbum(3, 1, null, { nbAlbums: 1 }),
             createFakeAlbum(4, 1, 3, { nbAlbums: 1 }),
-            createFakeAlbum(5, 1, 4)
+            createFakeAlbum(5, 1, 4),
           ],
           expandedNodeIds: [],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 3 }),
-            createFakeSource(2)
-          ]
+            createFakeSource(2),
+          ],
         },
         {
           type: "DISPLAY_LEAF",
           album: "",
-          source: "source1"
+          source: "source1",
         }
       );
 
@@ -124,21 +124,21 @@ describe("treeView reducer", () => {
             album2: true,
             album3: true,
             source1: true,
-            source2: true
+            source2: true,
           },
           fetchedAlbums: [
             createFakeAlbum(1, 1),
             createFakeAlbum(2, 1),
-            createFakeAlbum(3, 2)
+            createFakeAlbum(3, 2),
           ],
           expandedNodeIds: [],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 2 }),
-            createFakeSource(2, { nbAlbums: 1 })
-          ]
+            createFakeSource(2, { nbAlbums: 1 }),
+          ],
         },
         {
-          type: "UPDATE_EXPANDED_NODE_IDS"
+          type: "UPDATE_EXPANDED_NODE_IDS",
         }
       );
 
@@ -153,21 +153,21 @@ describe("treeView reducer", () => {
             album2: false,
             album3: false,
             source1: false,
-            source2: false
+            source2: false,
           },
           fetchedAlbums: [
             createFakeAlbum(1, 1),
             createFakeAlbum(2, 1),
-            createFakeAlbum(3, 2)
+            createFakeAlbum(3, 2),
           ],
           expandedNodeIds: ["album1", "source1", "album2", "album3", "source2"],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 2 }),
-            createFakeSource(2, { nbAlbums: 1 })
-          ]
+            createFakeSource(2, { nbAlbums: 1 }),
+          ],
         },
         {
-          type: "UPDATE_EXPANDED_NODE_IDS"
+          type: "UPDATE_EXPANDED_NODE_IDS",
         }
       );
 
@@ -184,21 +184,21 @@ describe("treeView reducer", () => {
           visibleLeaves: {},
           fetchedAlbums: [],
           expandedNodeIds: [],
-          fetchedSources: [createFakeSource(1, { nbAlbums: 2 })]
+          fetchedSources: [createFakeSource(1, { nbAlbums: 2 })],
         },
         {
           type: "EXPAND",
           source: "source1",
           album: "album1",
-          fetchTree
+          fetchTree,
         }
       );
 
       expect(fetchTree).toHaveBeenCalledWith({
         variables: {
           album: "album1",
-          source: "source1"
-        }
+          source: "source1",
+        },
       });
     });
 
@@ -210,21 +210,21 @@ describe("treeView reducer", () => {
           visibleLeaves: {},
           fetchedAlbums: [],
           expandedNodeIds: [],
-          fetchedSources: [createFakeSource(1, { nbAlbums: 2 })]
+          fetchedSources: [createFakeSource(1, { nbAlbums: 2 })],
         },
         {
           type: "EXPAND",
           source: "source1",
           album: null,
-          fetchTree
+          fetchTree,
         }
       );
 
       expect(fetchTree).toHaveBeenCalledWith({
         variables: {
           album: "",
-          source: "source1"
-        }
+          source: "source1",
+        },
       });
     });
 
@@ -236,16 +236,16 @@ describe("treeView reducer", () => {
           visibleLeaves: { source1: false, album1: false },
           fetchedAlbums: [
             createFakeAlbum(1, 1, null, { nbAlbums: 1 }),
-            createFakeAlbum(1, 1, 2)
+            createFakeAlbum(1, 1, 2),
           ],
           expandedNodeIds: [],
-          fetchedSources: [createFakeSource(1, { nbAlbums: 2 })]
+          fetchedSources: [createFakeSource(1, { nbAlbums: 2 })],
         },
         {
           type: "EXPAND",
           source: "source1",
           album: null,
-          fetchTree
+          fetchTree,
         }
       );
 
@@ -261,13 +261,13 @@ describe("treeView reducer", () => {
           visibleLeaves: { source1: true, album1: false, album2: true },
           fetchedAlbums: [createFakeAlbum(1, 1)],
           expandedNodeIds: [],
-          fetchedSources: [createFakeSource(1, { nbAlbums: 2 })]
+          fetchedSources: [createFakeSource(1, { nbAlbums: 2 })],
         },
         {
           type: "EXPAND",
           source: "source1",
           album: "album1",
-          fetchTree
+          fetchTree,
         }
       );
 
@@ -285,24 +285,24 @@ describe("treeView reducer", () => {
             album2: true,
             album3: true,
             source1: true,
-            source2: true
+            source2: true,
           },
           fetchedAlbums: [
             createFakeAlbum(1, 1),
             createFakeAlbum(2, 1),
-            createFakeAlbum(3, 2)
+            createFakeAlbum(3, 2),
           ],
           expandedNodeIds: ["album1", "source1", "album2", "album3", "source2"],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 2 }),
-            createFakeSource(2, { nbAlbums: 1 })
-          ]
+            createFakeSource(2, { nbAlbums: 1 }),
+          ],
         },
         {
           type: "COLLAPSE",
           album: "album1",
           source: "source1",
-          parent: null
+          parent: null,
         }
       );
 
@@ -318,24 +318,24 @@ describe("treeView reducer", () => {
             album2: true,
             album3: true,
             source1: true,
-            source2: true
+            source2: true,
           },
           fetchedAlbums: [
             createFakeAlbum(1, 1),
             createFakeAlbum(2, 1),
-            createFakeAlbum(3, 2)
+            createFakeAlbum(3, 2),
           ],
           expandedNodeIds: ["album1", "source1", "album2", "album3", "source2"],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 2 }),
-            createFakeSource(2, { nbAlbums: 1 })
-          ]
+            createFakeSource(2, { nbAlbums: 1 }),
+          ],
         },
         {
           type: "COLLAPSE",
           album: null,
           source: "source1",
-          parent: null
+          parent: null,
         }
       );
 
@@ -351,18 +351,18 @@ describe("treeView reducer", () => {
         album2: true,
         album3: true,
         source1: true,
-        source2: true
+        source2: true,
       },
       fetchedAlbums: [
         createFakeAlbum(1, 1),
         createFakeAlbum(2, 1),
-        createFakeAlbum(3, 2)
+        createFakeAlbum(3, 2),
       ],
       expandedNodeIds: ["album1", "source1", "album2", "album3", "source2"],
       fetchedSources: [
         createFakeSource(1, { nbAlbums: 2 }),
-        createFakeSource(2, { nbAlbums: 1 })
-      ]
+        createFakeSource(2, { nbAlbums: 1 }),
+      ],
     };
 
     test("must call collapse if it's visible", async () => {
@@ -373,7 +373,7 @@ describe("treeView reducer", () => {
         album: "album1",
         source: "source1",
         parent: null,
-        fetchTree
+        fetchTree,
       });
 
       expect(fetchTree).not.toHaveBeenCalled();
@@ -390,17 +390,17 @@ describe("treeView reducer", () => {
           ...{
             visibleLeaves: {
               ...base.visibleLeaves,
-              ...{ album1: false, album2: false }
+              ...{ album1: false, album2: false },
             },
-            expandedNodeIds: ["source1", "album3", "source2"]
-          }
+            expandedNodeIds: ["source1", "album3", "source2"],
+          },
         },
         {
           type: "TOGGLE",
           album: "album1",
           source: "source1",
           parent: null,
-          fetchTree
+          fetchTree,
         }
       );
 
@@ -417,14 +417,14 @@ describe("treeView reducer", () => {
         album: "album5",
         source: "source2",
         parent: null,
-        fetchTree
+        fetchTree,
       });
 
       expect(fetchTree).toHaveBeenCalledWith({
         variables: {
           album: "album5",
-          source: "source2"
-        }
+          source: "source2",
+        },
       });
     });
   });

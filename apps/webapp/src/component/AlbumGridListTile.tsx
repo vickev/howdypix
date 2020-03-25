@@ -3,6 +3,6 @@ import GridListTile from "@material-ui/core/GridListTile";
 
 export const AlbumGridListTile = styled(GridListTile)({
   "& > *": {
-    overflow: "visible"
-  }
+    overflow: "visible",
+  },
 });

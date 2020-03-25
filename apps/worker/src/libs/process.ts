@@ -8,7 +8,7 @@ import {
   appDebug,
   generateThumbnailPaths,
   thumbnailPath,
-  hfile2path
+  hfile2path,
 } from "@howdypix/utils";
 
 export async function fetchExif(root: string, path: string): Promise<ExifData> {
@@ -24,7 +24,7 @@ export async function fetchExif(root: string, path: string): Promise<ExifData> {
             ? new Date(data.exif.CreateDate).getMilliseconds()
             : undefined,
           make: data.image.Make,
-          model: data.image.Model
+          model: data.image.Model,
         });
       } else {
         reject(error);
@@ -41,7 +41,7 @@ export async function fetchStat(root: string, path: string): Promise<StatData> {
     ctime: stat.ctimeMs,
     mtime: stat.mtimeMs,
     birthtime: stat.birthtimeMs,
-    size: stat.size
+    size: stat.size,
   };
 }
 
@@ -55,7 +55,7 @@ export async function createThumbnails(
   mkdirp.sync(dir);
 
   return Promise.all(
-    generateThumbnailPaths(thumbnailsDir, hfile).map(async data => {
+    generateThumbnailPaths(thumbnailsDir, hfile).map(async (data) => {
       await sharp(join(root, hfile2path(hfile).toString()))
         .resize(data.width)
         .toFile(data.path);
@@ -82,7 +82,7 @@ export async function process(
       ctime: 0,
       inode: 0,
       mtime: 0,
-      size: 0
+      size: 0,
     };
   }
 
@@ -100,7 +100,7 @@ export async function process(
     stat,
     thumbnails,
     hfile,
-    root
+    root,
   };
 
   appDebug("processed")(`${path}: ${JSON.stringify(data)}`);

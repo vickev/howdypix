@@ -1,6 +1,6 @@
 import {
   NexusGenArgTypes,
-  NexusGenFieldTypes
+  NexusGenFieldTypes,
 } from "@howdypix/graphql-schema/schema.d";
 import { uniq } from "lodash";
 import { ApolloContext } from "../../types.d";
@@ -14,7 +14,7 @@ export const getFiltersResolver = () => async (
   const photoRepository = ctx.connection.getRepository(EntityPhoto);
   const where = {
     dir: args.album ?? "",
-    source: args.source
+    source: args.source,
     // ...filterByMake(args.filterBy?.make).whereStatement,
     // ...filterByModel(args.filterBy?.model).whereStatement
   };
@@ -48,6 +48,6 @@ export const getFiltersResolver = () => async (
       cameras.filter(({ model }) => model !== "").map(({ model }) => model) ??
         []
     ),
-    dateTakenRange
+    dateTakenRange,
   };
 };

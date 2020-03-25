@@ -15,7 +15,7 @@ export async function connectToRabbitMq(url: string): Promise<Connection> {
     warning(`Impossible to connect. Retrying in ${retryIntervalInSec}s...`);
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(connectToRabbitMq(url));
     }, retryIntervalInSec * 1000);

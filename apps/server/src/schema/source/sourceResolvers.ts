@@ -1,6 +1,6 @@
 import {
   NexusGenArgTypes,
-  NexusGenFieldTypes
+  NexusGenFieldTypes,
 } from "@howdypix/graphql-schema/schema.d";
 import { generateThumbnailUrls } from "@howdypix/utils";
 import { UserConfig, appConfig } from "../../config";
@@ -17,11 +17,11 @@ export const getSourcesResolver = (
   const sourceRepository = ctx.connection.getRepository(EntitySource);
   const sources: { [source: string]: EntitySource | null } = {};
 
-  (await sourceRepository.find()).forEach(source => {
+  (await sourceRepository.find()).forEach((source) => {
     sources[source.source] = source;
   });
 
-  return Object.keys(photoDirs).map(name => ({
+  return Object.keys(photoDirs).map((name) => ({
     name,
     nbAlbums: sources[name]?.nbAlbums ?? 0,
     nbPhotos: sources[name]?.nbPhotos ?? 0,
@@ -30,7 +30,7 @@ export const getSourcesResolver = (
       generateThumbnailUrls(appConfig.webapp.baseUrl, {
         file: sources[name]?.preview,
         dir: sources[name]?.dir,
-        source: name
-      }).map(tn => tn.url)[0]
+        source: name,
+      }).map((tn) => tn.url)[0],
   }));
 };

@@ -76,14 +76,14 @@ export function hpaths(folder: HFile): HFile[] {
 
   paths.push({
     source: folder.source,
-    name: folder.source
+    name: folder.source,
   });
 
   folders?.forEach((element, index): void => {
     paths.push({
       source: folder.source,
       dir: folders.slice(0, index + 1).join("/"),
-      name: element
+      name: element,
     });
   });
 

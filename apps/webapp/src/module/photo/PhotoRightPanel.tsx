@@ -17,13 +17,13 @@ type Props = {
 
 const StyledExpansionPanel = styled(ExpansionPanel)(() => ({
   background: "transparent",
-  boxShadow: "none"
+  boxShadow: "none",
 }));
 
 const StyledExpansionPanelSummary = styled(ExpansionPanelSummary)(
   ({ theme }) => ({
     background: theme.palette.grey["200"],
-    boxShadow: "none"
+    boxShadow: "none",
   })
 );
 
@@ -31,7 +31,7 @@ export const PhotoRightPanel: React.FC<Props> = ({
   date,
   ISO,
   aperture,
-  shutter
+  shutter,
 }) => {
   const { t } = useTranslation("common");
 
@@ -54,12 +54,12 @@ export const PhotoRightPanel: React.FC<Props> = ({
           </Typography>
           <Typography variant="body2">
             {t("aperture", {
-              value: aperture ? `f/${aperture}` : "N/A"
+              value: aperture ? `f/${aperture}` : "N/A",
             })}
           </Typography>
           <Typography variant="body2">
             {t("shutter", {
-              value: shutter ? `1/${shutter}` : "N/A"
+              value: shutter ? `1/${shutter}` : "N/A",
             })}
           </Typography>
         </Box>

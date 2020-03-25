@@ -9,7 +9,7 @@ export const emailListHandler: Handler = (req, res) => {
   res.send(
     `<ul>${Object.keys(emails)
       .map(
-        templateName =>
+        (templateName) =>
           `<li><a href="/email/${templateName}">${templateName}</a></li>`
       )
       .join("")}</ul>`

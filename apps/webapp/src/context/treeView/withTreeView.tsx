@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { useLazyQuery } from "@apollo/react-hooks";
 import {
   GetTreeQuery,
-  GetTreeQueryVariables
+  GetTreeQueryVariables,
 } from "../../__generated__/schema-types";
 import { TreeViewProvider } from "./treeViewContext";
 import { TreeItem, TreeItemWithParent } from "./types";
@@ -43,7 +43,7 @@ export const withTreeView = <P extends object>(
     fetchedAlbums: [],
     fetchedSources: [],
     visibleLeaves: {},
-    expandedNodeIds: []
+    expandedNodeIds: [],
   });
 
   // ============================================
@@ -64,7 +64,7 @@ export const withTreeView = <P extends object>(
         type: "DATA_FETCHED",
         variables,
         albums: data.getTree.albums,
-        sources: data.getTree.sources
+        sources: data.getTree.sources,
       });
     }
   }, [data, loading]);
@@ -73,14 +73,14 @@ export const withTreeView = <P extends object>(
     dispatch({
       type: "EXPAND",
       ...item,
-      fetchTree
+      fetchTree,
     });
   };
 
   const collapse = (item: TreeItemWithParent): void => {
     dispatch({
       type: "COLLAPSE",
-      ...item
+      ...item,
     });
   };
 
@@ -88,7 +88,7 @@ export const withTreeView = <P extends object>(
     dispatch({
       type: "TOGGLE",
       ...item,
-      fetchTree
+      fetchTree,
     });
   };
 
@@ -100,7 +100,7 @@ export const withTreeView = <P extends object>(
         toggle,
         expandedNodeIds: state.expandedNodeIds,
         sources: state.fetchedSources,
-        albums: state.fetchedAlbums
+        albums: state.fetchedAlbums,
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}

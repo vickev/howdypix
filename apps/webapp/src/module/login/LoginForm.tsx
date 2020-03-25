@@ -13,11 +13,11 @@ import { AuthEmailMutation } from "../../__generated__/schema-types";
 //= =======================================
 const CustomTextField = styled(TextField)(() => ({
   width: "100%",
-  minWidth: 300
+  minWidth: 300,
 }));
 
 const NextButton = styled(Button)(() => ({
-  width: "100%"
+  width: "100%",
 }));
 
 type Props = {
@@ -57,7 +57,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, loading, data }) => {
           data-testid="login_email"
           label={t("auth.email")}
           InputLabelProps={{
-            shrink: true
+            shrink: true,
           }}
           variant="outlined"
           margin="dense"

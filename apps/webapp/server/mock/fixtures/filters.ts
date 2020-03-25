@@ -14,11 +14,11 @@ const newQuery: Query = {
     }
 
     return photos;
-  }
+  },
 };
 
 const newMutation: Mutation = {
-  ...full.mutation
+  ...full.mutation,
 };
 
 export default { query: newQuery, mutation: newMutation } as FixtureSet;

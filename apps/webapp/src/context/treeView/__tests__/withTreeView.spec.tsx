@@ -11,8 +11,8 @@ jest.mock("../reducer", () => ({
     fetchedAlbums: [],
     fetchedSources: [],
     visibleLeaves: {},
-    expandedNodeIds: []
-  }))
+    expandedNodeIds: [],
+  })),
 }));
 
 const testHook = async (

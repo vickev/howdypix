@@ -8,10 +8,10 @@ const query: Query = {
   getFilters: () => ({
     dateTakenRange: {
       from: 0,
-      to: 0
+      to: 0,
     },
     cameraMakes: [],
-    cameraModels: []
+    cameraModels: [],
   }),
   getAlbum: (_, params) => ({
     album: {
@@ -20,7 +20,7 @@ const query: Query = {
       source: "test",
       preview: `${serverRuntimeConfig.baseUrl}/static-tests/albert.jpg`,
       nbAlbums: 2,
-      nbPhotos: 3
+      nbPhotos: 3,
     },
     albums: [
       {
@@ -29,28 +29,28 @@ const query: Query = {
         source: "test",
         preview: null,
         nbAlbums: 0,
-        nbPhotos: 0
-      }
+        nbPhotos: 0,
+      },
     ],
-    photos: []
+    photos: [],
   }),
   getSearch: () => ({
-    photos: []
+    photos: [],
   }),
   getPhoto: () => null,
   getCurrentUser: () => ({
     name: "Foo Bar",
-    email: "dev@vickev.com"
+    email: "dev@vickev.com",
   }),
   getSources: () => [],
   getTree: () => ({
     albums: [],
-    sources: []
-  })
+    sources: [],
+  }),
 };
 
 const mutation: Mutation = {
-  authEmail
+  authEmail,
 };
 
 export default { query, mutation } as FixtureSet;

@@ -8,9 +8,7 @@ context("Album page full with filters", () => {
     cy.findAllByTestId("thumbnail").should("exist");
     cy.findAllByTestId("thumbnail").should("have.length", 3);
 
-    cy.get("body")
-      .contains("Camera Make")
-      .click();
+    cy.get("body").contains("Camera Make").click();
 
     cy.findByText("make 1").click();
     cy.findAllByTestId("thumbnail").should("have.length", 2);
@@ -25,17 +23,13 @@ context("Album page full with filters", () => {
     //= ===============================================
     // Change the order
     //= ===============================================
-    cy.get("body")
-      .contains("Sort By: Date")
-      .click();
+    cy.get("body").contains("Sort By: Date").click();
     cy.findByText("Name").click();
 
     //= ===============================================
     // Change the filter
     //= ===============================================
-    cy.get("body")
-      .contains("Camera Make")
-      .click();
+    cy.get("body").contains("Camera Make").click();
 
     cy.findByText("make 1").click();
     cy.findByText("make 2").click();
@@ -52,7 +46,7 @@ context("Album page full with filters", () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const checkOrderOfImages = orders => {
+    const checkOrderOfImages = (orders) => {
       cy.findAllByTestId("thumbnail").each((el, key) => {
         cy.wrap(el)
           .find(">div")
@@ -67,9 +61,7 @@ context("Album page full with filters", () => {
     checkOrderOfImages(["id1", "id2", "id3"]);
 
     // Change the order
-    cy.get("body")
-      .contains("Sort By: Date")
-      .click();
+    cy.get("body").contains("Sort By: Date").click();
     cy.findByText("Name").click();
     cy.wait(1000);
     checkOrderOfImages(["id2", "id1", "id3"]);

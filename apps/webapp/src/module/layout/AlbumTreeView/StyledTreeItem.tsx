@@ -18,21 +18,21 @@ const useTreeItemStyles = makeStyles((theme: Theme) =>
       color: theme.palette.text.secondary,
       "&:focus > $content": {
         backgroundColor: `transparent`,
-        color: "var(--tree-view-color)"
-      }
+        color: "var(--tree-view-color)",
+      },
     },
     content: {
       "&:hover": {
-        backgroundColor: "transparent"
-      }
+        backgroundColor: "transparent",
+      },
     },
     group: {
       marginLeft: theme.spacing(1),
       "& $content": {
-        paddingLeft: theme.spacing(1)
-      }
+        paddingLeft: theme.spacing(1),
+      },
     },
-    expanded: {}
+    expanded: {},
   })
 );
 
@@ -54,14 +54,14 @@ const LabelWrapper = styled(Button)<{ selected?: boolean }>`
   }
 `;
 LabelWrapper.defaultProps = {
-  disableRipple: true
+  disableRipple: true,
 };
 
 const LabelText = styled(Typography)`
   flex: 1;
 `;
 LabelText.defaultProps = {
-  variant: "body1"
+  variant: "body1",
 };
 
 const LabelPreview = styled.div``;
@@ -153,7 +153,7 @@ export const StyledTreeItem: React.FC<Props> = ({
         root: classes.root,
         content: classes.content,
         expanded: classes.expanded,
-        group: classes.group
+        group: classes.group,
       }}
       {...rest}
     />

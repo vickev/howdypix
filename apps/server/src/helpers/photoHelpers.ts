@@ -22,8 +22,8 @@ export const photoHelpers = {
     const { order } = (await searchResultRepository.findOne({
       where: {
         search,
-        photo
-      }
+        photo,
+      },
     })) ?? { order: 0 };
 
     const NUMBER_PICTURES_TO_DISPLAY = 6;
@@ -36,5 +36,5 @@ export const photoHelpers = {
       start < 0 ? 0 : start,
       NUMBER_PICTURES_TO_DISPLAY
     );
-  }
+  },
 };

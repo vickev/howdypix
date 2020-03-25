@@ -10,7 +10,7 @@ export const Photo = (): NexusObjectTypeDef<"Photo"> =>
       t.id("file");
       t.field("thumbnails", { type: "String", list: [false] });
       t.field("birthtime", { type: "Float" });
-    }
+    },
   });
 
 export const Album = (): NexusObjectTypeDef<"Album"> =>
@@ -21,7 +21,7 @@ export const Album = (): NexusObjectTypeDef<"Album"> =>
       t.field("name", { type: "String" });
       t.field("dir", { type: "String" });
       t.field("source", { type: "String" });
-    }
+    },
   });
 
 export const GetAlbumPhotos = (): NexusObjectTypeDef<"GetAlbumPhotos"> =>
@@ -31,5 +31,5 @@ export const GetAlbumPhotos = (): NexusObjectTypeDef<"GetAlbumPhotos"> =>
       t.field("photos", { type: "Photo", list: [false] });
       t.field("albums", { type: "Album", list: [true] });
       t.field("album", { type: "Album", nullable: true });
-    }
+    },
   });

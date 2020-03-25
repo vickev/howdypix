@@ -9,13 +9,13 @@ import { styled } from "@material-ui/core";
 
 const StyledExpansionPanel = styled(MuiExpansionPanel)(() => ({
   background: "transparent",
-  boxShadow: "none"
+  boxShadow: "none",
 }));
 
 const StyledExpansionPanelSummary = styled(ExpansionPanelSummary)(
   ({ theme }) => ({
     background: theme.palette.grey["200"],
-    boxShadow: "none"
+    boxShadow: "none",
   })
 );
 

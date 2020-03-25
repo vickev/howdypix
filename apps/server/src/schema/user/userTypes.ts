@@ -7,5 +7,5 @@ export const CurrentUserType = (): NexusObjectTypeDef<"CurrentUserType"> =>
     definition(t) {
       t.field("name", { type: "String", nullable: false });
       t.field("email", { type: "String", nullable: false });
-    }
+    },
   });
