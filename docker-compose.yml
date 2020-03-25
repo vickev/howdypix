@@ -13,7 +13,6 @@ services:
     container_name: howdypix_worker
     build: ./apps/worker
     volumes:
-      - "./apps/worker/config:/node_modules/@howdypix/worker/config"
       - "./apps/server/photos:/photos"
     depends_on:
       - rabbitmq
@@ -24,7 +23,6 @@ services:
     container_name: howdypix_server
     build: ./apps/server
     volumes:
-      - "./apps/server/ormconfig.js:/node_modules/@howdypix/server/ormconfig.js"
       - "./apps/server/photos:/photos"
     depends_on:
       - rabbitmq
