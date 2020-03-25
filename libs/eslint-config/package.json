@@ -1,7 +1,7 @@
 {
   "name": "@howdypix/eslint-config",
   "description": "Common eslint configuration for HowdyPix applications",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-alpha.11",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
   },

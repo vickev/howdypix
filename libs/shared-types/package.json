@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/shared-types",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-alpha.11",
   "description": "Shared types across the HowdyPix applications.",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@howdypix/eslint-config": "^0.1.0-alpha.8",
+    "@howdypix/eslint-config": "^0.1.0-alpha.11",
     "@howdypix/typescript-config": "^0.0.3-alpha.0"
   },
   "dependencies": {
