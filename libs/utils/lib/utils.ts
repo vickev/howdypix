@@ -106,15 +106,15 @@ export function consume<T>(
 ): Promise<Replies.Consume> {
   return channel.consume(
     name,
-    (msg) => {
+    async (msg) => {
       if (msg) {
         const data: T = JSON.parse(msg.content.toString());
 
         libDebug("rabbit:consume")(`${name} ${JSON.stringify(data)}`);
 
-        onMessage && onMessage({ ...msg, data });
+        onMessage && (await onMessage({ ...msg, data }));
       } else {
-        onMessage && onMessage(null);
+        onMessage && (await onMessage(null));
       }
     },
     options
