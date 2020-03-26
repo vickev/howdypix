@@ -3,6 +3,7 @@ import mkdirp from "mkdirp";
 import { join, parse } from "path";
 import { statSync } from "fs";
 import { ExifImage } from "exif";
+import { fromFile as fileTypeOf } from "file-type";
 import { ExifData, HFile, ProcessData, StatData } from "@howdypix/shared-types";
 import {
   appDebug,
@@ -10,6 +11,7 @@ import {
   thumbnailPath,
   hfile2path,
 } from "@howdypix/utils";
+import { getFileProcessor } from "../processor";
 
 export async function fetchExif(root: string, path: string): Promise<ExifData> {
   return new Promise((resolve, reject) => {
@@ -70,8 +72,10 @@ export async function process(
   hfile: HFile
 ): Promise<ProcessData> {
   const path = hfile2path(hfile).toString();
+  const absolutePath = join(root, path);
   let stat: StatData;
-  let exif: ExifData;
+  let exif: ExifData = {};
+  let thumbnails: string[] = [];
 
   try {
     stat = await fetchStat(root, path);
@@ -86,14 +90,31 @@ export async function process(
     };
   }
 
-  try {
-    exif = await fetchExif(root, path);
-  } catch (e) {
-    appDebug(e);
-    exif = {};
-  }
+  // get the mime
+  const { mime } = (await fileTypeOf(absolutePath)) ?? { mime: null };
 
-  const thumbnails = await createThumbnails(thumbnailsDir, root, hfile);
+  // get the file processor
+  const fileProcessor = getFileProcessor(mime);
+
+  if (!fileProcessor) {
+    appDebug(`This file is not supported [${mime}] (${absolutePath}).`);
+  } else {
+    try {
+      exif = await fileProcessor.fetchExif(root, path);
+    } catch (e) {
+      appDebug(e);
+    }
+
+    try {
+      thumbnails = await fileProcessor.createThumbnails(
+        thumbnailsDir,
+        root,
+        hfile
+      );
+    } catch (e) {
+      appDebug(e);
+    }
+  }
 
   const data = {
     exif,
