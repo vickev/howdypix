@@ -5,7 +5,7 @@ const fs = require("fs");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { execSync } = require("child_process");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { join } = require("path");
+const { resolve } = require("path");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { load } = require("js-yaml");
 
@@ -19,7 +19,7 @@ require("yargs") // eslint-disable-line
       });
     },
     (argv) => {
-      const absolutePath = join(process.cwd(), argv.config_file_yaml);
+      const absolutePath = resolve(process.cwd(), argv.config_file_yaml);
 
       if (fs.existsSync(absolutePath)) {
         const content = fs.readFileSync(absolutePath);
