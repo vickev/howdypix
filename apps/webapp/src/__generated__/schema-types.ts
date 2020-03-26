@@ -196,7 +196,7 @@ export type GetSubAlbumQueryVariables = {
 
 export type GetSubAlbumQuery = {
   getAlbum: {
-    album: Maybe<Pick<Album, "name">>;
+    album?: Maybe<Pick<Album, "name">>;
     albums: Array<
       Pick<
         Album,
@@ -248,7 +248,7 @@ export type GetPhotoQueryVariables = {
 };
 
 export type GetPhotoQuery = {
-  getPhoto: Maybe<
+  getPhoto?: Maybe<
     Pick<
       PhotoDetail,
       | "aperture"
@@ -288,7 +288,7 @@ export type GetTreeQuery = {
 export type GetCurrentUserQueryVariables = {};
 
 export type GetCurrentUserQuery = {
-  getCurrentUser: Maybe<Pick<CurrentUserType, "name" | "email">>;
+  getCurrentUser?: Maybe<Pick<CurrentUserType, "name" | "email">>;
 };
 
 export type AuthEmailMutationVariables = {

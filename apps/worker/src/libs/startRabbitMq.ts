@@ -15,6 +15,7 @@ export async function startRabbitMq(url: string): Promise<void> {
 
   try {
     const channel = await connection.createChannel();
+    channel.prefetch(1);
 
     await assertQueue(channel, QueueName.TO_PROCESS);
     await assertQueue(channel, QueueName.PROCESSED);
@@ -25,7 +26,6 @@ export async function startRabbitMq(url: string): Promise<void> {
       async (msg) => {
         if (msg) {
           appDebug("toProcess")(hjoin(msg.data.hfile).toString());
-          channel.ack(msg);
 
           try {
             const data = await process(
@@ -35,6 +35,7 @@ export async function startRabbitMq(url: string): Promise<void> {
             );
 
             await sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
+            channel.ack(msg);
           } catch (e) {
             // eslint-disable-next-line no-console
             console.error(e);

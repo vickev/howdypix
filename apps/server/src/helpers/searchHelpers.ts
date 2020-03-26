@@ -65,9 +65,8 @@ export const searchHelpers = {
   ): Promise<EntityPhoto[]> => {
     // Define the where statement to filter the right photos
     const where: { dir?: string; source?: string } = {};
-    if (args.album) {
-      where.dir = args.album;
-    }
+    where.dir = args.album ?? "";
+
     if (args.source) {
       where.source = args.source;
     }

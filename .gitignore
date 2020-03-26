@@ -12,3 +12,4 @@ videos
 screenshots
 .env
 .changelog
+apps/*/config/local.yaml
