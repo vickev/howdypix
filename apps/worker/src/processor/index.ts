@@ -6,7 +6,6 @@ export function getFileProcessor(mime: string | null): FileProcessor | null {
     case "image/jpeg":
     case "image/png":
       return imageProcessor;
-      break;
 
     default:
       return null;
