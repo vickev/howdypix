@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/utils",
-  "version": "0.1.0-alpha.11",
+  "version": "0.1.0-alpha.12",
   "description": "A set of reusable functions for HowdyPix.",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"

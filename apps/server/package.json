@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/server",
-  "version": "0.1.0-alpha.11",
+  "version": "0.1.0-alpha.12",
   "description": "Server for the Photo Gallery",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
@@ -36,9 +36,9 @@
     "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests"
   },
   "dependencies": {
-    "@howdypix/graphql-schema": "^0.1.0-alpha.11",
+    "@howdypix/graphql-schema": "^0.1.0-alpha.12",
     "@howdypix/shared-types": "^0.1.0-alpha.11",
-    "@howdypix/utils": "^0.1.0-alpha.11",
+    "@howdypix/utils": "^0.1.0-alpha.12",
     "amqplib": "^0.5.5",
     "apollo-server": "^2.11.0",
     "apollo-server-express": "^2.11.0",

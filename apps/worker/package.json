@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/worker",
-  "version": "0.1.0-alpha.11",
+  "version": "0.1.0-alpha.12",
   "description": "Process the pictures to extract information and create thumbnails.",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@howdypix/shared-types": "^0.1.0-alpha.11",
-    "@howdypix/utils": "^0.1.0-alpha.11",
+    "@howdypix/utils": "^0.1.0-alpha.12",
     "amqplib": "^0.5.5",
     "config": "^3.3.0",
     "dotenv": "^8.2.0",
