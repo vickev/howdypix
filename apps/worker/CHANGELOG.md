@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Support multiple type of files (jpeg and png for now) ([#101](https://github.com/vickev/howdypix/pull/101))
+- Consume one message at a time from rabbitMq ([#101](https://github.com/vickev/howdypix/pull/101))
+
 ### Added
 
 - CLI to start the worker
