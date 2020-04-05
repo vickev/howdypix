@@ -1,5 +1,8 @@
 {
   "app": {
+    "processing": {
+      "nbThreads": "THREADS"
+    },
     "rabbitMQ": {
       "url": "RABBITMQ_URL"
     }

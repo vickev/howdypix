@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - CLI to start the worker
 - Retry the connection when RabbitMQ is not available ([#94](https://github.com/vickev/howdypix/pull/94))
+- Add ability to set up the number of threads to resize photos ([#112](https://github.com/vickev/howdypix/pull/112))
 
 ### Changed
 

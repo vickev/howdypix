@@ -2,5 +2,7 @@
 # Application settings
 #####################################################
 app:
+  processing:
+    nbThreads: 1
   rabbitMQ:
     url: amqp://localhost
