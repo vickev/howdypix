@@ -280,7 +280,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
                     name={album.name}
                     dir={album.dir}
                     source={album.source}
-                    nbAlbums={album.nbPhotos}
+                    nbAlbums={album.nbAlbums}
                     nbPhotos={album.nbPhotos}
                     preview={album.preview}
                   />
