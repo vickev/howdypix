@@ -44,7 +44,7 @@ export function generateThumbnailUrls(
   return [200, 600, 1280, 2048].map((size) => ({
     width: size,
     height: null,
-    url: `${baseUrl}/static/${hjoin({
+    url: `${baseUrl}/files/${hjoin({
       ...hfile,
       file: `${parse(hfile.file as string).name}x${size}.jpg`,
     })}`,
@@ -56,7 +56,7 @@ export function generateFileUrl(baseUrl: string, hfile: HFile): string {
     throw new Error("You need to pass a file path to generate a URL.");
   }
 
-  return `${baseUrl}/static/${hjoin(hfile)}`;
+  return `${baseUrl}/files/${hjoin(hfile)}`;
 }
 
 export function isHowdypixPath(path = ""): boolean {
