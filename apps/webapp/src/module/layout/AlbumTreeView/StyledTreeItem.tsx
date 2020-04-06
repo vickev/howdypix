@@ -59,6 +59,10 @@ LabelWrapper.defaultProps = {
 
 const LabelText = styled(Typography)`
   flex: 1;
+  overflow: hidden;
+  width: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 LabelText.defaultProps = {
   variant: "body1",
@@ -149,12 +153,6 @@ export const StyledTreeItem: React.FC<Props> = ({
           </LabelCount>
         </LabelWrapper>
       }
-      classes={{
-        root: classes.root,
-        content: classes.content,
-        expanded: classes.expanded,
-        group: classes.group,
-      }}
       {...rest}
     />
   );

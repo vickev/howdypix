@@ -57,7 +57,7 @@ export const AlbumCard: React.FC<Props> = ({
           </Grid>
         )}
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="body1" component="h2" noWrap>
             {name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">

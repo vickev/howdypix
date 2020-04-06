@@ -16,8 +16,8 @@
   "sort_name": "Name",
   "filter_camera_make": "Camera Make",
   "filter_camera_model": "Camera Model",
-  "iso": "ISO: {{value}}",
+  "iso": "ISO: {{- value}}",
   "aperture": "Aperture: {{- value}}",
   "shutter": "Shutter Speed: {{- value}}",
-  "date_taken_x": "Date Taken: {{value, formatDate}}"
+  "date_taken_x": "Date Taken: {{- value, formatDate}}"
 }
