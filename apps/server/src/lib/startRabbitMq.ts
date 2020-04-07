@@ -28,10 +28,27 @@ export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
     { consumerTag: "server" }
   );
 
-  await channel.cancel("server");
-  await channel.recover();
+  // Loop until we've emptied all the message stack and retrieve all of it
+  await new Promise((resolve) => {
+    const recursiveCheck = (): void => {
+      channel.assertQueue(QueueName.TO_PROCESS).then((response) => {
+        if (response.messageCount === 0) {
+          channel
+            .cancel("server")
+            .then(() => {
+              channel.recover();
+            })
+            .then(resolve);
+        } else {
+          setTimeout(recursiveCheck, 100);
+        }
+      });
+    };
 
-  debug(`Paths already in queue: ${pathsInQueue.length}.`);
+    recursiveCheck();
+  });
+
+  debug(`Paths already in queue: ${pathsInQueue.length} .`);
   debug(pathsInQueue);
 
   return pathsInQueue;
