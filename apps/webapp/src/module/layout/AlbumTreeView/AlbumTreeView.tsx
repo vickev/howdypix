@@ -14,14 +14,6 @@ import { StyledTreeItem } from "./StyledTreeItem";
 import { toAlbum } from "../../../lib/router";
 
 // ========================================================================
-// Styled components
-// ========================================================================
-const StyledTreeView = styled(TreeView)`
-  width: 100%;
-  flex: 1;
-`;
-
-// ========================================================================
 // Component
 // ========================================================================
 type TreeProps = {};
@@ -73,7 +65,7 @@ export const AlbumTreeView: React.FC<TreeProps> = () => {
   // ============================================
   return (
     <Box mx={-2} flex={1}>
-      <StyledTreeView expanded={expandedNodeIds}>
+      <TreeView expanded={expandedNodeIds}>
         {sources.map(
           (source): ReactElement => (
             <StyledTreeItem
@@ -106,7 +98,7 @@ export const AlbumTreeView: React.FC<TreeProps> = () => {
             </StyledTreeItem>
           )
         )}
-      </StyledTreeView>
+      </TreeView>
     </Box>
   );
 };

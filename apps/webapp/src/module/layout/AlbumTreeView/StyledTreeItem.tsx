@@ -10,33 +10,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 
 // ========================================================================
-// Styles
-// ========================================================================
-const useTreeItemStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      color: theme.palette.text.secondary,
-      "&:focus > $content": {
-        backgroundColor: `transparent`,
-        color: "var(--tree-view-color)",
-      },
-    },
-    content: {
-      "&:hover": {
-        backgroundColor: "transparent",
-      },
-    },
-    group: {
-      marginLeft: theme.spacing(1),
-      "& $content": {
-        paddingLeft: theme.spacing(1),
-      },
-    },
-    expanded: {},
-  })
-);
-
-// ========================================================================
 // Styled components
 // ========================================================================
 const LabelWrapper = styled(Button)<{ selected?: boolean }>`
@@ -114,8 +87,6 @@ export const StyledTreeItem: React.FC<Props> = ({
   selected,
   ...rest
 }) => {
-  const classes = useTreeItemStyles();
-
   const iconButton = (
     icon: React.ReactElement,
     disabled = false
