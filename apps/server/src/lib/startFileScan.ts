@@ -1,8 +1,15 @@
 import chokidar from "chokidar";
 import { relative, resolve } from "path";
-import { appDebug, path2hfile } from "@howdypix/utils";
+import { fromFile as fileTypeOf } from "file-type";
+import {
+  appDebug,
+  appWarning,
+  isSupportedMime,
+  path2hfile,
+} from "@howdypix/utils";
 import { Events } from "./eventEmitter";
 import { UserConfig } from "../config";
+import { SupportedMime } from "@howdypix/shared-types";
 
 export function onAddDir(
   event: Events,
@@ -12,7 +19,7 @@ export function onAddDir(
 ): void {
   const absoluteRoot = resolve(process.cwd(), root);
   const relativePath = relative(root, path);
-  appDebug("watcher")(`Directory ${path} has been added`);
+  // appDebug("watcher")(`Directory ${path} has been added`);
 
   event.emit("newDirectory", {
     hfile: path2hfile(source, relativePath),
@@ -28,7 +35,6 @@ export function onUnlinkDir(
 ): void {
   const absoluteRoot = resolve(process.cwd(), root);
   const relativePath = relative(root, path);
-  appDebug("watcher")(`File ${path} has been added`);
 
   event.emit("unlinkDirectory", {
     hfile: path2hfile(source, relativePath),
@@ -36,20 +42,26 @@ export function onUnlinkDir(
   });
 }
 
-export function onAdd(
+export async function onAdd(
   event: Events,
   path: string,
   root: string,
   source: string
-): void {
+): Promise<void> {
   const absoluteRoot = resolve(process.cwd(), root);
   const relativePath = relative(root, path);
-  appDebug("watcher")(`File ${path} has been added`);
 
-  event.emit("newFile", {
-    hfile: path2hfile(source, relativePath),
-    root: absoluteRoot,
-  });
+  const { mime } = (await fileTypeOf(path)) ?? { mime: null };
+
+  if (isSupportedMime(mime as keyof SupportedMime)) {
+    appDebug("watcher")(`File ${path} detected.`);
+    event.emit("newFile", {
+      hfile: path2hfile(source, relativePath),
+      root: absoluteRoot,
+    });
+  } else {
+    appWarning("watcher")(`File ${path} has a non supported mime ${mime}.`);
+  }
 }
 
 export function onRemove(
