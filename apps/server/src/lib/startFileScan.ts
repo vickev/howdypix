@@ -4,6 +4,38 @@ import { appDebug, path2hfile } from "@howdypix/utils";
 import { Events } from "./eventEmitter";
 import { UserConfig } from "../config";
 
+export function onAddDir(
+  event: Events,
+  path: string,
+  root: string,
+  source: string
+): void {
+  const absoluteRoot = resolve(process.cwd(), root);
+  const relativePath = relative(root, path);
+  appDebug("watcher")(`Directory ${path} has been added`);
+
+  event.emit("newDirectory", {
+    hfile: path2hfile(source, relativePath),
+    root: absoluteRoot,
+  });
+}
+
+export function onUnlinkDir(
+  event: Events,
+  path: string,
+  root: string,
+  source: string
+): void {
+  const absoluteRoot = resolve(process.cwd(), root);
+  const relativePath = relative(root, path);
+  appDebug("watcher")(`File ${path} has been added`);
+
+  event.emit("unlinkDirectory", {
+    hfile: path2hfile(source, relativePath),
+    root: absoluteRoot,
+  });
+}
+
 export function onAdd(
   event: Events,
   path: string,
@@ -44,6 +76,8 @@ export function startFileScan(event: Events, userConfig: UserConfig): void {
     const watcher = chokidar.watch(root, { ignored: /.howdypix/ });
 
     watcher
+      .on("addDir", (path) => onAddDir(event, path, root, sourceId))
+      .on("unlinkDir", (path) => onUnlinkDir(event, path, root, sourceId))
       .on("add", (path) => onAdd(event, path, root, sourceId))
       .on("unlink", (path) => onRemove(event, path, root, sourceId));
   });

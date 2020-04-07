@@ -1,56 +1,85 @@
-import { Column, ViewEntity } from "typeorm";
+import {
+  Column,
+  Entity,
+  getConnection,
+  ManyToOne,
+  Not,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from "typeorm";
+import { Photo, Photo as EntityPhoto } from "./Photo";
+import { Source } from "./Source";
 
-@ViewEntity({
-  expression: `
-SELECT
-   P.DIR,
-   P.SOURCE,
-   P.PARENTDIR,
-   COUNT(DISTINCT P2.ID) AS NBPHOTOS,
-   COUNT(DISTINCT P3.DIR) AS NBALBUMS,
-   (
-      SELECT
-         FILE 
-      FROM
-         PHOTO P4 
-      WHERE
-         P4.DIR = P.DIR 
-         AND P4.SOURCE = P.SOURCE LIMIT 0,
-         1
-   )
-   AS PREVIEW 
-FROM
-   PHOTO P 
-   LEFT JOIN
-      PHOTO P2 
-      ON (P2.DIR = P.DIR 
-      AND P2.SOURCE = P.SOURCE) 
-   LEFT JOIN
-      PHOTO P3 
-      ON (P3.PARENTDIR = P.DIR 
-      AND P3.SOURCE = P.SOURCE) 
-GROUP BY
-   P.DIR,
-   P.SOURCE,
-   P.PARENTDIR;
-    `,
-})
+@Entity()
+@Unique(["dir", "parentDir", "sourceLk"])
 export class Album {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column("text")
+  inode: string;
+
   @Column("text")
   dir: string;
 
+  // TODO to remove
   @Column("text")
   source: string;
 
   @Column("text")
   parentDir: string;
 
-  @Column("text")
-  preview: string;
+  @OneToMany(() => Photo, (photo) => photo.album)
+  public photos!: Photo[];
 
-  @Column("int")
-  nbPhotos: number;
+  @ManyToOne(() => Source, (source) => source.albums, { nullable: true })
+  public sourceLk!: Source | null;
 
-  @Column("int")
-  nbAlbums: number;
+  async getNbPhotos(): Promise<number> {
+    const photoRepository = getConnection().getRepository(EntityPhoto);
+
+    const { count } = await photoRepository
+      .createQueryBuilder()
+      .select("COUNT(distinct id)", "count")
+      .where({
+        source: this.source,
+        dir: this.dir,
+      })
+      .getRawOne();
+
+    return count;
+  }
+
+  async getNbAlbums(): Promise<number> {
+    const photoRepository = getConnection().getRepository(EntityPhoto);
+
+    const { count } = await photoRepository
+      .createQueryBuilder()
+      .select("COUNT(distinct dir)", "count")
+      .where({
+        source: this.source,
+        parentDir: this.dir,
+      })
+      .getRawOne();
+
+    return count;
+  }
+
+  async getPreview(): Promise<string> {
+    const photoRepository = getConnection().getRepository(EntityPhoto);
+
+    const data = await photoRepository
+      .createQueryBuilder()
+      .select("file", "preview")
+      .where({
+        source: this.source,
+        dir: this.dir,
+        file: Not(""),
+      })
+      .getRawOne();
+
+    // TODO change for undefined picture
+    return data?.preview || "TOTO.JPG";
+  }
 }

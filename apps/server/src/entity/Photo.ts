@@ -1,10 +1,23 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  Unique,
+} from "typeorm";
 import { SearchResult } from "./SearchResult";
+import { Album } from "./Album";
 
 @Entity()
+@Unique(["album", "file"])
 export class Photo {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column("int")
+  status: number;
 
   @Column("int")
   inode: number;
@@ -45,14 +58,20 @@ export class Photo {
   @Column("int")
   createDate: number;
 
+  // TODO to remove
   @Column("text")
   source: string;
 
+  // TODO to remove
   @Column("text")
   parentDir: string;
 
+  // TODO to remove
   @Column("text")
   dir: string;
+
+  @ManyToOne(() => Album, (album) => album.photos, { nullable: true })
+  public album!: Album | null;
 
   @Column("text")
   file: string;

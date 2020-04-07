@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Added more support to send emails (with gmail for example) ([#95](https://github.com/vickev/howdypix/pull/95))
-- Fix issue that displayed all the images when entering a root level ([#101](https://github.com/vickev/howdypix/pull/101))
+- Fixed issue that displayed all the images when entering a root level ([#101](https://github.com/vickev/howdypix/pull/101))
+- (MAJOR) Removed the VIEW for regular tables to improve the performance and added joint tables
 
 ### Added
 

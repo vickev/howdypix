@@ -12,9 +12,11 @@ import { appConfig } from "../../config";
 
 const debug = appDebug("gql");
 
-const generatePreviewUrl = (album: EntityAlbum | EntitySource): string =>
+const generatePreviewUrl = async (
+  album: EntityAlbum | EntitySource
+): Promise<string> =>
   generateThumbnailUrls(appConfig.webapp.baseUrl, {
-    file: album.preview,
+    file: await album.getPreview(),
     dir: album.dir,
     source: album.source,
   }).map((tn) => tn.url)[0];
@@ -42,9 +44,9 @@ const fetchAlbums = async (
         dir: album.dir,
         parentDir: album.parentDir,
         source: album.source,
-        preview: generatePreviewUrl(album),
-        nbImages: album.nbPhotos,
-        nbAlbums: album.nbAlbums,
+        preview: await generatePreviewUrl(album),
+        nbImages: await album.getNbPhotos(),
+        nbAlbums: await album.getNbAlbums(),
       });
     }
 
@@ -57,22 +59,24 @@ const fetchAlbums = async (
     } else {
       // Fetch from the source
       ret.push(
-        ...(
-          await albumRepository.find({
-            where: {
-              dir: Not(""),
-              parentDir: "",
-              source,
-            },
-          })
-        ).map((a) => ({
-          dir: a.dir,
-          parentDir: a.parentDir,
-          source: a.source,
-          preview: generatePreviewUrl(a),
-          nbImages: a.nbPhotos,
-          nbAlbums: a.nbAlbums,
-        }))
+        ...(await Promise.all(
+          (
+            await albumRepository.find({
+              where: {
+                dir: Not(""),
+                parentDir: "",
+                source,
+              },
+            })
+          ).map(async (a) => ({
+            dir: a.dir,
+            parentDir: a.parentDir,
+            source: a.source,
+            preview: await generatePreviewUrl(a),
+            nbImages: await a.getNbPhotos(),
+            nbAlbums: await a.getNbAlbums(),
+          }))
+        ))
       );
     }
 
@@ -85,16 +89,18 @@ const fetchAlbums = async (
       },
     });
 
-    children.forEach((c): void => {
-      ret.push({
-        dir: c.dir,
-        parentDir: c.parentDir,
-        source: c.source,
-        preview: generatePreviewUrl(c),
-        nbImages: c.nbPhotos,
-        nbAlbums: c.nbAlbums,
-      });
-    });
+    children.forEach(
+      async (c): Promise<void> => {
+        ret.push({
+          dir: c.dir,
+          parentDir: c.parentDir,
+          source: c.source,
+          preview: await generatePreviewUrl(c),
+          nbImages: await c.getNbPhotos(),
+          nbAlbums: await c.getNbAlbums(),
+        });
+      }
+    );
   }
 
   return ret;
@@ -105,12 +111,14 @@ const fetchSources = async (
 ): Promise<NexusGenRootTypes["GetTreeSources"][]> => {
   const sourceRepository = connection.getRepository(EntitySource);
 
-  return (await sourceRepository.find()).map((source) => ({
-    name: source.source,
-    preview: generatePreviewUrl(source),
-    nbImages: source.nbPhotos,
-    nbAlbums: source.nbAlbums,
-  }));
+  return Promise.all(
+    (await sourceRepository.find()).map(async (source) => ({
+      name: source.source,
+      preview: await generatePreviewUrl(source),
+      nbImages: await source.getNbPhotos(),
+      nbAlbums: await source.getNbAlbums(),
+    }))
+  );
 };
 
 export const getTreeResolver = () => async (

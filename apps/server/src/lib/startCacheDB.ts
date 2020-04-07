@@ -5,6 +5,51 @@ import { join, parse } from "path";
 import { UserConfig } from "../config";
 import { Photo } from "../entity/Photo";
 import { Events, EventTypes } from "./eventEmitter";
+import { Source } from "../entity/Source";
+import { Album } from "../entity/Album";
+
+export async function onNewDir(
+  { root, hfile }: EventTypes["newDirectory"],
+  event: Events,
+  connection: Connection
+): Promise<void> {
+  const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
+  const stat = statSync(absolutePath);
+
+  // Check if it exists in the database
+  const albumRepository = connection.getRepository(Album);
+  const sourceRepository = connection.getRepository(Source);
+  const album = await albumRepository.findOne({ where: { inode: stat.ino } });
+
+  // Check the updated_date
+  if (!album) {
+    const newAlbum = new Album();
+    newAlbum.dir = hfile.file ?? "";
+    newAlbum.parentDir = hfile.dir ?? "";
+    newAlbum.source = hfile.source;
+    newAlbum.inode = stat.ino.toString();
+
+    newAlbum.sourceLk =
+      (await sourceRepository.findOne({
+        source: hfile.source,
+      })) ?? null;
+
+    albumRepository.save(newAlbum);
+  }
+}
+
+export async function onUnlinkDir(
+  { root, hfile }: EventTypes["unlinkDirectory"],
+  event: Events,
+  connection: Connection
+): Promise<void> {
+  const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
+  const stat = statSync(absolutePath);
+
+  // Check if it exists in the database
+  const albumRepository = connection.getRepository(Album);
+  await albumRepository.delete({ inode: stat.ino.toString() });
+}
 
 export async function onNewFile(
   { root, hfile }: EventTypes["newFile"],
@@ -17,10 +62,10 @@ export async function onNewFile(
 
   // Check if it exists in the database
   const photoRepository = connection.getRepository(Photo);
-  const photo = await photoRepository.find({ where: { inode: stat.ino } });
+  const photo = await photoRepository.findOne({ inode: stat.ino });
 
   // Check the updated_date
-  if (photo && photo[0] && photo[0].mtime === stat.mtimeMs) {
+  if (photo?.mtime === stat.mtimeMs) {
     const thumbnailsExist: boolean = generateThumbnailPaths(
       userConfig.thumbnailsDir,
       hfile
@@ -60,6 +105,9 @@ export async function onProcessedFile(
   event: Events,
   connection: Connection
 ): Promise<void> {
+  const albumRepository = connection.getRepository(Album);
+  const photoRepository = connection.getRepository(Photo);
+
   const photo = new Photo();
   photo.make = file.exif.make ?? "";
   photo.model = file.exif.model ?? "";
@@ -83,7 +131,12 @@ export async function onProcessedFile(
   photo.dir = file.hfile.dir ?? "";
   photo.file = file.hfile.file ?? "";
 
-  const photoRepository = connection.getRepository(Photo);
+  photo.album =
+    (await albumRepository.findOne({
+      dir: file.hfile.dir ?? "",
+      source: file.hfile.source,
+      parentDir: parse(file.hfile.dir ?? "").dir ?? "",
+    })) ?? null;
 
   await photoRepository.save(photo);
   appDebug("db")(`Saved ${hjoin(file.hfile)}.`);
@@ -94,12 +147,25 @@ export async function startCacheDB(
   userConfig: UserConfig,
   connection: Connection
 ): Promise<Connection> {
+  // Insert the source entries in the database
+  await Promise.all(
+    Object.keys(userConfig.photoDirs).map(async (source) => {
+      await Source.upsert(source, userConfig.photoDirs[source]);
+    })
+  );
+
   event.on("newFile", (params) =>
     onNewFile(params, event, connection, userConfig)
   );
 
   event.on("removeFile", (params) =>
     onRemoveFile(params, event, connection, userConfig)
+  );
+
+  event.on("newDirectory", (params) => onNewDir(params, event, connection));
+
+  event.on("unlinkDirectory", (params) =>
+    onUnlinkDir(params, event, connection)
   );
 
   event.on("processedFile", (file) => onProcessedFile(file, event, connection));

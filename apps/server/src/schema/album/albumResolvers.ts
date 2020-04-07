@@ -60,20 +60,24 @@ export const getAlbumResolver = () => async (
       file: photo.file,
       birthtime: Math.round(photo.birthtime),
     })),
-    albums: albums
-      .map((album): NexusGenRootTypes["Album"] => ({
-        name: parse(album.dir).base,
-        dir: album.dir,
-        source: album.source,
-        nbAlbums: album.nbAlbums,
-        nbPhotos: album.nbPhotos,
-        preview: generateThumbnailUrls(appConfig.webapp.baseUrl, {
-          file: album.preview,
-          dir: album.dir,
-          source: album.source,
-        }).map((tn) => tn.url)[1],
-      }))
-      .filter((a) => a.dir),
+    albums: (
+      await Promise.all(
+        albums.map(
+          async (album): Promise<NexusGenRootTypes["Album"]> => ({
+            name: parse(album.dir).base,
+            dir: album.dir,
+            source: album.source,
+            nbAlbums: await album.getNbAlbums(),
+            nbPhotos: await album.getNbPhotos(),
+            preview: generateThumbnailUrls(appConfig.webapp.baseUrl, {
+              file: await album.getPreview(),
+              dir: album.dir,
+              source: album.source,
+            }).map((tn) => tn.url)[1],
+          })
+        )
+      )
+    ).filter((a) => a.dir),
     album,
   };
 };

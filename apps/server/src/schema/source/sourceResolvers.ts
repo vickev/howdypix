@@ -21,16 +21,18 @@ export const getSourcesResolver = (
     sources[source.source] = source;
   });
 
-  return Object.keys(photoDirs).map((name) => ({
-    name,
-    nbAlbums: sources[name]?.nbAlbums ?? 0,
-    nbPhotos: sources[name]?.nbPhotos ?? 0,
-    preview:
-      sources[name]?.preview &&
-      generateThumbnailUrls(appConfig.webapp.baseUrl, {
-        file: sources[name]?.preview,
-        dir: sources[name]?.dir,
-        source: name,
-      }).map((tn) => tn.url)[0],
-  }));
+  return Promise.all(
+    Object.keys(photoDirs).map(async (name) => ({
+      name,
+      nbAlbums: (await sources[name]?.getNbPhotos()) ?? 0,
+      nbPhotos: (await sources[name]?.getNbPhotos()) ?? 0,
+      preview:
+        (await sources[name]?.getPreview()) &&
+        generateThumbnailUrls(appConfig.webapp.baseUrl, {
+          file: await sources[name]?.getPreview(),
+          dir: sources[name]?.dir,
+          source: name,
+        }).map((tn) => tn.url)[0],
+    }))
+  );
 };
