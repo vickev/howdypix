@@ -22,17 +22,21 @@ export const getSourcesResolver = (
   });
 
   return Promise.all(
-    Object.keys(photoDirs).map(async (name) => ({
-      name,
-      nbAlbums: (await sources[name]?.getNbPhotos()) ?? 0,
-      nbPhotos: (await sources[name]?.getNbPhotos()) ?? 0,
-      preview:
-        (await sources[name]?.getPreview()) &&
-        generateThumbnailUrls(appConfig.webapp.baseUrl, {
-          file: await sources[name]?.getPreview(),
-          dir: sources[name]?.dir,
-          source: name,
-        }).map((tn) => tn.url)[0],
-    }))
+    Object.keys(photoDirs).map(async (name) => {
+      const previewFile = await sources[name]?.getPreview();
+
+      return {
+        name,
+        nbAlbums: (await sources[name]?.getNbPhotos()) ?? 0,
+        nbPhotos: (await sources[name]?.getNbPhotos()) ?? 0,
+        preview: previewFile
+          ? generateThumbnailUrls(appConfig.webapp.baseUrl, {
+              file: previewFile,
+              dir: sources[name]?.dir,
+              source: name,
+            }).map((tn) => tn.url)[0]
+          : null,
+      };
+    })
   );
 };

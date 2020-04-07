@@ -63,18 +63,24 @@ export const getAlbumResolver = () => async (
     albums: (
       await Promise.all(
         albums.map(
-          async (album): Promise<NexusGenRootTypes["Album"]> => ({
-            name: parse(album.dir).base,
-            dir: album.dir,
-            source: album.source,
-            nbAlbums: await album.getNbAlbums(),
-            nbPhotos: await album.getNbPhotos(),
-            preview: generateThumbnailUrls(appConfig.webapp.baseUrl, {
-              file: await album.getPreview(),
+          async (album): Promise<NexusGenRootTypes["Album"]> => {
+            const previewFile = await album.getPreview();
+
+            return {
+              name: parse(album.dir).base,
               dir: album.dir,
               source: album.source,
-            }).map((tn) => tn.url)[1],
-          })
+              nbAlbums: await album.getNbAlbums(),
+              nbPhotos: await album.getNbPhotos(),
+              preview: previewFile
+                ? generateThumbnailUrls(appConfig.webapp.baseUrl, {
+                    file: previewFile,
+                    dir: album.dir,
+                    source: album.source,
+                  }).map((tn) => tn.url)[1]
+                : null,
+            };
+          }
         )
       )
     ).filter((a) => a.dir),
