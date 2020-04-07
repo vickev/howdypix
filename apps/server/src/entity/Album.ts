@@ -10,6 +10,8 @@ import {
 } from "typeorm";
 import { Photo, Photo as EntityPhoto } from "./Photo";
 import { Source } from "./Source";
+import { parse } from "path";
+import { appError, appWarning } from "@howdypix/utils";
 
 @Entity()
 @Unique(["dir", "parentDir", "sourceLk"])
@@ -66,7 +68,7 @@ export class Album {
     return count;
   }
 
-  async getPreview(): Promise<string> {
+  async getPreview(): Promise<string | null> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
     const data = await photoRepository
@@ -80,6 +82,23 @@ export class Album {
       .getRawOne();
 
     // TODO change for undefined picture
-    return data?.preview || "TOTO.JPG";
+    return data?.preview ?? null;
+  }
+
+  static async fetchOne(source: string, dir = ""): Promise<Album | null> {
+    const albumRepository = getConnection().getRepository(Album);
+    const where = {
+      dir: dir === "" ? "." : dir,
+      source,
+      parentDir: parse(dir).dir ?? "",
+    };
+
+    const data = await albumRepository.findOne(where);
+
+    if (!data) {
+      appWarning("album")(`The album ${JSON.stringify(where)} does not exist.`);
+    }
+
+    return data ?? null;
   }
 }

@@ -10,14 +10,19 @@ import {
 import { SearchResult } from "./SearchResult";
 import { Album } from "./Album";
 
+export enum PHOTO_STATUS {
+  NOT_PROCESSED = "not_processed",
+  PROCESSED = "processed",
+}
+
 @Entity()
 @Unique(["album", "file"])
 export class Photo {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("int")
-  status: number;
+  @Column("text")
+  status: PHOTO_STATUS;
 
   @Column("int")
   inode: number;
@@ -34,28 +39,28 @@ export class Photo {
   @Column("int")
   size: number;
 
-  @Column("text")
+  @Column("text", { nullable: true })
   make: string;
 
-  @Column("text")
+  @Column("text", { nullable: true })
   model: string;
 
-  @Column("int")
+  @Column("int", { nullable: true })
   ISO: number;
 
-  @Column("int")
+  @Column("int", { nullable: true })
   shutter: number;
 
-  @Column("int")
+  @Column("int", { nullable: true })
   processedShutter: number;
 
-  @Column("int")
+  @Column("int", { nullable: true })
   aperture: number;
 
-  @Column("int")
+  @Column("int", { nullable: true })
   processedAperture: number;
 
-  @Column("int")
+  @Column("int", { nullable: true })
   createDate: number;
 
   // TODO to remove
@@ -70,8 +75,8 @@ export class Photo {
   @Column("text")
   dir: string;
 
-  @ManyToOne(() => Album, (album) => album.photos, { nullable: true })
-  public album!: Album | null;
+  @ManyToOne(() => Album, (album) => album.photos)
+  public album!: Album;
 
   @Column("text")
   file: string;

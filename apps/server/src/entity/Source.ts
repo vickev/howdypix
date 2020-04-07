@@ -56,7 +56,7 @@ export class Source {
     return count;
   }
 
-  async getPreview(): Promise<string> {
+  async getPreview(): Promise<string | null> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
     const data = await photoRepository
@@ -68,8 +68,7 @@ export class Source {
       })
       .getRawOne();
 
-    // TODO change for undefined picture
-    return data?.preview || "TOTO.JPG";
+    return data?.preview ?? null;
   }
 
   static async upsert(sourceName: string, dir: string): Promise<void> {
