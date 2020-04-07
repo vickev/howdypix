@@ -1,9 +1,15 @@
 import { Connection } from "typeorm";
-import { appDebug, generateThumbnailPaths, hjoin } from "@howdypix/utils";
+import {
+  appDebug,
+  appError,
+  generateThumbnailPaths,
+  hjoin,
+  parentDir,
+} from "@howdypix/utils";
 import { existsSync, statSync, unlinkSync } from "fs";
 import { join, parse } from "path";
 import { UserConfig } from "../config";
-import { Photo } from "../entity/Photo";
+import { Photo, PHOTO_STATUS } from "../entity/Photo";
 import { Events, EventTypes } from "./eventEmitter";
 import { Source } from "../entity/Source";
 import { Album } from "../entity/Album";
@@ -13,7 +19,8 @@ export async function onNewDir(
   event: Events,
   connection: Connection
 ): Promise<void> {
-  const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
+  const relativePath = join(hfile.dir ?? "", hfile.file ?? "");
+  const absolutePath = join(root, relativePath);
   const stat = statSync(absolutePath);
 
   // Check if it exists in the database
@@ -24,11 +31,12 @@ export async function onNewDir(
   // Check the updated_date
   if (!album) {
     const newAlbum = new Album();
-    newAlbum.dir = hfile.file ?? "";
-    newAlbum.parentDir = hfile.dir ?? "";
+    newAlbum.dir = relativePath === "." ? "" : relativePath;
+    newAlbum.parentDir = parentDir(relativePath);
     newAlbum.source = hfile.source;
     newAlbum.inode = stat.ino.toString();
 
+    // TODO to refactor
     newAlbum.sourceLk =
       (await sourceRepository.findOne({
         source: hfile.source,
@@ -64,23 +72,47 @@ export async function onNewFile(
   const photoRepository = connection.getRepository(Photo);
   const photo = await photoRepository.findOne({ inode: stat.ino });
 
-  // Check the updated_date
-  if (photo?.mtime === stat.mtimeMs) {
-    const thumbnailsExist: boolean = generateThumbnailPaths(
-      userConfig.thumbnailsDir,
-      hfile
-    ).reduce(
-      (accumulator: boolean, tn) => accumulator && existsSync(tn.path),
-      true
-    );
+  if (!photo) {
+    const album = await Album.fetchOne(hfile.source, hfile.dir);
 
-    if (thumbnailsExist) {
-      return;
+    if (!album) {
+      appError("db")(
+        `The album { ${hfile.source}, ${hfile.dir} } does not exist.`
+      );
+    } else {
+      const newPhoto = new Photo();
+      newPhoto.inode = stat.ino;
+      newPhoto.mtime = stat.mtime.getMilliseconds();
+      newPhoto.ctime = stat.ctime.getMilliseconds();
+      newPhoto.birthtime = stat.birthtime.getMilliseconds();
+      newPhoto.size = stat.size;
+      newPhoto.source = hfile.source;
+      newPhoto.parentDir = parse(hfile.dir ?? "").dir ?? "";
+      newPhoto.dir = hfile.dir ?? "";
+      newPhoto.file = hfile.file ?? "";
+      newPhoto.status = PHOTO_STATUS.NOT_PROCESSED;
+      newPhoto.album = album;
+
+      await photoRepository.save(newPhoto);
     }
+
+    event.emit("processFile", { root, hfile });
   }
+  // else if (photo.mtime === stat.mtimeMs) {
+  //     const thumbnailsExist: boolean = generateThumbnailPaths(
+  //       userConfig.thumbnailsDir,
+  //       hfile
+  //     ).reduce((accumulator: boolean, tn) => {
+  //       return accumulator && existsSync(tn.path);
+  //     }, true);
+  //
+  //     if (thumbnailsExist) {
+  //       return;
+  //     }
+  //   }
+  // }
 
   // Act
-  event.emit("processFile", { root, hfile });
 }
 
 export async function onRemoveFile(
@@ -107,39 +139,48 @@ export async function onProcessedFile(
 ): Promise<void> {
   const albumRepository = connection.getRepository(Album);
   const photoRepository = connection.getRepository(Photo);
-
-  const photo = new Photo();
-  photo.make = file.exif.make ?? "";
-  photo.model = file.exif.model ?? "";
-  photo.ISO = file.exif.ISO ?? 0;
-  photo.shutter = file.exif.shutter ?? 0;
-  photo.processedShutter = file.exif.shutter
-    ? Math.round((1 / file.exif.shutter) * 10) / 10
-    : 0;
-  photo.aperture = file.exif.aperture ?? 0;
-  photo.processedAperture = file.exif.aperture
-    ? Math.round(file.exif.aperture * 10) / 10
-    : 0;
-  photo.createDate = file.exif.createDate ?? 0;
-  photo.inode = file.stat.inode;
-  photo.mtime = file.stat.mtime;
-  photo.ctime = file.stat.ctime;
-  photo.birthtime = file.stat.birthtime;
-  photo.size = file.stat.size;
-  photo.source = file.hfile.source;
-  photo.parentDir = parse(file.hfile.dir ?? "").dir ?? "";
-  photo.dir = file.hfile.dir ?? "";
-  photo.file = file.hfile.file ?? "";
-
-  photo.album =
-    (await albumRepository.findOne({
-      dir: file.hfile.dir ?? "",
+  const where = {
+    where: {
+      file: file.hfile.file,
+      dir: file.hfile.dir,
       source: file.hfile.source,
-      parentDir: parse(file.hfile.dir ?? "").dir ?? "",
-    })) ?? null;
+    },
+  };
 
-  await photoRepository.save(photo);
-  appDebug("db")(`Saved ${hjoin(file.hfile)}.`);
+  const photo = await photoRepository.findOne(where);
+  const album = await Album.fetchOne(file.hfile.source, file.hfile.dir);
+
+  if (photo) {
+    if (album) {
+      photo.make = file.exif.make ?? "";
+      photo.model = file.exif.model ?? "";
+      photo.ISO = file.exif.ISO ?? 0;
+      photo.shutter = file.exif.shutter ?? 0;
+      photo.processedShutter = file.exif.shutter
+        ? Math.round((1 / file.exif.shutter) * 10) / 10
+        : 0;
+      photo.aperture = file.exif.aperture ?? 0;
+      photo.processedAperture = file.exif.aperture
+        ? Math.round(file.exif.aperture * 10) / 10
+        : 0;
+      photo.createDate = file.exif.createDate ?? 0;
+
+      photo.album = album;
+
+      await photoRepository.save(photo);
+      appDebug("db")(`Saved ${hjoin(file.hfile)}.`);
+    } else {
+      appError("db")(
+        `The album { ${file.hfile.source}, ${file.hfile.dir} } does not exist.`
+      );
+    }
+  } else {
+    appError("db")(
+      `Impossible to find { ${JSON.stringify(
+        where
+      )} } in the database to save the information.`
+    );
+  }
 }
 
 export async function startCacheDB(
