@@ -15,14 +15,14 @@ const debug = appDebug("gql");
 const generatePreviewUrl = async (
   album: EntityAlbum | EntitySource
 ): Promise<string | null> => {
-  const previewFile = await album.getPreview();
+  const preview = await album.getPreview();
 
-  return previewFile
+  return preview
     ? generateThumbnailUrls(appConfig.webapp.baseUrl, {
-        file: previewFile,
-        dir: album.dir,
+        file: typeof preview === "string" ? preview : preview.file,
+        dir: typeof preview === "string" ? album.dir : preview.dir,
         source: album.source,
-      }).map((tn) => tn.url)[0]
+      })[0].url
     : null;
 };
 

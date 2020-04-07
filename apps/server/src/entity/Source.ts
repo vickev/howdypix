@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from "typeorm";
+import { join } from "path";
 import { Photo as EntityPhoto } from "./Photo";
 import { Album } from "./Album";
 
@@ -56,19 +57,19 @@ export class Source {
     return count;
   }
 
-  async getPreview(): Promise<string | null> {
+  async getPreview(): Promise<{ dir: string; file: string } | null> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
     const data = await photoRepository
       .createQueryBuilder()
-      .select("file", "preview")
+      .select("file, dir")
       .where({
         source: this.source,
         file: Not(""),
       })
       .getRawOne();
 
-    return data?.preview ?? null;
+    return data ?? null;
   }
 
   static async upsert(sourceName: string, dir: string): Promise<void> {
