@@ -1,6 +1,6 @@
 import { Channel, ConsumeMessage, Options, Replies } from "amqplib";
 import { join, parse } from "path";
-import { HFile, QueueName } from "@howdypix/shared-types";
+import { HFile, QueueName, SupportedMime } from "@howdypix/shared-types";
 import debug from "debug";
 import { hjoin, thumbnailPath } from "./path";
 import { isArray, isNil, isObject, omitBy, reduce } from "lodash";
@@ -161,4 +161,17 @@ export function sortJson(json: {} | unknown[]): typeof json {
 
 export function sortJsonStringify(json: {}): string {
   return stringify(sortJson(json));
+}
+
+export function parentDir(dir = ""): string {
+  return parse(dir).dir ?? "";
+}
+
+export function isSupportedMime(mime: keyof SupportedMime): boolean {
+  const supportedMime: SupportedMime = {
+    "image/jpeg": true,
+    "image/png": true,
+  };
+
+  return supportedMime[mime] ?? false;
 }
