@@ -17,7 +17,7 @@ context("Album page full with filters", () => {
     cy.findAllByTestId("thumbnail").should("have.length", 1);
   });
 
-  it("should update the URL according to the filter and order.", () => {
+  it.only("should update the URL according to the filter and order.", () => {
     cy.findAllByTestId("thumbnail").should("exist");
 
     //= ===============================================
@@ -31,6 +31,7 @@ context("Album page full with filters", () => {
     //= ===============================================
     cy.get("body").contains("Camera Make").click();
 
+    cy.findByText("make 1").click();
     cy.findByText("make 1").click();
     cy.findByText("make 2").click();
 
