@@ -14,7 +14,6 @@ import { AlbumCard } from "../src/component/AlbumCard";
 import { AlbumGrid } from "../src/component/AlbumGrid";
 import { AlbumGridListTile } from "../src/component/AlbumGridListTile";
 import { useStore } from "../src/context/store/storeHook";
-import Component from "./login";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };

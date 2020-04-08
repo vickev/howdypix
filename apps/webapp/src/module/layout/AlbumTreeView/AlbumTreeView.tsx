@@ -3,7 +3,6 @@
 //= =======================================
 import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
 import TreeView from "@material-ui/lab/TreeView";
 import Box from "@material-ui/core/Box";
 import { GetTreeAlbums } from "../../../__generated__/schema-types";

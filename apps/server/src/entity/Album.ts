@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from "typeorm";
+import { parse } from "path";
+import { appWarning } from "@howdypix/utils";
 import { Photo, Photo as EntityPhoto } from "./Photo";
 import { Source } from "./Source";
-import { parse } from "path";
-import { appError, appWarning } from "@howdypix/utils";
 
 @Entity()
 @Unique(["dir", "parentDir", "sourceLk"])

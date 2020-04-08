@@ -7,11 +7,11 @@ import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
 import { Connection } from "typeorm";
+import { appDebug } from "@howdypix/utils";
 import { UserConfig, AppConfig } from "../config";
 import * as types from "../schema";
 import { isTokenValid } from "../lib/auth";
 import { ApolloContext } from "../types.d";
-import { appDebug } from "@howdypix/utils";
 
 type NexusEntity =
   | NexusExtendTypeDef<string>

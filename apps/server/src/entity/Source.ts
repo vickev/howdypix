@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from "typeorm";
-import { join } from "path";
 import { Photo as EntityPhoto } from "./Photo";
 import { Album } from "./Album";
 

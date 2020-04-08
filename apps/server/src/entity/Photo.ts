@@ -4,7 +4,6 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  JoinColumn,
   Unique,
 } from "typeorm";
 import { SearchResult } from "./SearchResult";

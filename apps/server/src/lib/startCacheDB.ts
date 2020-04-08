@@ -6,7 +6,7 @@ import {
   hjoin,
   parentDir,
 } from "@howdypix/utils";
-import { existsSync, statSync, unlinkSync } from "fs";
+import { statSync, unlinkSync } from "fs";
 import { join, parse } from "path";
 import { UserConfig } from "../config";
 import { Photo, PHOTO_STATUS } from "../entity/Photo";
@@ -62,8 +62,7 @@ export async function onUnlinkDir(
 export async function onNewFile(
   { root, hfile }: EventTypes["newFile"],
   event: Events,
-  connection: Connection,
-  userConfig: UserConfig
+  connection: Connection
 ): Promise<void> {
   const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
   const stat = statSync(absolutePath);
@@ -137,7 +136,6 @@ export async function onProcessedFile(
   event: Events,
   connection: Connection
 ): Promise<void> {
-  const albumRepository = connection.getRepository(Album);
   const photoRepository = connection.getRepository(Photo);
   const where = {
     where: {
@@ -195,9 +193,7 @@ export async function startCacheDB(
     })
   );
 
-  event.on("newFile", (params) =>
-    onNewFile(params, event, connection, userConfig)
-  );
+  event.on("newFile", (params) => onNewFile(params, event, connection));
 
   event.on("removeFile", (params) =>
     onRemoveFile(params, event, connection, userConfig)

@@ -4,7 +4,6 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";

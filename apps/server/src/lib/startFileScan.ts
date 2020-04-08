@@ -7,9 +7,9 @@ import {
   isSupportedMime,
   path2hfile,
 } from "@howdypix/utils";
+import { SupportedMime } from "@howdypix/shared-types";
 import { Events } from "./eventEmitter";
 import { UserConfig } from "../config";
-import { SupportedMime } from "@howdypix/shared-types";
 
 export function onAddDir(
   event: Events,
