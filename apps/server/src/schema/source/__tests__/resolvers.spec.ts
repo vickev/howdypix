@@ -20,18 +20,28 @@ describe("currentUserResolver", () => {
     getRepository: () => ({
       find: (): EntitySource[] => [
         {
+          id: 1,
           source: "source1",
-          nbAlbums: 1,
-          nbPhotos: 10,
-          preview: "preview1.png",
           dir: "dir1",
+          albums: [],
+          getNbAlbums: async (): Promise<number> => 1,
+          getNbPhotos: async (): Promise<number> => 10,
+          getPreview: async (): Promise<{ dir: string; file: string }> => ({
+            dir: "dir1",
+            file: "preview1.png",
+          }),
         },
         {
+          id: 2,
           source: "source2",
-          nbAlbums: 2,
-          nbPhotos: 20,
-          preview: "preview2.png",
           dir: "dir2",
+          albums: [],
+          getNbAlbums: async (): Promise<number> => 2,
+          getNbPhotos: async (): Promise<number> => 20,
+          getPreview: async (): Promise<{ dir: string; file: string }> => ({
+            dir: "dir2",
+            file: "preview2.png",
+          }),
         },
       ],
     }),

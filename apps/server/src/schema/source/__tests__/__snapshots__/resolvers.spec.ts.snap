@@ -6,19 +6,19 @@ Array [
     "name": "source1",
     "nbAlbums": 1,
     "nbPhotos": 10,
-    "preview": "http://localhost:3000/static/@source1:dir1/preview1x200.jpg",
+    "preview": "http://localhost:3000/files/@source1:dir1/preview1x200.jpg",
   },
   Object {
     "name": "source2",
     "nbAlbums": 2,
     "nbPhotos": 20,
-    "preview": "http://localhost:3000/static/@source2:dir2/preview2x200.jpg",
+    "preview": "http://localhost:3000/files/@source2:dir2/preview2x200.jpg",
   },
   Object {
     "name": "source3",
     "nbAlbums": 0,
     "nbPhotos": 0,
-    "preview": undefined,
+    "preview": null,
   },
 ]
 `;

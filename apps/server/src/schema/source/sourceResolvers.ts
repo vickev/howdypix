@@ -27,7 +27,7 @@ export const getSourcesResolver = (
 
       return {
         name,
-        nbAlbums: (await sources[name]?.getNbPhotos()) ?? 0,
+        nbAlbums: (await sources[name]?.getNbAlbums()) ?? 0,
         nbPhotos: (await sources[name]?.getNbPhotos()) ?? 0,
         preview: preview
           ? generateThumbnailUrls(appConfig.webapp.baseUrl, {
