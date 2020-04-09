@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/jest-config",
-  "version": "0.1.0-alpha.11",
+  "version": "0.1.0",
   "description": "Common jest configuration for HowdyPix.",
   "license": "MIT",
   "private": false,

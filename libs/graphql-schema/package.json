@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/graphql-schema",
-  "version": "0.1.0-alpha.12",
+  "version": "0.1.0",
   "description": "GraphQL schema of HowdyPix, to be used in the applications.",
   "main": "index.js",
   "private": false,

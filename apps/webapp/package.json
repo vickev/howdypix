@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/webapp",
-  "version": "0.1.0-alpha.12",
+  "version": "0.1.0",
   "description": "Dispatch work to the workers to parse the pictures.",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
@@ -39,9 +39,9 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.1",
     "@apollo/react-ssr": "^3.1.1",
-    "@howdypix/graphql-schema": "^0.1.0-alpha.12",
-    "@howdypix/shared-types": "^0.1.0-alpha.11",
-    "@howdypix/utils": "^0.1.0-alpha.12",
+    "@howdypix/graphql-schema": "^0.1.0",
+    "@howdypix/shared-types": "^0.1.0",
+    "@howdypix/utils": "^0.1.0",
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.47",
@@ -86,10 +86,10 @@
     "@graphql-codegen/typescript": "^1.13.1",
     "@graphql-codegen/typescript-operations": "^1.13.1",
     "@graphql-codegen/typescript-react-apollo": "^1.13.1",
-    "@howdypix/babel-preset": "^0.1.0-alpha.11",
-    "@howdypix/eslint-config": "^0.1.0-alpha.11",
-    "@howdypix/jest-config": "^0.1.0-alpha.11",
-    "@howdypix/typescript-config": "^0.0.3-alpha.0",
+    "@howdypix/babel-preset": "^0.1.0",
+    "@howdypix/eslint-config": "^0.1.0",
+    "@howdypix/jest-config": "^0.1.0",
+    "@howdypix/typescript-config": "^0.1.0",
     "@testing-library/cypress": "^6.0.0",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",

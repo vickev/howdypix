@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/service-rabbitmq",
-  "version": "0.0.3-alpha.0",
+  "version": "0.1.0",
   "description": "Run the RabbitMQ process.",
   "author": "Kevin Vicrey <kevin.vicrey@nexu.org>",
   "repository": {
