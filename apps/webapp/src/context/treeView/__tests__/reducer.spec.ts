@@ -7,7 +7,7 @@ const createFakeAlbum = (
   parentDirId: number | null = null,
   overrides: Partial<AlbumWithNodeId> = {}
 ): AlbumWithNodeId => ({
-  nodeId: `album${id}`,
+  nodeId: `source${sourceId}album${id}`,
   dir: `album${id}`,
   parentDir: parentDirId ? `album${parentDirId}` : "",
   source: `source${sourceId}`,
@@ -120,9 +120,9 @@ describe("treeView reducer", () => {
       const { expandedNodeIds } = reducer(
         {
           visibleLeaves: {
-            album1: true,
-            album2: true,
-            album3: true,
+            source1album1: true,
+            source1album2: true,
+            source2album3: true,
             source1: true,
             source2: true,
           },
@@ -149,9 +149,9 @@ describe("treeView reducer", () => {
       const { expandedNodeIds } = reducer(
         {
           visibleLeaves: {
-            album1: false,
-            album2: false,
-            album3: false,
+            source1album1: false,
+            source1album2: false,
+            source2album3: false,
             source1: false,
             source2: false,
           },
@@ -160,7 +160,13 @@ describe("treeView reducer", () => {
             createFakeAlbum(2, 1),
             createFakeAlbum(3, 2),
           ],
-          expandedNodeIds: ["album1", "source1", "album2", "album3", "source2"],
+          expandedNodeIds: [
+            "source1album1",
+            "source1",
+            "source1album2",
+            "source2album3",
+            "source2",
+          ],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 2 }),
             createFakeSource(2, { nbAlbums: 1 }),
@@ -233,7 +239,7 @@ describe("treeView reducer", () => {
 
       const { visibleLeaves } = reducer(
         {
-          visibleLeaves: { source1: false, album1: false },
+          visibleLeaves: { source1: false, source1album1: false },
           fetchedAlbums: [
             createFakeAlbum(1, 1, null, { nbAlbums: 1 }),
             createFakeAlbum(1, 1, 2),
@@ -258,7 +264,11 @@ describe("treeView reducer", () => {
 
       const { visibleLeaves } = reducer(
         {
-          visibleLeaves: { source1: true, album1: false, album2: true },
+          visibleLeaves: {
+            source1: true,
+            source1album1: false,
+            source1album2: true,
+          },
           fetchedAlbums: [createFakeAlbum(1, 1)],
           expandedNodeIds: [],
           fetchedSources: [createFakeSource(1, { nbAlbums: 2 })],
@@ -281,9 +291,9 @@ describe("treeView reducer", () => {
       const { visibleLeaves, expandedNodeIds } = reducer(
         {
           visibleLeaves: {
-            album1: true,
-            album2: true,
-            album3: true,
+            source1album1: true,
+            source1album2: true,
+            source2album3: true,
             source1: true,
             source2: true,
           },
@@ -292,7 +302,13 @@ describe("treeView reducer", () => {
             createFakeAlbum(2, 1),
             createFakeAlbum(3, 2),
           ],
-          expandedNodeIds: ["album1", "source1", "album2", "album3", "source2"],
+          expandedNodeIds: [
+            "source1album1",
+            "source1",
+            "source1album2",
+            "source2album3",
+            "source2",
+          ],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 2 }),
             createFakeSource(2, { nbAlbums: 1 }),
@@ -314,9 +330,9 @@ describe("treeView reducer", () => {
       const { visibleLeaves, expandedNodeIds } = reducer(
         {
           visibleLeaves: {
-            album1: true,
-            album2: true,
-            album3: true,
+            source1album1: true,
+            source1album2: true,
+            source2album3: true,
             source1: true,
             source2: true,
           },
@@ -325,7 +341,13 @@ describe("treeView reducer", () => {
             createFakeAlbum(2, 1),
             createFakeAlbum(3, 2),
           ],
-          expandedNodeIds: ["album1", "source1", "album2", "album3", "source2"],
+          expandedNodeIds: [
+            "source1album1",
+            "source1",
+            "source1album2",
+            "source2album3",
+            "source2",
+          ],
           fetchedSources: [
             createFakeSource(1, { nbAlbums: 2 }),
             createFakeSource(2, { nbAlbums: 1 }),
@@ -347,9 +369,9 @@ describe("treeView reducer", () => {
   describe("for the action TOGGLE", () => {
     const base = {
       visibleLeaves: {
-        album1: true,
-        album2: true,
-        album3: true,
+        source1album1: true,
+        source1album2: true,
+        source2album3: true,
         source1: true,
         source2: true,
       },
@@ -358,7 +380,13 @@ describe("treeView reducer", () => {
         createFakeAlbum(2, 1),
         createFakeAlbum(3, 2),
       ],
-      expandedNodeIds: ["album1", "source1", "album2", "album3", "source2"],
+      expandedNodeIds: [
+        "source1",
+        "source1album1",
+        "source1album2",
+        "source2",
+        "source2album3",
+      ],
       fetchedSources: [
         createFakeSource(1, { nbAlbums: 2 }),
         createFakeSource(2, { nbAlbums: 1 }),
@@ -390,9 +418,9 @@ describe("treeView reducer", () => {
           ...{
             visibleLeaves: {
               ...base.visibleLeaves,
-              ...{ album1: false, album2: false },
+              ...{ source1album1: false, source1album2: false },
             },
-            expandedNodeIds: ["source1", "album3", "source2"],
+            expandedNodeIds: ["source1", "source2album3", "source2"],
           },
         },
         {

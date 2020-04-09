@@ -18,21 +18,23 @@ import {
 // ========================================================================
 const selectParents = (
   data: GetTreeQuery["getTree"]["albums"] | null | undefined,
+  source: string,
   dir: string
 ): { [key: string]: boolean } => {
   let ret: { [key: string]: boolean } = {};
+  ret[source] = true;
 
   if (!data) {
     ret[dir] = true;
   } else {
     data.forEach((d): void => {
-      if (d.dir === dir) {
-        ret[d.dir] = true;
+      if (d.dir === dir && d.source === source) {
+        ret[d.source + d.dir] = true;
 
         if (d.parentDir) {
           ret = {
             ...ret,
-            ...selectParents(data, d.parentDir),
+            ...selectParents(data, source, d.parentDir),
           };
         }
       }
@@ -49,7 +51,7 @@ const calculateExpandedNodeIds = (
   const ret: string[] = [];
 
   data.forEach((d): void => {
-    if (d.dir && selectedItems[d.dir]) {
+    if (d.dir && selectedItems[d.source + d.dir]) {
       ret.push(d.nodeId);
     }
     if (d.parentDir === "" && selectedItems[d.source]) {
@@ -141,19 +143,27 @@ export const reducer = (state: State, action: Actions): State => {
       });
 
     case "DISPLAY_LEAF":
-      return reducer(
-        {
-          ...newState,
-          visibleLeaves: {
-            ...newState.visibleLeaves,
-            ...(action.album !== ""
-              ? selectParents(newState.fetchedAlbums, action.album)
-              : {}),
-            [action.source]: true,
+      if (action.source !== "") {
+        return reducer(
+          {
+            ...newState,
+            visibleLeaves: {
+              ...newState.visibleLeaves,
+              ...(action.album !== ""
+                ? selectParents(
+                    newState.fetchedAlbums,
+                    action.source,
+                    action.album
+                  )
+                : {}),
+              [action.source + action.album]: true,
+            },
           },
-        },
-        { type: "UPDATE_EXPANDED_NODE_IDS" }
-      );
+          { type: "UPDATE_EXPANDED_NODE_IDS" }
+        );
+      }
+
+      return newState;
 
     case "UPDATE_EXPANDED_NODE_IDS":
       return {
@@ -174,7 +184,9 @@ export const reducer = (state: State, action: Actions): State => {
             },
           });
         }
-      } else if (newState.visibleLeaves[action.album] === undefined) {
+      } else if (
+        newState.visibleLeaves[action.source + action.album] === undefined
+      ) {
         action.fetchTree({
           variables: {
             album: action.album ?? "",
@@ -200,9 +212,9 @@ export const reducer = (state: State, action: Actions): State => {
           visibleLeaves: {
             ...newState.visibleLeaves,
             ...(action.album !== null
-              ? { [action.album]: false }
+              ? { [action.source + action.album]: false }
               : { [action.source]: false }),
-            ...(action.parent ? { [action.parent]: true } : {}),
+            ...(action.parent ? { [action.source + action.parent]: true } : {}),
           },
         },
         { type: "UPDATE_EXPANDED_NODE_IDS" }
@@ -210,7 +222,7 @@ export const reducer = (state: State, action: Actions): State => {
 
     case "TOGGLE":
       if (action.album !== null) {
-        if (newState.visibleLeaves[action.album]) {
+        if (newState.visibleLeaves[action.source + action.album]) {
           return reducer(newState, {
             ...action,
             type: "COLLAPSE",
