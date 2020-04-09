@@ -1,0 +1,8 @@
+{
+  "verbose": false,
+  "delay": 0,
+  "watch": [
+    "dist/",
+    "node_modules/"
+  ]
+}

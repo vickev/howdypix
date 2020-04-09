@@ -46,12 +46,12 @@ const listChangedPackages = async () => {
   return changedPackages;
 };
 
-const editChangelogs = changedPackages =>
+const editChangelogs = (changedPackages) =>
   Promise.all(
     [
       ...changedPackages,
-      { location: path.join(__dirname, ".."), version: lernaJson.version }
-    ].map(async changedPackage => {
+      { location: path.join(__dirname, ".."), version: lernaJson.version },
+    ].map(async (changedPackage) => {
       const changelogPath = `${changedPackage.location}/CHANGELOG.md`;
       const changelogContent = await fs.readFile(changelogPath, "utf-8");
       const unreleasedString = "[Unreleased]";
@@ -68,7 +68,7 @@ const editChangelogs = changedPackages =>
           `## ${
             changedPackage.version
           } - ${formatDate()}\n\n- Version bump because lerna\n\n`,
-          changelogContent.slice(versionBumpPosition)
+          changelogContent.slice(versionBumpPosition),
         ].join("");
       } else {
         newChangelogContent = changelogContent.replace(
@@ -83,7 +83,7 @@ const editChangelogs = changedPackages =>
 
 const gitAddChangelogs = () => exec("git add .");
 
-const handleErrors = err => {
+const handleErrors = (err) => {
   console.error(`${err.message}`);
   process.exit(1);
 };

@@ -3,7 +3,6 @@
 //= =======================================
 import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
 import TreeView from "@material-ui/lab/TreeView";
 import Box from "@material-ui/core/Box";
 import { GetTreeAlbums } from "../../../__generated__/schema-types";
@@ -12,14 +11,6 @@ import { useStore } from "../../../context/store";
 import { AlbumTreeItem } from "./AlbumTreeItem";
 import { StyledTreeItem } from "./StyledTreeItem";
 import { toAlbum } from "../../../lib/router";
-
-// ========================================================================
-// Styled components
-// ========================================================================
-const StyledTreeView = styled(TreeView)`
-  width: 100%;
-  flex: 1;
-`;
 
 // ========================================================================
 // Component
@@ -73,7 +64,7 @@ export const AlbumTreeView: React.FC<TreeProps> = () => {
   // ============================================
   return (
     <Box mx={-2} flex={1}>
-      <StyledTreeView expanded={expandedNodeIds}>
+      <TreeView expanded={expandedNodeIds}>
         {sources.map(
           (source): ReactElement => (
             <StyledTreeItem
@@ -106,7 +97,7 @@ export const AlbumTreeView: React.FC<TreeProps> = () => {
             </StyledTreeItem>
           )
         )}
-      </StyledTreeView>
+      </TreeView>
     </Box>
   );
 };

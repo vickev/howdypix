@@ -7,9 +7,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import nextI18next from "../server/i18n";
 import theme from "../src/theme";
 import { withStore } from "../src/context/store/withStore";
-import { Layout } from "../src/module/layout/Layout";
 import { withApollo } from "../src/lib/with-apollo-client";
-import { useStore } from "../src/context/store";
+import { Layout } from "../src/module/layout/Layout";
 
 const MyApp: React.FC<{
   Component: React.ComponentType<{ displayWithLayout?: boolean }>;

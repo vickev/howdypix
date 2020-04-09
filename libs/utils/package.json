@@ -17,7 +17,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "rm -rf dist && tsc",
+    "build": "tsc",
     "lint": "eslint lib/**/*.ts",
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests"

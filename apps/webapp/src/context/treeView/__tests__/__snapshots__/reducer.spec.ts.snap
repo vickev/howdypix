@@ -2,47 +2,45 @@
 
 exports[`treeView reducer for the action COLLAPSE must hide the corresponding leaves if hidding an album 1`] = `
 Object {
-  "album1": false,
-  "album2": true,
-  "album3": true,
   "source1": true,
+  "source1album1": false,
+  "source1album2": true,
   "source2": true,
+  "source2album3": true,
 }
 `;
 
 exports[`treeView reducer for the action COLLAPSE must hide the corresponding leaves if hidding an album 2`] = `
 Array [
   "source1",
-  "album2",
-  "album3",
+  "source1album2",
+  "source2album3",
   "source2",
 ]
 `;
 
 exports[`treeView reducer for the action COLLAPSE must hide the corresponding leaves if hiding a source 1`] = `
 Object {
-  "album1": true,
-  "album2": true,
-  "album3": true,
   "source1": false,
+  "source1album1": true,
+  "source1album2": true,
   "source2": true,
+  "source2album3": true,
 }
 `;
 
 exports[`treeView reducer for the action COLLAPSE must hide the corresponding leaves if hiding a source 2`] = `
 Array [
-  "album1",
-  "album2",
-  "album3",
+  "source1album1",
+  "source1album2",
+  "source2album3",
   "source2",
 ]
 `;
 
 exports[`treeView reducer for the action DATA_FETCHED must merge the fetched information in the state 1`] = `
 Object {
-  "expandedNodeIds": Array [
-    "source2album1",
-  ],
+  "expandedNodeIds": Array [],
   "fetchedAlbums": Array [
     Object {
       "dir": "album1",
@@ -80,8 +78,8 @@ Object {
     },
   ],
   "visibleLeaves": Object {
-    "album1": true,
     "source1": true,
+    "source1album1": true,
   },
 }
 `;
@@ -100,81 +98,81 @@ Array [
 
 exports[`treeView reducer for the action DISPLAY_LEAF must update the visible leaves state and the expandedNodeIds for an album 1`] = `
 Object {
-  "album3": true,
-  "album4": true,
-  "album5": true,
   "source1": true,
+  "source1album3": true,
+  "source1album4": true,
+  "source1album5": true,
 }
 `;
 
 exports[`treeView reducer for the action DISPLAY_LEAF must update the visible leaves state and the expandedNodeIds for an album 2`] = `
 Array [
   "source1",
-  "album3",
-  "album4",
-  "album5",
+  "source1album3",
+  "source1album4",
+  "source1album5",
 ]
 `;
 
 exports[`treeView reducer for the action EXPAND must display the correct leaf if it's a source 1`] = `
 Object {
-  "album1": false,
   "source1": true,
+  "source1album1": false,
 }
 `;
 
 exports[`treeView reducer for the action EXPAND must display the correct leaf if it's an album 1`] = `
 Object {
-  "album1": true,
-  "album2": true,
   "source1": true,
+  "source1album1": true,
+  "source1album2": true,
 }
 `;
 
 exports[`treeView reducer for the action TOGGLE must call collapse if it's visible 1`] = `
 Object {
-  "album1": false,
-  "album2": true,
-  "album3": true,
   "source1": true,
+  "source1album1": false,
+  "source1album2": true,
   "source2": true,
+  "source2album3": true,
 }
 `;
 
 exports[`treeView reducer for the action TOGGLE must call collapse if it's visible 2`] = `
 Array [
   "source1",
-  "album2",
-  "album3",
+  "source1album2",
+  "source2album3",
   "source2",
 ]
 `;
 
 exports[`treeView reducer for the action TOGGLE must call expand if it's hidden 1`] = `
 Object {
-  "album1": true,
-  "album2": false,
-  "album3": true,
   "source1": true,
+  "source1album1": true,
+  "source1album2": false,
   "source2": true,
+  "source2album3": true,
 }
 `;
 
 exports[`treeView reducer for the action TOGGLE must call expand if it's hidden 2`] = `
 Array [
-  "album1",
+  "source1album1",
   "source1",
-  "album3",
+  "source2album3",
   "source2",
 ]
 `;
 
 exports[`treeView reducer for the action UPDATE_EXPANDED_NODE_IDS must update the expandedNodeIds 1`] = `
 Array [
-  "album1",
+  "source1album1",
   "source1",
-  "album2",
-  "album3",
+  "source1album2",
+  "source2album3",
   "source2",
 ]
 `;

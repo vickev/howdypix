@@ -1,7 +1,8 @@
 import { Connection } from "typeorm";
 import { searchHelpers } from "../searchHelpers";
 import { photoHelpers } from "../photoHelpers";
-import { Photo as EntityPhoto } from "../../entity/Photo";
+import { Photo as EntityPhoto, PHOTO_STATUS } from "../../entity/Photo";
+import { Album } from "../../entity/Album";
 
 describe("photoHelpers", () => {
   beforeEach(() => {
@@ -42,6 +43,8 @@ describe("photoHelpers", () => {
       aperture: 4,
       shutter: 1 / 40,
       processedShutter: 40,
+      status: PHOTO_STATUS.PROCESSED,
+      album: new Album(),
     };
 
     await photoHelpers.fetchPhotoSteam(connection, photo, {

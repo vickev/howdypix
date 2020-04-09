@@ -4,37 +4,9 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
-
-// ========================================================================
-// Styles
-// ========================================================================
-const useTreeItemStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      color: theme.palette.text.secondary,
-      "&:focus > $content": {
-        backgroundColor: `transparent`,
-        color: "var(--tree-view-color)",
-      },
-    },
-    content: {
-      "&:hover": {
-        backgroundColor: "transparent",
-      },
-    },
-    group: {
-      marginLeft: theme.spacing(1),
-      "& $content": {
-        paddingLeft: theme.spacing(1),
-      },
-    },
-    expanded: {},
-  })
-);
 
 // ========================================================================
 // Styled components
@@ -59,6 +31,10 @@ LabelWrapper.defaultProps = {
 
 const LabelText = styled(Typography)`
   flex: 1;
+  overflow: hidden;
+  width: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 LabelText.defaultProps = {
   variant: "body1",
@@ -110,8 +86,6 @@ export const StyledTreeItem: React.FC<Props> = ({
   selected,
   ...rest
 }) => {
-  const classes = useTreeItemStyles();
-
   const iconButton = (
     icon: React.ReactElement,
     disabled = false
@@ -149,12 +123,6 @@ export const StyledTreeItem: React.FC<Props> = ({
           </LabelCount>
         </LabelWrapper>
       }
-      classes={{
-        root: classes.root,
-        content: classes.content,
-        expanded: classes.expanded,
-        group: classes.group,
-      }}
       {...rest}
     />
   );

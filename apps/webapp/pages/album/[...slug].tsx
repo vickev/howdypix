@@ -199,9 +199,12 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   //= ================================================================
   // Update the store of the app
   //= ================================================================
-  setCurrentSource(folder.source);
-  setCurrentAlbum(folder.dir ?? null);
-  setWithLayout(true);
+  useEffect(() => {
+    setCurrentSource(folder.source);
+    setCurrentAlbum(folder.dir ?? null);
+    setWithLayout(true);
+  }, [folder]);
+
   useEffect(() => {
     setRightPanel(
       <AlbumInformationPanel nbPhotos={photosData?.getSearch.photos.length} />
@@ -280,7 +283,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
                     name={album.name}
                     dir={album.dir}
                     source={album.source}
-                    nbAlbums={album.nbPhotos}
+                    nbAlbums={album.nbAlbums}
                     nbPhotos={album.nbPhotos}
                     preview={album.preview}
                   />

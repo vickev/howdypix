@@ -59,3 +59,8 @@ export type AvailableFilters = {
   model?: string[] | string;
   make?: string[] | string;
 };
+
+export type SupportedMime = { "image/jpeg": any; "image/png": any };
+export enum Constants {
+  UNDEFINED_PICTURE = "__howdypix__undefined.JPG",
+}

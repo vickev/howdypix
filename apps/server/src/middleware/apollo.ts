@@ -7,6 +7,7 @@ import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { NexusExtendTypeDef } from "nexus/dist/definitions/extendType";
 import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
 import { Connection } from "typeorm";
+import { appDebug } from "@howdypix/utils";
 import { UserConfig, AppConfig } from "../config";
 import * as types from "../schema";
 import { isTokenValid } from "../lib/auth";
@@ -54,10 +55,18 @@ export function applyApolloMiddleware(
 
   const apolloServer = new ApolloServer({
     schema,
-    context: async ({ req }: { req: Request }): Promise<ApolloContext> => ({
-      user: await isTokenValid((req.headers.token as string) || ""),
-      connection,
-    }),
+    context: async ({ req }: { req: Request }): Promise<ApolloContext> => {
+      const user = await isTokenValid((req.headers.token as string) || "");
+
+      if (!user) {
+        appDebug("apollo")(req.body);
+      }
+
+      return {
+        user: await isTokenValid((req.headers.token as string) || ""),
+        connection,
+      };
+    },
     playground: {
       settings: {
         "request.credentials": "include",

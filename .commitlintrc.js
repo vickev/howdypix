@@ -6,7 +6,7 @@ const scopes = _.pullAll(
   ["apps", "libs", "services"].reduce(
     (arr, directory) => [
       ...arr,
-      ...fs.readdirSync(path.join(__dirname, directory))
+      ...fs.readdirSync(path.join(__dirname, directory)),
     ],
     ["root"]
   ),
@@ -16,6 +16,6 @@ const scopes = _.pullAll(
 module.exports = {
   extends: ["@commitlint/config-conventional"],
   rules: {
-    "scope-enum": [2, "always", scopes]
-  }
+    "scope-enum": [2, "always", scopes],
+  },
 };

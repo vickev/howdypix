@@ -112,6 +112,7 @@ export function withApollo(
 
     const client =
       apolloClient || initApolloClient({ ...apolloState, fixtureSet, tokens });
+
     return (
       <ApolloProvider client={client}>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -134,9 +135,13 @@ export function withApollo(
   }
 
   if (ssr || PageComponent.getInitialProps) {
-    WithApollo.getInitialProps = async (ctx): Promise<WithApolloProps> => {
+    WithApollo.getInitialProps = async (
+      nextPageCtx
+    ): Promise<WithApolloProps> => {
       // In SSR, the request is a Express Request.
-      const req: Request | null = (ctx?.req as unknown) as Request;
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      const req: Request | null = (nextPageCtx?.ctx?.req as unknown) as Request;
 
       const fixtureSet = req?.query?.["fixture-set"];
       const {
@@ -149,7 +154,7 @@ export function withApollo(
         token: null,
         refreshToken: null,
       };
-      const { AppTree } = ctx;
+      const { AppTree } = nextPageCtx;
 
       // Initialize ApolloClient, add it to the ctx object so
       // we can use it in `PageComponent.getInitialProp`.
@@ -164,14 +169,14 @@ export function withApollo(
       // Run wrapped getInitialProps methods
       let pageProps = {};
       if (PageComponent.getInitialProps) {
-        pageProps = await PageComponent.getInitialProps(ctx);
+        pageProps = await PageComponent.getInitialProps(nextPageCtx);
       }
 
       // Only on the server:
       if (typeof window === "undefined") {
         // When redirecting, the response is finished.
         // No point in continuing to render
-        if (ctx.res && ctx.res.finished) {
+        if (nextPageCtx.res && nextPageCtx.res.finished) {
           return pageProps;
         }
 
@@ -181,14 +186,22 @@ export function withApollo(
             // Run all GraphQL queries
             const { getDataFromTree } = await import("@apollo/react-ssr");
 
-            await getDataFromTree(
-              <AppTree
-                pageProps={{
-                  ...pageProps,
-                  apolloClient,
-                }}
-              />
-            );
+            // Since AppComponents and PageComponents have different context types
+            // we need to modify their props a little.
+            let props;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
+            if (nextPageCtx.ctx) {
+              props = { ...pageProps, apolloClient };
+            } else {
+              props = { pageProps: { ...pageProps, apolloClient } };
+            }
+
+            // HERE::: This ts-ignore is weird but necessary because the structure of AppTree changed
+            // for SSR... and it seems that Next is not up-to-date for the TS signature... TO WATCH.
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
+            await getDataFromTree(<AppTree {...props} />);
           } catch (error) {
             // Prevent Apollo Client GraphQL errors from crashing SSR.
             // Handle them in components via the data.error prop:

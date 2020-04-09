@@ -1,10 +1,17 @@
 import chokidar from "chokidar";
 import { relative, resolve } from "path";
-import { appDebug, path2hfile } from "@howdypix/utils";
+import { fromFile as fileTypeOf } from "file-type";
+import {
+  appDebug,
+  appWarning,
+  isSupportedMime,
+  path2hfile,
+} from "@howdypix/utils";
+import { SupportedMime } from "@howdypix/shared-types";
 import { Events } from "./eventEmitter";
 import { UserConfig } from "../config";
 
-export function onAdd(
+export function onAddDir(
   event: Events,
   path: string,
   root: string,
@@ -12,12 +19,49 @@ export function onAdd(
 ): void {
   const absoluteRoot = resolve(process.cwd(), root);
   const relativePath = relative(root, path);
-  appDebug("watcher")(`File ${path} has been added`);
+  // appDebug("watcher")(`Directory ${path} has been added`);
 
-  event.emit("newFile", {
+  event.emit("newDirectory", {
     hfile: path2hfile(source, relativePath),
     root: absoluteRoot,
   });
+}
+
+export function onUnlinkDir(
+  event: Events,
+  path: string,
+  root: string,
+  source: string
+): void {
+  const absoluteRoot = resolve(process.cwd(), root);
+  const relativePath = relative(root, path);
+
+  event.emit("unlinkDirectory", {
+    hfile: path2hfile(source, relativePath),
+    root: absoluteRoot,
+  });
+}
+
+export async function onAdd(
+  event: Events,
+  path: string,
+  root: string,
+  source: string
+): Promise<void> {
+  const absoluteRoot = resolve(process.cwd(), root);
+  const relativePath = relative(root, path);
+
+  const { mime } = (await fileTypeOf(path)) ?? { mime: null };
+
+  if (isSupportedMime(mime as keyof SupportedMime)) {
+    appDebug("watcher")(`File ${path} detected.`);
+    event.emit("newFile", {
+      hfile: path2hfile(source, relativePath),
+      root: absoluteRoot,
+    });
+  } else {
+    appWarning("watcher")(`File ${path} has a non supported mime ${mime}.`);
+  }
 }
 
 export function onRemove(
@@ -44,6 +88,8 @@ export function startFileScan(event: Events, userConfig: UserConfig): void {
     const watcher = chokidar.watch(root, { ignored: /.howdypix/ });
 
     watcher
+      .on("addDir", (path) => onAddDir(event, path, root, sourceId))
+      .on("unlinkDir", (path) => onUnlinkDir(event, path, root, sourceId))
       .on("add", (path) => onAdd(event, path, root, sourceId))
       .on("unlink", (path) => onRemove(event, path, root, sourceId));
   });

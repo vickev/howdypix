@@ -45,7 +45,7 @@ async function main(): Promise<void> {
 
   app.use(express.json());
 
-  app.get("/static/*", staticHandler);
+  app.get("/files/*", staticHandler);
 
   // Only when we develop: it's easier to check the email templates
   // and develop them.

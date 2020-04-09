@@ -60,7 +60,7 @@ app.prepare().then(() => {
 
   // Static files
   server.get(
-    "/static/*",
+    "/files/*",
     createProxyMiddleware({
       target: serverRuntimeConfig.serverApi.url,
     })

@@ -1,8 +1,9 @@
 import { Connection } from "typeorm";
 import { getPhotoResolver } from "../photoResolvers";
-import { Photo as EntityPhoto } from "../../../entity/Photo";
+import { Photo as EntityPhoto, PHOTO_STATUS } from "../../../entity/Photo";
 import { photoHelpers } from "../../../helpers/photoHelpers";
 import { SearchResult as EntitySearchResult } from "../../../entity/SearchResult";
+import { Album } from "../../../entity/Album";
 
 describe("getPhotoResolver", () => {
   beforeEach(() => {
@@ -20,6 +21,8 @@ describe("getPhotoResolver", () => {
       getRepository: () => ({
         findOne: (): EntityPhoto => ({
           file: "file",
+          status: PHOTO_STATUS.NOT_PROCESSED,
+          album: new Album(),
           dir: "dir",
           source: "source",
           birthtime: 123,

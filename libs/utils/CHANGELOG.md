@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - New utilities for RabbitMQ ([#94](https://github.com/vickev/howdypix/pull/94))
+- SupportedMime and `parentDir()` ([#121](https://github.com/vickev/howdypix/pull/121))
 
 ### Changed
 

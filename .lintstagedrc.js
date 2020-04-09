@@ -2,7 +2,7 @@ const quote = require("shell-quote").quote;
 var shell = require("shelljs");
 
 module.exports = {
-  "*.{js,jsx,ts,tsx}": filenames =>
+  "*.{js,jsx,ts,tsx}": (filenames) =>
     filenames.reduce((commands, filename) => {
       commands.push(
         quote(["prettier", "--write", filename]),
@@ -11,5 +11,5 @@ module.exports = {
 
       return commands;
     }, []),
-  "CHANGELOG.md": () => "yarn lint:changelogs"
+  "CHANGELOG.md": () => "yarn lint:changelogs",
 };
