@@ -7,9 +7,9 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from "typeorm";
+import { appWarning } from "@howdypix/utils";
 import { Photo as EntityPhoto } from "./Photo";
 import { Album } from "./Album";
-import { appWarning } from "@howdypix/utils";
 
 @Entity()
 @Unique(["source"])

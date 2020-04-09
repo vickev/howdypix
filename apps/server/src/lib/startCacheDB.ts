@@ -8,7 +8,7 @@ import {
   parentDir,
 } from "@howdypix/utils";
 import { statSync, unlinkSync } from "fs";
-import { join, parse } from "path";
+import { join } from "path";
 import { UserConfig } from "../config";
 import { Photo, PHOTO_STATUS } from "../entity/Photo";
 import { Events, EventTypes } from "./eventEmitter";

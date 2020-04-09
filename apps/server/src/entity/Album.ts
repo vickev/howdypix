@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 import { resolve } from "path";
 import { statSync } from "fs";
-import { appError, appWarning, parentDir, appDebug } from "@howdypix/utils";
+import { appError, parentDir, appDebug } from "@howdypix/utils";
 import { Photo, Photo as EntityPhoto } from "./Photo";
 import { Source } from "./Source";
 
