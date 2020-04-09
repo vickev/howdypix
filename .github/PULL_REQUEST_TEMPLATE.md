@@ -11,7 +11,7 @@ Which problem(s) does it solve and how? What does this PR add?
 - Check-out this branch.
 -
 
-## Checklisvre 
+## Check list 
 
 - [ ] I have read the [CONTRIBUTING](https://github.com/vickev/howdypix/blob/master/.github/CONTRIBUTING.md) guide
 - [ ] I have prepared [CHANGELOGs](https://github.com/vickev/howdypix/blob/master/.github/CONTRIBUTING.md#git-workflow) for release
