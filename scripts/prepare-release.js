@@ -65,9 +65,9 @@ const editChangelogs = (changedPackages) =>
         const versionBumpPosition = changelogContent.indexOf(versionBumpString);
         newChangelogContent = [
           changelogContent.slice(0, versionBumpPosition),
-          `## ${
+          `## [${
             changedPackage.version
-          } - ${formatDate()}\n\n- Version bump because lerna\n\n`,
+          }] - ${formatDate()}\n\n### Changed\n\n- Version bump because lerna\n\n`,
           changelogContent.slice(versionBumpPosition),
         ].join("");
       } else {
