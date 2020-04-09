@@ -8,8 +8,9 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from "typeorm";
-import { parse } from "path";
-import { appWarning } from "@howdypix/utils";
+import { resolve } from "path";
+import { statSync } from "fs";
+import { appError, appWarning, parentDir, appDebug } from "@howdypix/utils";
 import { Photo, Photo as EntityPhoto } from "./Photo";
 import { Source } from "./Source";
 
@@ -35,37 +36,23 @@ export class Album {
   @OneToMany(() => Photo, (photo) => photo.album)
   public photos!: Photo[];
 
-  @ManyToOne(() => Source, (source) => source.albums, { nullable: true })
-  public sourceLk!: Source | null;
+  @ManyToOne(() => Source, (source) => source.albums)
+  public sourceLk!: Source;
 
   async getNbPhotos(): Promise<number> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
-    const { count } = await photoRepository
-      .createQueryBuilder()
-      .select("COUNT(distinct id)", "count")
-      .where({
-        source: this.source,
-        dir: this.dir,
-      })
-      .getRawOne();
-
-    return count;
+    return photoRepository.count({
+      where: { source: this.source, dir: this.dir },
+    });
   }
 
   async getNbAlbums(): Promise<number> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
-    const { count } = await photoRepository
-      .createQueryBuilder()
-      .select("COUNT(distinct dir)", "count")
-      .where({
-        source: this.source,
-        parentDir: this.dir,
-      })
-      .getRawOne();
-
-    return count;
+    return photoRepository.count({
+      where: { source: this.source, parentDir: this.dir },
+    });
   }
 
   async getPreview(): Promise<string | null> {
@@ -88,17 +75,52 @@ export class Album {
   static async fetchOne(source: string, dir = ""): Promise<Album | null> {
     const albumRepository = getConnection().getRepository(Album);
     const where = {
-      dir: dir === "" ? "." : dir,
+      dir,
       source,
-      parentDir: parse(dir).dir ?? "",
+      parentDir: parentDir(dir),
     };
 
-    const data = await albumRepository.findOne(where);
+    return (await albumRepository.findOne(where)) ?? null;
+  }
 
-    if (!data) {
-      appWarning("album")(`The album ${JSON.stringify(where)} does not exist.`);
+  static async insertIfDoesntExist(
+    source: Source | string,
+    dir: string
+  ): Promise<Album | null> {
+    let sourceDB: Source | null;
+
+    if (typeof source === "string") {
+      sourceDB = await Source.fetchOne(source);
+
+      if (!sourceDB) {
+        appError("album")(
+          `Impossible to save the album: the source ${source} does not exist in the databasel.`
+        );
+
+        return null;
+      }
+    } else {
+      sourceDB = source;
     }
 
-    return data ?? null;
+    const album = await Album.fetchOne(sourceDB.source, dir);
+
+    if (!album) {
+      const stat = statSync(resolve(sourceDB.dir, dir));
+
+      const newAlbum = new Album();
+      newAlbum.inode = stat.ino.toString();
+      newAlbum.source = sourceDB.source;
+      newAlbum.parentDir = parentDir(dir);
+      newAlbum.dir = dir;
+      newAlbum.sourceLk = sourceDB;
+      await getConnection().getRepository(Album).save(newAlbum);
+
+      appDebug("album")(`New album "${newAlbum.dir}" saved.`);
+
+      return newAlbum;
+    }
+
+    return album;
   }
 }

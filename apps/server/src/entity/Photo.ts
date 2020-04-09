@@ -74,7 +74,7 @@ export class Photo {
   @Column("text")
   dir: string;
 
-  @ManyToOne(() => Album, (album) => album.photos)
+  @ManyToOne(() => Album, (album) => album.photos, { onDelete: "CASCADE" })
   public album!: Album;
 
   @Column("text")

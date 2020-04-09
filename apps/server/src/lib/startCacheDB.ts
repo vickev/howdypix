@@ -2,6 +2,7 @@ import { Connection } from "typeorm";
 import {
   appDebug,
   appError,
+  appWarning,
   generateThumbnailPaths,
   hjoin,
   parentDir,
@@ -14,49 +15,38 @@ import { Events, EventTypes } from "./eventEmitter";
 import { Source } from "../entity/Source";
 import { Album } from "../entity/Album";
 
-export async function onNewDir(
-  { root, hfile }: EventTypes["newDirectory"],
-  event: Events,
-  connection: Connection
-): Promise<void> {
+export async function onNewDir({
+  hfile,
+}: EventTypes["newDirectory"]): Promise<void> {
   const relativePath = join(hfile.dir ?? "", hfile.file ?? "");
-  const absolutePath = join(root, relativePath);
-  const stat = statSync(absolutePath);
 
-  // Check if it exists in the database
-  const albumRepository = connection.getRepository(Album);
-  const sourceRepository = connection.getRepository(Source);
-  const album = await albumRepository.findOne({ where: { inode: stat.ino } });
+  // Check if the source exists in the database
+  const source = await Source.fetchOne(hfile.source);
 
-  // Check the updated_date
-  if (!album) {
-    const newAlbum = new Album();
-    newAlbum.dir = relativePath === "." ? "" : relativePath;
-    newAlbum.parentDir = parentDir(relativePath);
-    newAlbum.source = hfile.source;
-    newAlbum.inode = stat.ino.toString();
-
-    // TODO to refactor
-    newAlbum.sourceLk =
-      (await sourceRepository.findOne({
-        source: hfile.source,
-      })) ?? null;
-
-    albumRepository.save(newAlbum);
+  if (!source) {
+    appError("cacheDB")(
+      `The source ${hfile.source} does not exist in the database.`
+    );
+  } else {
+    await Album.insertIfDoesntExist(
+      source,
+      relativePath === "." ? "" : relativePath
+    );
   }
 }
 
 export async function onUnlinkDir(
-  { root, hfile }: EventTypes["unlinkDirectory"],
+  { hfile }: EventTypes["unlinkDirectory"],
   event: Events,
   connection: Connection
 ): Promise<void> {
-  const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
-  const stat = statSync(absolutePath);
-
   // Check if it exists in the database
   const albumRepository = connection.getRepository(Album);
-  await albumRepository.delete({ inode: stat.ino.toString() });
+  await albumRepository.delete({
+    dir: hfile.file ?? "",
+    parentDir: hfile.dir ?? "",
+    source: hfile.source,
+  });
 }
 
 export async function onNewFile(
@@ -72,11 +62,14 @@ export async function onNewFile(
   const photo = await photoRepository.findOne({ inode: stat.ino });
 
   if (!photo) {
-    const album = await Album.fetchOne(hfile.source, hfile.dir);
+    const album = await Album.insertIfDoesntExist(
+      hfile.source,
+      hfile.dir ?? ""
+    );
 
     if (!album) {
       appError("db")(
-        `The album { ${hfile.source}, ${hfile.dir} } does not exist.`
+        `Impossible to save the information: the album { ${hfile.source}, ${hfile.dir} } does not exist.`
       );
     } else {
       const newPhoto = new Photo();
@@ -86,7 +79,7 @@ export async function onNewFile(
       newPhoto.birthtime = stat.birthtime.getMilliseconds();
       newPhoto.size = stat.size;
       newPhoto.source = hfile.source;
-      newPhoto.parentDir = parse(hfile.dir ?? "").dir ?? "";
+      newPhoto.parentDir = parentDir(hfile.dir);
       newPhoto.dir = hfile.dir ?? "";
       newPhoto.file = hfile.file ?? "";
       newPhoto.status = PHOTO_STATUS.NOT_PROCESSED;
@@ -97,21 +90,6 @@ export async function onNewFile(
 
     event.emit("processFile", { root, hfile });
   }
-  // else if (photo.mtime === stat.mtimeMs) {
-  //     const thumbnailsExist: boolean = generateThumbnailPaths(
-  //       userConfig.thumbnailsDir,
-  //       hfile
-  //     ).reduce((accumulator: boolean, tn) => {
-  //       return accumulator && existsSync(tn.path);
-  //     }, true);
-  //
-  //     if (thumbnailsExist) {
-  //       return;
-  //     }
-  //   }
-  // }
-
-  // Act
 }
 
 export async function onRemoveFile(
@@ -127,7 +105,11 @@ export async function onRemoveFile(
 
   // Remove thumbnails
   generateThumbnailPaths(userConfig.thumbnailsDir, hfile).forEach((tn) => {
-    unlinkSync(tn.path);
+    try {
+      unlinkSync(tn.path);
+    } catch (e) {
+      appWarning(`cacheDB`)(`The file ${tn.path} could not be removed.`);
+    }
   });
 }
 
@@ -169,14 +151,14 @@ export async function onProcessedFile(
       appDebug("db")(`Saved ${hjoin(file.hfile)}.`);
     } else {
       appError("db")(
-        `The album { ${file.hfile.source}, ${file.hfile.dir} } does not exist.`
+        `Impossible to save the information: the album { ${file.hfile.source}, ${file.hfile.dir} } does not exist.`
       );
     }
   } else {
     appError("db")(
-      `Impossible to find { ${JSON.stringify(
-        where
-      )} } in the database to save the information.`
+      `Impossible to find ${JSON.stringify(
+        where.where
+      )} in the database to save the information.`
     );
   }
 }
@@ -189,7 +171,12 @@ export async function startCacheDB(
   // Insert the source entries in the database
   await Promise.all(
     Object.keys(userConfig.photoDirs).map(async (source) => {
-      await Source.upsert(source, userConfig.photoDirs[source]);
+      const sourceDB = await Source.upsert(
+        source,
+        userConfig.photoDirs[source]
+      );
+
+      await Album.insertIfDoesntExist(sourceDB, "");
     })
   );
 
@@ -199,7 +186,7 @@ export async function startCacheDB(
     onRemoveFile(params, event, connection, userConfig)
   );
 
-  event.on("newDirectory", (params) => onNewDir(params, event, connection));
+  event.on("newDirectory", (params) => onNewDir(params));
 
   event.on("unlinkDirectory", (params) =>
     onUnlinkDir(params, event, connection)

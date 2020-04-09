@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { Photo as EntityPhoto } from "./Photo";
 import { Album } from "./Album";
+import { appWarning } from "@howdypix/utils";
 
 @Entity()
 @Unique(["source"])
@@ -71,7 +72,7 @@ export class Source {
     return data ?? null;
   }
 
-  static async upsert(sourceName: string, dir: string): Promise<void> {
+  static async upsert(sourceName: string, dir: string): Promise<Source> {
     const sourceRepository = getConnection().getRepository(Source);
     const sourceToUpdate = await sourceRepository.findOne({
       source: sourceName,
@@ -81,11 +82,30 @@ export class Source {
       // Update the value
       sourceToUpdate.dir = dir;
       await sourceRepository.save(sourceToUpdate);
-    } else {
-      const source = new Source();
-      source.source = sourceName;
-      source.dir = dir;
-      await sourceRepository.save(source);
+      return sourceToUpdate;
     }
+
+    const source = new Source();
+    source.source = sourceName;
+    source.dir = dir;
+    await sourceRepository.save(source);
+    return source;
+  }
+
+  static async fetchOne(name: string): Promise<Source | null> {
+    const sourceRepository = getConnection().getRepository(Source);
+    const where = {
+      source: name,
+    };
+
+    const data = await sourceRepository.findOne(where);
+
+    if (!data) {
+      appWarning("source")(
+        `The source ${JSON.stringify(where)} does not exist.`
+      );
+    }
+
+    return data ?? null;
   }
 }
