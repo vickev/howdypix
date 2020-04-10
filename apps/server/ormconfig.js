@@ -1,6 +1,8 @@
+const config = require("config");
+
 module.exports = {
   type: "sqlite",
-  database: "database.sqlite",
+  database: config.get("app.database.path"),
   synchronize: true,
   logging: false,
   entities: [__dirname + "/dist/entity/**/*.js"],

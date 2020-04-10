@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- Send the photo to process if the status of the photo in the database is `NOT_PROCESSED`
+
+### Added
+
+- Configuration to specify the database location
+
+
 ## [0.1.1] - 2020-04-09
 
 ### Fixed

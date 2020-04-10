@@ -11,7 +11,8 @@
   "private": false,
   "files": [
     "dist",
-    "config",
+    "config/custom-environment-variables.json",
+    "config/default.yaml",
     "next.config.js",
     "static",
     ".next",

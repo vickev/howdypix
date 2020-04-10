@@ -89,6 +89,9 @@ export async function onNewFile(
     }
 
     event.emit("processFile", { root, hfile });
+  } else if (photo.status === PHOTO_STATUS.NOT_PROCESSED) {
+    // The photo exists in the database, but is not processed...
+    event.emit("processFile", { root, hfile });
   }
 }
 
