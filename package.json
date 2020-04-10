@@ -43,13 +43,15 @@
     "lerna:publish": "lerna publish from-git --yes",
     "version": "node ./scripts/prepare-release",
     "release": "yarn lerna:version && git push --follow-tags",
-    "release:pre": "yarn lerna:version:pre && git push --follow-tags"
+    "release:pre": "yarn lerna:version:pre && git push --follow-tags",
+    "release:docker": "node ./scripts/docker-release"
   },
   "devDependencies": {
     "@brightcove/kacl": "^0.1.8",
     "@commitlint/config-conventional": "^8.3.4",
     "child-process-promise": "^2.2.1",
     "commitlint": "^8.3.5",
+    "dotenv": "^8.2.0",
     "gh-release": "^3.5.0",
     "husky": "^4.2.3",
     "lerna": "^3.20.2",

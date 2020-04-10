@@ -1,13 +1,21 @@
-name: Publish on NPM
+name: Publish on Docker
 
 on:
   repository_dispatch:
     types: [NEW_NPM_PACKAGE_RELEASED]
 
 jobs:
-  echo:
-    name: Echo values
+  docker_release:
+    name: Release new dockers
     runs-on: ubuntu-latest
     steps:
-      - name: Echo
-        run: echo "PONG received from '${{ github.event.client_payload.sha }}'"
+      - uses: actions/checkout@v1
+        with:
+          ref: ${{ github.event.client_payload.sha }}
+
+      # Install only the root packages
+      - name: Install
+        run: yarn install --frozen-lockfile --ignore-scripts
+
+      - name: Release
+        run: DOCKER_HUB_LOGIN=${{ secrets.DOCKER_HUB_LOGIN }} DOCKER_HUB_PASSWORD=${{ secrets.DOCKER_HUB_PASSWORD }} yarn release:docker
