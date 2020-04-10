@@ -1,6 +1,6 @@
 {
   "name": "@howdypix/webapp",
-  "version": "0.1.1",
+  "version": "0.1.2-alpha.0",
   "description": "Dispatch work to the workers to parse the pictures.",
   "repository": {
     "url": "git@github.com:vickev/howdypix.git"
