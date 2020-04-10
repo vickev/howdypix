@@ -38,7 +38,7 @@
     "lerna:scope:libs": "lerna --ignore '@howdypix/server' --ignore '@howdypix/worker' --ignore '@howdypix/webapp' --ignore '@howdypix/service-*'",
     "lerna:scope:services": "lerna --scope '@howdypix/service-*'",
     "lerna:version": "lerna version --conventional-commits --conventional-graduate --no-push --no-changelog",
-    "lerna:version:pre": "lerna version --conventional-commits --no-push --no-changelog --conventional-prerelease --ignore-scripts",
+    "lerna:version:pre": "lerna version --conventional-commits --no-push --no-changelog --conventional-prerelease",
     "lerna:version:revert": "scripts/revert-lerna-version.sh",
     "lerna:publish": "lerna publish from-git --yes",
     "version": "node ./scripts/prepare-release",

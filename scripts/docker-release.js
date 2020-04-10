@@ -95,7 +95,7 @@ const tagImage = async ({ directory, name, id }) => {
     ).stdout !== ""
   ) {
     // Check if we have a release
-    if (/[0-9]\.[0-9]\.[0-9]/.exec(version)) {
+    if (/^[0-9]+\.[0-9]+\.[0-9]+$/.exec(version)) {
       versions.push("latest");
       console.log(`Tagging ${id} for ${name}:latest...`);
       await exec(`docker tag ${id} howdypix/${name}:latest`);

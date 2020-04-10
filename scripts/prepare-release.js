@@ -52,41 +52,52 @@ const editChangelogs = (changedPackages) =>
       ...changedPackages,
       { location: path.join(__dirname, ".."), version: lernaJson.version },
     ].map(async (changedPackage) => {
-      const changelogPath = `${changedPackage.location}/CHANGELOG.md`;
-      const changelogContent = await fs.readFile(changelogPath, "utf-8");
-      const unreleasedString = "[Unreleased]";
+      console.log(`AAA`, changedPackage);
+      // It's a release, not a pre-release
+      if (/^[0-9]+\.[0-9]+\.[0-9]+$/.exec(changedPackage.version)) {
+        console.log(`Edit ${changedPackage.location}/CHANGELOG.md`);
+        const changelogPath = `${changedPackage.location}/CHANGELOG.md`;
+        const changelogContent = await fs.readFile(changelogPath, "utf-8");
+        const unreleasedString = "[Unreleased]";
 
-      let newChangelogContent = "";
+        let newChangelogContent = "";
 
-      // When there is no unreleased block, we detect the change as version bump.
-      if (!changelogContent.includes(unreleasedString)) {
-        // Use the first version heading (`##`) as a position matcher to insert version bump section
-        const versionBumpString = "##";
-        const versionBumpPosition = changelogContent.indexOf(versionBumpString);
-        newChangelogContent = [
-          changelogContent.slice(0, versionBumpPosition),
-          `## [${
-            changedPackage.version
-          }] - ${formatDate()}\n\n### Changed\n\n- Version bump because lerna\n\n`,
-          changelogContent.slice(versionBumpPosition),
-        ].join("");
-      } else {
-        newChangelogContent = changelogContent.replace(
-          unreleasedString,
-          `[${changedPackage.version}] - ${formatDate()}`
-        );
+        // When there is no unreleased block, we detect the change as version bump.
+        if (!changelogContent.includes(unreleasedString)) {
+          // Use the first version heading (`##`) as a position matcher to insert version bump section
+          const versionBumpString = "##";
+          const versionBumpPosition = changelogContent.indexOf(
+            versionBumpString
+          );
+          newChangelogContent = [
+            changelogContent.slice(0, versionBumpPosition),
+            `## [${
+              changedPackage.version
+            }] - ${formatDate()}\n\n### Changed\n\n- Version bump because lerna\n\n`,
+            changelogContent.slice(versionBumpPosition),
+          ].join("");
+        } else {
+          newChangelogContent = changelogContent.replace(
+            unreleasedString,
+            `[${changedPackage.version}] - ${formatDate()}`
+          );
+        }
+
+        await fs.writeFile(changelogPath, newChangelogContent, "utf-8");
       }
 
-      return fs.writeFile(changelogPath, newChangelogContent, "utf-8");
+      return changedPackage;
     })
   );
 
 const editDockerfiles = (changedPackages) =>
   Promise.all(
     changedPackages.map(async (changedPackage) => {
+      console.log(`BBB`, changedPackage);
+      console.log(`Edit ${changedPackage.location}/Dockerfile`);
       const dockerfilePath = `${changedPackage.location}/Dockerfile`;
 
-      if (fs.fileExists(dockerfilePath)) {
+      if (await fs.pathExists(dockerfilePath)) {
         const dockerfileContent = await fs.readFile(dockerfilePath, "utf-8");
 
         const newDockerfileContent = dockerfileContent.replace(
@@ -94,7 +105,7 @@ const editDockerfiles = (changedPackages) =>
           `$1@${changedPackage.version}`
         );
 
-        return fs.writeFile(dockerfilePath, newChangelogContent, "utf-8");
+        return fs.writeFile(dockerfilePath, newDockerfileContent, "utf-8");
       }
     })
   );
