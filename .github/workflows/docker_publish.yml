@@ -18,4 +18,5 @@ jobs:
         run: yarn install --frozen-lockfile --ignore-scripts
 
       - name: Release
-        run: DOCKER_HUB_LOGIN=${{ secrets.DOCKER_HUB_LOGIN }} DOCKER_HUB_PASSWORD=${{ secrets.DOCKER_HUB_PASSWORD }} yarn release:docker
+        run: |
+          DOCKER_HUB_LOGIN='${{ secrets.DOCKER_HUB_LOGIN }}' DOCKER_HUB_PASSWORD='${{ secrets.DOCKER_HUB_PASSWORD }}' yarn release:docker
