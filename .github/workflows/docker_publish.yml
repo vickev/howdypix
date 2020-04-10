@@ -1,0 +1,13 @@
+name: Publish on NPM
+
+on:
+  repository_dispatch:
+    types: [NEW_NPM_PACKAGE_RELEASED]
+
+jobs:
+  echo:
+    name: Echo values
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo "PONG received from '${{ github.event.client_payload.sha }}'"

@@ -54,3 +54,11 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
       - name: Publish
         run: git checkout . && yarn lerna:publish
+
+        # Send a global event to trigger something after the NPM is published
+      - name: Send global event
+        run: |
+          curl -X POST https://api.github.com/repos/vickev/howdypix/dispatches \
+            -H 'Accept: application/vnd.github.everest-preview+json' \
+            -H 'Authorization: token ${{ secrets.GITHUB_RELEASE_TOKEN }}' \
+            --data '{ "event_type": "NEW_NPM_PACKAGE_RELEASED", "client_payload": { "sha": "'"${{ github.sha }}"'" } }'

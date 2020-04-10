@@ -81,6 +81,24 @@ const editChangelogs = (changedPackages) =>
     })
   );
 
+const editDockerfiles = (changedPackages) =>
+  Promise.all(
+    changedPackages.map(async (changedPackage) => {
+      const dockerfilePath = `${changedPackage.location}/Dockerfile`;
+
+      if (fs.fileExists(dockerfilePath)) {
+        const dockerfileContent = await fs.readFile(dockerfilePath, "utf-8");
+
+        const newDockerfileContent = dockerfileContent.replace(
+          /(@howdypix\/[a-z]+)[^ ]*/,
+          `$1@${changedPackage.version}`
+        );
+
+        return fs.writeFile(dockerfilePath, newChangelogContent, "utf-8");
+      }
+    })
+  );
+
 const gitAddChangelogs = () => exec("git add .");
 
 const handleErrors = (err) => {
@@ -90,5 +108,6 @@ const handleErrors = (err) => {
 
 listChangedPackages()
   .then(editChangelogs)
+  .then(editDockerfiles)
   .then(gitAddChangelogs)
   .catch(handleErrors);
