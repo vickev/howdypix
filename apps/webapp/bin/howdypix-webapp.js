@@ -9,6 +9,9 @@ const { resolve } = require("path");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { load } = require("js-yaml");
 
+// @kvicrey: Necessary to find i18next locales... Do NOT remove!
+process.chdir(resolve(__dirname, ".."));
+
 require("yargs") // eslint-disable-line
   .command(
     "start <config_file_yaml>",
