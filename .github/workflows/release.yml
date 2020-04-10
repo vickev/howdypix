@@ -61,4 +61,4 @@ jobs:
           curl -X POST https://api.github.com/repos/vickev/howdypix/dispatches \
             -H 'Accept: application/vnd.github.everest-preview+json' \
             -H 'Authorization: token ${{ secrets.GITHUB_RELEASE_TOKEN }}' \
-            --data '{ "event_type": "NEW_NPM_PACKAGE_RELEASED", "client_payload": { "sha": "'"${{ github.sha }}"'" } }'
+            --data '{ "event_type": "NEW_NPM_PACKAGE_RELEASED", "client_payload": { "sha": "${{ github.sha }}" } }'
