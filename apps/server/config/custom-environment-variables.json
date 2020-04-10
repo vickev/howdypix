@@ -1,5 +1,8 @@
 {
   "app": {
+    "database": {
+      "path": "DATABASE_PATH"
+    },
     "rabbitMQ": {
       "url": "RABBITMQ_URL"
     },

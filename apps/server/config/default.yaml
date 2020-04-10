@@ -19,6 +19,9 @@ user:
 # Application settings
 #####################################################
 app:
+  database:
+    path: database.sqlite
+
   rabbitMQ:
     url: amqp://localhost
 
