@@ -18,7 +18,8 @@
   },
   "files": [
     "dist",
-    "config",
+    "config/custom-environment-variables.json",
+    "config/default.yaml",
     "bin",
     "ormconfig.js"
   ],
