@@ -20,29 +20,21 @@ export async function startRabbitMq(url: string): Promise<void> {
     await assertQueue(channel, QueueName.TO_PROCESS);
     await assertQueue(channel, QueueName.PROCESSED);
 
-    await consume<MessageProcess>(
-      channel,
-      QueueName.TO_PROCESS,
-      async (msg) => {
-        if (msg) {
-          appDebug("toProcess")(hjoin(msg.data.hfile).toString());
+    await consume<MessageProcess>(channel, QueueName.TO_PROCESS, (msg) => {
+      if (msg) {
+        appDebug("toProcess")(hjoin(msg.data.hfile).toString());
 
-          try {
-            const data = await process(
-              msg.data.thumbnailsDir,
-              msg.data.root,
-              msg.data.hfile
-            );
-
-            await sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
+        process(msg.data.thumbnailsDir, msg.data.root, msg.data.hfile)
+          .then((data) => {
+            sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
             channel.ack(msg);
-          } catch (e) {
+          })
+          .catch((error) => {
             // eslint-disable-next-line no-console
-            console.error(e);
-          }
-        }
+            console.error(error);
+          });
       }
-    );
+    });
   } catch (e) {
     appError(`An error occured: ${e}`);
   }
