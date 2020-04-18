@@ -10,10 +10,8 @@ import {
 import { statSync, unlinkSync } from "fs";
 import { join } from "path";
 import { UserConfig } from "../config";
-import { Photo, PHOTO_STATUS } from "../entity/Photo";
+import { Photo, PHOTO_STATUS, Source, Album } from "../entity";
 import { Events, EventTypes } from "./eventEmitter";
-import { Source } from "../entity/Source";
-import { Album } from "../entity/Album";
 
 export async function onNewDir({
   hfile,
@@ -54,44 +52,48 @@ export async function onNewFile(
   event: Events,
   connection: Connection
 ): Promise<void> {
-  const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
-  const stat = statSync(absolutePath);
+  try {
+    const absolutePath = join(root, hfile.dir ?? "", hfile.file ?? "");
+    const stat = statSync(absolutePath);
 
-  // Check if it exists in the database
-  const photoRepository = connection.getRepository(Photo);
-  const photo = await photoRepository.findOne({ inode: stat.ino });
+    // Check if it exists in the database
+    const photoRepository = connection.getRepository(Photo);
+    const photo = await photoRepository.findOne({ inode: stat.ino });
 
-  if (!photo) {
-    const album = await Album.insertIfDoesntExist(
-      hfile.source,
-      hfile.dir ?? ""
-    );
-
-    if (!album) {
-      appError("db")(
-        `Impossible to save the information: the album { ${hfile.source}, ${hfile.dir} } does not exist.`
+    if (!photo) {
+      const album = await Album.insertIfDoesntExist(
+        hfile.source,
+        hfile.dir ?? ""
       );
-    } else {
-      const newPhoto = new Photo();
-      newPhoto.inode = stat.ino;
-      newPhoto.mtime = stat.mtime.getMilliseconds();
-      newPhoto.ctime = stat.ctime.getMilliseconds();
-      newPhoto.birthtime = stat.birthtime.getMilliseconds();
-      newPhoto.size = stat.size;
-      newPhoto.source = hfile.source;
-      newPhoto.parentDir = parentDir(hfile.dir);
-      newPhoto.dir = hfile.dir ?? "";
-      newPhoto.file = hfile.file ?? "";
-      newPhoto.status = PHOTO_STATUS.NOT_PROCESSED;
-      newPhoto.album = album;
 
-      await photoRepository.save(newPhoto);
+      if (!album) {
+        appError("db")(
+          `Impossible to save the information: the album { ${hfile.source}, ${hfile.dir} } does not exist.`
+        );
+      } else {
+        const newPhoto = new Photo();
+        newPhoto.inode = stat.ino;
+        newPhoto.mtime = stat.mtime.getMilliseconds();
+        newPhoto.ctime = stat.ctime.getMilliseconds();
+        newPhoto.birthtime = stat.birthtime.getMilliseconds();
+        newPhoto.size = stat.size;
+        newPhoto.source = hfile.source;
+        newPhoto.parentDir = parentDir(hfile.dir);
+        newPhoto.dir = hfile.dir ?? "";
+        newPhoto.file = hfile.file ?? "";
+        newPhoto.status = PHOTO_STATUS.NOT_PROCESSED;
+        newPhoto.album = album;
+
+        await photoRepository.save(newPhoto);
+
+        event.emit("processFile", { root, hfile });
+      }
+    } else if (photo.status === PHOTO_STATUS.NOT_PROCESSED) {
+      // The photo exists in the database, but is not processed...
+      event.emit("processFile", { root, hfile });
     }
-
-    event.emit("processFile", { root, hfile });
-  } else if (photo.status === PHOTO_STATUS.NOT_PROCESSED) {
-    // The photo exists in the database, but is not processed...
-    event.emit("processFile", { root, hfile });
+  } catch (e) {
+    appError("db")(`Impossible to read the file information: ${e}`);
   }
 }
 
@@ -135,6 +137,7 @@ export async function onProcessedFile(
 
   if (photo) {
     if (album) {
+      photo.status = PHOTO_STATUS.PROCESSED;
       photo.make = file.exif.make ?? "";
       photo.model = file.exif.model ?? "";
       photo.ISO = file.exif.ISO ?? 0;
