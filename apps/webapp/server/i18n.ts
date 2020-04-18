@@ -31,6 +31,8 @@ export default new NextI18Next({
     format(value, format, lng): typeof value {
       if (format === "formatDate" && value instanceof Date)
         return formatDate(lng, value);
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return value;
     },
   },

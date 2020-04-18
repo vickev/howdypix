@@ -32,16 +32,14 @@ const testHook = async (
 
   const { findByText } = render(<WrappedComponent />);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (reducer as jest.MockedFunction<any>).mockClear();
+  (reducer as jest.Mock).mockClear();
 
   (await findByText("button")).click();
 };
 
 describe("withTreeView", () => {
   beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (reducer as jest.MockedFunction<any>).mockClear();
+    (reducer as jest.Mock).mockClear();
   });
 
   test("must call the COLLAPSE type in the reducer.", async () => {
@@ -50,10 +48,7 @@ describe("withTreeView", () => {
     });
 
     expect(reducer).toHaveBeenCalled();
-    expect(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (reducer as jest.MockedFunction<any>).mock.calls[0][1]
-    ).toMatchSnapshot();
+    expect((reducer as jest.Mock).mock.calls[0]).toMatchSnapshot();
   });
 
   test("must call the EXPAND type in the reducer.", async () => {
@@ -62,10 +57,7 @@ describe("withTreeView", () => {
     });
 
     expect(reducer).toHaveBeenCalled();
-    expect(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (reducer as jest.MockedFunction<any>).mock.calls[0][1]
-    ).toMatchSnapshot();
+    expect((reducer as jest.Mock).mock.calls[0]).toMatchSnapshot();
   });
 
   test("must call the TOGGLE type in the reducer.", async () => {
@@ -74,9 +66,6 @@ describe("withTreeView", () => {
     });
 
     expect(reducer).toHaveBeenCalled();
-    expect(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (reducer as jest.MockedFunction<any>).mock.calls[0][1]
-    ).toMatchSnapshot();
+    expect((reducer as jest.Mock).mock.calls[0]).toMatchSnapshot();
   });
 });

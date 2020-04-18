@@ -13,10 +13,15 @@ const schema = makeExecutableSchema({
   ),
 });
 
+type RequestQuery = {
+  "fixture-set": string;
+};
+
 const loadFixtures = (
   req: express.Request
 ): { name: string; fixtures?: FixtureSet } => {
-  const fixtureSet = req.header("Fixture-set") || req.query["fixture-set"];
+  const fixtureSet =
+    req.header("Fixture-set") || (req.query as RequestQuery)["fixture-set"];
 
   if (fixtureSet && fixtureData[fixtureSet]) {
     return { name: fixtureSet, fixtures: fixtureData[fixtureSet] };
