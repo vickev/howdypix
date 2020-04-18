@@ -1,3 +1,5 @@
+export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+
 export type HFile = {
   source: string;
   dir?: string;
