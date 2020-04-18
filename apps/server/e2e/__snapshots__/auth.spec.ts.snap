@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`The authentication routes fetching the user info should return an error if the token is wrong 1`] = `"Request failed with status code 401"`;
+
+exports[`The authentication routes refreshing the token should return an error if the token is wrong 1`] = `"Request failed with status code 401"`;
+
 exports[`The authentication routes should reject if the code is not valid 1`] = `
 Object {
   "error": "Token expired",
