@@ -18,12 +18,12 @@ export const withOrderByQueryArg = (): { orderBy: NexusArgDef<string> } => ({
     type: "PhotosOrderBy",
     required: false,
     default: "DATE_DESC",
-  }),
+  }) as NexusArgDef<string>,
 });
 
 export const withFilterByQueryArg = (): { filterBy: NexusArgDef<string> } => ({
   filterBy: arg({
     type: "PhotosFilterBy",
     required: false,
-  }),
+  }) as NexusArgDef<string>,
 });

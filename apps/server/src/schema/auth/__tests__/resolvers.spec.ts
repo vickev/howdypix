@@ -64,7 +64,7 @@ describe("authEmailResolver", () => {
 
     expect(await resolver({}, { email: "success@vickev.com" })).toEqual({
       messageId: "AUTH_EMAIL_OK",
-      code: expect.stringContaining(""),
+      code: expect.stringContaining("") as string,
     });
   });
 });

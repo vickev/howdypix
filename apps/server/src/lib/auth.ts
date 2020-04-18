@@ -31,9 +31,8 @@ const trunkToken = (token: string): string => {
   return token;
 };
 
-// The whole point of predicate functions are to define the type, so we disable the eslint rule.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isUserInfo = (data: any): data is UserInfo => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   return data && !!data.email && !!data.name;
 };
 

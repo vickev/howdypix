@@ -1,8 +1,7 @@
 import { Connection } from "typeorm";
 import { searchHelpers } from "../searchHelpers";
 import { photoHelpers } from "../photoHelpers";
-import { Photo as EntityPhoto, PHOTO_STATUS } from "../../entity/Photo";
-import { Album } from "../../entity/Album";
+import { Album, Photo as EntityPhoto, PHOTO_STATUS } from "../../entity";
 
 describe("photoHelpers", () => {
   beforeEach(() => {
@@ -16,11 +15,7 @@ describe("photoHelpers", () => {
       })),
     } as unknown) as Connection;
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     searchHelpers.findSavedSearch = jest.fn();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     searchHelpers.doSearchWithCache = jest.fn();
 
     const photo: EntityPhoto = {
