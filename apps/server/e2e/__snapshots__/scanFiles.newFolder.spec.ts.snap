@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[NewFolder] Scanning files should save a new entry - root 1`] = `
+Array [
+  Album {
+    "dir": "",
+    "id": 1,
+    "inode": "-1714723644",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+  Album {
+    "dir": "",
+    "id": 2,
+    "inode": "1179740256",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Album {
+    "dir": "newAlbum",
+    "id": 3,
+    "inode": "1061965182",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+]
+`;
+
+exports[`[NewFolder] Scanning files should save a new entry - sub-album 1`] = `
+Array [
+  Album {
+    "dir": "",
+    "id": 1,
+    "inode": "-1714723644",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+  Album {
+    "dir": "",
+    "id": 2,
+    "inode": "1179740256",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Album {
+    "dir": "album/newAlbum",
+    "id": 3,
+    "inode": "1153951198",
+    "parentDir": "album",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+]
+`;
+
+exports[`[NewFolder] Scanning files should save a new entry - sub-sub-album 1`] = `
+Array [
+  Album {
+    "dir": "",
+    "id": 1,
+    "inode": "-1714723644",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+  Album {
+    "dir": "",
+    "id": 2,
+    "inode": "1179740256",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Album {
+    "dir": "album1/album2/album3/album4/newAlbum",
+    "id": 3,
+    "inode": "680617468",
+    "parentDir": "album1/album2/album3/album4",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+]
+`;

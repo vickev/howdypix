@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Start] Scanning files when starting the process should display an error if one source does not have the directory accessible but the other yes 1`] = `
+Array [
+  Album {
+    "dir": "",
+    "id": 1,
+    "inode": "-1714723644",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+  Album {
+    "dir": "",
+    "id": 2,
+    "inode": "1179740256",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+]
+`;
+
+exports[`[Start] Scanning files when starting the process should display an error if one source does not have the directory accessible but the other yes 2`] = `
+Array [
+  Source {
+    "albums": Array [
+      Album {
+        "dir": "",
+        "id": 1,
+        "inode": "-1714723644",
+        "parentDir": "",
+        "photos": undefined,
+        "source": "second",
+        "sourceLk": undefined,
+      },
+    ],
+    "dir": "./second",
+    "id": 1,
+    "source": "second",
+  },
+  Source {
+    "albums": Array [
+      Album {
+        "dir": "",
+        "id": 2,
+        "inode": "1179740256",
+        "parentDir": "",
+        "photos": undefined,
+        "source": "first",
+        "sourceLk": undefined,
+      },
+    ],
+    "dir": "./first",
+    "id": 2,
+    "source": "first",
+  },
+]
+`;
