@@ -49,7 +49,7 @@ describe("[ProcessedFile] Scanning files", (): void => {
   };
 
   const {
-    hashCode,
+    pathHashCode,
     baseUserConfig,
     retrieveAlbums,
     retrievePhotos,
@@ -68,14 +68,8 @@ describe("[ProcessedFile] Scanning files", (): void => {
       const setup = await resetScanFilesTests();
       events = setup.events;
 
-      (statSync as jest.Mock).mockImplementation((name): {
-        ino: number;
-        mtime: Date;
-        ctime: Date;
-        birthtime: Date;
-        size: number;
-      } => ({
-        ino: hashCode(name),
+      (statSync as jest.Mock).mockImplementation((name: string) => ({
+        ino: pathHashCode(name),
         mtime: new Date(1),
         ctime: new Date(2),
         birthtime: new Date(3),

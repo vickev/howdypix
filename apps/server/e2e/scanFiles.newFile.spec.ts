@@ -20,7 +20,7 @@ describe("[NewFile] Scanning files", (): void => {
   let events: Events;
 
   const {
-    hashCode,
+    pathHashCode,
     baseUserConfig,
     retrievePhotos,
     retrieveAlbums,
@@ -77,14 +77,8 @@ describe("[NewFile] Scanning files", (): void => {
       jest.spyOn(Album, "insertIfDoesntExist");
       jest.spyOn(events, "emit");
 
-      (statSync as jest.Mock).mockImplementation((name): {
-        ino: number;
-        mtime: Date;
-        ctime: Date;
-        birthtime: Date;
-        size: number;
-      } => ({
-        ino: hashCode(name),
+      (statSync as jest.Mock).mockImplementation((name) => ({
+        ino: pathHashCode(name),
         mtime: new Date(1),
         ctime: new Date(2),
         birthtime: new Date(3),

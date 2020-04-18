@@ -5,7 +5,7 @@ Array [
   Album {
     "dir": "",
     "id": 1,
-    "inode": "-1714723644",
+    "inode": "c2VydmVyc2Vjb25k",
     "parentDir": "",
     "photos": Array [],
     "source": "second",
@@ -19,7 +19,7 @@ Array [
   Album {
     "dir": "",
     "id": 2,
-    "inode": "1179740256",
+    "inode": "c2VydmVyZmlyc3Q=",
     "parentDir": "",
     "photos": Array [],
     "source": "first",
@@ -33,7 +33,7 @@ Array [
   Album {
     "dir": "newAlbum",
     "id": 3,
-    "inode": "1061965182",
+    "inode": "Zmlyc3RuZXdBbGJ1bQ==",
     "parentDir": "",
     "photos": Array [],
     "source": "first",
@@ -52,7 +52,7 @@ Array [
   Album {
     "dir": "",
     "id": 1,
-    "inode": "-1714723644",
+    "inode": "c2VydmVyc2Vjb25k",
     "parentDir": "",
     "photos": Array [],
     "source": "second",
@@ -66,7 +66,7 @@ Array [
   Album {
     "dir": "",
     "id": 2,
-    "inode": "1179740256",
+    "inode": "c2VydmVyZmlyc3Q=",
     "parentDir": "",
     "photos": Array [],
     "source": "first",
@@ -80,7 +80,7 @@ Array [
   Album {
     "dir": "album/newAlbum",
     "id": 3,
-    "inode": "1153951198",
+    "inode": "YWxidW1uZXdBbGJ1bQ==",
     "parentDir": "album",
     "photos": Array [],
     "source": "first",
@@ -99,7 +99,7 @@ Array [
   Album {
     "dir": "",
     "id": 1,
-    "inode": "-1714723644",
+    "inode": "c2VydmVyc2Vjb25k",
     "parentDir": "",
     "photos": Array [],
     "source": "second",
@@ -113,7 +113,7 @@ Array [
   Album {
     "dir": "",
     "id": 2,
-    "inode": "1179740256",
+    "inode": "c2VydmVyZmlyc3Q=",
     "parentDir": "",
     "photos": Array [],
     "source": "first",
@@ -127,7 +127,7 @@ Array [
   Album {
     "dir": "album1/album2/album3/album4/newAlbum",
     "id": 3,
-    "inode": "680617468",
+    "inode": "YWxidW00bmV3QWxidW0=",
     "parentDir": "album1/album2/album3/album4",
     "photos": Array [],
     "source": "first",

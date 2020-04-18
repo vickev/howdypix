@@ -7,7 +7,7 @@ Array [
     "album": Album {
       "dir": "album",
       "id": 3,
-      "inode": "968287232",
+      "inode": "Zmlyc3RhbGJ1bQ==",
       "parentDir": "",
       "photos": undefined,
       "source": "first",
@@ -20,7 +20,7 @@ Array [
     "dir": "album",
     "file": "PHOTO.jpg",
     "id": 1,
-    "inode": -1350827545,
+    "inode": "YWxidW1QSE9UTy5qcGc=",
     "make": "Make",
     "model": "Model",
     "mtime": 1,

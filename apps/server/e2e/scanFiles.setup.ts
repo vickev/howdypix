@@ -4,6 +4,7 @@ import { appError } from "@howdypix/utils";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { EntitySchema, getConnectionManager } from "typeorm";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
+import { parse } from "path";
 // @ts-ignore
 import ormConfig from "../ormconfig";
 import * as entities from "../src/entity";
@@ -29,7 +30,7 @@ jest.mock(
 );
 
 export function initialize(): {
-  hashCode: typeof hashCode;
+  pathHashCode: typeof pathHashCode;
   connection: typeof connection;
   baseUserConfig: typeof baseUserConfig;
   retrievePhotos: typeof retrievePhotos;
@@ -38,13 +39,10 @@ export function initialize(): {
   assertDatabaseValue: typeof assertDatabaseValue;
   resetScanFilesTests: typeof resetScanFilesTests;
 } {
-  const hashCode = (s: string): number =>
-    s.split("").reduce((a, b): number => {
-      // eslint-disable-next-line no-bitwise,no-param-reassign
-      a = (a << 5) - a + b.charCodeAt(0);
-      // eslint-disable-next-line no-bitwise
-      return a & a;
-    }, 0);
+  const pathHashCode = (name: string): string =>
+    Buffer.from(parse(parse(name).dir).base + parse(name).base).toString(
+      "base64"
+    );
 
   const connectionManager = getConnectionManager();
   const connection = connectionManager.create({
@@ -84,8 +82,8 @@ export function initialize(): {
   const resetScanFilesTests = async (): Promise<{
     events: EventEmitter;
   }> => {
-    (statSync as jest.Mock).mockImplementation((name): { ino: number } => ({
-      ino: hashCode(name),
+    (statSync as jest.Mock).mockImplementation((name): { ino: string } => ({
+      ino: pathHashCode(name),
     }));
 
     (appError as jest.Mock).mockReturnValue((): void => {});
@@ -102,7 +100,7 @@ export function initialize(): {
   };
 
   return {
-    hashCode,
+    pathHashCode,
     connection,
     baseUserConfig,
     retrievePhotos,

@@ -18,7 +18,7 @@ describe("[Start] Scanning files", (): void => {
   let events: Events;
 
   const {
-    hashCode,
+    pathHashCode,
     baseUserConfig,
     assertDatabaseValue,
     resetScanFilesTests,
@@ -57,7 +57,7 @@ describe("[Start] Scanning files", (): void => {
           throw new Error("ENOENT: no such file or directory, stat '/first'");
         } else {
           return {
-            ino: hashCode(name),
+            ino: pathHashCode(name),
           };
         }
       });

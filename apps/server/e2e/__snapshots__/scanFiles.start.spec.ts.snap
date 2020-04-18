@@ -5,7 +5,7 @@ Array [
   Album {
     "dir": "",
     "id": 1,
-    "inode": "-1714723644",
+    "inode": "c2VydmVyc2Vjb25k",
     "parentDir": "",
     "photos": Array [],
     "source": "second",
@@ -19,7 +19,7 @@ Array [
   Album {
     "dir": "",
     "id": 2,
-    "inode": "1179740256",
+    "inode": "c2VydmVyZmlyc3Q=",
     "parentDir": "",
     "photos": Array [],
     "source": "first",
@@ -40,7 +40,7 @@ Array [
       Album {
         "dir": "",
         "id": 1,
-        "inode": "-1714723644",
+        "inode": "c2VydmVyc2Vjb25k",
         "parentDir": "",
         "photos": undefined,
         "source": "second",
@@ -56,7 +56,7 @@ Array [
       Album {
         "dir": "",
         "id": 2,
-        "inode": "1179740256",
+        "inode": "c2VydmVyZmlyc3Q=",
         "parentDir": "",
         "photos": undefined,
         "source": "first",

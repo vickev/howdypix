@@ -29,7 +29,7 @@ describe("[DeleteFolder] Scanning files", () => {
   let events: Events;
 
   const {
-    hashCode,
+    pathHashCode,
     baseUserConfig,
     retrieveAlbums,
     retrievePhotos,
@@ -48,7 +48,7 @@ describe("[DeleteFolder] Scanning files", () => {
     events = setup.events;
 
     (statSync as jest.Mock).mockImplementation((name) => ({
-      ino: hashCode(name),
+      ino: pathHashCode(name),
       mtime: new Date(1),
       ctime: new Date(2),
       birthtime: new Date(3),

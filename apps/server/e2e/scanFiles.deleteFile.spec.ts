@@ -18,7 +18,7 @@ describe("[DeleteFile] Scanning files", (): void => {
   let events: Events;
 
   const {
-    hashCode,
+    pathHashCode,
     baseUserConfig,
     retrievePhotos,
     resetScanFilesTests,
@@ -36,14 +36,8 @@ describe("[DeleteFile] Scanning files", (): void => {
       const setup = await resetScanFilesTests();
       events = setup.events;
 
-      (statSync as jest.Mock).mockImplementation((name): {
-        ino: number;
-        mtime: Date;
-        ctime: Date;
-        birthtime: Date;
-        size: number;
-      } => ({
-        ino: hashCode(name),
+      (statSync as jest.Mock).mockImplementation((name) => ({
+        ino: pathHashCode(name),
         mtime: new Date(1),
         ctime: new Date(2),
         birthtime: new Date(3),
