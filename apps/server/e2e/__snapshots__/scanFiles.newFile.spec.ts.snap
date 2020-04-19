@@ -13,7 +13,7 @@ Object {
 
 exports[`[NewFile] Scanning files should save a new entry and emit an event - album file 2`] = `
 Array [
-  Photo {
+  Object {
     "ISO": null,
     "album": Album {
       "dir": "myAlbum",
@@ -49,37 +49,9 @@ Array [
 
 exports[`[NewFile] Scanning files should save a new entry and emit an event - album file 3`] = `
 Array [
-  Album {
-    "dir": "",
-    "id": 1,
-    "inode": "c2VydmVyc2Vjb25k",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "second",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./second",
-      "id": 1,
-      "source": "second",
-    },
-  },
-  Album {
-    "dir": "",
-    "id": 2,
-    "inode": "c2VydmVyZmlyc3Q=",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "first",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./first",
-      "id": 2,
-      "source": "first",
-    },
-  },
-  Album {
+  Object {
     "dir": "myAlbum",
-    "id": 3,
+    "id": 1,
     "inode": "Zmlyc3RteUFsYnVt",
     "parentDir": "",
     "photos": Array [
@@ -115,6 +87,34 @@ Array [
       "source": "first",
     },
   },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
 ]
 `;
 
@@ -131,7 +131,7 @@ Object {
 
 exports[`[NewFile] Scanning files should save a new entry and emit an event - root file 2`] = `
 Array [
-  Photo {
+  Object {
     "ISO": null,
     "album": Album {
       "dir": "",
@@ -167,23 +167,9 @@ Array [
 
 exports[`[NewFile] Scanning files should save a new entry and emit an event - root file 3`] = `
 Array [
-  Album {
+  Object {
     "dir": "",
     "id": 1,
-    "inode": "c2VydmVyc2Vjb25k",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "second",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./second",
-      "id": 1,
-      "source": "second",
-    },
-  },
-  Album {
-    "dir": "",
-    "id": 2,
     "inode": "c2VydmVyZmlyc3Q=",
     "parentDir": "",
     "photos": Array [
@@ -219,6 +205,20 @@ Array [
       "source": "first",
     },
   },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
 ]
 `;
 
@@ -235,7 +235,7 @@ Object {
 
 exports[`[NewFile] Scanning files should save a new entry and emit an event - sub-album file 2`] = `
 Array [
-  Photo {
+  Object {
     "ISO": null,
     "album": Album {
       "dir": "myAlbum/mySubAlbum",
@@ -271,37 +271,9 @@ Array [
 
 exports[`[NewFile] Scanning files should save a new entry and emit an event - sub-album file 3`] = `
 Array [
-  Album {
-    "dir": "",
-    "id": 1,
-    "inode": "c2VydmVyc2Vjb25k",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "second",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./second",
-      "id": 1,
-      "source": "second",
-    },
-  },
-  Album {
-    "dir": "",
-    "id": 2,
-    "inode": "c2VydmVyZmlyc3Q=",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "first",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./first",
-      "id": 2,
-      "source": "first",
-    },
-  },
-  Album {
+  Object {
     "dir": "myAlbum/mySubAlbum",
-    "id": 3,
+    "id": 1,
     "inode": "bXlBbGJ1bW15U3ViQWxidW0=",
     "parentDir": "myAlbum",
     "photos": Array [
@@ -335,6 +307,34 @@ Array [
       "dir": "./first",
       "id": 2,
       "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
     },
   },
 ]

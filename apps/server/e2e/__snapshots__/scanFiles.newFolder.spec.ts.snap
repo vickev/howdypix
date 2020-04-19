@@ -2,37 +2,9 @@
 
 exports[`[NewFolder] Scanning files should save a new entry - root 1`] = `
 Array [
-  Album {
-    "dir": "",
-    "id": 1,
-    "inode": "c2VydmVyc2Vjb25k",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "second",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./second",
-      "id": 1,
-      "source": "second",
-    },
-  },
-  Album {
-    "dir": "",
-    "id": 2,
-    "inode": "c2VydmVyZmlyc3Q=",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "first",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./first",
-      "id": 2,
-      "source": "first",
-    },
-  },
-  Album {
+  Object {
     "dir": "newAlbum",
-    "id": 3,
+    "id": 1,
     "inode": "Zmlyc3RuZXdBbGJ1bQ==",
     "parentDir": "",
     "photos": Array [],
@@ -44,12 +16,21 @@ Array [
       "source": "first",
     },
   },
-]
-`;
-
-exports[`[NewFolder] Scanning files should save a new entry - sub-album 1`] = `
-Array [
-  Album {
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Object {
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyc2Vjb25k",
@@ -63,23 +44,14 @@ Array [
       "source": "second",
     },
   },
-  Album {
-    "dir": "",
-    "id": 2,
-    "inode": "c2VydmVyZmlyc3Q=",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "first",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./first",
-      "id": 2,
-      "source": "first",
-    },
-  },
-  Album {
+]
+`;
+
+exports[`[NewFolder] Scanning files should save a new entry - sub-album 1`] = `
+Array [
+  Object {
     "dir": "album/newAlbum",
-    "id": 3,
+    "id": 1,
     "inode": "YWxidW1uZXdBbGJ1bQ==",
     "parentDir": "album",
     "photos": Array [],
@@ -91,12 +63,21 @@ Array [
       "source": "first",
     },
   },
-]
-`;
-
-exports[`[NewFolder] Scanning files should save a new entry - sub-sub-album 1`] = `
-Array [
-  Album {
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Object {
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyc2Vjb25k",
@@ -110,9 +91,28 @@ Array [
       "source": "second",
     },
   },
-  Album {
+]
+`;
+
+exports[`[NewFolder] Scanning files should save a new entry - sub-sub-album 1`] = `
+Array [
+  Object {
+    "dir": "album1/album2/album3/album4/newAlbum",
+    "id": 1,
+    "inode": "YWxidW00bmV3QWxidW0=",
+    "parentDir": "album1/album2/album3/album4",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Object {
     "dir": "",
-    "id": 2,
+    "id": 1,
     "inode": "c2VydmVyZmlyc3Q=",
     "parentDir": "",
     "photos": Array [],
@@ -124,18 +124,18 @@ Array [
       "source": "first",
     },
   },
-  Album {
-    "dir": "album1/album2/album3/album4/newAlbum",
-    "id": 3,
-    "inode": "YWxidW00bmV3QWxidW0=",
-    "parentDir": "album1/album2/album3/album4",
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
     "photos": Array [],
-    "source": "first",
+    "source": "second",
     "sourceLk": Source {
       "albums": undefined,
-      "dir": "./first",
-      "id": 2,
-      "source": "first",
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
     },
   },
 ]

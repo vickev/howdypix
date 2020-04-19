@@ -34,7 +34,7 @@
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests",
     "test:e2e": "concurrently 'yarn start:mock' 'wait-on tcp:3004 && yarn test:e2e:local' --kill-others --kill-others-on-fail --raw --success first",
-    "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests"
+    "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests --forceExit"
   },
   "dependencies": {
     "@howdypix/graphql-schema": "^0.1.0",

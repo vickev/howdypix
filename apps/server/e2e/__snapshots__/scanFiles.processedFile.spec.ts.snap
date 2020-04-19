@@ -2,7 +2,7 @@
 
 exports[`[ProcessedFile] Scanning files should update the entry 1`] = `
 Array [
-  Photo {
+  Object {
     "ISO": 2000,
     "album": Album {
       "dir": "album",

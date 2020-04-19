@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import { statSync } from "fs";
+import { omit } from "lodash";
 import { appError } from "@howdypix/utils";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { EntitySchema, getConnectionManager } from "typeorm";
@@ -68,11 +69,20 @@ export function initialize(): {
   };
 
   const retrievePhotos = async (): Promise<Photo[]> =>
-    connection.getRepository(Photo).find({ relations: ["album"] });
+    connection
+      .getRepository(Photo)
+      .find({ relations: ["album"], order: { inode: "ASC" } })
+      .then((value) => value.map((v) => ({ id: 1, ...omit(v, "id") })));
   const retrieveAlbums = async (): Promise<Album[]> =>
-    connection.getRepository(Album).find({ relations: ["sourceLk", "photos"] });
+    connection
+      .getRepository(Album)
+      .find({ relations: ["sourceLk", "photos"], order: { inode: "ASC" } })
+      .then((value) => value.map((v) => ({ id: 1, ...omit(v, "id") })));
   const retrieveSources = async (): Promise<Source[]> =>
-    connection.getRepository(Source).find({ relations: ["albums"] });
+    connection
+      .getRepository(Source)
+      .find({ relations: ["albums"], order: { source: "ASC" } })
+      .then((value) => value.map((v) => ({ id: 1, ...omit(v, "id") })));
 
   const assertDatabaseValue = async (): Promise<void> => {
     expect(await retrieveAlbums()).toMatchSnapshot();

@@ -59,15 +59,12 @@ describe("startRabbitMq", () => {
             queueName,
             (msg) => {
               expect(msg?.data).toMatchSnapshot();
-              channel
-                .cancel("consume")
-                .then(() => {
-                  channel.recover();
-                })
-                .then(resolve);
             },
             { consumerTag: "consume" }
-          );
+          )
+            .then(() => channel.cancel("consume"))
+            .then(() => channel.recover())
+            .then(() => resolve());
         }, 100);
       });
 
@@ -84,10 +81,12 @@ describe("startRabbitMq", () => {
     await channel.purgeQueue(QueueName.PROCESSED);
   });
 
-  afterEach(async () => {
-    // await connection.close();
+  afterAll(async () => {
+    await channel.close();
+    await connection.close();
   });
 
+  // eslint-disable-next-line jest/no-test-callback
   it("should send an event when receiving a RabbitMQ message", async (done) => {
     // 1. Configure
     events.on("processedFile", (args) => {
@@ -121,7 +120,6 @@ describe("startRabbitMq", () => {
       "processFile",
       { root: "/root", hfile: baseHfile },
       QueueName.TO_PROCESS,
-
       1
     );
 
@@ -129,7 +127,6 @@ describe("startRabbitMq", () => {
       "processFile",
       { root: "/root", hfile: { ...baseHfile, file: "file2" } },
       QueueName.TO_PROCESS,
-
       2
     );
   });

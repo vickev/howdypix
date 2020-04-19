@@ -2,7 +2,21 @@
 
 exports[`[Start] Scanning files when starting the process should display an error if one source does not have the directory accessible but the other yes 1`] = `
 Array [
-  Album {
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Source {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 2,
+      "source": "first",
+    },
+  },
+  Object {
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyc2Vjb25k",
@@ -16,26 +30,28 @@ Array [
       "source": "second",
     },
   },
-  Album {
-    "dir": "",
-    "id": 2,
-    "inode": "c2VydmVyZmlyc3Q=",
-    "parentDir": "",
-    "photos": Array [],
-    "source": "first",
-    "sourceLk": Source {
-      "albums": undefined,
-      "dir": "./first",
-      "id": 2,
-      "source": "first",
-    },
-  },
 ]
 `;
 
 exports[`[Start] Scanning files when starting the process should display an error if one source does not have the directory accessible but the other yes 2`] = `
 Array [
-  Source {
+  Object {
+    "albums": Array [
+      Album {
+        "dir": "",
+        "id": 2,
+        "inode": "c2VydmVyZmlyc3Q=",
+        "parentDir": "",
+        "photos": undefined,
+        "source": "first",
+        "sourceLk": undefined,
+      },
+    ],
+    "dir": "./first",
+    "id": 1,
+    "source": "first",
+  },
+  Object {
     "albums": Array [
       Album {
         "dir": "",
@@ -50,22 +66,6 @@ Array [
     "dir": "./second",
     "id": 1,
     "source": "second",
-  },
-  Source {
-    "albums": Array [
-      Album {
-        "dir": "",
-        "id": 2,
-        "inode": "c2VydmVyZmlyc3Q=",
-        "parentDir": "",
-        "photos": undefined,
-        "source": "first",
-        "sourceLk": undefined,
-      },
-    ],
-    "dir": "./first",
-    "id": 2,
-    "source": "first",
   },
 ]
 `;
