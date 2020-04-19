@@ -17,6 +17,7 @@ export type UserConfig = {
 export type AppConfig = {
   rabbitMQ: {
     url: string;
+    retry: boolean;
   };
   api: {
     baseUrl: string;

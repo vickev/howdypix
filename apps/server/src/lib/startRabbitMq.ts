@@ -10,7 +10,7 @@ import {
 } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { Events } from "./eventEmitter";
-import { UserConfig } from "../config";
+import { AppConfig, UserConfig } from "../config";
 
 const debug = appDebug("rabbit");
 
@@ -90,15 +90,16 @@ export async function bindChannelEvents(
 export async function startRabbitMq(
   event: Events,
   userConfig: UserConfig,
-  url: string
+  options: AppConfig["rabbitMQ"]
 ): Promise<Channel | null> {
   if (process.env.MOCK) {
     return null;
   }
 
-  const connection = await connectToRabbitMq(url);
-
   try {
+    const connection = await connectToRabbitMq(options.url, {
+      retry: options.retry,
+    });
     const channel = await connection.createChannel();
 
     await assertQueue(channel, QueueName.TO_PROCESS);

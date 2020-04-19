@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`startRabbitMq should not send the same message twice if already in queue 1`] = `
+Object {
+  "hfile": Object {
+    "dir": "dir",
+    "file": "file",
+    "name": "name",
+    "source": "source",
+  },
+  "root": "root",
+  "thumbnailsDir": "thumbnailsDir",
+}
+`;
+
+exports[`startRabbitMq should send a rabbitMQ message when receiving \`processFile\` event 1`] = `
+Object {
+  "hfile": Object {
+    "dir": "dir",
+    "file": "file",
+    "name": "name",
+    "source": "source",
+  },
+  "root": "/root",
+  "thumbnailsDir": "/thumbnailsDir",
+}
+`;
+
+exports[`startRabbitMq should send a rabbitMQ message when receiving \`processFile\` event 2`] = `
+Object {
+  "hfile": Object {
+    "dir": "dir",
+    "file": "file",
+    "name": "name",
+    "source": "source",
+  },
+  "root": "/root",
+  "thumbnailsDir": "/thumbnailsDir",
+}
+`;
+
+exports[`startRabbitMq should send a rabbitMQ message when receiving \`processFile\` event 3`] = `
+Object {
+  "hfile": Object {
+    "dir": "dir",
+    "file": "file2",
+    "name": "name",
+    "source": "source",
+  },
+  "root": "/root",
+  "thumbnailsDir": "/thumbnailsDir",
+}
+`;
+
+exports[`startRabbitMq should send an event when receiving a RabbitMQ message 1`] = `
+Object {
+  "hfile": Object {
+    "dir": "dir",
+    "file": "file",
+    "name": "name",
+    "source": "source",
+  },
+  "root": "root",
+  "thumbnailsDir": "thumbnailsDir",
+}
+`;
