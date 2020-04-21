@@ -1,6 +1,6 @@
 import waitForExpect from "wait-for-expect";
 import { statSync } from "fs";
-import { ProcessData } from "@howdypix/shared-types";
+import { QueueName, QueueData } from "@howdypix/shared-types";
 import { appError } from "@howdypix/utils";
 import { startCacheDB } from "../src/lib/startCacheDB";
 import { Events } from "../src/lib/eventEmitter";
@@ -23,7 +23,7 @@ describe("[ProcessedFile] Scanning files", (): void => {
   const dir = "album";
   const file = "PHOTO.jpg";
 
-  const baseProcessedFile: ProcessData = {
+  const baseProcessedFile: QueueData[QueueName.PROCESSED] = {
     hfile: {
       dir,
       file,

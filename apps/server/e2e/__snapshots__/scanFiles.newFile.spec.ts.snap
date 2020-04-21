@@ -15,9 +15,9 @@ exports[`[NewFile] Scanning files should save a new entry and emit an event - al
 Array [
   Object {
     "ISO": null,
-    "album": Album {
+    "album": Object {
       "dir": "myAlbum",
-      "id": 3,
+      "id": 1,
       "inode": "Zmlyc3RteUFsYnVt",
       "parentDir": "",
       "photos": undefined,
@@ -55,7 +55,7 @@ Array [
     "inode": "Zmlyc3RteUFsYnVt",
     "parentDir": "",
     "photos": Array [
-      Photo {
+      Object {
         "ISO": null,
         "album": undefined,
         "aperture": null,
@@ -80,10 +80,10 @@ Array [
       },
     ],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -94,10 +94,10 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -108,7 +108,7 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "second",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./second",
       "id": 1,
@@ -133,9 +133,9 @@ exports[`[NewFile] Scanning files should save a new entry and emit an event - ro
 Array [
   Object {
     "ISO": null,
-    "album": Album {
+    "album": Object {
       "dir": "",
-      "id": 2,
+      "id": 1,
       "inode": "c2VydmVyZmlyc3Q=",
       "parentDir": "",
       "photos": undefined,
@@ -173,7 +173,7 @@ Array [
     "inode": "c2VydmVyZmlyc3Q=",
     "parentDir": "",
     "photos": Array [
-      Photo {
+      Object {
         "ISO": null,
         "album": undefined,
         "aperture": null,
@@ -198,10 +198,10 @@ Array [
       },
     ],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -212,7 +212,7 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "second",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./second",
       "id": 1,
@@ -237,9 +237,9 @@ exports[`[NewFile] Scanning files should save a new entry and emit an event - su
 Array [
   Object {
     "ISO": null,
-    "album": Album {
+    "album": Object {
       "dir": "myAlbum/mySubAlbum",
-      "id": 3,
+      "id": 1,
       "inode": "bXlBbGJ1bW15U3ViQWxidW0=",
       "parentDir": "myAlbum",
       "photos": undefined,
@@ -277,7 +277,7 @@ Array [
     "inode": "bXlBbGJ1bW15U3ViQWxidW0=",
     "parentDir": "myAlbum",
     "photos": Array [
-      Photo {
+      Object {
         "ISO": null,
         "album": undefined,
         "aperture": null,
@@ -302,10 +302,10 @@ Array [
       },
     ],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -316,10 +316,10 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -330,7 +330,7 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "second",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./second",
       "id": 1,

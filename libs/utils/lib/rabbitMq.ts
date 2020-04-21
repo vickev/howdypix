@@ -5,9 +5,11 @@ export async function connectToRabbitMq(
   url: string,
   { retry } = { retry: false }
 ): Promise<Connection> {
+  const retryIntervalInSec = 5;
+
+  // TODO: change to lib
   const info = appInfo("rabbitMQ");
   const warning = appWarning("rabbitMQ");
-  const retryIntervalInSec = 5;
 
   try {
     info(`Connection to ${url}...`);
@@ -15,16 +17,16 @@ export async function connectToRabbitMq(
     info("Connection successful!");
     return connection;
   } catch (e) {
-    warning(`Impossible to connect. Retrying in ${retryIntervalInSec}s...`);
-
     if (!retry) {
       throw e;
     }
+
+    warning(`Impossible to connect. Retrying in ${retryIntervalInSec}s...`);
   }
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(connectToRabbitMq(url));
+      resolve(connectToRabbitMq(url, { retry }));
     }, retryIntervalInSec * 1000);
   });
 }

@@ -1,4 +1,5 @@
 import path from "path";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { HFile, HPath } from "@howdypix/shared-types";
 
 /**
@@ -26,12 +27,6 @@ export function hjoin(howdyfile: HFile): HPath {
 export function hparse(hpath: HPath): HFile {
   const [source, relativePath] = hpath.split(":");
 
-  if (!source) {
-    throw new Error(
-      `The howdypath is not correct. Expected: @{source}:{path}/{filename}. Received: ${hpath}.`
-    );
-  }
-
   const ret: HFile = { source: source.replace("@", "") };
 
   // We don't want the "." (when at the root) to be considered as a directory
@@ -54,13 +49,14 @@ export function path2hfile(source: string, relativePath: string): HFile {
   return { source, dir, file: base };
 }
 
+// TODO: is it really useful => seems a duplicate of hparse()
 export function hfile2path({ dir, file }: HFile): HPath {
   return (file && path.join(dir ?? "", file)) ?? dir ?? "";
 }
 
 const isHFile = (howdyfile: HFile | HPath): howdyfile is HFile =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  typeof (howdyfile as any).dir !== "undefined";
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  typeof (howdyfile as any).source !== "undefined";
 
 export function thumbnailPath(root: string, howdyfile: HFile | HPath): string {
   const { source, dir, file } = isHFile(howdyfile)
@@ -70,6 +66,7 @@ export function thumbnailPath(root: string, howdyfile: HFile | HPath): string {
   return path.join(root, ".howdypix", source, dir ?? "", file ?? "");
 }
 
+// TODO: Not explicit enough for the name...
 export function hpaths(folder: HFile): HFile[] {
   const paths: HFile[] = [];
   const folders = folder.dir?.split("/");

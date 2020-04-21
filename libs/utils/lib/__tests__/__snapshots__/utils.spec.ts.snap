@@ -1,9 +1,384 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sortJsonStringify should sort an object 1`] = `"{\\"a\\":2,\\"b\\":1}"`;
+exports[`utils:: consume should call the callback with the result of the consume 1`] = `
+Array [
+  Object {
+    "content": "{\\"content\\":{\\"data\\":1}}",
+    "data": Object {
+      "content": Object {
+        "data": 1,
+      },
+    },
+  },
+]
+`;
 
-exports[`sortJsonStringify should sort an object 2`] = `"{\\"a\\":{\\"a\\":2,\\"w\\":3},\\"b\\":1}"`;
+exports[`utils:: debugging functions appDebug should call debug() with the right parameters 1`] = `
+Array [
+  "app:debug:test",
+]
+`;
 
-exports[`sortJsonStringify should sort an object with a deep array 1`] = `"{\\"a\\":{\\"y\\":[\\"aaa\\",\\"zzz\\"]},\\"b\\":1}"`;
+exports[`utils:: debugging functions appError should call debug() with the right parameters 1`] = `
+Array [
+  "app:error:test",
+]
+`;
 
-exports[`sortJsonStringify should sort an object with an array 1`] = `"{\\"a\\":[\\"aaa\\",\\"zzz\\"],\\"b\\":1}"`;
+exports[`utils:: debugging functions appInfo should call debug() with the right parameters 1`] = `
+Array [
+  "app:info:test",
+]
+`;
+
+exports[`utils:: debugging functions appWarning should call debug() with the right parameters 1`] = `
+Array [
+  "app:warn:test",
+]
+`;
+
+exports[`utils:: debugging functions libDebug should call debug() with the right parameters 1`] = `
+Array [
+  "lib:test",
+]
+`;
+
+exports[`utils:: generateFileUrl should generate the right URLs 1`] = `"http://toto.com/files/@source:dir/file"`;
+
+exports[`utils:: generateFileUrl should generate the right URLs 2`] = `"http://toto.com//files/@source:dir/file"`;
+
+exports[`utils:: generateFileUrl should generate the right paths with missing dir 1`] = `"http://toto.com/files/@source:file"`;
+
+exports[`utils:: generateFileUrl should generate the right paths with missing file 1`] = `"You need to pass a file path to generate a URL."`;
+
+exports[`utils:: generateThumbnailPaths should generate the right paths 1`] = `
+Array [
+  Object {
+    "height": null,
+    "path": "/thumbnails/.howdypix/source/dir/filex200.jpg",
+    "width": 200,
+  },
+  Object {
+    "height": null,
+    "path": "/thumbnails/.howdypix/source/dir/filex600.jpg",
+    "width": 600,
+  },
+  Object {
+    "height": null,
+    "path": "/thumbnails/.howdypix/source/dir/filex1280.jpg",
+    "width": 1280,
+  },
+  Object {
+    "height": null,
+    "path": "/thumbnails/.howdypix/source/dir/filex2048.jpg",
+    "width": 2048,
+  },
+]
+`;
+
+exports[`utils:: generateThumbnailPaths should generate the right paths with missing dir 1`] = `
+Array [
+  Object {
+    "height": null,
+    "path": "/thumbnails/.howdypix/source/filex200.jpg",
+    "width": 200,
+  },
+  Object {
+    "height": null,
+    "path": "/thumbnails/.howdypix/source/filex600.jpg",
+    "width": 600,
+  },
+  Object {
+    "height": null,
+    "path": "/thumbnails/.howdypix/source/filex1280.jpg",
+    "width": 1280,
+  },
+  Object {
+    "height": null,
+    "path": "/thumbnails/.howdypix/source/filex2048.jpg",
+    "width": 2048,
+  },
+]
+`;
+
+exports[`utils:: generateThumbnailPaths should generate the right paths with missing file 1`] = `"You must specify a file."`;
+
+exports[`utils:: generateThumbnailUrls should generate the right URLs 1`] = `
+Array [
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:dir/filex200.jpg",
+    "width": 200,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:dir/filex600.jpg",
+    "width": 600,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:dir/filex1280.jpg",
+    "width": 1280,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:dir/filex2048.jpg",
+    "width": 2048,
+  },
+]
+`;
+
+exports[`utils:: generateThumbnailUrls should generate the right URLs 2`] = `
+Array [
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:dir/filex200.jpg",
+    "width": 200,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:dir/filex600.jpg",
+    "width": 600,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:dir/filex1280.jpg",
+    "width": 1280,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:dir/filex2048.jpg",
+    "width": 2048,
+  },
+]
+`;
+
+exports[`utils:: generateThumbnailUrls should generate the right paths with missing dir 1`] = `
+Array [
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:filex200.jpg",
+    "width": 200,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:filex600.jpg",
+    "width": 600,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:filex1280.jpg",
+    "width": 1280,
+  },
+  Object {
+    "height": null,
+    "url": "http://toto.com/files/@source:filex2048.jpg",
+    "width": 2048,
+  },
+]
+`;
+
+exports[`utils:: generateThumbnailUrls should generate the right paths with missing file 1`] = `"You need to pass a file path to generate a URL."`;
+
+exports[`utils:: sendToQueue should call sendToQueue with the right options 1`] = `
+Array [
+  "toProcess",
+  Object {
+    "data": Array [
+      123,
+      34,
+      104,
+      102,
+      105,
+      108,
+      101,
+      34,
+      58,
+      123,
+      34,
+      102,
+      105,
+      108,
+      101,
+      34,
+      58,
+      34,
+      102,
+      105,
+      108,
+      101,
+      34,
+      44,
+      34,
+      115,
+      111,
+      117,
+      114,
+      99,
+      101,
+      34,
+      58,
+      34,
+      115,
+      111,
+      117,
+      114,
+      99,
+      101,
+      34,
+      44,
+      34,
+      110,
+      97,
+      109,
+      101,
+      34,
+      58,
+      34,
+      110,
+      97,
+      109,
+      101,
+      34,
+      44,
+      34,
+      100,
+      105,
+      114,
+      34,
+      58,
+      34,
+      100,
+      105,
+      114,
+      34,
+      125,
+      44,
+      34,
+      114,
+      111,
+      111,
+      116,
+      34,
+      58,
+      34,
+      114,
+      111,
+      111,
+      116,
+      34,
+      44,
+      34,
+      116,
+      104,
+      117,
+      109,
+      98,
+      110,
+      97,
+      105,
+      108,
+      115,
+      68,
+      105,
+      114,
+      34,
+      58,
+      34,
+      116,
+      104,
+      117,
+      109,
+      98,
+      100,
+      105,
+      114,
+      34,
+      125,
+    ],
+    "type": "Buffer",
+  },
+  Object {
+    "mandatory": true,
+  },
+]
+`;
+
+exports[`utils:: sortJson should sort the array 1`] = `
+Array [
+  "aa",
+  "bb",
+  "cc",
+  "zz",
+]
+`;
+
+exports[`utils:: sortJson should sort the array 2`] = `
+Array [
+  "aa",
+  Array [
+    "aa",
+    "zz",
+  ],
+  "bb",
+  "zz",
+]
+`;
+
+exports[`utils:: sortJson should sort the mix 1`] = `
+Array [
+  Object {
+    "aa": 2,
+    "zz": 1,
+  },
+  "aa",
+  "zz",
+]
+`;
+
+exports[`utils:: sortJson should sort the mix 2`] = `
+Object {
+  "aa": Array [
+    "aa",
+    Array [
+      "aa",
+      "zz",
+    ],
+    "bb",
+    "zz",
+  ],
+  "bb": 2,
+  "zz": 1,
+}
+`;
+
+exports[`utils:: sortJson should sort the object 1`] = `
+Object {
+  "aa": 1,
+  "bb": 2,
+  "zz": 1,
+}
+`;
+
+exports[`utils:: sortJson should sort the object 2`] = `
+Object {
+  "aa": 1,
+  "bb": 2,
+  "zz": Object {
+    "aa": 2,
+    "zz": 1,
+  },
+}
+`;
+
+exports[`utils:: sortJsonStringify should sort the array 1`] = `"[\\"aa\\",\\"bb\\",\\"cc\\",\\"zz\\"]"`;
+
+exports[`utils:: sortJsonStringify should sort the array 2`] = `"[\\"aa\\",[\\"aa\\",\\"zz\\"],\\"bb\\",\\"zz\\"]"`;
+
+exports[`utils:: sortJsonStringify should sort the mix 1`] = `"[{\\"aa\\":2,\\"zz\\":1},\\"aa\\",\\"zz\\"]"`;
+
+exports[`utils:: sortJsonStringify should sort the mix 2`] = `"{\\"aa\\":[\\"aa\\",[\\"aa\\",\\"zz\\"],\\"bb\\",\\"zz\\"],\\"bb\\":2,\\"zz\\":1}"`;
+
+exports[`utils:: sortJsonStringify should sort the object 1`] = `"{\\"aa\\":1,\\"bb\\":2,\\"zz\\":1}"`;
+
+exports[`utils:: sortJsonStringify should sort the object 2`] = `"{\\"aa\\":1,\\"bb\\":2,\\"zz\\":{\\"aa\\":2,\\"zz\\":1}}"`;

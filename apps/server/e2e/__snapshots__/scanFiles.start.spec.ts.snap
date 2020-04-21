@@ -9,10 +9,10 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -23,7 +23,7 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "second",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./second",
       "id": 1,
@@ -37,9 +37,9 @@ exports[`[Start] Scanning files when starting the process should display an erro
 Array [
   Object {
     "albums": Array [
-      Album {
+      Object {
         "dir": "",
-        "id": 2,
+        "id": 1,
         "inode": "c2VydmVyZmlyc3Q=",
         "parentDir": "",
         "photos": undefined,
@@ -53,7 +53,7 @@ Array [
   },
   Object {
     "albums": Array [
-      Album {
+      Object {
         "dir": "",
         "id": 1,
         "inode": "c2VydmVyc2Vjb25k",

@@ -1,13 +1,8 @@
-import { EventEmitter } from "typeorm/platform/PlatformTools";
-import {
-  HFile,
-  MessageProcess,
-  ProcessData,
-  QueueName,
-} from "@howdypix/shared-types";
+import { HFile, QueueName } from "@howdypix/shared-types";
 import { consume, sendToQueue } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { Channel, Connection } from "amqplib";
+import { EventEmitter } from "events";
 import { startRabbitMq } from "../src/lib/startRabbitMq";
 import { Events, EventTypes } from "../src/lib/eventEmitter";
 import { appConfig, UserConfig } from "../src/config";
@@ -54,7 +49,7 @@ describe("startRabbitMq", () => {
             numberOfMessagesExpected
           );
 
-          consume<ProcessData>(
+          consume(
             channel,
             queueName,
             (msg) => {
@@ -72,13 +67,36 @@ describe("startRabbitMq", () => {
       events.emit(eventName, data);
     });
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     connection = await connectToRabbitMq(appConfig.rabbitMQ.url);
     channel = await connection.createChannel();
+
+    // Remove all queues
+    try {
+      await channel.deleteQueue(QueueName.TO_PROCESS);
+      await channel.deleteQueue(QueueName.PROCESSED);
+    } catch (e) {
+      // do nothing
+    }
+
+    // Create new queues
+    try {
+      await channel.assertQueue(QueueName.TO_PROCESS);
+      await channel.assertQueue(QueueName.PROCESSED);
+    } catch (e) {
+      // do nothing
+    }
+  });
+
+  beforeEach(async () => {
     events = new EventEmitter();
 
-    await channel.purgeQueue(QueueName.TO_PROCESS);
-    await channel.purgeQueue(QueueName.PROCESSED);
+    try {
+      await channel.purgeQueue(QueueName.PROCESSED);
+      await channel.purgeQueue(QueueName.TO_PROCESS);
+    } catch (e) {
+      // do nothing
+    }
   });
 
   afterAll(async () => {
@@ -98,10 +116,25 @@ describe("startRabbitMq", () => {
     // 2. Act
     await startRabbitMq(events, baseUserConfig, appConfig.rabbitMQ);
 
-    sendToQueue<MessageProcess>(channel, QueueName.PROCESSED, {
-      thumbnailsDir: "thumbnailsDir",
+    sendToQueue(channel, QueueName.PROCESSED, {
       root: "root",
       hfile: baseHfile,
+      exif: {
+        aperture: 1,
+        createDate: 2,
+        ISO: 3,
+        make: "make",
+        model: "model",
+        shutter: 4,
+      },
+      stat: {
+        birthtime: 1,
+        ctime: 2,
+        inode: 3,
+        mtime: 4,
+        size: 5,
+      },
+      thumbnails: [],
     });
   });
 
@@ -136,7 +169,7 @@ describe("startRabbitMq", () => {
     // 1. Configure
     // ==============================
     // We send the message to simulate that it's already in the queue
-    sendToQueue<MessageProcess>(channel, QueueName.TO_PROCESS, {
+    sendToQueue(channel, QueueName.TO_PROCESS, {
       thumbnailsDir: "thumbnailsDir",
       root: "root",
       hfile: baseHfile,

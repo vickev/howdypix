@@ -54,6 +54,14 @@ Object {
 
 exports[`startRabbitMq should send an event when receiving a RabbitMQ message 1`] = `
 Object {
+  "exif": Object {
+    "ISO": 3,
+    "aperture": 1,
+    "createDate": 2,
+    "make": "make",
+    "model": "model",
+    "shutter": 4,
+  },
   "hfile": Object {
     "dir": "dir",
     "file": "file",
@@ -61,6 +69,13 @@ Object {
     "source": "source",
   },
   "root": "root",
-  "thumbnailsDir": "thumbnailsDir",
+  "stat": Object {
+    "birthtime": 1,
+    "ctime": 2,
+    "inode": 3,
+    "mtime": 4,
+    "size": 5,
+  },
+  "thumbnails": Array [],
 }
 `;

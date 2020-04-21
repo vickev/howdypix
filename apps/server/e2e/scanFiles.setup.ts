@@ -72,17 +72,40 @@ export function initialize(): {
     connection
       .getRepository(Photo)
       .find({ relations: ["album"], order: { inode: "ASC" } })
-      .then((value) => value.map((v) => ({ id: 1, ...omit(v, "id") })));
+      .then((value) =>
+        value.map((v) => ({
+          id: 1,
+          ...omit(v, "id"),
+          album: { id: 1, ...omit(v.album, "id") },
+        }))
+      );
   const retrieveAlbums = async (): Promise<Album[]> =>
     connection
       .getRepository(Album)
       .find({ relations: ["sourceLk", "photos"], order: { inode: "ASC" } })
-      .then((value) => value.map((v) => ({ id: 1, ...omit(v, "id") })));
+      .then((value) =>
+        value.map((v) => ({
+          id: 1,
+          ...omit(v, ["id"]),
+          sourceLk: { id: 1, ...omit(v.sourceLk, "id") },
+          photos: v.photos
+            .map((p) => ({ id: 1, ...omit(p, "id") }))
+            .sort((p1, p2) => (p1.inode < p2.inode ? 1 : -1)),
+        }))
+      );
   const retrieveSources = async (): Promise<Source[]> =>
     connection
       .getRepository(Source)
       .find({ relations: ["albums"], order: { source: "ASC" } })
-      .then((value) => value.map((v) => ({ id: 1, ...omit(v, "id") })));
+      .then((value) =>
+        value.map((v) => ({
+          id: 1,
+          ...omit(v, "id"),
+          albums: v.albums
+            .map((a) => ({ id: 1, ...omit(a, "id") }))
+            .sort((p1, p2) => (p1.inode < p2.inode ? 1 : -1)),
+        }))
+      );
 
   const assertDatabaseValue = async (): Promise<void> => {
     expect(await retrieveAlbums()).toMatchSnapshot();

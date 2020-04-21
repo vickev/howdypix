@@ -4,9 +4,9 @@ exports[`[ProcessedFile] Scanning files should update the entry 1`] = `
 Array [
   Object {
     "ISO": 2000,
-    "album": Album {
+    "album": Object {
       "dir": "album",
-      "id": 3,
+      "id": 1,
       "inode": "Zmlyc3RhbGJ1bQ==",
       "parentDir": "",
       "photos": undefined,

@@ -9,10 +9,10 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -23,10 +23,10 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -37,7 +37,7 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "second",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./second",
       "id": 1,
@@ -56,10 +56,10 @@ Array [
     "parentDir": "album",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -70,10 +70,10 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -84,7 +84,7 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "second",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./second",
       "id": 1,
@@ -103,10 +103,10 @@ Array [
     "parentDir": "album1/album2/album3/album4",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -117,10 +117,10 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "first",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./first",
-      "id": 2,
+      "id": 1,
       "source": "first",
     },
   },
@@ -131,7 +131,7 @@ Array [
     "parentDir": "",
     "photos": Array [],
     "source": "second",
-    "sourceLk": Source {
+    "sourceLk": Object {
       "albums": undefined,
       "dir": "./second",
       "id": 1,
