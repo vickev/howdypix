@@ -19,6 +19,7 @@ const typescriptAlreadySupportedByTscRules = {
 
 const jestRules = {
   "jest/expect-expect": "off",
+  "jest/no-test-callback": "off",
 };
 
 module.exports = {
