@@ -1,6 +1,6 @@
 import { Channel } from "amqplib";
 import { resolve } from "path";
-import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
+import { QueueName } from "@howdypix/shared-types";
 import {
   appDebug,
   assertQueue,
@@ -17,7 +17,7 @@ const debug = appDebug("rabbit");
 export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   const pathsInQueue: string[] = [];
 
-  await consume<MessageProcess>(
+  await consume(
     channel,
     QueueName.TO_PROCESS,
     (msg) => {
@@ -66,7 +66,7 @@ export async function bindAppEvents(
     const hpath = hjoin(hfile);
     if (pathsInQueue.filter((p) => p === hpath).length === 0) {
       appDebug("sendToQueue")(hpath);
-      sendToQueue<MessageProcess>(channel, QueueName.TO_PROCESS, {
+      sendToQueue(channel, QueueName.TO_PROCESS, {
         thumbnailsDir,
         root,
         hfile,
@@ -79,7 +79,7 @@ export async function bindChannelEvents(
   event: Events,
   channel: Channel
 ): Promise<void> {
-  await consume<ProcessData>(channel, QueueName.PROCESSED, (msg) => {
+  await consume(channel, QueueName.PROCESSED, (msg) => {
     if (msg) {
       event.emit("processedFile", msg.data);
       channel.ack(msg);
