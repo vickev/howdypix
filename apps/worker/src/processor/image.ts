@@ -8,7 +8,7 @@ import {
 } from "@howdypix/utils";
 import mkdirp from "mkdirp";
 import sharp from "sharp";
-import config from "../config";
+import { appConfig } from "../config";
 import { FileProcessor } from "./types";
 
 export default {
@@ -41,7 +41,7 @@ export default {
     const { dir } = parse(thumbnailPath(thumbnailsDir, hfile));
 
     mkdirp.sync(dir);
-    sharp.concurrency(config.processing.nbThreads);
+    sharp.concurrency(appConfig.processing.nbThreads);
 
     return Promise.all(
       generateThumbnailPaths(thumbnailsDir, hfile).map(async (data) => {

@@ -1,10 +1,22 @@
-import config from "config";
+// Load env variables
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+require("dotenv").config();
 
-export default {
-  rabbitMq: {
-    url: (config.get("app.rabbitMQ.url") as string) || "amqp://localhost",
-  },
+export type AppConfig = {
+  rabbitMQ: {
+    url: string;
+    retry: boolean;
+  };
   processing: {
-    nbThreads: (config.get("app.processing.nbThreads") as number) || 1,
-  },
+    nbThreads: number;
+  };
 };
+
+type Config = {
+  app: AppConfig;
+};
+
+// eslint-disable-next-line
+const config: Config = require("config");
+
+export const appConfig = config.app;

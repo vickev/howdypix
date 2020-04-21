@@ -1,4 +1,4 @@
-import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
+import { QueueName } from "@howdypix/shared-types";
 import {
   appError,
   appDebug,
@@ -9,9 +9,14 @@ import {
 } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { process } from "./process";
+import { AppConfig } from "../config";
 
-export async function startRabbitMq(url: string): Promise<void> {
-  const connection = await connectToRabbitMq(url);
+export async function startRabbitMq(
+  rabbitMQ: AppConfig["rabbitMQ"]
+): Promise<void> {
+  const connection = await connectToRabbitMq(rabbitMQ.url, {
+    retry: rabbitMQ.retry,
+  });
 
   try {
     const channel = await connection.createChannel();
@@ -20,13 +25,13 @@ export async function startRabbitMq(url: string): Promise<void> {
     await assertQueue(channel, QueueName.TO_PROCESS);
     await assertQueue(channel, QueueName.PROCESSED);
 
-    await consume<MessageProcess>(channel, QueueName.TO_PROCESS, (msg) => {
+    await consume(channel, QueueName.TO_PROCESS, (msg) => {
       if (msg) {
         appDebug("toProcess")(hjoin(msg.data.hfile).toString());
 
         process(msg.data.thumbnailsDir, msg.data.root, msg.data.hfile)
           .then((data) => {
-            sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
+            sendToQueue(channel, QueueName.PROCESSED, data);
             channel.ack(msg);
           })
           .catch((error) => {
