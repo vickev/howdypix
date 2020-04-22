@@ -35,7 +35,7 @@ async function main(): Promise<void> {
    * Start the mandatory services
    */
   await startCacheDB(event, userConfig, connection);
-  await startRabbitMq(event, userConfig, appConfig.rabbitMQ.url);
+  await startRabbitMq(event, userConfig, appConfig.rabbitMQ);
   await startFileScan(event, userConfig);
 
   /**

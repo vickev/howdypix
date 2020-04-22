@@ -33,7 +33,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: End-to-end tests
-        run: yarn test:e2e
+        run: RABBITMQ_URL=${{ secrets.TEST_RABBITMQ_URL }} yarn test:e2e
       - uses: actions/upload-artifact@v1
         if: failure()
         with:

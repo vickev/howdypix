@@ -29,7 +29,7 @@ export class Source {
   async getNbPhotos(): Promise<number> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
-    const { count } = await photoRepository
+    const { count }: { count: number } = await photoRepository
       .createQueryBuilder()
       .select("COUNT(distinct file)", "count")
       .where({
@@ -45,7 +45,7 @@ export class Source {
   async getNbAlbums(): Promise<number> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
-    const { count } = await photoRepository
+    const { count }: { count: number } = await photoRepository
       .createQueryBuilder()
       .select("COUNT(distinct dir)", "count")
       .where({
@@ -60,7 +60,10 @@ export class Source {
   async getPreview(): Promise<{ dir: string; file: string } | null> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
-    const data = await photoRepository
+    const data: {
+      file: EntityPhoto["file"];
+      dir: EntityPhoto["dir"];
+    } | null = await photoRepository
       .createQueryBuilder()
       .select("file, dir")
       .where({

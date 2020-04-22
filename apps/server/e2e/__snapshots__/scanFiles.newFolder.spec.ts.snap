@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[NewFolder] Scanning files should save a new entry - root 1`] = `
+Array [
+  Object {
+    "dir": "newAlbum",
+    "id": 1,
+    "inode": "Zmlyc3RuZXdBbGJ1bQ==",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+]
+`;
+
+exports[`[NewFolder] Scanning files should save a new entry - sub-album 1`] = `
+Array [
+  Object {
+    "dir": "album/newAlbum",
+    "id": 1,
+    "inode": "YWxidW1uZXdBbGJ1bQ==",
+    "parentDir": "album",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+]
+`;
+
+exports[`[NewFolder] Scanning files should save a new entry - sub-sub-album 1`] = `
+Array [
+  Object {
+    "dir": "album1/album2/album3/album4/newAlbum",
+    "id": 1,
+    "inode": "YWxidW00bmV3QWxidW0=",
+    "parentDir": "album1/album2/album3/album4",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+]
+`;

@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`startRabbitMq when receiving a message from RabbitMQ should process the file when receiving a message from RabbitMQ 1`] = `
+Array [
+  "thumbnailsDir",
+  "/root",
+  Object {
+    "dir": "dir",
+    "file": "file",
+    "name": "name",
+    "source": "source",
+  },
+]
+`;
+
+exports[`startRabbitMq when receiving a message from RabbitMQ should send a message back to RabbitMQ 1`] = `
+Object {
+  "data": 1,
+}
+`;

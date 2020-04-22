@@ -1,6 +1,6 @@
 {
   "extends": "@howdypix/typescript-config/base",
-  "exclude": ["node_modules", "**/*.spec.ts", "server/mock/fixtures/full.ts"],
+  "exclude": ["node_modules", "cypress/**/*.spec.ts"],
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

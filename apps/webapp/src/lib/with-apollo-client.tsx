@@ -1,5 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
+import { AppContextType } from "next/dist/next-server/lib/utils";
 import Head from "next/head";
 import { Request } from "express";
 import { ApolloProvider } from "@apollo/react-hooks";
@@ -7,19 +8,21 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import fetch from "isomorphic-unfetch";
-import getConfig from "next/config";
 import { useRouter } from "next/router";
+import { getConfig } from "./nextConfig";
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
 let apolloClient: ApolloClient<object>;
 
+type Tokens = {
+  token?: string | null;
+  refreshToken?: string | null;
+};
+
 type InitialState = {
-  fixtureSet: string | null;
-  tokens: {
-    token?: string | null;
-    refreshToken?: string | null;
-  };
+  fixtureSet?: string | null;
+  tokens: Tokens;
   [dataId: string]: string | object | null | undefined;
 };
 
@@ -32,6 +35,10 @@ type WithApolloProps = {
 
 type PageComponentProps = {
   apolloClient?: ApolloClient<object>;
+};
+
+type RequestQuery = {
+  "fixture-set": string;
 };
 
 /**
@@ -139,18 +146,15 @@ export function withApollo(
       nextPageCtx
     ): Promise<WithApolloProps> => {
       // In SSR, the request is a Express Request.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      const req: Request | null = (nextPageCtx?.ctx?.req as unknown) as Request;
+      const req:
+        | Request
+        | undefined = (((nextPageCtx as unknown) as AppContextType)?.ctx
+        ?.req as unknown) as Request;
 
-      const fixtureSet = req?.query?.["fixture-set"];
-      const {
-        token,
-        refreshToken,
-      }: {
-        token: string | null;
-        refreshToken: string | null;
-      } = req?.cookies ?? {
+      const fixtureSet = (req?.query as RequestQuery | undefined)?.[
+        "fixture-set"
+      ];
+      const { token, refreshToken } = (req?.cookies as Tokens) ?? {
         token: null,
         refreshToken: null,
       };
@@ -167,9 +171,11 @@ export function withApollo(
       });
 
       // Run wrapped getInitialProps methods
-      let pageProps = {};
+      let pageProps: WithApolloProps = {};
       if (PageComponent.getInitialProps) {
-        pageProps = await PageComponent.getInitialProps(nextPageCtx);
+        pageProps = (await PageComponent.getInitialProps(
+          nextPageCtx
+        )) as WithApolloProps;
       }
 
       // Only on the server:

@@ -9,7 +9,12 @@ import { Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Box from "@material-ui/core/Box";
-import { hjoin, hparse, hpaths, removeEmptyValues } from "@howdypix/utils";
+import {
+  hjoin,
+  hparse,
+  splitHowdyfiles,
+  removeEmptyValues,
+} from "@howdypix/utils";
 import { AvailableFilters, HFile } from "@howdypix/shared-types";
 import { NexusGenEnums } from "@howdypix/graphql-schema/schema.d";
 import url from "url";
@@ -33,7 +38,7 @@ import { Thumbnail } from "../../src/component/Thumbnail";
 import { AlbumInformationPanel } from "../../src/module/album/AlbumInformationPanel";
 import { SortButton } from "../../src/component/SortButton";
 import { Filters } from "../../src/module/album/Filters";
-import { useStore } from "../../src/context/store/storeHook";
+import { useStore } from "../../src/context/store";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -141,7 +146,7 @@ const AlbumPage: NextPage<Props, InitialProps> = () => {
   //= ================================================================
   const hpath = (router.query.slug as string[]).join("/");
   const folder: HFile = hparse(hpath);
-  const breadcrumbs: HFile[] = hpaths(folder);
+  const breadcrumbs: HFile[] = splitHowdyfiles(folder);
 
   //= ================================================================
   // Album Query

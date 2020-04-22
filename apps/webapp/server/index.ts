@@ -11,9 +11,12 @@ import nextConfig from "../next.config";
 import nextI18next from "./i18n";
 import { applyAuthMiddleware, authHandler } from "./middleware/auth";
 import mockApiServer from "./mock/mockApiServer";
+import { Locals } from "./types.d";
+import { NextConfig } from "../src/lib/nextConfig";
 
-const { serverRuntimeConfig } = nextConfig;
+const { serverRuntimeConfig } = (nextConfig as unknown) as NextConfig;
 const { port } = serverRuntimeConfig;
+
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -44,14 +47,15 @@ app.prepare().then(() => {
           next();
         },
       }),
-      (req, res, next) =>
+      (req, res, next) => {
         createProxyMiddleware({
           target: serverRuntimeConfig.serverApi.url,
           changeOrigin: true,
           headers: {
-            token: res.locals.token ?? "",
+            token: (res.locals as Locals).token ?? "",
           },
-        })(req, res, next)
+        })(req, res, next);
+      }
     );
   }
 

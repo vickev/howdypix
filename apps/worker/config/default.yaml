@@ -6,3 +6,4 @@ app:
     nbThreads: 1
   rabbitMQ:
     url: amqp://localhost
+    retry: true

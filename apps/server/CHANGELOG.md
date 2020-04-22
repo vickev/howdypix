@@ -11,10 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Send the photo to process if the status of the photo in the database is `NOT_PROCESSED`
 
+### Changed
+
+- Change typescript rules to add better `any` prevention ([#132](https://github.com/vickev/howdypix/pull/132))
+- Simplify logic around "." directories to have homogenous "" string ([#132](https://github.com/vickev/howdypix/pull/132))
+
 ### Added
 
 - Configuration to specify the database location
-
+- End-to-end tests for most of the features ([#132](https://github.com/vickev/howdypix/pull/132))
 
 ## [0.1.1] - 2020-04-09
 

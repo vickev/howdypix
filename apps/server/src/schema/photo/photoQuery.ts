@@ -7,8 +7,11 @@ export const getPhoto: EnhancedQuery = () =>
   queryField("getPhoto", {
     type: "PhotoDetail",
     args: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       album: stringArg({ required: true }),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       file: stringArg({ required: true }),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       source: stringArg({ required: true }),
       ...withOrderByQueryArg(),
       ...withFilterByQueryArg(),

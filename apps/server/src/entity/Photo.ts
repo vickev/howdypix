@@ -62,15 +62,12 @@ export class Photo {
   @Column("int", { nullable: true })
   createDate: number;
 
-  // TODO to remove
   @Column("text")
   source: string;
 
-  // TODO to remove
   @Column("text")
   parentDir: string;
 
-  // TODO to remove
   @Column("text")
   dir: string;
 

@@ -24,6 +24,7 @@ app:
 
   rabbitMQ:
     url: amqp://localhost
+    retry: true
 
   api:
     baseUrl: http://localhost:3004

@@ -1,23 +1,43 @@
 import { connect, Connection } from "amqplib";
-import { appInfo, appWarning } from "./utils";
+import { libInfo, libWarning } from "./utils";
 
-export async function connectToRabbitMq(url: string): Promise<Connection> {
-  const info = appInfo("rabbitMQ");
-  const warning = appWarning("rabbitMQ");
+type Options = {
+  retry: boolean;
+  info?: (message: string) => void;
+  warning?: (message: string) => void;
+};
+
+export async function connectToRabbitMq(
+  url: string,
+  { retry, info, warning }: Options = {
+    retry: false,
+    info: libInfo("rabbitMQ"),
+    warning: libWarning("rabbitMQ"),
+  }
+): Promise<Connection> {
   const retryIntervalInSec = 5;
 
+  const displayInfo = info ?? libInfo("rabbitMQ");
+  const displayWarning = warning ?? libWarning("rabbitMQ");
+
   try {
-    info(`Connection to ${url}...`);
+    displayInfo(`Connection to ${url}...`);
     const connection = await connect(url);
-    info("Connection successful!");
+    displayInfo("Connection successful!");
     return connection;
   } catch (e) {
-    warning(`Impossible to connect. Retrying in ${retryIntervalInSec}s...`);
+    if (!retry) {
+      throw e;
+    }
+
+    displayWarning(
+      `Impossible to connect. Retrying in ${retryIntervalInSec}s...`
+    );
   }
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(connectToRabbitMq(url));
+      resolve(connectToRabbitMq(url, { retry, warning, info }));
     }, retryIntervalInSec * 1000);
   });
 }

@@ -5,8 +5,10 @@
     "sourceMap": true,
     "outDir": "./build",
     "strict": true,
+    "noImplicitAny": true,
     "esModuleInterop": true,
     "preserveWatchOutput": true,
-    "resolveJsonModule": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
   }
 }

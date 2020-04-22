@@ -1,11 +1,17 @@
 import { join } from "path";
 import { statSync } from "fs";
 import { fromFile as fileTypeOf } from "file-type";
-import { ExifData, HFile, ProcessData, StatData } from "@howdypix/shared-types";
+import {
+  ExifData,
+  HFile,
+  QueueData,
+  QueueName,
+  StatData,
+} from "@howdypix/shared-types";
 import { appDebug, hfile2path } from "@howdypix/utils";
 import { getFileProcessor } from "../processor";
 
-export async function fetchStat(root: string, path: string): Promise<StatData> {
+export function fetchStat(root: string, path: string): StatData {
   const absolutePath = join(root, path);
   const stat = statSync(absolutePath);
   return {
@@ -21,7 +27,7 @@ export async function process(
   thumbnailsDir: string,
   root: string,
   hfile: HFile
-): Promise<ProcessData> {
+): Promise<QueueData[QueueName.PROCESSED]> {
   const path = hfile2path(hfile).toString();
   const absolutePath = join(root, path);
   let stat: StatData;
@@ -29,7 +35,7 @@ export async function process(
   let thumbnails: string[] = [];
 
   try {
-    stat = await fetchStat(root, path);
+    stat = fetchStat(root, path);
   } catch (e) {
     appDebug(e);
     stat = {

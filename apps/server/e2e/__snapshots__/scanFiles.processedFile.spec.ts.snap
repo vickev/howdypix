@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[ProcessedFile] Scanning files should update the entry 1`] = `
+Array [
+  Object {
+    "ISO": 2000,
+    "album": Object {
+      "dir": "album",
+      "id": 1,
+      "inode": "Zmlyc3RhbGJ1bQ==",
+      "parentDir": "",
+      "photos": undefined,
+      "source": "first",
+      "sourceLk": undefined,
+    },
+    "aperture": 0.1,
+    "birthtime": 3,
+    "createDate": 1,
+    "ctime": 2,
+    "dir": "album",
+    "file": "PHOTO.jpg",
+    "id": 1,
+    "inode": "YWxidW1QSE9UTy5qcGc=",
+    "make": "Make",
+    "model": "Model",
+    "mtime": 1,
+    "parentDir": "",
+    "processedAperture": 0.1,
+    "processedShutter": 4.3,
+    "searchResults": undefined,
+    "shutter": 0.23,
+    "size": 10,
+    "source": "first",
+    "status": "processed",
+  },
+]
+`;

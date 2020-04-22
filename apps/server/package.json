@@ -30,11 +30,11 @@
     "dev:mock": "MOCK=true yarn dev",
     "watch": "nodemon dist/index",
     "build": "babel src --out-dir dist --extensions '.ts' --verbose",
-    "lint": "eslint \"src/**/*.ts\"",
+    "lint": "eslint {src,e2e}/**/*.ts",
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests",
     "test:e2e": "concurrently 'yarn start:mock' 'wait-on tcp:3004 && yarn test:e2e:local' --kill-others --kill-others-on-fail --raw --success first",
-    "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests"
+    "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests --forceExit"
   },
   "dependencies": {
     "@howdypix/graphql-schema": "^0.1.0",
@@ -93,6 +93,7 @@
     "jest": "^25.2.7",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "wait-for-expect": "^3.0.2"
   }
 }

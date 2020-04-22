@@ -1,6 +1,6 @@
 {
   "extends": "@howdypix/typescript-config/base",
-  "exclude": ["node_modules", "**/*.test.ts"],
+  "exclude": ["node_modules"],
   "include": ["lib/**/*.ts"],
   "compilerOptions": {
     "declaration": true,

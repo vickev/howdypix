@@ -1,9 +1,16 @@
-import { Express, Handler, NextFunction, Response, Request } from "express";
+import {
+  Express,
+  NextFunction,
+  Response,
+  Request,
+  RequestHandler,
+} from "express";
 import fetch from "isomorphic-unfetch";
 import { appDebug, routes } from "@howdypix/utils";
 import axios from "axios";
 import { TokenInfo } from "@howdypix/shared-types";
 import nextConfig from "../../next.config";
+import { Cookies, Locals } from "../types.d";
 
 const { serverRuntimeConfig } = nextConfig;
 const debug = appDebug("middleware:auth");
@@ -39,32 +46,39 @@ export const authHandler = (
       res.redirect("/login");
     },
   }
-): Handler => async (req, res, next): Promise<void> => {
+): RequestHandler => async (req, res, next): Promise<void> => {
+  const { cookies } = req as {
+    cookies: Cookies;
+  };
+  const { locals } = res as {
+    locals: Locals;
+  };
+
   if (/_next/.test(req.originalUrl) || /^\/login/.test(req.originalUrl)) {
     next();
-  } else if (req.cookies.token) {
+  } else if (cookies.token) {
     try {
       // Try to authenticate to the server
-      const user = await fetchUser(req.cookies.token);
+      const user = await fetchUser(cookies.token);
       debug("Token is valid - user:", user);
-      res.locals.token = req.cookies.token;
+      locals.token = cookies.token;
       next();
     } catch (statusCode) {
       debug("Token is expired");
 
-      if (req.cookies.refreshToken) {
+      if (cookies.refreshToken) {
         debug("Refreshing the token with the refreshToken...");
 
         try {
           // Try to fetch a new token with the refreshToken
-          const newToken = await refreshToken(req.cookies.refreshToken);
+          const newToken = await refreshToken(cookies.refreshToken);
 
           // Save the new token in the cookie
           res.cookie("token", newToken.token);
 
           debug("New token generated!");
 
-          res.locals.token = newToken.token;
+          locals.token = newToken.token;
 
           next();
         } catch (e) {
@@ -82,7 +96,8 @@ export const authHandler = (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isTokenInfo = (tokens: any): tokens is TokenInfo => {
-  return tokens.token && tokens.refreshToken;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  return !!tokens.token && !!tokens.refreshToken;
 };
 
 export const applyAuthMiddleware = (app: Express): void => {

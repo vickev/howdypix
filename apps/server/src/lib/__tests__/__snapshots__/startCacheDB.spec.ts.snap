@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`onNewDir should save the album 1`] = `
+Array [
+  Object {
+    "id": 1,
+  },
+  "dir/file",
+]
+`;

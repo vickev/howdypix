@@ -27,7 +27,8 @@
     "build": "babel src --out-dir dist --extensions '.ts' --verbose",
     "lint": "eslint src/**/*.ts",
     "typecheck": "tsc --noEmit",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "test:e2e:local": "NODE_ENV=e2e jest --passWithNoTests --forceExit"
   },
   "dependencies": {
     "@howdypix/shared-types": "^0.1.0",
@@ -60,6 +61,7 @@
     "eslint": "^6.8.0",
     "jest": "^25.2.7",
     "nodemon": "^2.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "wait-for-expect": "^3.0.2"
   }
 }

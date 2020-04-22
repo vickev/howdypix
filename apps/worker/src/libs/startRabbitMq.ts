@@ -1,4 +1,4 @@
-import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
+import { QueueName } from "@howdypix/shared-types";
 import {
   appError,
   appDebug,
@@ -6,12 +6,21 @@ import {
   consume,
   hjoin,
   sendToQueue,
+  appInfo,
+  appWarning,
 } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { process } from "./process";
+import { AppConfig } from "../config";
 
-export async function startRabbitMq(url: string): Promise<void> {
-  const connection = await connectToRabbitMq(url);
+export async function startRabbitMq(
+  rabbitMQ: AppConfig["rabbitMQ"]
+): Promise<void> {
+  const connection = await connectToRabbitMq(rabbitMQ.url, {
+    retry: rabbitMQ.retry,
+    info: appInfo("rabbitMQ"),
+    warning: appWarning("rabbitMQ"),
+  });
 
   try {
     const channel = await connection.createChannel();
@@ -20,29 +29,21 @@ export async function startRabbitMq(url: string): Promise<void> {
     await assertQueue(channel, QueueName.TO_PROCESS);
     await assertQueue(channel, QueueName.PROCESSED);
 
-    await consume<MessageProcess>(
-      channel,
-      QueueName.TO_PROCESS,
-      async (msg) => {
-        if (msg) {
-          appDebug("toProcess")(hjoin(msg.data.hfile).toString());
+    await consume(channel, QueueName.TO_PROCESS, (msg) => {
+      if (msg) {
+        appDebug("toProcess")(hjoin(msg.data.hfile).toString());
 
-          try {
-            const data = await process(
-              msg.data.thumbnailsDir,
-              msg.data.root,
-              msg.data.hfile
-            );
-
-            await sendToQueue<ProcessData>(channel, QueueName.PROCESSED, data);
+        process(msg.data.thumbnailsDir, msg.data.root, msg.data.hfile)
+          .then((data) => {
+            sendToQueue(channel, QueueName.PROCESSED, data);
             channel.ack(msg);
-          } catch (e) {
+          })
+          .catch((error) => {
             // eslint-disable-next-line no-console
-            console.error(e);
-          }
-        }
+            console.error(error);
+          });
       }
-    );
+    });
   } catch (e) {
     appError(`An error occured: ${e}`);
   }

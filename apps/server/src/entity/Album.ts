@@ -26,7 +26,6 @@ export class Album {
   @Column("text")
   dir: string;
 
-  // TODO to remove
   @Column("text")
   source: string;
 
@@ -58,7 +57,7 @@ export class Album {
   async getPreview(): Promise<string | null> {
     const photoRepository = getConnection().getRepository(EntityPhoto);
 
-    const data = await photoRepository
+    const data: { preview: string } | null = await photoRepository
       .createQueryBuilder()
       .select("file", "preview")
       .where({
@@ -87,40 +86,45 @@ export class Album {
     source: Source | string,
     dir: string
   ): Promise<Album | null> {
-    let sourceDB: Source | null;
+    try {
+      let sourceDB: Source | null;
 
-    if (typeof source === "string") {
-      sourceDB = await Source.fetchOne(source);
+      if (typeof source === "string") {
+        sourceDB = await Source.fetchOne(source);
 
-      if (!sourceDB) {
-        appError("album")(
-          `Impossible to save the album: the source ${source} does not exist in the databasel.`
-        );
+        if (!sourceDB) {
+          appError("album")(
+            `Impossible to save the album: the source ${source} does not exist in the databasel.`
+          );
 
-        return null;
+          return null;
+        }
+      } else {
+        sourceDB = source;
       }
-    } else {
-      sourceDB = source;
+
+      const album = await Album.fetchOne(sourceDB.source, dir);
+
+      if (!album) {
+        const stat = statSync(resolve(sourceDB.dir, dir));
+
+        const newAlbum = new Album();
+        newAlbum.inode = stat.ino.toString();
+        newAlbum.source = sourceDB.source;
+        newAlbum.parentDir = parentDir(dir);
+        newAlbum.dir = dir;
+        newAlbum.sourceLk = sourceDB;
+        await getConnection().getRepository(Album).save(newAlbum);
+
+        appDebug("album")(`New album "${newAlbum.dir}" saved.`);
+
+        return newAlbum;
+      }
+
+      return album;
+    } catch (e) {
+      appError("Album")(`Impossible to fetch the information of ${dir}: ${e}`);
+      return null;
     }
-
-    const album = await Album.fetchOne(sourceDB.source, dir);
-
-    if (!album) {
-      const stat = statSync(resolve(sourceDB.dir, dir));
-
-      const newAlbum = new Album();
-      newAlbum.inode = stat.ino.toString();
-      newAlbum.source = sourceDB.source;
-      newAlbum.parentDir = parentDir(dir);
-      newAlbum.dir = dir;
-      newAlbum.sourceLk = sourceDB;
-      await getConnection().getRepository(Album).save(newAlbum);
-
-      appDebug("album")(`New album "${newAlbum.dir}" saved.`);
-
-      return newAlbum;
-    }
-
-    return album;
   }
 }

@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`path hparse should return the right value 1`] = `
+Object {
+  "dir": "dir",
+  "file": "file.jpg",
+  "source": "source",
+}
+`;
+
+exports[`path hparse should return the right value 2`] = `
+Object {
+  "dir": "dir/subdir",
+  "file": "file.jpg",
+  "source": "source",
+}
+`;
+
+exports[`path hparse should return the right value without dir 1`] = `
+Object {
+  "dir": ".",
+  "file": "file.jpg",
+  "source": "source",
+}
+`;
+
+exports[`path hparse should return the right value without dir and file 1`] = `
+Object {
+  "source": "source",
+}
+`;
+
+exports[`path hparse should return the right value without file 1`] = `
+Object {
+  "dir": "dir",
+  "source": "source",
+}
+`;
+
+exports[`path splitHowdyfiles should return the right value 1`] = `
+Array [
+  Object {
+    "name": "source",
+    "source": "source",
+  },
+  Object {
+    "dir": "dir",
+    "name": "dir",
+    "source": "source",
+  },
+]
+`;
+
+exports[`path splitHowdyfiles should return the right value 2`] = `
+Array [
+  Object {
+    "name": "source",
+    "source": "source",
+  },
+  Object {
+    "dir": "dir",
+    "name": "dir",
+    "source": "source",
+  },
+  Object {
+    "dir": "dir/subdir",
+    "name": "subdir",
+    "source": "source",
+  },
+  Object {
+    "dir": "dir/subdir/subsubdir",
+    "name": "subsubdir",
+    "source": "source",
+  },
+]
+`;
+
+exports[`path path2hfile should return the right value 1`] = `
+Object {
+  "dir": "dir",
+  "file": "file.jpg",
+  "source": "source",
+}
+`;
+
+exports[`path path2hfile should return the right value 2`] = `
+Object {
+  "dir": "dir/subdir",
+  "file": "file.jpg",
+  "source": "source",
+}
+`;
+
+exports[`path path2hfile should return the right value with emtpy path 1`] = `
+Object {
+  "dir": "",
+  "file": "",
+  "source": "source",
+}
+`;
+
+exports[`path path2hfile should return the right value without dir 1`] = `
+Object {
+  "dir": "",
+  "file": "file.jpg",
+  "source": "source",
+}
+`;

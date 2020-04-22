@@ -4,5 +4,8 @@
   "watch": [
     "dist/",
     "node_modules/"
+  ],
+  "ignore": [
+    "__tests__/*"
   ]
 }

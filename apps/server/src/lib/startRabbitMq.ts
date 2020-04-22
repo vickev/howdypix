@@ -1,23 +1,25 @@
 import { Channel } from "amqplib";
 import { resolve } from "path";
-import { MessageProcess, ProcessData, QueueName } from "@howdypix/shared-types";
+import { QueueName } from "@howdypix/shared-types";
 import {
   appDebug,
+  appInfo,
   assertQueue,
   consume,
   hjoin,
   sendToQueue,
+  appWarning,
 } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { Events } from "./eventEmitter";
-import { UserConfig } from "../config";
+import { AppConfig, UserConfig } from "../config";
 
 const debug = appDebug("rabbit");
 
 export async function fetchPathsInQueue(channel: Channel): Promise<string[]> {
   const pathsInQueue: string[] = [];
 
-  await consume<MessageProcess>(
+  await consume(
     channel,
     QueueName.TO_PROCESS,
     (msg) => {
@@ -66,7 +68,7 @@ export async function bindAppEvents(
     const hpath = hjoin(hfile);
     if (pathsInQueue.filter((p) => p === hpath).length === 0) {
       appDebug("sendToQueue")(hpath);
-      sendToQueue<MessageProcess>(channel, QueueName.TO_PROCESS, {
+      sendToQueue(channel, QueueName.TO_PROCESS, {
         thumbnailsDir,
         root,
         hfile,
@@ -79,7 +81,7 @@ export async function bindChannelEvents(
   event: Events,
   channel: Channel
 ): Promise<void> {
-  await consume<ProcessData>(channel, QueueName.PROCESSED, (msg) => {
+  await consume(channel, QueueName.PROCESSED, (msg) => {
     if (msg) {
       event.emit("processedFile", msg.data);
       channel.ack(msg);
@@ -90,15 +92,18 @@ export async function bindChannelEvents(
 export async function startRabbitMq(
   event: Events,
   userConfig: UserConfig,
-  url: string
+  options: AppConfig["rabbitMQ"]
 ): Promise<Channel | null> {
   if (process.env.MOCK) {
     return null;
   }
 
-  const connection = await connectToRabbitMq(url);
-
   try {
+    const connection = await connectToRabbitMq(options.url, {
+      retry: options.retry,
+      info: appInfo("rabbitMQ"),
+      warning: appWarning("rabbitMQ"),
+    });
     const channel = await connection.createChannel();
 
     await assertQueue(channel, QueueName.TO_PROCESS);

@@ -61,7 +61,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, loading, data }) => {
           }}
           variant="outlined"
           margin="dense"
-          inputRef={(node): void => {
+          inputRef={(node: HTMLInputElement): void => {
             input = node;
           }}
           disabled={loading}

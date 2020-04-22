@@ -1,3 +1,5 @@
+export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+
 export type HFile = {
   source: string;
   dir?: string;
@@ -7,12 +9,6 @@ export type HFile = {
 export interface HPath extends String {}
 export interface HPathDir extends HPath {}
 export interface HPathFile extends HPath {}
-
-export type MessageProcess = {
-  thumbnailsDir: string;
-  root: string;
-  hfile: HFile;
-};
 
 export type StatData = {
   inode: number;
@@ -31,18 +27,25 @@ export type ExifData = {
   createDate?: number;
 };
 
-export type ProcessData = {
-  exif: ExifData;
-  stat: StatData;
-  root: string;
-  thumbnails: string[];
-  hfile: HFile;
-};
-
 export enum QueueName {
   TO_PROCESS = "toProcess",
   PROCESSED = "processed",
 }
+
+export type QueueData = {
+  [QueueName.TO_PROCESS]: {
+    thumbnailsDir: string;
+    root: string;
+    hfile: HFile;
+  };
+  [QueueName.PROCESSED]: {
+    exif: ExifData;
+    stat: StatData;
+    root: string;
+    thumbnails: string[];
+    hfile: HFile;
+  };
+};
 
 export type TokenInfo = {
   token: string;

@@ -1,23 +1,22 @@
-// Load env variables
-import { NexusGenFieldTypes } from "@howdypix/graphql-schema/schema";
-
-require("dotenv").config();
-
-import { client, fetchTokens } from "./utils";
 import gql from "graphql-tag";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { FetchResult } from "apollo-link";
+import { ApolloError } from "apollo-client";
 
 import { routes } from "@howdypix/utils";
 import { UserInfo } from "@howdypix/shared-types";
+import { client, fetchTokens } from "./utils";
 
-describe("The authentication routes", () => {
+require("dotenv").config();
+
+describe("The authentication routes", (): void => {
   test("should reject if the code is not valid", async () => {
     const response = await axios.post(routes.codeValidation.value());
     expect(response.data).toMatchSnapshot();
   });
 
-  describe("validating the email", function () {
-    const sendMutation = async (email: string) =>
+  describe("validating the email", (): void => {
+    const sendMutation = async (email: string): Promise<FetchResult> =>
       client.mutate({
         mutation: gql`
           mutation AuthEmail($email: String!) {
@@ -36,7 +35,8 @@ describe("The authentication routes", () => {
       try {
         expect(await sendMutation("NONE")).toMatchSnapshot();
       } catch (e) {
-        console.log(e.networkError.result);
+        // eslint-disable-next-line no-console
+        console.log((e as ApolloError).networkError);
       }
     });
 
@@ -45,8 +45,10 @@ describe("The authentication routes", () => {
     });
   });
 
-  describe("validating the magic link", function () {
-    test("should return tokens if the magic link is correct", async () => {
+  describe("validating the magic link", (): void => {
+    test("should return tokens if the magic link is correct", async (): Promise<
+      void
+    > => {
       const data = await fetchTokens();
 
       expect(data).toHaveProperty("token");
@@ -54,14 +56,18 @@ describe("The authentication routes", () => {
       expect(data.user).toMatchSnapshot();
     });
 
-    test("should have an error if the link is not correct", async () => {
+    test("should have an error if the link is not correct", async (): Promise<
+      void
+    > => {
       const data = await fetchTokens("wrong-code");
       expect(data).toMatchSnapshot();
     });
   });
 
-  describe("fetching the user info", function () {
-    test("should return the user info if the token is correct", async () => {
+  describe("fetching the user info", (): void => {
+    test("should return the user info if the token is correct", async (): Promise<
+      void
+    > => {
       const { token, user } = await fetchTokens();
 
       const response = await axios.post<UserInfo>(
@@ -75,49 +81,41 @@ describe("The authentication routes", () => {
     });
 
     test("should return an error if the token is wrong", async () => {
-      try {
-        const response = await axios.post<UserInfo>(
-          routes.authenticatedUser.value(),
-          {
-            token: "wrong",
-          }
-        );
-      } catch (e) {
-        expect((e as AxiosError).response.status).toEqual(401);
-      }
+      await expect(
+        axios.post<UserInfo>(routes.authenticatedUser.value(), {
+          token: "wrong",
+        })
+      ).rejects.toThrowErrorMatchingSnapshot();
     });
   });
 
-  describe("refreshing the token", function () {
-    test("should return a new token", async (done) => {
+  describe("refreshing the token", (): void => {
+    test("should return a new token", async (): Promise<void> => {
       const { refreshToken, token } = await fetchTokens();
 
-      setTimeout(async () => {
-        const response = await axios.post<{ token: string }>(
-          routes.refreshToken.value(),
-          {
-            token: refreshToken,
-          }
-        );
+      await new Promise((resolve) =>
+        setTimeout(async (): Promise<void> => {
+          const response = await axios.post<{ token: string }>(
+            routes.refreshToken.value(),
+            {
+              token: refreshToken,
+            }
+          );
 
-        expect(response.data.token).toBeDefined();
-        expect(response.data.token).not.toEqual(token);
+          expect(response.data.token).toBeDefined();
+          expect(response.data.token).not.toEqual(token);
 
-        done();
-      }, 1000);
+          resolve();
+        }, 1000)
+      );
     });
 
     test("should return an error if the token is wrong", async () => {
-      try {
-        const response = await axios.post<{ token: string }>(
-          routes.refreshToken.value(),
-          {
-            token: "wrong",
-          }
-        );
-      } catch (e) {
-        expect((e as AxiosError).response.status).toEqual(401);
-      }
+      await expect(
+        axios.post<{ token: string }>(routes.refreshToken.value(), {
+          token: "wrong",
+        })
+      ).rejects.toThrowErrorMatchingSnapshot();
     });
   });
 });

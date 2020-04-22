@@ -1,5 +1,6 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { ThemedStyledProps } from "styled-components";
+import { Theme } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -8,21 +9,26 @@ import Chip from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 
+type ThemedProps<P> = ThemedStyledProps<P, Theme>;
+
 // ========================================================================
 // Styled components
 // ========================================================================
-const LabelWrapper = styled(Button)<{ selected?: boolean }>`
+type LabelWrapperProps = { selected?: boolean };
+const LabelWrapper = styled(Button)<LabelWrapperProps>`
   display: flex;
   align-items: center;
-  margin: ${({ theme }): string => theme.spacing(0.5, 0)};
+  margin: ${({ theme }: ThemedProps<LabelWrapperProps>): string =>
+    theme.spacing(0.5, 0)};
   border-radius: 10000px;
   text-transform: none;
   text-align: left;
-  ${({ theme, selected }): string =>
+  ${({ theme, selected }: ThemedProps<LabelWrapperProps>): string =>
     selected ? `background-color: ${theme.palette.grey[300]}` : ""};
 
   &:hover {
-    background-color: ${({ theme }): string => theme.palette.grey[300]};
+    background-color: ${({ theme }: ThemedProps<LabelWrapperProps>): string =>
+      theme.palette.grey[300]};
   }
 `;
 LabelWrapper.defaultProps = {
@@ -47,7 +53,8 @@ const LabelCount: React.FC<{}> = ({ children, ...rest }) => (
   <StyledChip variant="outlined" size="small" label={children} {...rest} />
 );
 
-const StyledDivImg = styled.div<{ src?: string | null }>`
+type StyledDivImgProps = { src?: string | null };
+const StyledDivImg = styled.div<StyledDivImgProps>`
   ${({ src }): string | null =>
     src ? `background-image: url("${src}");` : null};
   background-size: cover;
@@ -56,7 +63,8 @@ const StyledDivImg = styled.div<{ src?: string | null }>`
   border-radius: 10000px;
   height: 25px;
   width: 25px;
-  margin-right: ${({ theme }): string => `${theme.spacing(0.5)}px;`};
+  margin-right: ${({ theme }: ThemedProps<StyledDivImgProps>): string =>
+    `${theme.spacing(0.5)}px;`};
 `;
 
 const Preview: React.FC<{

@@ -1,10 +1,10 @@
 import { appInfo } from "@howdypix/utils";
-import config from "./config";
+import { appConfig } from "./config";
 import { startRabbitMq } from "./libs/startRabbitMq";
 
-async function main() {
+async function main(): Promise<void> {
   appInfo("main")("Starting the worker.");
-  await startRabbitMq(config.rabbitMq.url);
+  await startRabbitMq(appConfig.rabbitMQ);
 }
 
 main();

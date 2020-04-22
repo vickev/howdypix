@@ -1,10 +1,16 @@
 import { Channel, ConsumeMessage, Options, Replies } from "amqplib";
 import { join, parse } from "path";
-import { HFile, QueueName, SupportedMime } from "@howdypix/shared-types";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+  HFile,
+  QueueData,
+  QueueName,
+  SupportedMime,
+} from "@howdypix/shared-types";
 import debug from "debug";
-import { hjoin, thumbnailPath } from "./path";
 import { isArray, isNil, isObject, omitBy, reduce } from "lodash";
 import stringify from "json-stable-stringify";
+import { hjoin, thumbnailPath } from "./path";
 
 export async function wait(seconds: number): Promise<void> {
   return new Promise((resolve) => {
@@ -20,6 +26,10 @@ export function generateThumbnailPaths(
   height: number | null;
   path: string;
 }> {
+  if (!hfile.file) {
+    throw new Error("You must specify a file.");
+  }
+
   const { dir, name } = parse(thumbnailPath(thumbnailsDir, hfile));
 
   return [200, 600, 1280, 2048].map((size) => ({
@@ -44,7 +54,7 @@ export function generateThumbnailUrls(
   return [200, 600, 1280, 2048].map((size) => ({
     width: size,
     height: null,
-    url: `${baseUrl}/files/${hjoin({
+    url: `${baseUrl.replace(/\/$/, "")}/files/${hjoin({
       ...hfile,
       file: `${parse(hfile.file as string).name}x${size}.jpg`,
     })}`,
@@ -63,28 +73,36 @@ export function isHowdypixPath(path = ""): boolean {
   return path.match(/\.howdypix/) !== null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appInfo(space: string): (...message: any[]) => void {
   return debug(`app:info:${space}`);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appWarning(space: string): (...message: any[]) => void {
   return debug(`app:warn:${space}`);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appError(space: string): (...message: any[]) => void {
   return debug(`app:error:${space}`);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appDebug(space: string): (...message: any[]) => void {
-  return debug(`app:debug:${space}`);
+  return debug(`lib:debug:${space}`);
 }
 
-export function libDebug(space: string): (message: string) => void {
-  return debug(`lib:${space}`);
+export function libInfo(space: string): (...message: any[]) => void {
+  return debug(`lib:info:${space}`);
+}
+
+export function libWarning(space: string): (...message: any[]) => void {
+  return debug(`lib:warn:${space}`);
+}
+
+export function libError(space: string): (...message: any[]) => void {
+  return debug(`lib:error:${space}`);
+}
+
+export function libDebug(space: string): (...message: any[]) => void {
+  return debug(`lib:debug:${space}`);
 }
 
 export function assertQueue(
@@ -94,13 +112,13 @@ export function assertQueue(
   return channel.assertQueue(name);
 }
 
-export interface ParsedConsumeMessage<T> extends ConsumeMessage {
-  data: T;
+interface ParsedConsumeMessage<T extends QueueName> extends ConsumeMessage {
+  data: QueueData[T];
 }
 
-export function consume<T>(
+export function consume<T extends QueueName>(
   channel: Channel,
-  name: QueueName,
+  name: T,
   onMessage?: (msg: ParsedConsumeMessage<T> | null) => void,
   options?: Options.Consume
 ): Promise<Replies.Consume> {
@@ -108,7 +126,7 @@ export function consume<T>(
     name,
     async (msg) => {
       if (msg) {
-        const data: T = JSON.parse(msg.content.toString());
+        const data = JSON.parse(msg.content.toString()) as QueueData[T];
 
         libDebug("rabbit:consume")(`${name} ${JSON.stringify(data)}`);
 
@@ -121,10 +139,10 @@ export function consume<T>(
   );
 }
 
-export function sendToQueue<T>(
+export function sendToQueue<T extends QueueName>(
   channel: Channel,
-  queue: QueueName,
-  data: T,
+  queue: T,
+  data: QueueData[T],
   options?: Options.Publish
 ): boolean {
   libDebug("rabbit:sendToQueue")(`${queue} ${JSON.stringify(data)}`);
@@ -140,7 +158,15 @@ export function removeEmptyValues(object: {
 
 export function sortJson(json: {} | unknown[]): typeof json {
   if (isArray(json)) {
-    return (json as Array<string>).sort();
+    return (json as Array<string>)
+      .map((value) => {
+        if (isArray(value) || isObject(value)) {
+          return sortJson(value);
+        }
+
+        return value;
+      })
+      .sort();
   }
 
   if (isObject(json)) {

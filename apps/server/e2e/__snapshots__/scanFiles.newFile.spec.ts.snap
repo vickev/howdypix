@@ -1,0 +1,341 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - album file 1`] = `
+Object {
+  "hfile": Object {
+    "dir": "myAlbum",
+    "file": "PHOTO1.jpg",
+    "source": "first",
+  },
+  "root": "/home/lelouch/first",
+}
+`;
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - album file 2`] = `
+Array [
+  Object {
+    "ISO": null,
+    "album": Object {
+      "dir": "myAlbum",
+      "id": 1,
+      "inode": "Zmlyc3RteUFsYnVt",
+      "parentDir": "",
+      "photos": undefined,
+      "source": "first",
+      "sourceLk": undefined,
+    },
+    "aperture": null,
+    "birthtime": 3,
+    "createDate": null,
+    "ctime": 2,
+    "dir": "myAlbum",
+    "file": "PHOTO1.jpg",
+    "id": 1,
+    "inode": "bXlBbGJ1bVBIT1RPMS5qcGc=",
+    "make": null,
+    "model": null,
+    "mtime": 1,
+    "parentDir": "",
+    "processedAperture": null,
+    "processedShutter": null,
+    "searchResults": undefined,
+    "shutter": null,
+    "size": 10,
+    "source": "first",
+    "status": "not_processed",
+  },
+]
+`;
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - album file 3`] = `
+Array [
+  Object {
+    "dir": "myAlbum",
+    "id": 1,
+    "inode": "Zmlyc3RteUFsYnVt",
+    "parentDir": "",
+    "photos": Array [
+      Object {
+        "ISO": null,
+        "album": undefined,
+        "aperture": null,
+        "birthtime": 3,
+        "createDate": null,
+        "ctime": 2,
+        "dir": "myAlbum",
+        "file": "PHOTO1.jpg",
+        "id": 1,
+        "inode": "bXlBbGJ1bVBIT1RPMS5qcGc=",
+        "make": null,
+        "model": null,
+        "mtime": 1,
+        "parentDir": "",
+        "processedAperture": null,
+        "processedShutter": null,
+        "searchResults": undefined,
+        "shutter": null,
+        "size": 10,
+        "source": "first",
+        "status": "not_processed",
+      },
+    ],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+]
+`;
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - root file 1`] = `
+Object {
+  "hfile": Object {
+    "dir": "",
+    "file": "PHOTO1.jpg",
+    "source": "first",
+  },
+  "root": "/home/lelouch/first",
+}
+`;
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - root file 2`] = `
+Array [
+  Object {
+    "ISO": null,
+    "album": Object {
+      "dir": "",
+      "id": 1,
+      "inode": "c2VydmVyZmlyc3Q=",
+      "parentDir": "",
+      "photos": undefined,
+      "source": "first",
+      "sourceLk": undefined,
+    },
+    "aperture": null,
+    "birthtime": 3,
+    "createDate": null,
+    "ctime": 2,
+    "dir": "",
+    "file": "PHOTO1.jpg",
+    "id": 1,
+    "inode": "Zmlyc3RQSE9UTzEuanBn",
+    "make": null,
+    "model": null,
+    "mtime": 1,
+    "parentDir": "",
+    "processedAperture": null,
+    "processedShutter": null,
+    "searchResults": undefined,
+    "shutter": null,
+    "size": 10,
+    "source": "first",
+    "status": "not_processed",
+  },
+]
+`;
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - root file 3`] = `
+Array [
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [
+      Object {
+        "ISO": null,
+        "album": undefined,
+        "aperture": null,
+        "birthtime": 3,
+        "createDate": null,
+        "ctime": 2,
+        "dir": "",
+        "file": "PHOTO1.jpg",
+        "id": 1,
+        "inode": "Zmlyc3RQSE9UTzEuanBn",
+        "make": null,
+        "model": null,
+        "mtime": 1,
+        "parentDir": "",
+        "processedAperture": null,
+        "processedShutter": null,
+        "searchResults": undefined,
+        "shutter": null,
+        "size": 10,
+        "source": "first",
+        "status": "not_processed",
+      },
+    ],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+]
+`;
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - sub-album file 1`] = `
+Object {
+  "hfile": Object {
+    "dir": "myAlbum/mySubAlbum",
+    "file": "PHOTO1.jpg",
+    "source": "first",
+  },
+  "root": "/home/lelouch/first",
+}
+`;
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - sub-album file 2`] = `
+Array [
+  Object {
+    "ISO": null,
+    "album": Object {
+      "dir": "myAlbum/mySubAlbum",
+      "id": 1,
+      "inode": "bXlBbGJ1bW15U3ViQWxidW0=",
+      "parentDir": "myAlbum",
+      "photos": undefined,
+      "source": "first",
+      "sourceLk": undefined,
+    },
+    "aperture": null,
+    "birthtime": 3,
+    "createDate": null,
+    "ctime": 2,
+    "dir": "myAlbum/mySubAlbum",
+    "file": "PHOTO1.jpg",
+    "id": 1,
+    "inode": "bXlTdWJBbGJ1bVBIT1RPMS5qcGc=",
+    "make": null,
+    "model": null,
+    "mtime": 1,
+    "parentDir": "myAlbum",
+    "processedAperture": null,
+    "processedShutter": null,
+    "searchResults": undefined,
+    "shutter": null,
+    "size": 10,
+    "source": "first",
+    "status": "not_processed",
+  },
+]
+`;
+
+exports[`[NewFile] Scanning files should save a new entry and emit an event - sub-album file 3`] = `
+Array [
+  Object {
+    "dir": "myAlbum/mySubAlbum",
+    "id": 1,
+    "inode": "bXlBbGJ1bW15U3ViQWxidW0=",
+    "parentDir": "myAlbum",
+    "photos": Array [
+      Object {
+        "ISO": null,
+        "album": undefined,
+        "aperture": null,
+        "birthtime": 3,
+        "createDate": null,
+        "ctime": 2,
+        "dir": "myAlbum/mySubAlbum",
+        "file": "PHOTO1.jpg",
+        "id": 1,
+        "inode": "bXlTdWJBbGJ1bVBIT1RPMS5qcGc=",
+        "make": null,
+        "model": null,
+        "mtime": 1,
+        "parentDir": "myAlbum",
+        "processedAperture": null,
+        "processedShutter": null,
+        "searchResults": undefined,
+        "shutter": null,
+        "size": 10,
+        "source": "first",
+        "status": "not_processed",
+      },
+    ],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyZmlyc3Q=",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "first",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./first",
+      "id": 1,
+      "source": "first",
+    },
+  },
+  Object {
+    "dir": "",
+    "id": 1,
+    "inode": "c2VydmVyc2Vjb25k",
+    "parentDir": "",
+    "photos": Array [],
+    "source": "second",
+    "sourceLk": Object {
+      "albums": undefined,
+      "dir": "./second",
+      "id": 1,
+      "source": "second",
+    },
+  },
+]
+`;

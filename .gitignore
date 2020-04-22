@@ -13,3 +13,5 @@ screenshots
 .env
 .changelog
 apps/*/config/local.yaml
+apps/*/config/local-*.yaml
+coverage
