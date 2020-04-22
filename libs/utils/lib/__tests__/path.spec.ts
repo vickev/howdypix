@@ -6,7 +6,7 @@ import {
   path2hfile,
   hfile2path,
   thumbnailPath,
-  hpaths,
+  splitHowdyfiles,
 } from "..";
 
 describe("path", () => {
@@ -120,11 +120,11 @@ describe("path", () => {
     });
   });
 
-  describe("hpaths", () => {
+  describe("splitHowdyfiles", () => {
     it("should return the right value", () => {
-      expect(hpaths(baseHfile)).toMatchSnapshot();
+      expect(splitHowdyfiles(baseHfile)).toMatchSnapshot();
       expect(
-        hpaths({ ...baseHfile, dir: "dir/subdir/subsubdir" })
+        splitHowdyfiles({ ...baseHfile, dir: "dir/subdir/subsubdir" })
       ).toMatchSnapshot();
     });
   });

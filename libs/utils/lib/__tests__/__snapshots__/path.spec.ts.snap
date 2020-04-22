@@ -37,7 +37,7 @@ Object {
 }
 `;
 
-exports[`path hpaths should return the right value 1`] = `
+exports[`path splitHowdyfiles should return the right value 1`] = `
 Array [
   Object {
     "name": "source",
@@ -51,7 +51,7 @@ Array [
 ]
 `;
 
-exports[`path hpaths should return the right value 2`] = `
+exports[`path splitHowdyfiles should return the right value 2`] = `
 Array [
   Object {
     "name": "source",
