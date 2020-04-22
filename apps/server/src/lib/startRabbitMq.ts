@@ -3,10 +3,12 @@ import { resolve } from "path";
 import { QueueName } from "@howdypix/shared-types";
 import {
   appDebug,
+  appInfo,
   assertQueue,
   consume,
   hjoin,
   sendToQueue,
+  appWarning,
 } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { Events } from "./eventEmitter";
@@ -99,6 +101,8 @@ export async function startRabbitMq(
   try {
     const connection = await connectToRabbitMq(options.url, {
       retry: options.retry,
+      info: appInfo("rabbitMQ"),
+      warning: appWarning("rabbitMQ"),
     });
     const channel = await connection.createChannel();
 

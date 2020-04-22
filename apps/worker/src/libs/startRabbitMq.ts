@@ -6,6 +6,8 @@ import {
   consume,
   hjoin,
   sendToQueue,
+  appInfo,
+  appWarning,
 } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { process } from "./process";
@@ -16,6 +18,8 @@ export async function startRabbitMq(
 ): Promise<void> {
   const connection = await connectToRabbitMq(rabbitMQ.url, {
     retry: rabbitMQ.retry,
+    info: appInfo("rabbitMQ"),
+    warning: appWarning("rabbitMQ"),
   });
 
   try {

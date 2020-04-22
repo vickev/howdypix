@@ -1,15 +1,15 @@
 import { connect, Connection } from "amqplib";
-import { appInfo, appWarning } from "./utils";
+import { libInfo, libWarning } from "./utils";
 
 export async function connectToRabbitMq(
   url: string,
-  { retry } = { retry: false }
+  { retry, info, warning } = {
+    retry: false,
+    info: libInfo("rabbitMQ"),
+    warning: libWarning("rabbitMQ"),
+  }
 ): Promise<Connection> {
   const retryIntervalInSec = 5;
-
-  // TODO: change to lib
-  const info = appInfo("rabbitMQ");
-  const warning = appWarning("rabbitMQ");
 
   try {
     info(`Connection to ${url}...`);
@@ -26,7 +26,7 @@ export async function connectToRabbitMq(
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(connectToRabbitMq(url, { retry }));
+      resolve(connectToRabbitMq(url, { retry, warning, info }));
     }, retryIntervalInSec * 1000);
   });
 }

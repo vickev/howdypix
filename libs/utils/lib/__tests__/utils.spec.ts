@@ -21,6 +21,9 @@ import {
   sortJson,
   parentDir,
   isSupportedMime,
+  libInfo,
+  libWarning,
+  libError,
 } from "../utils";
 
 jest.mock("debug", () => ({
@@ -132,7 +135,16 @@ describe("utils::", () => {
   });
 
   describe("debugging functions", () => {
-    [appInfo, appWarning, appError, appDebug, libDebug].forEach((fct) => {
+    [
+      appInfo,
+      appWarning,
+      appError,
+      appDebug,
+      libInfo,
+      libWarning,
+      libError,
+      libDebug,
+    ].forEach((fct) => {
       it(`${fct.name} should call debug() with the right parameters`, () => {
         fct("test");
         expect(debug).toHaveBeenCalled();
