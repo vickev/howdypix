@@ -75,7 +75,7 @@
     "react-client": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-hotkeys": "^2.0.0",
-    "react-i18next": "^11.3.4",
+    "react-i18next": "^11.3.5",
     "sort-keys": "^4.0.0",
     "styled-components": "^5.0.1",
     "typescript": "^3.8.3",
