@@ -1,0 +1,497 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search resolver with a full database should return photos at the root with result 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 5,
+      "file": "File5",
+      "id": "5",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:File5x200.jpg",
+        "http://localhost:3000/files/@source0:File5x600.jpg",
+        "http://localhost:3000/files/@source0:File5x1280.jpg",
+        "http://localhost:3000/files/@source0:File5x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 4,
+      "file": "File4",
+      "id": "4",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:File4x200.jpg",
+        "http://localhost:3000/files/@source0:File4x600.jpg",
+        "http://localhost:3000/files/@source0:File4x1280.jpg",
+        "http://localhost:3000/files/@source0:File4x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return photos at the root without result 1`] = `
+Object {
+  "photos": Array [],
+}
+`;
+
+exports[`search resolver with a full database should return photos in an album with results 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 1,
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return photos in an sub-album with results 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 6,
+      "file": "File6",
+      "id": "6",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir2/File6x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir2/File6x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir2/File6x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir2/File6x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return photos with different filters 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return photos with matching filters 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return photos with multiple different filters 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return photos with multiple matching filters 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 1,
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return photos with order ASC 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 1,
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return photos with order DESC 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 1,
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return the cache results if the same query is run twice with filterBy 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return the cache results if the same query is run twice with filterBy 2`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return the cache results if the same query is run twice with orderBy 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 1,
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return the cache results if the same query is run twice with orderBy 2`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 1,
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return the cache results if the same query is run twice without filters 1`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 1,
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`search resolver with a full database should return the cache results if the same query is run twice without filters 2`] = `
+Object {
+  "photos": Array [
+    Object {
+      "birthtime": 2,
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 1,
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "birthtime": 0,
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+}
+`;

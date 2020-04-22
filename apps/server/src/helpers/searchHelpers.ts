@@ -36,7 +36,7 @@ export const searchHelpers = {
   ): Promise<EntitySearch | undefined> =>
     searchRepository.findOne({
       where: {
-        orderBy: args.orderBy,
+        orderBy: args.orderBy ?? null,
         filterBy: args.filterBy ? sortJsonStringify(args.filterBy) : null,
         album: args.album ?? "",
         source: args.source ?? "",
@@ -50,10 +50,13 @@ export const searchHelpers = {
     const newSearch = new EntitySearch();
     newSearch.source = args.source ?? "";
     newSearch.album = args.album ?? "";
-    newSearch.orderBy = args.orderBy ?? "";
+
+    if (args.orderBy) {
+      newSearch.orderBy = args.orderBy;
+    }
 
     if (args.filterBy) {
-      newSearch.filterBy = sortJsonStringify(args.filterBy) ?? "";
+      newSearch.filterBy = sortJsonStringify(args.filterBy);
     }
 
     return searchRepository.save(newSearch);
@@ -85,8 +88,8 @@ export const searchHelpers = {
     searchResultRepository: Repository<EntitySearchResult>,
     photos: EntityPhoto[],
     search: EntitySearch
-  ): Promise<EntitySearchResult[]> => {
-    return Promise.all(
+  ): Promise<EntitySearchResult[]> =>
+    Promise.all(
       photos.map(async (photo, key) => {
         const newSearchResult = new EntitySearchResult();
         newSearchResult.order = key;
@@ -94,8 +97,7 @@ export const searchHelpers = {
         newSearchResult.search = search;
         return searchResultRepository.save(newSearchResult);
       })
-    );
-  },
+    ),
 
   fetchSearchResult: async (
     searchResultRepository: Repository<EntitySearchResult>,
