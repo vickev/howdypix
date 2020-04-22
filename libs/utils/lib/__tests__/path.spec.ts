@@ -61,7 +61,6 @@ describe("path", () => {
     });
 
     it("should return the right value without dir", () => {
-      // TODO: return "" as dir, whereas hparse() returns "." with dir is empty => inconsistency
       expect(path2hfile("source", "file.jpg")).toMatchSnapshot();
     });
 

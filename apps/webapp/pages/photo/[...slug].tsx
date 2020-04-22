@@ -21,7 +21,7 @@ import {
 } from "../../src/__generated__/schema-types";
 import { PhotoStream } from "../../src/module/photo/PhotoStream";
 import { PhotoRightPanel } from "../../src/module/photo/PhotoRightPanel";
-import { useStore } from "../../src/context/store/storeHook";
+import { useStore } from "../../src/context/store";
 
 type Props = {};
 type InitialProps = { namespacesRequired: string[] };
@@ -157,7 +157,7 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
   const photo = useQuery<GetPhotoQuery, GetPhotoQueryVariables>(GET_PHOTO, {
     variables: {
       source: folder.source,
-      album: folder.dir === "." ? "" : folder.dir ?? "",
+      album: folder.dir ?? "",
       file: folder.file,
       orderBy,
       filterBy,
@@ -174,7 +174,7 @@ const PhotoPage: NextPage<Props, InitialProps> = () => {
   //= ================================================================
   setWithLayout(true);
   setCurrentSource(folder.source);
-  setCurrentAlbum(folder.dir === "." ? "" : folder.dir ?? null);
+  setCurrentAlbum(folder.dir ?? null);
   useEffect(() => {
     setRightPanel(
       <PhotoRightPanel

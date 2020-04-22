@@ -1,9 +1,15 @@
 import { connect, Connection } from "amqplib";
 import { libInfo, libWarning } from "./utils";
 
+type Options = {
+  retry: boolean;
+  info?: (message: string) => void;
+  warning?: (message: string) => void;
+};
+
 export async function connectToRabbitMq(
   url: string,
-  { retry, info, warning } = {
+  { retry, info, warning }: Options = {
     retry: false,
     info: libInfo("rabbitMQ"),
     warning: libWarning("rabbitMQ"),
@@ -11,17 +17,22 @@ export async function connectToRabbitMq(
 ): Promise<Connection> {
   const retryIntervalInSec = 5;
 
+  const displayInfo = info ?? libInfo("rabbitMQ");
+  const displayWarning = warning ?? libWarning("rabbitMQ");
+
   try {
-    info(`Connection to ${url}...`);
+    displayInfo(`Connection to ${url}...`);
     const connection = await connect(url);
-    info("Connection successful!");
+    displayInfo("Connection successful!");
     return connection;
   } catch (e) {
     if (!retry) {
       throw e;
     }
 
-    warning(`Impossible to connect. Retrying in ${retryIntervalInSec}s...`);
+    displayWarning(
+      `Impossible to connect. Retrying in ${retryIntervalInSec}s...`
+    );
   }
 
   return new Promise((resolve) => {

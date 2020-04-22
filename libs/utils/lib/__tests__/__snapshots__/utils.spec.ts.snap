@@ -15,7 +15,7 @@ Array [
 
 exports[`utils:: debugging functions appDebug should call debug() with the right parameters 1`] = `
 Array [
-  "app:debug:test",
+  "lib:debug:test",
 ]
 `;
 
@@ -39,7 +39,25 @@ Array [
 
 exports[`utils:: debugging functions libDebug should call debug() with the right parameters 1`] = `
 Array [
-  "lib:test",
+  "lib:debug:test",
+]
+`;
+
+exports[`utils:: debugging functions libError should call debug() with the right parameters 1`] = `
+Array [
+  "lib:error:test",
+]
+`;
+
+exports[`utils:: debugging functions libInfo should call debug() with the right parameters 1`] = `
+Array [
+  "lib:info:test",
+]
+`;
+
+exports[`utils:: debugging functions libWarning should call debug() with the right parameters 1`] = `
+Array [
+  "lib:warn:test",
 ]
 `;
 

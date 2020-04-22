@@ -26,10 +26,7 @@ export async function onNewDir({
       `The source ${hfile.source} does not exist in the database.`
     );
   } else {
-    await Album.insertIfDoesntExist(
-      source,
-      relativePath === "." ? "" : relativePath
-    );
+    await Album.insertIfDoesntExist(source, relativePath);
   }
 }
 
