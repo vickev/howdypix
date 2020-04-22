@@ -49,7 +49,6 @@ export function path2hfile(source: string, relativePath: string): HFile {
   return { source, dir, file: base };
 }
 
-// TODO: is it really useful => seems a duplicate of hparse()
 export function hfile2path({ dir, file }: HFile): HPath {
   return (file && path.join(dir ?? "", file)) ?? dir ?? "";
 }
@@ -66,8 +65,7 @@ export function thumbnailPath(root: string, howdyfile: HFile | HPath): string {
   return path.join(root, ".howdypix", source, dir ?? "", file ?? "");
 }
 
-// TODO: Not explicit enough for the name...
-export function hpaths(folder: HFile): HFile[] {
+export function splitHowdyfiles(folder: HFile): HFile[] {
   const paths: HFile[] = [];
   const folders = folder.dir?.split("/");
 

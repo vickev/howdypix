@@ -73,28 +73,36 @@ export function isHowdypixPath(path = ""): boolean {
   return path.match(/\.howdypix/) !== null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appInfo(space: string): (...message: any[]) => void {
   return debug(`app:info:${space}`);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appWarning(space: string): (...message: any[]) => void {
   return debug(`app:warn:${space}`);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appError(space: string): (...message: any[]) => void {
   return debug(`app:error:${space}`);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appDebug(space: string): (...message: any[]) => void {
-  return debug(`app:debug:${space}`);
+  return debug(`lib:debug:${space}`);
 }
 
-export function libDebug(space: string): (message: string) => void {
-  return debug(`lib:${space}`);
+export function libInfo(space: string): (...message: any[]) => void {
+  return debug(`lib:info:${space}`);
+}
+
+export function libWarning(space: string): (...message: any[]) => void {
+  return debug(`lib:warn:${space}`);
+}
+
+export function libError(space: string): (...message: any[]) => void {
+  return debug(`lib:error:${space}`);
+}
+
+export function libDebug(space: string): (...message: any[]) => void {
+  return debug(`lib:debug:${space}`);
 }
 
 export function assertQueue(

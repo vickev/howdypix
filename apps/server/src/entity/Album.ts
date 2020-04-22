@@ -26,7 +26,6 @@ export class Album {
   @Column("text")
   dir: string;
 
-  // TODO to remove
   @Column("text")
   source: string;
 
