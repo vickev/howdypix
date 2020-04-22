@@ -84,7 +84,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^1.13.1",
     "@graphql-codegen/introspection": "^1.13.1",
-    "@graphql-codegen/typescript": "^1.13.1",
+    "@graphql-codegen/typescript": "^1.13.3",
     "@graphql-codegen/typescript-operations": "^1.13.1",
     "@graphql-codegen/typescript-react-apollo": "^1.13.1",
     "@howdypix/babel-preset": "^0.1.0",
