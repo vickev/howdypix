@@ -1,0 +1,329 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`photo resolver with a full database should return photo with both filter and order 1`] = `
+Object {
+  "aperture": null,
+  "birthtime": 0,
+  "files": Array [
+    "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+  ],
+  "id": "0",
+  "iso": 22220,
+  "make": "make1",
+  "model": "model1",
+  "next": "File2",
+  "photoStream": Array [
+    Object {
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File3",
+      "id": "3",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File3x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File5",
+      "id": "5",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File5x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File6",
+      "id": "6",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File6x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File8",
+      "id": "8",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File8x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x2048.jpg",
+      ],
+    },
+  ],
+  "previous": null,
+  "shutter": null,
+}
+`;
+
+exports[`photo resolver with a full database should return photo with current filter 1`] = `
+Object {
+  "aperture": null,
+  "birthtime": 0,
+  "files": Array [
+    "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+  ],
+  "id": "0",
+  "iso": 22220,
+  "make": "make1",
+  "model": "model1",
+  "next": null,
+  "photoStream": Array [
+    Object {
+      "file": "File8",
+      "id": "8",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File8x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File6",
+      "id": "6",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File6x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File5",
+      "id": "5",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File5x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File3",
+      "id": "3",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File3x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+  ],
+  "previous": "File2",
+  "shutter": null,
+}
+`;
+
+exports[`photo resolver with a full database should return photo with current order 1`] = `
+Object {
+  "aperture": null,
+  "birthtime": 0,
+  "files": Array [
+    "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+  ],
+  "id": "0",
+  "iso": 22220,
+  "make": "make1",
+  "model": "model1",
+  "next": "File1",
+  "photoStream": Array [
+    Object {
+      "file": "File0",
+      "id": "0",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File1",
+      "id": "1",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File1x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File1x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File2",
+      "id": "2",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File2x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File2x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File3",
+      "id": "3",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File3x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File4",
+      "id": "4",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File4x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File4x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File4x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File4x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File5",
+      "id": "5",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File5x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x2048.jpg",
+      ],
+    },
+  ],
+  "previous": null,
+  "shutter": null,
+}
+`;
+
+exports[`photo resolver with a full database should return photo without current filter / order 1`] = `
+Object {
+  "aperture": null,
+  "birthtime": 0,
+  "files": Array [
+    "http://localhost:3000/files/@source0:albumDir0/File0x200.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x600.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x1280.jpg",
+    "http://localhost:3000/files/@source0:albumDir0/File0x2048.jpg",
+  ],
+  "id": "0",
+  "iso": 22220,
+  "make": "make1",
+  "model": "model1",
+  "next": "File8",
+  "photoStream": Array [
+    Object {
+      "file": "File8",
+      "id": "8",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File8x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File8x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File7",
+      "id": "7",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File7x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File7x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File7x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File7x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File6",
+      "id": "6",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File6x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File6x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File5",
+      "id": "5",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File5x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File5x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File4",
+      "id": "4",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File4x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File4x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File4x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File4x2048.jpg",
+      ],
+    },
+    Object {
+      "file": "File3",
+      "id": "3",
+      "thumbnails": Array [
+        "http://localhost:3000/files/@source0:albumDir0/File3x200.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x600.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x1280.jpg",
+        "http://localhost:3000/files/@source0:albumDir0/File3x2048.jpg",
+      ],
+    },
+  ],
+  "previous": null,
+  "shutter": null,
+}
+`;
