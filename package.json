@@ -55,7 +55,7 @@
     "gh-release": "^3.5.0",
     "husky": "^4.2.5",
     "lerna": "^3.20.2",
-    "lint-staged": "^10.1.2",
+    "lint-staged": "^10.1.7",
     "prettier": "^2.0.5",
     "shell-quote": "^1.7.2"
   },
