@@ -93,7 +93,7 @@
     "jest": "^25.2.7",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.3",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.3",
     "wait-for-expect": "^3.0.2"
   }
 }
