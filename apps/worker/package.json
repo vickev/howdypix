@@ -61,7 +61,7 @@
     "eslint": "^6.8.0",
     "jest": "^25.2.7",
     "nodemon": "^2.0.3",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.3",
     "wait-for-expect": "^3.0.2"
   }
 }
