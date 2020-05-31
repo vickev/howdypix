@@ -1,7 +1,9 @@
 import {
-  EventSubscriber,
   EntitySubscriberInterface,
+  EventSubscriber,
   InsertEvent,
+  RemoveEvent,
+  UpdateEvent,
 } from "typeorm";
 import { Search } from "../entity";
 import { EnhancedSubscriber } from "../../../types";
@@ -11,23 +13,23 @@ export const updateStoreOnSearchSave: EnhancedSubscriber<Search> = (
   store
 ) => {
   @EventSubscriber()
-  class PostSubscriber implements EntitySubscriberInterface<Search> {
+  class SearchSubscriber implements EntitySubscriberInterface<Search> {
     listenTo = (): typeof Search => {
       return Search;
     };
 
-    afterInsert = (event: InsertEvent<Search>): void => {
-      store.dispatch({
-        type: "STORE_NEW_SEARCH",
-        searchId: event.entity.id,
-        data: {
-          album: event.entity.album,
-          source: event.entity.source,
-          lastUpdatedPhoto: null,
-        },
-      });
+    afterInsert = (e: InsertEvent<Search>): void => {
+      event.emit("insertSearchEntry", { data: e.entity });
+    };
+
+    afterUpdate = (e: UpdateEvent<Search>): void => {
+      event.emit("updateSearchEntry", { data: e.entity });
+    };
+
+    afterRemove = (e: RemoveEvent<Search>): void => {
+      event.emit("removeSearchEntry", { data: e.entity });
     };
   }
 
-  return PostSubscriber as EntitySubscriberInterface<Search>;
+  return SearchSubscriber as EntitySubscriberInterface<Search>;
 };

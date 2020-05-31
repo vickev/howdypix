@@ -1,7 +1,9 @@
 import {
-  EventSubscriber,
   EntitySubscriberInterface,
+  EventSubscriber,
   InsertEvent,
+  RemoveEvent,
+  UpdateEvent,
 } from "typeorm";
 import { Album } from "../entity";
 import { EnhancedSubscriber } from "../../../types";
@@ -16,14 +18,16 @@ export const updateStoreOnAlbumSave: EnhancedSubscriber<Album> = (
       return Album;
     };
 
-    afterInsert = (event: InsertEvent<Album>): void => {
-      store.dispatch({
-        type: "STORE_NEW_ALBUM",
-        albumId: event.entity.id,
-        data: {
-          lastUpdatedPhoto: null,
-        },
-      });
+    afterInsert = (e: InsertEvent<Album>): void => {
+      event.emit("insertAlbumEntry", { data: e.entity });
+    };
+
+    afterUpdate = (e: UpdateEvent<Album>): void => {
+      event.emit("updateAlbumEntry", { data: e.entity });
+    };
+
+    afterRemove = (e: RemoveEvent<Album>): void => {
+      event.emit("removeAlbumEntry", { data: e.entity });
     };
   }
 

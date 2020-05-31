@@ -1,21 +1,16 @@
 import "reflect-metadata";
 import { EventEmitter } from "events";
 import express from "express";
-import { map } from "lodash";
-import { createConnection } from "typeorm";
-import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
 import { applyAuthMiddleware } from "./modules/auth";
-import { userConfig, appConfig } from "./lib/config";
+import { appConfig, userConfig } from "./lib/config";
 import { applyApolloMiddleware } from "./modules/graphql";
-import { startFileScan, startCacheDB, startRabbitMq } from "./services";
+import { startCacheDB, startFileScan, startRabbitMq } from "./services";
 import { Events } from "./lib/eventEmitter";
 import { staticHandler } from "./modules/static";
 import { emailListHandler, emailViewHandler } from "./modules/email";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-import ormConfig from "../ormconfig";
 import { createAppStore, initializeStore } from "./datastore/state";
-import * as subscribers from "./datastore/database/subscriber";
 import { initializeDatabase } from "./datastore/database/initialize";
 import { initializeLowDb } from "./datastore/lowdb";
 

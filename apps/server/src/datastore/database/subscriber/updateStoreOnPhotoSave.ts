@@ -2,36 +2,31 @@ import {
   EventSubscriber,
   EntitySubscriberInterface,
   InsertEvent,
+  RemoveEvent,
+  UpdateEvent,
 } from "typeorm";
 import { Photo } from "../entity";
 import { EnhancedSubscriber } from "../../../types";
 
-export const updateStoreOnPhotoSave: EnhancedSubscriber<Photo> = (
-  event,
-  store
-) => {
+export const updateStoreOnPhotoSave: EnhancedSubscriber<Photo> = (event) => {
   @EventSubscriber()
-  class PostSubscriber implements EntitySubscriberInterface<Photo> {
+  class PhotoSubscriber implements EntitySubscriberInterface<Photo> {
     listenTo = (): typeof Photo => {
       return Photo;
     };
 
     afterInsert = (e: InsertEvent<Photo>): void => {
-      store.dispatch({
-        type: "UPDATE_ALBUM_LAST_UPDATED_PHOTO",
-        albumId: e.entity.albumId,
-        data: {
-          lastUpdatedPhoto: e.entity.updatedAt,
-        },
-      });
-
-      event.emit("newPhotoEntry", { data: e.entity });
+      event.emit("insertPhotoEntry", { data: e.entity });
     };
 
-    afterUpdate = (e: InsertEvent<Photo>): void => {
-      event.emit("newPhotoEntry", { data: e.entity });
+    afterUpdate = (e: UpdateEvent<Photo>): void => {
+      event.emit("updatePhotoEntry", { data: e.entity });
+    };
+
+    afterRemove = (e: RemoveEvent<Photo>): void => {
+      event.emit("removePhotoEntry", { data: e.entity });
     };
   }
 
-  return PostSubscriber as EntitySubscriberInterface<Photo>;
+  return PhotoSubscriber as EntitySubscriberInterface<Photo>;
 };

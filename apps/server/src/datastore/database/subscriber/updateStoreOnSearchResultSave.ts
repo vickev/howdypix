@@ -2,8 +2,10 @@ import {
   EventSubscriber,
   EntitySubscriberInterface,
   InsertEvent,
+  UpdateEvent,
+  RemoveEvent,
 } from "typeorm";
-import { SearchResult } from "../entity";
+import { Photo, SearchResult } from "../entity";
 import { EnhancedSubscriber } from "../../../types";
 
 export const updateStoreOnSearchResultSave: EnhancedSubscriber<SearchResult> = (
@@ -11,21 +13,24 @@ export const updateStoreOnSearchResultSave: EnhancedSubscriber<SearchResult> = (
   store
 ) => {
   @EventSubscriber()
-  class PostSubscriber implements EntitySubscriberInterface<SearchResult> {
+  class SearchResultSubscriber
+    implements EntitySubscriberInterface<SearchResult> {
     listenTo = (): typeof SearchResult => {
       return SearchResult;
     };
 
-    afterInsert = (event: InsertEvent<SearchResult>): void => {
-      store.dispatch({
-        type: "UPDATE_SEARCH_LAST_UPDATED_PHOTO",
-        searchId: event.entity.id,
-        data: {
-          lastUpdatedPhoto: event.entity.photo.updatedAt,
-        },
-      });
+    afterInsert = (e: InsertEvent<SearchResult>): void => {
+      event.emit("insertSearchResultEntry", { data: e.entity });
+    };
+
+    afterUpdate = (e: UpdateEvent<SearchResult>): void => {
+      event.emit("updateSearchResultEntry", { data: e.entity });
+    };
+
+    afterRemove = (e: RemoveEvent<SearchResult>): void => {
+      event.emit("removeSearchResultEntry", { data: e.entity });
     };
   }
 
-  return PostSubscriber as EntitySubscriberInterface<SearchResult>;
+  return SearchResultSubscriber as EntitySubscriberInterface<SearchResult>;
 };

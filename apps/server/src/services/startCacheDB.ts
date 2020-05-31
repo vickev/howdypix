@@ -180,14 +180,6 @@ function isPhotoMatching(photo: Photo, search: Search): boolean {
   const filterBy = JSON.parse(
     search.filterBy
   ) as NexusGenInputs["PhotosFilterBy"];
-  //
-  // matching =
-  //   (matching &&
-  //     filterBy.model?.reduce(
-  //       (previous: boolean, model) => previous || photo.model === model,
-  //       false
-  //     )) ??
-  //   false;
 
   filterBy.model?.forEach((model) => {
     matching = matching && photo.model === model;
@@ -199,7 +191,7 @@ function isPhotoMatching(photo: Photo, search: Search): boolean {
   return matching;
 }
 
-export async function onNewPhotoEntry(
+export async function onSavePhotoEntry(
   photo: Photo,
   connection: Connection
 ): Promise<void> {
@@ -254,8 +246,11 @@ export async function startCacheDB(
 
   event.on("processedFile", (file) => onProcessedFile(file, event, connection));
 
-  event.on("newPhotoEntry", ({ data }) => {
-    onNewPhotoEntry(data, connection);
+  event.on("insertPhotoEntry", ({ data }) => {
+    onSavePhotoEntry(data, connection);
+  });
+  event.on("updatePhotoEntry", ({ data }) => {
+    onSavePhotoEntry(data, connection);
   });
 
   return connection;
