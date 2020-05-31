@@ -1,13 +1,16 @@
 import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema.d";
-import { getPhotoResolver } from "../src/schema/photo/photoResolvers";
-import { initialize, resetValues, saveAllData } from "./schema.setup";
+import { getPhotoResolver } from "../src/modules/graphql/schema/photo/photoResolvers";
+import { initialize, resetValues } from "./schema.setup";
 
 describe("photo resolver", () => {
-  const { connection, reset } = initialize();
+  const { connection, reset, saveAllData, store } = initialize();
 
   beforeEach(async () => {
     jest.resetAllMocks();
     jest.restoreAllMocks();
+    jest
+      .spyOn(global.Date, "now")
+      .mockImplementation(() => new Date("2019-05-14T11:01:58.135Z").valueOf());
 
     await reset();
   });
@@ -68,6 +71,7 @@ describe("photo resolver", () => {
           // Run
           const results = await getPhotoResolver()({}, args, {
             connection,
+            store,
             user: null,
           });
 

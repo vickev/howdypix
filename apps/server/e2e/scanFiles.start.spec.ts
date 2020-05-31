@@ -1,6 +1,6 @@
 import { statSync } from "fs";
 import { appError } from "@howdypix/utils";
-import { startCacheDB } from "../src/lib/startCacheDB";
+import { startCacheDB } from "../src/services/startCacheDB";
 import { Events } from "../src/lib/eventEmitter";
 import { initialize } from "./scanFiles.setup";
 

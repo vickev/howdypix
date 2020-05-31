@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`state initiliaze should initialize properly the store 1`] = `
+Object {
+  "albums": Object {
+    "0": Object {
+      "lastUpdatedPhoto": 1970-01-01T00:00:00.002Z,
+    },
+  },
+  "searches": Object {},
+}
+`;

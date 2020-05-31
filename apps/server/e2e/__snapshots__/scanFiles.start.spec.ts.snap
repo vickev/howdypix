@@ -3,6 +3,7 @@
 exports[`[Start] Scanning files when starting the process should display an error if one source does not have the directory accessible but the other yes 1`] = `
 Array [
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyZmlyc3Q=",
@@ -11,12 +12,16 @@ Array [
     "source": "first",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./first",
       "id": 1,
       "source": "first",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyc2Vjb25k",
@@ -25,10 +30,13 @@ Array [
     "source": "second",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./second",
       "id": 1,
       "source": "second",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
 ]
 `;
@@ -38,6 +46,7 @@ Array [
   Object {
     "albums": Array [
       Object {
+        "createdAt": 2016-01-01T00:00:00.000Z,
         "dir": "",
         "id": 1,
         "inode": "c2VydmVyZmlyc3Q=",
@@ -45,15 +54,19 @@ Array [
         "photos": undefined,
         "source": "first",
         "sourceLk": undefined,
+        "updatedAt": 2016-01-01T00:00:00.000Z,
       },
     ],
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "./first",
     "id": 1,
     "source": "first",
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
   Object {
     "albums": Array [
       Object {
+        "createdAt": 2016-01-01T00:00:00.000Z,
         "dir": "",
         "id": 1,
         "inode": "c2VydmVyc2Vjb25k",
@@ -61,11 +74,14 @@ Array [
         "photos": undefined,
         "source": "second",
         "sourceLk": undefined,
+        "updatedAt": 2016-01-01T00:00:00.000Z,
       },
     ],
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "./second",
     "id": 1,
     "source": "second",
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
 ]
 `;

@@ -1,6 +1,6 @@
 import waitForExpect from "wait-for-expect";
 import { statSync } from "fs";
-import { startCacheDB } from "../src/lib/startCacheDB";
+import { startCacheDB } from "../src/services/startCacheDB";
 import { Events } from "../src/lib/eventEmitter";
 import { initialize } from "./scanFiles.setup";
 

@@ -1,20 +1,23 @@
 import "reflect-metadata";
 import { EventEmitter } from "events";
 import express from "express";
+import { map } from "lodash";
 import { createConnection } from "typeorm";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
-import { userConfig, appConfig } from "./config";
-import { applyApolloMiddleware } from "./middleware/apollo";
-import { startFileScan } from "./lib/startFileScan";
+import { applyAuthMiddleware } from "./modules/auth";
+import { userConfig, appConfig } from "./lib/config";
+import { applyApolloMiddleware } from "./modules/graphql";
+import { startFileScan, startCacheDB, startRabbitMq } from "./services";
 import { Events } from "./lib/eventEmitter";
-import { startRabbitMq } from "./lib/startRabbitMq";
-import { startCacheDB } from "./lib/startCacheDB";
-import { staticHandler } from "./middleware/static";
-import { emailListHandler, emailViewHandler } from "./middleware/email";
-import { applyAuthMiddleware } from "./middleware/auth";
+import { staticHandler } from "./modules/static";
+import { emailListHandler, emailViewHandler } from "./modules/email";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import ormConfig from "../ormconfig";
+import { createAppStore, initializeStore } from "./datastore/state";
+import * as subscribers from "./datastore/database/subscriber";
+import { initializeDatabase } from "./datastore/database/initialize";
+import { initializeLowDb } from "./datastore/lowdb";
 
 async function main(): Promise<void> {
   const event: Events = new EventEmitter();
@@ -26,10 +29,15 @@ async function main(): Promise<void> {
   // eslint-disable-next-line no-console
   console.log(appConfig);
 
+  // Create App Store
+  const store = createAppStore();
+
   // Open the DB connection
-  const connection = await createConnection({
-    ...(ormConfig as SqliteConnectionOptions),
-  });
+  const connection = initializeDatabase(appConfig.database, store, event);
+  await connection.connect();
+
+  // Initialize the store
+  await initializeStore(store, connection, initializeLowDb());
 
   /**
    * Start the mandatory services
@@ -56,7 +64,7 @@ async function main(): Promise<void> {
   applyAuthMiddleware(app);
 
   // Attach the Apollo middlewares
-  applyApolloMiddleware(app, appConfig, userConfig, connection);
+  applyApolloMiddleware(app, appConfig, userConfig, connection, store);
 
   app.listen({ port: appConfig.api.port }, () => {
     // eslint-disable-next-line no-console

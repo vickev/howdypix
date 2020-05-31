@@ -2,6 +2,12 @@
   "extends": "@howdypix/typescript-config/base",
   "include": ["src/**/*.ts", "e2e/**/*.ts"],
   "compilerOptions": {
+//    "baseUrl": ".",
+//    "paths": {
+//      "*": [
+//        "src/*"
+//      ]
+//    },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false

@@ -1,8 +1,8 @@
 import { statSync } from "fs";
 import { appError } from "@howdypix/utils";
 import waitForExpect from "wait-for-expect";
-import { startCacheDB } from "../src/lib/startCacheDB";
-import { Album, Photo } from "../src/entity";
+import { startCacheDB } from "../src/services/startCacheDB";
+import { Album, Photo } from "../src/datastore/database/entity";
 import { Events, EventTypes } from "../src/lib/eventEmitter";
 import { initialize } from "./scanFiles.setup";
 

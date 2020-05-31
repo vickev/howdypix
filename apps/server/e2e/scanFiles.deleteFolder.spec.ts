@@ -2,7 +2,7 @@ import { join } from "path";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from "wait-for-expect";
 import { statSync } from "fs";
-import { startCacheDB } from "../src/lib/startCacheDB";
+import { startCacheDB } from "../src/services/startCacheDB";
 // @ts-ignore
 import { Events } from "../src/lib/eventEmitter";
 import { initialize } from "./scanFiles.setup";

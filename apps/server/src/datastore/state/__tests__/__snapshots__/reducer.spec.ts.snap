@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`state reducer should NOT update the lastUpdatedPhoto if a LESS recent photo is saved 1`] = `
+Object {
+  "albums": Object {
+    "0": Object {
+      "lastUpdatedPhoto": 1970-01-01T00:00:00.001Z,
+    },
+  },
+  "searchResults": Object {},
+}
+`;
+
+exports[`state reducer should NOT update the lastUpdatedPhoto if a LESS recent photo is saved 2`] = `
+Object {
+  "albums": Object {
+    "0": Object {
+      "lastUpdatedPhoto": 1970-01-01T00:00:00.001Z,
+    },
+  },
+  "searchResults": Object {},
+}
+`;
+
+exports[`state reducer should not do anything if the album doesn't exist in the state 1`] = `
+Object {
+  "albums": Object {
+    "0": Object {
+      "lastUpdatedPhoto": 1970-01-01T00:00:00.001Z,
+    },
+  },
+  "searchResults": Object {},
+}
+`;
+
+exports[`state reducer should update if the album lastUpdatedPhoto is null 1`] = `
+Object {
+  "albums": Object {
+    "0": Object {
+      "lastUpdatedPhoto": 1970-01-01T00:00:00.000Z,
+    },
+  },
+  "searches": Object {},
+}
+`;
+
+exports[`state reducer should update the lastUpdatedPhoto if a more recent photo is saved 1`] = `
+Object {
+  "albums": Object {
+    "0": Object {
+      "lastUpdatedPhoto": 1970-01-01T00:00:00.002Z,
+    },
+  },
+  "searches": Object {},
+}
+`;

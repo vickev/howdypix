@@ -1,14 +1,28 @@
-import { NexusGenArgTypes } from "@howdypix/graphql-schema/schema.d";
-import { Photo } from "../src/entity";
-import { getSearchResolver } from "../src/schema/search/searchResolvers";
-import { initialize, resetValues, saveAllData } from "./schema.setup";
+import "jest-extended";
+
+import {
+  NexusGenArgTypes,
+  NexusGenFieldTypes,
+} from "@howdypix/graphql-schema/schema.d";
+import { Photo, SearchResult } from "../src/datastore/database/entity";
+import { getSearchResolver } from "../src/modules/graphql/schema/search/searchResolvers";
+import { initialize, resetValues } from "./schema.setup";
 
 describe("search resolver", () => {
-  const { connection, reset } = initialize();
+  const { connection, reset, statedb, saveAllData, store } = initialize();
 
   beforeEach(async () => {
     jest.resetAllMocks();
     jest.restoreAllMocks();
+    const RealDate = Date;
+
+    // @ts-ignore
+    global.Date = class extends RealDate {
+      constructor() {
+        super();
+        return new RealDate("2016");
+      }
+    };
 
     await reset();
   });
@@ -98,6 +112,7 @@ describe("search resolver", () => {
         // Run
         const results = await getSearchResolver()({}, args, {
           connection,
+          store,
           user: null,
         });
 
@@ -128,11 +143,29 @@ describe("search resolver", () => {
               },
               {
                 connection,
+                store,
                 user: null,
               }
             );
 
-            // Test
+            // // Test
+            // expect(statedb.getState()).toMatchObject({
+            //   albums: {
+            //     [albums[0].id]: {
+            //       lastUpdatedPhoto: expect.any(String),
+            //     },
+            //     [albums[1].id]: {
+            //       lastUpdatedPhoto: expect.any(String),
+            //     },
+            //     [albums[2].id]: {
+            //       lastUpdatedPhoto: expect.any(String),
+            //     },
+            //     [albums[3].id]: {
+            //       lastUpdatedPhoto: null,
+            //     },
+            //   },
+            // });
+
             expect(results).toMatchSnapshot();
             expect(connection.getRepository(Photo).find).toHaveBeenCalledTimes(
               1
@@ -144,5 +177,59 @@ describe("search resolver", () => {
           await runSearch();
         })
     );
+
+    it.only(`should reset the cache if a value changed between two searches`, async () => {
+      // Initialize
+      await saveAllData(connection, { sources, albums, photos });
+      jest.spyOn(connection.getRepository(Photo), "find");
+
+      const runSearch = async (): Promise<
+        NexusGenFieldTypes["Query"]["getSearch"]
+      > =>
+        getSearchResolver()(
+          {},
+          {
+            album: photos[0].dir,
+            source: photos[0].source,
+            filterBy: {
+              make: ["make2"],
+            },
+          },
+          {
+            connection,
+            store,
+            user: null,
+          }
+        );
+
+      // Run the search and have some results
+      expect((await runSearch()).photos).toHaveLength(6);
+
+      // Change one photo
+      photos[0].make = "make2";
+      await connection.getRepository(Photo).save(photos[0]);
+
+      // Should refresh the results in the SearchResult table
+      expect((await runSearch()).photos).toHaveLength(7);
+      expect(connection.getRepository(Photo).find).toHaveBeenCalledTimes(1);
+
+      // // Test
+      // expect(statedb.getState()).toMatchObject({
+      //   albums: {
+      //     [albums[0].id]: {
+      //       lastUpdatedPhoto: expect.any(String),
+      //     },
+      //     [albums[1].id]: {
+      //       lastUpdatedPhoto: expect.any(String),
+      //     },
+      //     [albums[2].id]: {
+      //       lastUpdatedPhoto: expect.any(String),
+      //     },
+      //     [albums[3].id]: {
+      //       lastUpdatedPhoto: null,
+      //     },
+      //   },
+      // });
+    });
   });
 });

@@ -3,6 +3,7 @@
 exports[`[NewFolder] Scanning files should save a new entry - root 1`] = `
 Array [
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "newAlbum",
     "id": 1,
     "inode": "Zmlyc3RuZXdBbGJ1bQ==",
@@ -11,12 +12,16 @@ Array [
     "source": "first",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./first",
       "id": 1,
       "source": "first",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyZmlyc3Q=",
@@ -25,12 +30,16 @@ Array [
     "source": "first",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./first",
       "id": 1,
       "source": "first",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyc2Vjb25k",
@@ -39,10 +48,13 @@ Array [
     "source": "second",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./second",
       "id": 1,
       "source": "second",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
 ]
 `;
@@ -50,6 +62,7 @@ Array [
 exports[`[NewFolder] Scanning files should save a new entry - sub-album 1`] = `
 Array [
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "album/newAlbum",
     "id": 1,
     "inode": "YWxidW1uZXdBbGJ1bQ==",
@@ -58,12 +71,16 @@ Array [
     "source": "first",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./first",
       "id": 1,
       "source": "first",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyZmlyc3Q=",
@@ -72,12 +89,16 @@ Array [
     "source": "first",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./first",
       "id": 1,
       "source": "first",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyc2Vjb25k",
@@ -86,10 +107,13 @@ Array [
     "source": "second",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./second",
       "id": 1,
       "source": "second",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
 ]
 `;
@@ -97,6 +121,7 @@ Array [
 exports[`[NewFolder] Scanning files should save a new entry - sub-sub-album 1`] = `
 Array [
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "album1/album2/album3/album4/newAlbum",
     "id": 1,
     "inode": "YWxidW00bmV3QWxidW0=",
@@ -105,12 +130,16 @@ Array [
     "source": "first",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./first",
       "id": 1,
       "source": "first",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyZmlyc3Q=",
@@ -119,12 +148,16 @@ Array [
     "source": "first",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./first",
       "id": 1,
       "source": "first",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
   Object {
+    "createdAt": 2016-01-01T00:00:00.000Z,
     "dir": "",
     "id": 1,
     "inode": "c2VydmVyc2Vjb25k",
@@ -133,10 +166,13 @@ Array [
     "source": "second",
     "sourceLk": Object {
       "albums": undefined,
+      "createdAt": 2016-01-01T00:00:00.000Z,
       "dir": "./second",
       "id": 1,
       "source": "second",
+      "updatedAt": 2016-01-01T00:00:00.000Z,
     },
+    "updatedAt": 2016-01-01T00:00:00.000Z,
   },
 ]
 `;

@@ -2,10 +2,10 @@ import waitForExpect from "wait-for-expect";
 import { statSync } from "fs";
 import { QueueName, QueueData } from "@howdypix/shared-types";
 import { appError } from "@howdypix/utils";
-import { startCacheDB } from "../src/lib/startCacheDB";
+import { startCacheDB } from "../src/services/startCacheDB";
 import { Events } from "../src/lib/eventEmitter";
 import { initialize } from "./scanFiles.setup";
-import { Photo } from "../src/entity";
+import { Photo } from "../src/datastore/database/entity";
 
 jest.mock("@howdypix/utils", () => ({
   ...jest.requireActual("@howdypix/utils"),

@@ -3,9 +3,9 @@ import { consume, sendToQueue } from "@howdypix/utils";
 import { connectToRabbitMq } from "@howdypix/utils/dist/rabbitMq";
 import { Channel, Connection } from "amqplib";
 import { EventEmitter } from "events";
-import { startRabbitMq } from "../src/lib/startRabbitMq";
+import { startRabbitMq } from "../src/services/startRabbitMq";
 import { Events, EventTypes } from "../src/lib/eventEmitter";
-import { appConfig, UserConfig } from "../src/config";
+import { appConfig, UserConfig } from "../src/lib/config";
 
 describe("startRabbitMq", () => {
   let connection: Connection;

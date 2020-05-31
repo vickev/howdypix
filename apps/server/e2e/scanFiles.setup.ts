@@ -8,9 +8,10 @@ import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionO
 import { parse } from "path";
 // @ts-ignore
 import ormConfig from "../ormconfig";
-import * as entities from "../src/entity";
-import { Album, Photo, Source } from "../src/entity";
-import { UserConfig } from "../src/config";
+import * as entities from "../src/datastore/database/entity";
+import { Album, Photo, Source } from "../src/datastore/database/entity";
+import { UserConfig } from "../src/lib/config";
+import { mockDate } from "../src/lib/testUtils";
 
 jest.mock(
   "@howdypix/utils",
@@ -120,6 +121,9 @@ export function initialize(): {
     }));
 
     (appError as jest.Mock).mockReturnValue((): void => {});
+
+    // Mock Date
+    mockDate();
 
     // Reset the database
     if (connection.isConnected) {
