@@ -86,7 +86,7 @@
     "@graphql-codegen/introspection": "^1.13.5",
     "@graphql-codegen/typescript": "^1.13.1",
     "@graphql-codegen/typescript-operations": "^1.13.3",
-    "@graphql-codegen/typescript-react-apollo": "^1.13.1",
+    "@graphql-codegen/typescript-react-apollo": "^1.15.0",
     "@howdypix/babel-preset": "^0.1.0",
     "@howdypix/eslint-config": "^0.1.0",
     "@howdypix/jest-config": "^0.1.0",
