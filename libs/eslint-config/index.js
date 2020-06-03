@@ -35,16 +35,17 @@ module.exports = {
     "prettier/@typescript-eslint",
   ],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "prettier", "jest"],
+  plugins: ["import", "@typescript-eslint", "prettier", "jest"],
   globals: {
     test: "readonly",
     expect: "readonly",
   },
   settings: {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
     "import/resolver": {
-      node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
-      },
+      typescript: {}, // this loads <rootdir>/tsconfig.json to eslint
     },
   },
   parserOptions: {
