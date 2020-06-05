@@ -41,7 +41,7 @@
     "@howdypix/shared-types": "^0.1.0",
     "@howdypix/utils": "^0.1.0",
     "amqplib": "^0.5.5",
-    "apollo-server": "^2.12.0",
+    "apollo-server": "^2.14.2",
     "apollo-server-express": "^2.11.0",
     "chokidar": "^3.4.0",
     "config": "^3.3.1",
