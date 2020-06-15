@@ -60,7 +60,7 @@
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^4.1.1",
     "strict-event-emitter-types": "^2.0.0",
-    "typeorm": "^0.2.24",
+    "typeorm": "^0.2.25",
     "wait-on": "^5.0.1",
     "yargs": "^15.3.1"
   },
