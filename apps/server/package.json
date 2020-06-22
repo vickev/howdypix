@@ -58,7 +58,7 @@
     "nodemailer": "^6.4.6",
     "nodemailer-smtp-transport": "^2.7.4",
     "reflect-metadata": "^0.1.13",
-    "sqlite3": "^4.1.1",
+    "sqlite3": "^4.2.0",
     "strict-event-emitter-types": "^2.0.0",
     "typeorm": "^0.2.25",
     "wait-on": "^5.0.1",
