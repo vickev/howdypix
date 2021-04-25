@@ -12,7 +12,7 @@ const scopes = _.pullAll(
   ),
   ["README.md"]
 );
-
+console.log(scopes);
 module.exports = {
   extends: ["@commitlint/config-conventional"],
   rules: {
