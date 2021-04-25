@@ -50,7 +50,7 @@
     "@brightcove/kacl": "^0.1.8",
     "@commitlint/config-conventional": "^8.3.4",
     "child-process-promise": "^2.2.1",
-    "commitlint": "^8.3.5",
+    "commitlint": "^12.1.1",
     "dotenv": "^8.2.0",
     "gh-release": "^3.5.0",
     "husky": "^4.2.5",
