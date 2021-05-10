@@ -55,7 +55,7 @@
     "lodash": "^4.17.19",
     "mjml": "^4.6.3",
     "nexus": "^0.11.7",
-    "nodemailer": "^6.4.10",
+    "nodemailer": "^6.4.16",
     "nodemailer-smtp-transport": "^2.7.4",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^4.2.0",
