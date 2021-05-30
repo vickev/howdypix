@@ -81,7 +81,7 @@ describe("startRabbitMq", () => {
       expect((process as jest.Mock).mock.calls[0]).toMatchSnapshot();
     });
 
-    it("should send a message back to RabbitMQ", async (done) => {
+    it("should send a message back to RabbitMQ", (done) => {
       consume(channel, QueueName.PROCESSED, (msg) => {
         waitForExpect(() => {
           expect(msg?.data).toMatchSnapshot();
