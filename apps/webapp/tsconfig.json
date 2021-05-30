@@ -1,8 +1,15 @@
 {
   "extends": "@howdypix/typescript-config/base",
-  "exclude": ["node_modules", "cypress/**/*.spec.ts"],
+  "exclude": [
+    "node_modules",
+    "cypress/**/*.spec.ts"
+  ],
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,5 +19,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "esModuleInterop": true
-  }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
