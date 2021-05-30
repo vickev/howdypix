@@ -98,6 +98,8 @@ export const generateJwtToken = async (
       (err, token) => {
         if (err) {
           reject(err);
+        } else if (!token) {
+          reject(new Error("The token is undefined"));
         } else {
           debug(`Token: ${trunkToken(token)}`);
           resolve(token);
