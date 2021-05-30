@@ -7,7 +7,7 @@ const prettierRules = {
 const typescriptAlreadySupportedByTscRules = {
   "no-undef": "off",
   "no-unused-expressions": "off",
-  "no-unused-vars": "off",
+  "@typescript-eslint/no-unused-vars": "off",
   "no-useless-constructor": "off",
   "no-shadow": "off",
   "no-use-before-define": "off",
@@ -19,7 +19,8 @@ const typescriptAlreadySupportedByTscRules = {
 
 const jestRules = {
   "jest/expect-expect": "off",
-  "jest/no-test-callback": "off",
+  "jest/no-done-callback": "off",
+  "jest/valid-title": "off",
 };
 
 module.exports = {
@@ -32,7 +33,6 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
     "prettier",
-    "prettier/@typescript-eslint",
   ],
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "prettier", "jest"],
