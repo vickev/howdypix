@@ -47,7 +47,6 @@ describe("utils::", () => {
   });
 
   describe("wait", () => {
-    // eslint-disable-next-line jest/no-test-callback
     it("should call setTimeout", (done) => {
       // Initialize
       jest.useFakeTimers("legacy");
