@@ -43,9 +43,9 @@ describe("rabbitMQ::", () => {
       await expect(connectToRabbitMq(url)).rejects.toThrow("NOPE");
     });
 
-    it("should retry to connect if it fails", async (done) => {
+    it("should retry to connect if it fails", (done) => {
       // Initialize
-      jest.useFakeTimers();
+      jest.useFakeTimers("legacy");
 
       let numberFailure = 0;
       (connect as jest.Mock).mockImplementation(() => {

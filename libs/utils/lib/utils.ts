@@ -108,7 +108,7 @@ export function libDebug(space: string): (...message: any[]) => void {
 export function assertQueue(
   channel: Channel,
   name: QueueName
-): Promise<Replies.AssertQueue> {
+): PromiseLike<Replies.AssertQueue> {
   return channel.assertQueue(name);
 }
 
@@ -121,7 +121,7 @@ export function consume<T extends QueueName>(
   name: T,
   onMessage?: (msg: ParsedConsumeMessage<T> | null) => void,
   options?: Options.Consume
-): Promise<Replies.Consume> {
+): PromiseLike<Replies.Consume> {
   return channel.consume(
     name,
     async (msg) => {

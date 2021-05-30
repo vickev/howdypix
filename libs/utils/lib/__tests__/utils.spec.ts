@@ -48,9 +48,9 @@ describe("utils::", () => {
 
   describe("wait", () => {
     // eslint-disable-next-line jest/no-test-callback
-    it("should call setTimeout", async (done) => {
+    it("should call setTimeout", (done) => {
       // Initialize
-      jest.useFakeTimers();
+      jest.useFakeTimers("legacy");
       wait(1).then(() => {
         // test
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
