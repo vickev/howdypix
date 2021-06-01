@@ -7,7 +7,7 @@ const prettierRules = {
 const typescriptAlreadySupportedByTscRules = {
   "no-undef": "off",
   "no-unused-expressions": "off",
-  "@typescript-eslint/no-unused-vars": "off",
+  "no-unused-vars": "off",
   "no-useless-constructor": "off",
   "no-shadow": "off",
   "no-use-before-define": "off",

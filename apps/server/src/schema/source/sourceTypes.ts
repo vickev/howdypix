@@ -7,6 +7,6 @@ export const Source = (): NexusObjectTypeDef<"Source"> =>
     name: "Source",
     definition(t) {
       withPreviewAndStats(t);
-      t.field("name", { type: nonNull("String") });
+      t.field("name", { type: "String" });
     },
   });

@@ -7,9 +7,9 @@ export const getPhoto: EnhancedQuery = () =>
   queryField("getPhoto", {
     type: nullable("PhotoDetail"),
     args: {
-      album: nonNull(stringArg()),
-      file: nonNull(stringArg()),
-      source: nonNull(stringArg()),
+      album: stringArg(),
+      file: stringArg(),
+      source: stringArg(),
       ...withOrderByQueryArg(),
       ...withFilterByQueryArg(),
     },

@@ -7,17 +7,17 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const withMetaInfo = (t: ObjectDefinitionBlock<any>): void => {
   t.field("preview", { type: nullable("String") });
-  t.field("nbImages", { type: nonNull("Int") });
-  t.field("nbAlbums", { type: nonNull("Int") });
+  t.field("nbImages", { type: "Int" });
+  t.field("nbAlbums", { type: "Int" });
 };
 
 export const GetTreeAlbums = (): NexusObjectTypeDef<"GetTreeAlbums"> =>
   objectType({
     name: "GetTreeAlbums",
     definition(t) {
-      t.field("dir", { type: nonNull("String") });
+      t.field("dir", { type: "String" });
       t.field("parentDir", { type: nullable("String") });
-      t.field("source", { type: nonNull("String") });
+      t.field("source", { type: "String" });
       withMetaInfo(t);
     },
   });
@@ -25,7 +25,7 @@ export const GetTreeSources = (): NexusObjectTypeDef<"GetTreeSources"> =>
   objectType({
     name: "GetTreeSources",
     definition(t) {
-      t.field("name", { type: nonNull("String") });
+      t.field("name", { type: "String" });
       withMetaInfo(t);
     },
   });
@@ -35,10 +35,10 @@ export const GetTree = (): NexusObjectTypeDef<"GetTree"> =>
     name: "GetTree",
     definition(t) {
       t.field("albums", {
-        type: nonNull(list(nonNull("GetTreeAlbums"))),
+        type: list("GetTreeAlbums"),
       });
       t.field("sources", {
-        type: nonNull(list(nonNull("GetTreeSources"))),
+        type: list("GetTreeSources"),
       });
     },
   });

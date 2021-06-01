@@ -6,17 +6,17 @@ export const PhotoDetail = (): NexusObjectTypeDef<"PhotoDetail"> =>
     name: "PhotoDetail",
     definition(t) {
       t.id("id");
-      t.field("files", { type: nonNull(list(nullable("String"))) });
-      t.field("make", { type: nonNull("String") });
-      t.field("model", { type: nonNull("String") });
-      t.field("birthtime", { type: nonNull("Float") });
-      t.field("shutter", { type: nonNull("Float") });
-      t.field("aperture", { type: nonNull("Float") });
-      t.field("iso", { type: nonNull("Float") });
+      t.field("files", { type: list(nullable("String")) });
+      t.field("make", { type: "String" });
+      t.field("model", { type: "String" });
+      t.field("birthtime", { type: "Float" });
+      t.field("shutter", { type: "Float" });
+      t.field("aperture", { type: "Float" });
+      t.field("iso", { type: "Float" });
       t.field("next", { type: nullable("String") });
       t.field("previous", { type: nullable("String") });
       t.field("photoStream", {
-        type: nonNull(list(nonNull("PhotoStreamThumbnail"))),
+        type: list("PhotoStreamThumbnail"),
       });
     },
   });
@@ -29,6 +29,6 @@ export const PhotoStreamThumbnail = (): NexusObjectTypeDef<
     definition(t) {
       t.id("id");
       t.id("file");
-      t.field("thumbnails", { type: nonNull(list(nonNull("String"))) });
+      t.field("thumbnails", { type: list("String") });
     },
   });

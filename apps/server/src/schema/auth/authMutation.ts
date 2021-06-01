@@ -4,7 +4,7 @@ import { EnhancedMutation } from "../../types.d";
 
 export const authEmail: EnhancedMutation = (appConfig, userConfig) =>
   mutationField("authEmail", {
-    type: nonNull("AuthEmailType"),
+    type: "AuthEmailType",
     args: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       email: nullable(stringArg()),

@@ -8,7 +8,7 @@ export const getSources: EnhancedQuery = (appConfig, userConfig) =>
     type: "Query",
     definition(t) {
       t.field("getSources", {
-        type: nonNull(list(nullable("Source"))),
+        type: list(nullable("Source")),
         resolve: getSourcesResolver(userConfig.photoDirs),
       });
     },

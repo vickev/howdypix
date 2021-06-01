@@ -32,9 +32,9 @@ export const SearchPhoto = (): NexusObjectTypeDef<"SearchPhoto"> =>
     name: "SearchPhoto",
     definition(t) {
       t.id("id");
-      t.field("file", { type: nonNull("String") });
-      t.field("thumbnails", { type: nonNull(list(nullable("String"))) });
-      t.field("birthtime", { type: nonNull("Float") });
+      t.field("file", { type: "String" });
+      t.field("thumbnails", { type: list(nullable("String")) });
+      t.field("birthtime", { type: "Float" });
     },
   });
 
@@ -43,9 +43,9 @@ export const SearchAlbum = (): NexusObjectTypeDef<"SearchAlbum"> =>
     name: "SearchAlbum",
     definition(t) {
       withPreviewAndStats(t);
-      t.field("name", { type: nonNull("String") });
-      t.field("dir", { type: nonNull("String") });
-      t.field("source", { type: nonNull("String") });
+      t.field("name", { type: "String" });
+      t.field("dir", { type: "String" });
+      t.field("source", { type: "String" });
     },
   });
 
@@ -53,6 +53,6 @@ export const GetSearchPhotos = (): NexusObjectTypeDef<"GetSearchPhotos"> =>
   objectType({
     name: "GetSearchPhotos",
     definition(t) {
-      t.field("photos", { type: nonNull(list(nullable("SearchPhoto"))) });
+      t.field("photos", { type: list(nullable("SearchPhoto")) });
     },
   });

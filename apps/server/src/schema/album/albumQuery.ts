@@ -1,10 +1,10 @@
-import { nonNull, nullable, queryField, stringArg } from "nexus";
+import { nullable, queryField, stringArg } from "nexus";
 import { getAlbumResolver } from "./albumResolvers";
 import { ApolloContext, EnhancedQuery } from "../../types.d";
 
 export const getAlbum: EnhancedQuery = () =>
   queryField("getAlbum", {
-    type: nonNull("GetAlbumPhotos"),
+    type: "GetAlbumPhotos",
     args: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       album: nullable(stringArg()),

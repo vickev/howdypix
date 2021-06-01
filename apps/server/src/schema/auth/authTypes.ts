@@ -14,7 +14,7 @@ export const AuthEmailType = (): NexusObjectTypeDef<"AuthEmailType"> =>
   objectType({
     name: "AuthEmailType",
     definition(t) {
-      t.field("messageId", { type: nonNull("AuthEmailMessage") });
+      t.field("messageId", { type: "AuthEmailMessage" });
       t.field("messageData", { type: nullable("String") });
       t.field("code", { type: nullable("String") });
     },

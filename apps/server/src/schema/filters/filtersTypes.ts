@@ -14,8 +14,8 @@ export const GetFilters = (): NexusObjectTypeDef<"GetFilters"> =>
   objectType({
     name: "GetFilters",
     definition(t) {
-      t.field("cameraMakes", { type: nonNull(list(nonNull("String"))) });
-      t.field("cameraModels", { type: nonNull(list(nonNull("String"))) });
-      t.field("dateTakenRange", { type: nonNull("DateTaken") });
+      t.field("cameraMakes", { type: list("String") });
+      t.field("cameraModels", { type: list("String") });
+      t.field("dateTakenRange", { type: "DateTaken" });
     },
   });

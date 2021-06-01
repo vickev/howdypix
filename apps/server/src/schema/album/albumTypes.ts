@@ -8,8 +8,8 @@ export const Photo = (): NexusObjectTypeDef<"Photo"> =>
     definition(t) {
       t.id("id");
       t.id("file");
-      t.field("thumbnails", { type: nonNull(list(nullable("String"))) });
-      t.field("birthtime", { type: nonNull("Float") });
+      t.field("thumbnails", { type: list(nullable("String")) });
+      t.field("birthtime", { type: "Float" });
     },
   });
 
@@ -18,9 +18,9 @@ export const Album = (): NexusObjectTypeDef<"Album"> =>
     name: "Album",
     definition(t) {
       withPreviewAndStats(t);
-      t.field("name", { type: nonNull("String") });
-      t.field("dir", { type: nonNull("String") });
-      t.field("source", { type: nonNull("String") });
+      t.field("name", { type: "String" });
+      t.field("dir", { type: "String" });
+      t.field("source", { type: "String" });
     },
   });
 
@@ -28,8 +28,8 @@ export const GetAlbumPhotos = (): NexusObjectTypeDef<"GetAlbumPhotos"> =>
   objectType({
     name: "GetAlbumPhotos",
     definition(t) {
-      t.field("photos", { type: nonNull(list(nullable("Photo"))) });
-      t.field("albums", { type: nonNull(list(nonNull("Album"))) });
+      t.field("photos", { type: list(nullable("Photo")) });
+      t.field("albums", { type: list("Album") });
       t.field("album", { type: nullable("Album") });
     },
   });
