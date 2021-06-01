@@ -1,4 +1,4 @@
-import { objectType } from "nexus";
+import { list, nonNull, nullable, objectType } from "nexus";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { withPreviewAndStats } from "../mixins";
 
@@ -8,8 +8,8 @@ export const Photo = (): NexusObjectTypeDef<"Photo"> =>
     definition(t) {
       t.id("id");
       t.id("file");
-      t.field("thumbnails", { type: "String", list: [false] });
-      t.field("birthtime", { type: "Float" });
+      t.field("thumbnails", { type: nonNull(list(nullable("String"))) });
+      t.field("birthtime", { type: nonNull("Float") });
     },
   });
 
@@ -18,9 +18,9 @@ export const Album = (): NexusObjectTypeDef<"Album"> =>
     name: "Album",
     definition(t) {
       withPreviewAndStats(t);
-      t.field("name", { type: "String" });
-      t.field("dir", { type: "String" });
-      t.field("source", { type: "String" });
+      t.field("name", { type: nonNull("String") });
+      t.field("dir", { type: nonNull("String") });
+      t.field("source", { type: nonNull("String") });
     },
   });
 
@@ -28,8 +28,8 @@ export const GetAlbumPhotos = (): NexusObjectTypeDef<"GetAlbumPhotos"> =>
   objectType({
     name: "GetAlbumPhotos",
     definition(t) {
-      t.field("photos", { type: "Photo", list: [false] });
-      t.field("albums", { type: "Album", list: [true] });
-      t.field("album", { type: "Album", nullable: true });
+      t.field("photos", { type: nonNull(list(nullable("Photo"))) });
+      t.field("albums", { type: nonNull(list(nonNull("Album"))) });
+      t.field("album", { type: nullable("Album") });
     },
   });

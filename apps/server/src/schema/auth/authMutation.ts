@@ -1,13 +1,13 @@
-import { mutationField, stringArg } from "nexus";
+import { mutationField, nonNull, nullable, stringArg } from "nexus";
 import { authEmailResolver } from "./authResolvers";
 import { EnhancedMutation } from "../../types.d";
 
 export const authEmail: EnhancedMutation = (appConfig, userConfig) =>
   mutationField("authEmail", {
-    type: "AuthEmailType",
+    type: nonNull("AuthEmailType"),
     args: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      email: stringArg(),
+      email: nullable(stringArg()),
     },
     resolve: authEmailResolver(
       appConfig.smtp,

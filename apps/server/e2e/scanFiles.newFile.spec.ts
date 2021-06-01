@@ -34,7 +34,7 @@ describe("[NewFile] Scanning files", (): void => {
   ): Promise<void> => {
     await Promise.all([
       // SHOULD SEND AN EVENT
-      new Promise((resolve, reject): void => {
+      new Promise<void>((resolve, reject): void => {
         events.once("processFile", (params): void => {
           try {
             expect(params).toMatchSnapshot();
@@ -172,7 +172,7 @@ describe("[NewFile] Scanning files", (): void => {
       },
     };
 
-    await new Promise((resolve, reject): void => {
+    await new Promise<void>((resolve, reject): void => {
       events.once("processFile", (): void => {
         try {
           expect(appError).not.toHaveBeenCalled();

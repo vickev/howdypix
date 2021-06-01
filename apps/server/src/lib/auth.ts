@@ -31,10 +31,9 @@ const trunkToken = (token: string): string => {
   return token;
 };
 
-const isUserInfo = (data: any): data is UserInfo => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  return data && !!data.email && !!data.name;
-};
+const isUserInfo = (data: any): data is UserInfo =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
+  data && !!data.email && !!data.name;
 
 //= ===================================================
 // Validation functions

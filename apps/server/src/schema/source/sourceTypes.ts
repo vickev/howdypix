@@ -1,4 +1,4 @@
-import { objectType } from "nexus";
+import { nonNull, objectType } from "nexus";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { withPreviewAndStats } from "../mixins";
 
@@ -7,6 +7,6 @@ export const Source = (): NexusObjectTypeDef<"Source"> =>
     name: "Source",
     definition(t) {
       withPreviewAndStats(t);
-      t.field("name", { type: "String" });
+      t.field("name", { type: nonNull("String") });
     },
   });

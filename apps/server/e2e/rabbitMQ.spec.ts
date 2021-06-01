@@ -32,9 +32,8 @@ describe("startRabbitMq", () => {
     name: "name",
   };
 
-  const countMessages = async (queue: QueueName): Promise<number> => {
-    return (await channel.assertQueue(queue)).messageCount;
-  };
+  const countMessages = async (queue: QueueName): Promise<number> =>
+    (await channel.assertQueue(queue)).messageCount;
 
   const testSendMessageAgainstSnapshot = async <T extends keyof EventTypes>(
     eventName: T,
@@ -104,8 +103,7 @@ describe("startRabbitMq", () => {
     await connection.close();
   });
 
-  // eslint-disable-next-line jest/no-test-callback
-  it("should send an event when receiving a RabbitMQ message", async (done) => {
+  it("should send an event when receiving a RabbitMQ message", (done) => {
     // 1. Configure
     events.on("processedFile", (args) => {
       // 3. Test
@@ -114,27 +112,27 @@ describe("startRabbitMq", () => {
     });
 
     // 2. Act
-    await startRabbitMq(events, baseUserConfig, appConfig.rabbitMQ);
-
-    sendToQueue(channel, QueueName.PROCESSED, {
-      root: "root",
-      hfile: baseHfile,
-      exif: {
-        aperture: 1,
-        createDate: 2,
-        ISO: 3,
-        make: "make",
-        model: "model",
-        shutter: 4,
-      },
-      stat: {
-        birthtime: 1,
-        ctime: 2,
-        inode: 3,
-        mtime: 4,
-        size: 5,
-      },
-      thumbnails: [],
+    startRabbitMq(events, baseUserConfig, appConfig.rabbitMQ).then(() => {
+      sendToQueue(channel, QueueName.PROCESSED, {
+        root: "root",
+        hfile: baseHfile,
+        exif: {
+          aperture: 1,
+          createDate: 2,
+          ISO: 3,
+          make: "make",
+          model: "model",
+          shutter: 4,
+        },
+        stat: {
+          birthtime: 1,
+          ctime: 2,
+          inode: 3,
+          mtime: 4,
+          size: 5,
+        },
+        thumbnails: [],
+      });
     });
   });
 

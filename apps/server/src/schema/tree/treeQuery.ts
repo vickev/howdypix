@@ -1,16 +1,16 @@
-import { queryField, stringArg } from "nexus";
+import { nonNull, queryField, stringArg } from "nexus";
 import { getTreeResolver } from "./treeResolvers";
 import { ApolloContext, EnhancedQuery } from "../../types.d";
 
 export const getTree: EnhancedQuery = () =>
   queryField("getTree", {
-    type: "GetTree",
+    type: nonNull("GetTree"),
     args: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      album: stringArg({ required: true }),
+      album: nonNull(stringArg()),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      source: stringArg({ required: true }),
+      source: nonNull(stringArg()),
     },
-    authorize: (root, args, ctx: ApolloContext) => !!ctx.user,
+    authorize: (root: unknown, args: unknown, ctx: ApolloContext) => !!ctx.user,
     resolve: getTreeResolver(),
   });

@@ -1,21 +1,20 @@
-import { arg, queryField, stringArg } from "nexus";
+import { arg, nonNull, nullable, queryField, stringArg } from "nexus";
 import { getFiltersResolver } from "./filtersResolvers";
 import { EnhancedQuery, ApolloContext } from "../../types.d";
 
 export const getFilters: EnhancedQuery = () =>
   queryField("getFilters", {
-    type: "GetFilters",
+    type: nonNull("GetFilters"),
     args: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      album: stringArg(),
+      album: nullable(stringArg()),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      source: stringArg({ required: true }),
+      source: nonNull(stringArg()),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       filterBy: arg({
-        type: "PhotosFilterBy",
-        required: false,
+        type: nullable("PhotosFilterBy"),
       }),
     },
-    authorize: (root, args, ctx: ApolloContext) => !!ctx.user,
+    authorize: (root: unknown, args: unknown, ctx: ApolloContext) => !!ctx.user,
     resolve: getFiltersResolver(),
   });

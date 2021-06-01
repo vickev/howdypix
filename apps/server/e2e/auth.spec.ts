@@ -93,7 +93,7 @@ describe("The authentication routes", (): void => {
     test("should return a new token", async (): Promise<void> => {
       const { refreshToken, token } = await fetchTokens();
 
-      await new Promise((resolve) =>
+      return new Promise((resolve) =>
         setTimeout(async (): Promise<void> => {
           const response = await axios.post<{ token: string }>(
             routes.refreshToken.value(),

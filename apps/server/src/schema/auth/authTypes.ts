@@ -1,4 +1,4 @@
-import { enumType, objectType } from "nexus";
+import { enumType, nonNull, nullable, objectType } from "nexus";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
 
@@ -14,8 +14,8 @@ export const AuthEmailType = (): NexusObjectTypeDef<"AuthEmailType"> =>
   objectType({
     name: "AuthEmailType",
     definition(t) {
-      t.field("messageId", { type: "AuthEmailMessage" });
-      t.field("messageData", { type: "String", nullable: true });
-      t.field("code", { type: "String", nullable: true });
+      t.field("messageId", { type: nonNull("AuthEmailMessage") });
+      t.field("messageData", { type: nullable("String") });
+      t.field("code", { type: nullable("String") });
     },
   });

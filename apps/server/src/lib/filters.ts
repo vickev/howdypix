@@ -17,15 +17,13 @@ type FilterFunction = (filterValue: FilterValue) => FilterFunctionReturn;
 //= =============================================================
 export const filterWithText: (
   property: keyof AvailableFilters
-) => FilterFunction = (property) => (value): FilterFunctionReturn => {
-  return {
-    whereStatement: value
-      ? {
-          [property]: In(flatten([value])),
-        }
-      : {},
-  };
-};
+) => FilterFunction = (property) => (value): FilterFunctionReturn => ({
+  whereStatement: value
+    ? {
+        [property]: In(flatten([value])),
+      }
+    : {},
+});
 
 //= =============================================================
 // Define the filter functions

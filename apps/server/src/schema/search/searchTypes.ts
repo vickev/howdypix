@@ -1,4 +1,11 @@
-import { enumType, objectType, inputObjectType } from "nexus";
+import {
+  enumType,
+  objectType,
+  inputObjectType,
+  nonNull,
+  list,
+  nullable,
+} from "nexus";
 import { NexusObjectTypeDef } from "nexus/dist/definitions/objectType";
 import { NexusEnumTypeDef } from "nexus/dist/definitions/enumType";
 import { NexusInputObjectTypeDef } from "nexus/dist/definitions/inputObjectType";
@@ -15,8 +22,8 @@ export const PhotosFilterBy = (): NexusInputObjectTypeDef<"PhotosFilterBy"> =>
   inputObjectType({
     name: "PhotosFilterBy",
     definition(t) {
-      t.field("make", { type: "String", list: [false] });
-      t.field("model", { type: "String", list: [false] });
+      t.field("make", { type: nullable(list(nullable("String"))) });
+      t.field("model", { type: nullable(list(nullable("String"))) });
     },
   });
 
@@ -25,9 +32,9 @@ export const SearchPhoto = (): NexusObjectTypeDef<"SearchPhoto"> =>
     name: "SearchPhoto",
     definition(t) {
       t.id("id");
-      t.field("file", { type: "String" });
-      t.field("thumbnails", { type: "String", list: [false] });
-      t.field("birthtime", { type: "Float" });
+      t.field("file", { type: nonNull("String") });
+      t.field("thumbnails", { type: nonNull(list(nullable("String"))) });
+      t.field("birthtime", { type: nonNull("Float") });
     },
   });
 
@@ -36,9 +43,9 @@ export const SearchAlbum = (): NexusObjectTypeDef<"SearchAlbum"> =>
     name: "SearchAlbum",
     definition(t) {
       withPreviewAndStats(t);
-      t.field("name", { type: "String" });
-      t.field("dir", { type: "String" });
-      t.field("source", { type: "String" });
+      t.field("name", { type: nonNull("String") });
+      t.field("dir", { type: nonNull("String") });
+      t.field("source", { type: nonNull("String") });
     },
   });
 
@@ -46,6 +53,6 @@ export const GetSearchPhotos = (): NexusObjectTypeDef<"GetSearchPhotos"> =>
   objectType({
     name: "GetSearchPhotos",
     definition(t) {
-      t.field("photos", { type: "SearchPhoto", list: [false] });
+      t.field("photos", { type: nonNull(list(nullable("SearchPhoto"))) });
     },
   });

@@ -85,8 +85,8 @@ export const searchHelpers = {
     searchResultRepository: Repository<EntitySearchResult>,
     photos: EntityPhoto[],
     search: EntitySearch
-  ): Promise<EntitySearchResult[]> => {
-    return Promise.all(
+  ): Promise<EntitySearchResult[]> =>
+    Promise.all(
       photos.map(async (photo, key) => {
         const newSearchResult = new EntitySearchResult();
         newSearchResult.order = key;
@@ -94,8 +94,7 @@ export const searchHelpers = {
         newSearchResult.search = search;
         return searchResultRepository.save(newSearchResult);
       })
-    );
-  },
+    ),
 
   fetchSearchResult: async (
     searchResultRepository: Repository<EntitySearchResult>,

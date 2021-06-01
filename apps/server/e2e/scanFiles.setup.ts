@@ -123,6 +123,7 @@ export function initialize(): {
 
     // Reset the database
     if (connection.isConnected) {
+      await connection.synchronize();
       await connection.close();
     }
 

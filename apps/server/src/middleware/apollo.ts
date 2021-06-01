@@ -1,4 +1,4 @@
-import { makeSchema } from "nexus";
+import { fieldAuthorizePlugin, makeSchema } from "nexus";
 import { join } from "path";
 import { transform } from "lodash";
 import { Express, Request } from "express";
@@ -50,6 +50,11 @@ export function applyApolloMiddleware(
     outputs: {
       schema: join(destDir, "schema.graphql"),
       typegen: join(destDir, "schema.d.ts"),
+    },
+    plugins: [fieldAuthorizePlugin()],
+    nonNullDefaults: {
+      input: true,
+      output: true,
     },
   });
 
